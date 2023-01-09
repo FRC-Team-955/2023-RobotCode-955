@@ -48,35 +48,10 @@ public class AutoStates {
             case TRANSITION:
                 System.out.println("transition");
                 // not sure whether we'll need this based on autoalign, ect.
+                autoState = getnextstate();
 
             case STOP:
                 // set motors to zero, ect.
-        }
-        if(autoState == State.LOADTRAJECTORY){
-            System.out.println("stop");
-            swerve.loadTrajectory("New.wpilib.json");
-            autoState == ;
-        }
-        if(autoState ==1){
-            System.out.println("autostate1");
-            if(swerve.followTrajectory(180)){
-            autoState++;
-            }
-        }
-        if(autoState ==2){
-            System.out.println("autostate2");
-            swerve.loadTrajectory("2nd.wpilib.json");
-            autoState++;
-        }
-        if(autoState ==3){
-            System.out.println("autostate3");
-            if(swerve.followTrajectory(0)){
-            autoState++;
-            }
-        }
-        if(autoState ==4){
-            System.out.println("autostate4");
-            swerve.drive(new Translation2d(0,0), 0, false, true);
         }
     }
 }
