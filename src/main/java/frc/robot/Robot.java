@@ -17,6 +17,8 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+  ColorSensor colorSensor = new ColorSensor();
+
   @Override
   public void robotInit() {}
 
@@ -33,7 +35,9 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    colorSensor.senseColor();
+  }
 
   @Override
   public void disabledInit() {}
