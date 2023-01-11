@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
@@ -17,6 +18,9 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+  Elevator elevator = new Elevator();
+  Joystick joystick = new Joystick(0);
+
   @Override
   public void robotInit() {}
 
@@ -33,7 +37,9 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    elevator.moveElevator(joystick.getY());
+  }
 
   @Override
   public void disabledInit() {}
