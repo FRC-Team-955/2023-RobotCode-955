@@ -18,9 +18,9 @@ public class ColorSensor {
     }
 
     public void senseColor() {
-        System.out.println("r" + colorSensor.getRed());
-        System.out.println("g" + colorSensor.getGreen());
-        System.out.println("b" + colorSensor.getBlue());
+        System.out.println("r" + colorSensor.getColor().red); // values from 0 to 1
+        System.out.println("g" + colorSensor.getColor().green);
+        System.out.println("b" + colorSensor.getColor().blue);
         if(colorMatch.matchClosestColor(colorSensor.getColor()).color == Color.kViolet) {
             System.out.println("violet");
         }
@@ -32,7 +32,7 @@ public class ColorSensor {
         }
     }
 
-    public void senseObject() {
-        colorSensor.getProximity();
+    public void senseDist() {
+        System.out.println(colorSensor.getProximity());
     }
 }

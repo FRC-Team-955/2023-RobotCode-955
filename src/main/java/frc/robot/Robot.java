@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     colorSensor.senseColor();
+    colorSensor.senseDist();
   }
 
   @Override
