@@ -1,29 +1,48 @@
 {
     "fileName": "Phoenix.json",
+<<<<<<< Updated upstream
     "name": "CTRE-Phoenix (v5)",
     "version": "5.30.2",
     "frcYear": 2023,
+=======
+    "name": "CTRE-Phoenix",
+    "version": "5.21.4",
+    "frcYear": 2022,
+>>>>>>> Stashed changes
     "uuid": "ab676553-b602-441f-a38d-f1296eff6537",
     "mavenUrls": [
         "https://maven.ctr-electronics.com/release/"
     ],
+<<<<<<< Updated upstream
     "jsonUrl": "https://maven.ctr-electronics.com/release/com/ctre/phoenix/Phoenix5-frc2023-latest.json",
+=======
+    "jsonUrl": "https://maven.ctr-electronics.com/release/com/ctre/phoenix/Phoenix-frc2022-latest.json",
+>>>>>>> Stashed changes
     "javaDependencies": [
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "api-java",
+<<<<<<< Updated upstream
             "version": "5.30.2"
+=======
+            "version": "5.21.4"
+>>>>>>> Stashed changes
         },
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "wpiapi-java",
+<<<<<<< Updated upstream
             "version": "5.30.2"
+=======
+            "version": "5.21.4"
+>>>>>>> Stashed changes
         }
     ],
     "jniDependencies": [
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "cci",
+<<<<<<< Updated upstream
             "version": "5.30.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
@@ -33,10 +52,19 @@
                 "linuxathena"
             ],
             "simMode": "hwsim"
+=======
+            "version": "5.21.4",
+            "isJar": false,
+            "skipInvalidPlatforms": true,
+            "validPlatforms": [
+                "linuxathena"
+            ]
+>>>>>>> Stashed changes
         },
         {
             "groupId": "com.ctre.phoenix.sim",
             "artifactId": "cci-sim",
+<<<<<<< Updated upstream
             "version": "5.30.2",
             "isJar": false,
             "skipInvalidPlatforms": true,
@@ -64,11 +92,15 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "tools-sim",
             "version": "23.0.1",
+=======
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -77,11 +109,21 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simTalonSRX",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simTalonSRX",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -90,11 +132,21 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simTalonFX",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simTalonFX",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -103,11 +155,21 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simVictorSPX",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simVictorSPX",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -116,11 +178,21 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simPigeonIMU",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simPigeonIMU",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -155,11 +227,21 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simProCANcoder",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simCANCoder",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "isJar": false,
             "skipInvalidPlatforms": true,
             "validPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -176,48 +258,75 @@
                 "osxuniversal"
             ],
             "simMode": "swsim"
+=======
+                "osxx86-64"
+            ]
+>>>>>>> Stashed changes
         }
     ],
     "cppDependencies": [
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "wpiapi-cpp",
+<<<<<<< Updated upstream
             "version": "5.30.2",
+=======
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_Phoenix_WPI",
             "headerClassifier": "headers",
             "sharedLibrary": true,
             "skipInvalidPlatforms": true,
             "binaryPlatforms": [
+<<<<<<< Updated upstream
                 "windowsx86-64",
                 "linuxx86-64",
                 "linuxathena"
             ],
             "simMode": "hwsim"
+=======
+                "linuxathena"
+            ]
+>>>>>>> Stashed changes
         },
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "api-cpp",
+<<<<<<< Updated upstream
             "version": "5.30.2",
+=======
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_Phoenix",
             "headerClassifier": "headers",
             "sharedLibrary": true,
             "skipInvalidPlatforms": true,
             "binaryPlatforms": [
+<<<<<<< Updated upstream
                 "windowsx86-64",
                 "linuxx86-64",
                 "linuxathena"
             ],
             "simMode": "hwsim"
+=======
+                "linuxathena"
+            ]
+>>>>>>> Stashed changes
         },
         {
             "groupId": "com.ctre.phoenix",
             "artifactId": "cci",
+<<<<<<< Updated upstream
             "version": "5.30.2",
+=======
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_PhoenixCCI",
             "headerClassifier": "headers",
             "sharedLibrary": true,
             "skipInvalidPlatforms": true,
             "binaryPlatforms": [
+<<<<<<< Updated upstream
                 "windowsx86-64",
                 "linuxx86-64",
                 "linuxathena"
@@ -238,11 +347,19 @@
                 "linuxathena"
             ],
             "simMode": "hwsim"
+=======
+                "linuxathena"
+            ]
+>>>>>>> Stashed changes
         },
         {
             "groupId": "com.ctre.phoenix.sim",
             "artifactId": "wpiapi-cpp-sim",
+<<<<<<< Updated upstream
             "version": "5.30.2",
+=======
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_Phoenix_WPISim",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -250,14 +367,23 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
+=======
+                "osxx86-64"
+            ]
+>>>>>>> Stashed changes
         },
         {
             "groupId": "com.ctre.phoenix.sim",
             "artifactId": "api-cpp-sim",
+<<<<<<< Updated upstream
             "version": "5.30.2",
+=======
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_PhoenixSim",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -265,14 +391,23 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
+=======
+                "osxx86-64"
+            ]
+>>>>>>> Stashed changes
         },
         {
             "groupId": "com.ctre.phoenix.sim",
             "artifactId": "cci-sim",
+<<<<<<< Updated upstream
             "version": "5.30.2",
+=======
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_PhoenixCCISim",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -280,6 +415,7 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -303,6 +439,15 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simTalonSRX",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simTalonSRX",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_SimTalonSRX",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -310,6 +455,7 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -318,6 +464,15 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simTalonFX",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simTalonFX",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_SimTalonFX",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -325,6 +480,7 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -333,6 +489,15 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simVictorSPX",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simVictorSPX",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_SimVictorSPX",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -340,6 +505,7 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -348,6 +514,15 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simPigeonIMU",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simPigeonIMU",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_SimPigeonIMU",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -355,6 +530,7 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -363,6 +539,15 @@
             "groupId": "com.ctre.phoenixpro.sim",
             "artifactId": "simCANCoder",
             "version": "23.0.1",
+=======
+                "osxx86-64"
+            ]
+        },
+        {
+            "groupId": "com.ctre.phoenix.sim",
+            "artifactId": "simCANCoder",
+            "version": "5.21.4",
+>>>>>>> Stashed changes
             "libName": "CTRE_SimCANCoder",
             "headerClassifier": "headers",
             "sharedLibrary": true,
@@ -370,6 +555,7 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "linuxx86-64",
+<<<<<<< Updated upstream
                 "osxuniversal"
             ],
             "simMode": "swsim"
@@ -418,6 +604,10 @@
                 "osxuniversal"
             ],
             "simMode": "swsim"
+=======
+                "osxx86-64"
+            ]
+>>>>>>> Stashed changes
         }
     ]
 }

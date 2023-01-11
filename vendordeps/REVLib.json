@@ -1,34 +1,58 @@
 {
     "fileName": "REVLib.json",
     "name": "REVLib",
+<<<<<<< Updated upstream
     "version": "2023.1.1",
+=======
+    "version": "2022.1.1",
+>>>>>>> Stashed changes
     "uuid": "3f48eb8c-50fe-43a6-9cb7-44c86353c4cb",
     "mavenUrls": [
         "https://maven.revrobotics.com/"
     ],
+<<<<<<< Updated upstream
     "jsonUrl": "https://software-metadata.revrobotics.com/REVLib-2023.json",
+=======
+    "jsonUrl": "https://software-metadata.revrobotics.com/REVLib.json",
+>>>>>>> Stashed changes
     "javaDependencies": [
         {
             "groupId": "com.revrobotics.frc",
             "artifactId": "REVLib-java",
+<<<<<<< Updated upstream
             "version": "2023.1.1"
+=======
+            "version": "2022.1.1"
+>>>>>>> Stashed changes
         }
     ],
     "jniDependencies": [
         {
             "groupId": "com.revrobotics.frc",
             "artifactId": "REVLib-driver",
+<<<<<<< Updated upstream
             "version": "2023.1.1",
+=======
+            "version": "2022.1.1",
+>>>>>>> Stashed changes
             "skipInvalidPlatforms": true,
             "isJar": false,
             "validPlatforms": [
                 "windowsx86-64",
                 "windowsx86",
+<<<<<<< Updated upstream
                 "linuxarm64",
                 "linuxx86-64",
                 "linuxathena",
                 "linuxarm32",
                 "osxuniversal"
+=======
+                "linuxaarch64bionic",
+                "linuxx86-64",
+                "linuxathena",
+                "linuxraspbian",
+                "osxx86-64"
+>>>>>>> Stashed changes
             ]
         }
     ],
@@ -36,7 +60,11 @@
         {
             "groupId": "com.revrobotics.frc",
             "artifactId": "REVLib-cpp",
+<<<<<<< Updated upstream
             "version": "2023.1.1",
+=======
+            "version": "2022.1.1",
+>>>>>>> Stashed changes
             "libName": "REVLib",
             "headerClassifier": "headers",
             "sharedLibrary": false,
@@ -44,17 +72,29 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "windowsx86",
+<<<<<<< Updated upstream
                 "linuxarm64",
                 "linuxx86-64",
                 "linuxathena",
                 "linuxarm32",
                 "osxuniversal"
+=======
+                "linuxaarch64bionic",
+                "linuxx86-64",
+                "linuxathena",
+                "linuxraspbian",
+                "osxx86-64"
+>>>>>>> Stashed changes
             ]
         },
         {
             "groupId": "com.revrobotics.frc",
             "artifactId": "REVLib-driver",
+<<<<<<< Updated upstream
             "version": "2023.1.1",
+=======
+            "version": "2022.1.1",
+>>>>>>> Stashed changes
             "libName": "REVLibDriver",
             "headerClassifier": "headers",
             "sharedLibrary": false,
@@ -62,11 +102,19 @@
             "binaryPlatforms": [
                 "windowsx86-64",
                 "windowsx86",
+<<<<<<< Updated upstream
                 "linuxarm64",
                 "linuxx86-64",
                 "linuxathena",
                 "linuxarm32",
                 "osxuniversal"
+=======
+                "linuxaarch64bionic",
+                "linuxx86-64",
+                "linuxathena",
+                "linuxraspbian",
+                "osxx86-64"
+>>>>>>> Stashed changes
             ]
         }
     ]
