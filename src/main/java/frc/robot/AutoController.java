@@ -3,12 +3,18 @@ package frc.robot;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.io.ObjectInputStream;
 
 public class AutoController {
     public AutoProfile Profile;
 
     public AutoState AutoState;
+
+    ArrayList<AutoAction> Actions;
+    ArrayList<int[]> ActionOptions;
+
+    int ActionIndex = 0;
 
     public void Drive() {
         switch (AutoState) {

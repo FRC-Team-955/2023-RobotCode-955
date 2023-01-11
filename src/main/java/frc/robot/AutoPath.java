@@ -12,4 +12,6 @@ public class AutoPath {
 
     //Actions to execute at the end of the path (Ex: pick up a cube)
     public ArrayList<AutoAction> Actions;
+
+    public ArrayList<int[]> ActionOptions;
 }
