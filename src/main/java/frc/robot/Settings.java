@@ -1,8 +1,10 @@
 package frc.robot;
 
 public final class Settings {
-    // examples
-    public static int autoAlign = 0;
-    public static int autoBalance = 0;
+    // Drivebase
+        // Auto Balance PID
+    public static double kP = 1;
+    public static double kI = 0;
+    public static double kD = 0;
 }
 
