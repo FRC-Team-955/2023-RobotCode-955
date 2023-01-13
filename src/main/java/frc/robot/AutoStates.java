@@ -43,8 +43,7 @@ public class AutoStates {
             
             case ACTION:
                 System.out.println("action");
-                Enums.Actions action =  autoProfile.AutoActions.get(0);
-                if (Act(action)) {
+                if (autoProfile.AutoActions.get(0).Act()) {
                     autoProfile.AutoActions.remove(0);
                     nextState();
                 }
