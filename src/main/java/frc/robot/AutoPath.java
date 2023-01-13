@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import frc.robot.Actions.AutoAction;
+
 public class AutoPath {
     //Path Object
     public String Path;

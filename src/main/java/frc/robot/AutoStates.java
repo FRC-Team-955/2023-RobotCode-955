@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.DummyClasses.SwerveDrive;
 
 public class AutoStates {
     SwerveDrive swerve;
@@ -43,7 +44,7 @@ public class AutoStates {
             
             case ACTION:
                 System.out.println("action");
-                if (autoProfile.AutoActions.get(0).Act()) {
+                if (autoProfile.AutoActions.get(0).Act(new int[]{})) {
                     autoProfile.AutoActions.remove(0);
                     nextState();
                 }

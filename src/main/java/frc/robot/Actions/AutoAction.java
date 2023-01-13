@@ -1,4 +1,6 @@
-package frc.robot;
+package frc.robot.Actions;
+
+import frc.robot.DummyClasses.GamePieceController;
 
 public interface AutoAction {
 
@@ -6,4 +8,6 @@ public interface AutoAction {
     //Auto Actions accept an int array in order to specify things that may be needed for certain actions, such as which cone to pick up or what spot to place the game piece on
     public boolean Act(int[] Options);
 
+    // reference to dummy class (gamepieceController)
+    public static GamePieceController gamepieceController = new GamePieceController();
 }

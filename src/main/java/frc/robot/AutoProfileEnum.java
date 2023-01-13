@@ -3,6 +3,8 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import frc.robot.Actions.*;
+
 public class AutoProfileEnum {
     ArrayList<Enums.State> AutoState = new ArrayList<>();
     ArrayList<String> AutoTrajectory = new ArrayList<>();
