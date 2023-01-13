@@ -1,27 +1,52 @@
 package frc.robot;
-<<<<<<< Updated upstream
-import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-=======
-
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.DriverStation;
->>>>>>> Stashed changes
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+// import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class Claw {
-    TalonSRX motorOne = new TalonSRX(1);
-    TalonSRX motorTwo = new TalonSRX(2);
-<<<<<<< Updated upstream
-    JoystickButton buttonOne = new JoystickButton(null, 0)
-    buttonOne.getRawButton(5, 1);
-=======
-    JoystickButton buttonOne = new JoystickButton(null, 0);
-}
-
-public boolean getRawButton(int button) {
+    static TalonSRX motorOne;
+    static TalonSRX motorTwo;
+    static PIDController pidController;
+    //makes the motors and pid controller
+    public Claw(){
+        motorOne = new TalonSRX(1);
+        motorTwo = new TalonSRX(2);
+        pidController = new PIDController(0, 0, 0);
+    }
     
->>>>>>> Stashed changes
+    //sucks in the game piece 
+    public static void intakeGamePiece(){
+        motorOne.set(TalonSRXControlMode.PercentOutput, 0.3);
+        motorTwo.set(TalonSRXControlMode.PercentOutput, -0.3);
+    }
+
+    //spits out the game piece
+    public static void outputGamePiece(){
+        motorOne.set(TalonSRXControlMode.PercentOutput, -0.3);
+        motorTwo.set(TalonSRXControlMode.PercentOutput, 0.3);
+    }
+    
+    //PID and stuf
+    public static void useIntake(double percentOutput){
+        pidController.setSetpoint(100);
+        motorOne.move(MathUtil.clamp(pidController.calculate(motorOne.getSelectedSensorPosition()), -1, 1));
+    } 
+
+    public static void stopIntake(){
+
+    }
+
+    public static void useOutput(double percentOutput){
+
+    }
+
+    public static void stopOutput(){
+
+    }
 }
