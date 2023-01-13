@@ -19,7 +19,7 @@ public class Elevator {
         if(motor.getEncoder().getPosition() == 0) {
             motor.set(0);
         }
-        else if(motor.getEncoder().getPosition() == 3000) {
+        else if(motor.getEncoder().getPosition() == 3500) { // the 3500 is random
             motor.set(0);
         }
         else {
