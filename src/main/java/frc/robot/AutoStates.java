@@ -1,15 +1,7 @@
 package frc.robot;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.Action;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.DummyClasses.SwerveDrive;
 
 public class AutoStates {
@@ -44,8 +36,9 @@ public class AutoStates {
             
             case ACTION:
                 System.out.println("action");
-                if (autoProfile.AutoActions.get(0).Act(new int[]{})) {
+                if (autoProfile.AutoActions.get(0).Act(autoProfile.AutoActionOptions.get(0))) {
                     autoProfile.AutoActions.remove(0);
+                    autoProfile.AutoActionOptions.remove(0);
                     nextState();
                 }
             case TRANSITION:
