@@ -2,48 +2,48 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 
 public class Elevator {
-    CANSparkMax motor; 
+    CANSparkMax elevatorMotor; 
     PIDController pid;
 
     public Elevator() {
-       motor = new CANSparkMax(0, MotorType.kBrushless);
-       pid = new PIDController(1, 0, 0);
+       elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
+       pid = new PIDController(Constants.Elevator.kP, 
+                                Constants.Elevator.kI, 
+                                Constants.Elevator.kP);
     }
     
-    public void moveElevator(double amount) {
-        if(motor.getEncoder().getPosition() == 0) {
-            motor.set(0);
-        }
-        else if(motor.getEncoder().getPosition() == 3500) { // the 3500 is random
-            motor.set(0);
-        }
-        else {
-            motor.set(amount);
+    public void moveElevator(double joyPos) {
+        if(elevatorMotor.getEncoder().getPosition() == Constants.Elevator.kBotLimit || 
+            elevatorMotor.getEncoder().getPosition() == Constants.Elevator.kTopLimit) { // if elevator hit the top or bottom
+            elevatorMotor.set(0);
+        } else {
+            elevatorMotor.set(joyPos);
         }
     }
 
     public void setElevator(int level) { // level = desired elevator level
         double elevatorSetpoint = 0;
+
         switch(level) {
             case 1:
-                elevatorSetpoint = 0;
+                elevatorSetpoint = Constants.Elevator.kRetracted;
                 break;
             case 2:
-                elevatorSetpoint = 1000;
+                elevatorSetpoint = Constants.Elevator.kBottomLevel;
                 break;
             case 3:
-                elevatorSetpoint = 2000;
+                elevatorSetpoint = Constants.Elevator.kMediumLevel;
                 break;
             case 4:
-                elevatorSetpoint = 3000;
+                elevatorSetpoint = Constants.Elevator.kTopLevel;
                 break;
         }
-        double amount = MathUtil.clamp(pid.calculate(motor.getEncoder().getPosition(), elevatorSetpoint), -1, 1);
-        motor.set(amount);
+
+        double amount = MathUtil.clamp(pid.calculate(elevatorMotor.getEncoder().getPosition(), elevatorSetpoint), -1, 1);
+        elevatorMotor.set(amount);
     }
 }
