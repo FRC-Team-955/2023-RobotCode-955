@@ -16,6 +16,7 @@ public class Enums {
         ACTION,
         TRANSITION,
         STOP,
-        LOADTRAJECTORY
+        LOADTRAJECTORY,
+        PAUSE
     }
 }
