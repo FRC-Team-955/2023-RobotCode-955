@@ -22,7 +22,7 @@ public class Claw {
     
     //sucks in the game piece 
     public static void intakeGamePiece(){
-        motorOne.set(TalonSRXControlMode.PercentOutput, 0.3);
+        motorOne.set(TalonSRXControlMode.PercentOutput, 0.3); // note from owen: add the 0.3 to settings
         motorTwo.set(TalonSRXControlMode.PercentOutput, -0.3);
     }
 
@@ -34,7 +34,7 @@ public class Claw {
     
     //PID and stuf
     public static void useIntake(double percentOutput){
-        pidController.setSetpoint(100);
+        pidController.setSetpoint(100); // note from owen: why are we using pid here?
         motorOne.move(MathUtil.clamp(pidController.calculate(motorOne.getSelectedSensorPosition()), -1, 1));
     } 
 
