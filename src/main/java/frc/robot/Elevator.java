@@ -10,15 +10,15 @@ public class Elevator {
     PIDController pid;
 
     public Elevator() {
-       elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
-       pid = new PIDController(Constants.Elevator.kP, 
-                                Constants.Elevator.kI, 
-                                Constants.Elevator.kP);
+       elevatorMotor = new CANSparkMax(Constants.ElevatorConstants.kElevatorMotorId, MotorType.kBrushless);
+       pid = new PIDController(Constants.ElevatorConstants.kPElevator, 
+                                Constants.ElevatorConstants.kIElevator, 
+                                Constants.ElevatorConstants.kDElevator);
     }
     
     public void moveElevator(double joyPos) {
-        if(elevatorMotor.getEncoder().getPosition() == Constants.Elevator.kBotLimit || 
-            elevatorMotor.getEncoder().getPosition() == Constants.Elevator.kTopLimit) { // if elevator hit the top or bottom
+        if(elevatorMotor.getEncoder().getPosition() >= Constants.ElevatorConstants.kElevatorUpperLimit || 
+            elevatorMotor.getEncoder().getPosition() <= Constants.ElevatorConstants.kElevatorLowerLimit) { // if elevator hit the top or bottom
             elevatorMotor.set(0);
         } else {
             elevatorMotor.set(joyPos);
@@ -30,16 +30,16 @@ public class Elevator {
 
         switch(level) {
             case 1:
-                elevatorSetpoint = Constants.Elevator.kRetracted;
+                elevatorSetpoint = Constants.ElevatorConstants.kRetracted;
                 break;
             case 2:
-                elevatorSetpoint = Constants.Elevator.kBottomLevel;
+                elevatorSetpoint = Constants.ElevatorConstants.kBottomLevel;
                 break;
             case 3:
-                elevatorSetpoint = Constants.Elevator.kMediumLevel;
+                elevatorSetpoint = Constants.ElevatorConstants.kMediumLevel;
                 break;
             case 4:
-                elevatorSetpoint = Constants.Elevator.kTopLevel;
+                elevatorSetpoint = Constants.ElevatorConstants.kTopLevel;
                 break;
         }
 
