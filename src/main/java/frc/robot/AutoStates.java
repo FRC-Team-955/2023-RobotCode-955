@@ -7,48 +7,54 @@ import frc.robot.DummyClasses.SwerveDrive;
 public class AutoStates {
     SwerveDrive swerve;
     Enums.State autoState = Enums.State.STOP;
-    AutoProfileEnum autoProfile;
-
-    public AutoStates() {
-        swerve = new SwerveDrive();
-        swerve.resetAnglesToAbsolute();
-        swerve.resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
-        autoProfile = new AutoProfileEnum("Auto1");
-        nextState();
-    }
-
-    public void nextState() {
-        autoState = autoProfile.AutoState.get(0);
-        autoProfile.AutoState.remove(0);
-    }
+    AutoProfile Profile;
+    AutoPath Path;
 
     public void autoPeriodic() {
         switch (autoState) {
             case LOADTRAJECTORY:
                 System.out.println("Loading");
-                swerve.loadTrajectory("trajectory");
-                nextState();
+                swerve.loadTrajectory(Path.Path);
+                autoState = Enums.State.CURVE;
             case CURVE:
                 System.out.println("moving");
                 if(swerve.followTrajectory(180)){
-                    nextState();
+                    autoState = Enums.State.ACTION;
                 }
             
             case ACTION:
                 System.out.println("action");
-                if (autoProfile.AutoActions.get(0).Act(autoProfile.AutoActionOptions.get(0))) {
-                    autoProfile.AutoActions.remove(0);
-                    autoProfile.AutoActionOptions.remove(0);
-                    nextState();
+                if (Path.Actions.get(0).Act(Path.ActionOptions.get(0))) {
+                    Path.Actions.remove(0);
+                    Path.ActionOptions.remove(0);
                 }
+
+                if (Path.Actions.isEmpty())
+                    autoState = Enums.State.TRANSITION;
             case TRANSITION:
                 System.out.println("transition");
+                Profile.Paths.remove(0);
+                if (Profile.Paths.isEmpty()) {
+                    autoState = Enums.State.STOP;
+                    return;
+                }
+
+                Path = Profile.Paths.get(0);
+                autoState = Enums.State.LOADTRAJECTORY;
                 // not sure whether we'll need this based on autoalign, ect.
-                nextState();
 
             case STOP:
                 // set motors to zero, ect.
                 System.out.println("stop");
         }
+    }
+
+    public AutoStates() {
+        swerve = new SwerveDrive();
+        swerve.resetAnglesToAbsolute();
+        swerve.resetOdometry(new Pose2d(0,0, new Rotation2d(0)));
+        //Load Auto Profile Line Here
+        Path = Profile.Paths.get(0);
+        autoState = Enums.State.LOADTRAJECTORY;
     }
 }
