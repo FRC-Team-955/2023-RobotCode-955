@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.Sensors;
 
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
@@ -19,6 +19,7 @@ public class ColorSensor {
         colorMatch.addColorMatch(Color.kYellow); // need to check rgb values for cone
     }
 
+    // Note from Owen: return the detected color ("p" or "y" as a string)
     public void senseColor() {
         System.out.println("r" + colorSensor.getColor().red); // values from 0 to 1
         System.out.println("g" + colorSensor.getColor().green);
