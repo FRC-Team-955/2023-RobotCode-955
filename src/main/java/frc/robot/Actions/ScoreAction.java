@@ -25,10 +25,13 @@ public class ScoreAction implements AutoAction {
 
         switch (ActionState) {
             case Align:
-                //AutoAlign.
+                //AutoAlign
                 break;
 
             case Score:
+                //Score
+                //if (Scored)
+                    //return true;
                 break;
         }
 
