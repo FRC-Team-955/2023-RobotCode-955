@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class ColorSensor {
+    // not sensing yellow right now for some reason (might need to rescan the cube)
     ColorSensorV3 colorSensor;
     ColorMatch colorMatch;
     Color cube = new Color(0.211181640625, 0.317626953125, 0.471435546875);
@@ -14,8 +15,8 @@ public class ColorSensor {
     public ColorSensor() {
         colorSensor = new ColorSensorV3(Port.kOnboard);
         colorMatch = new ColorMatch();
-        colorMatch.addColorMatch(cube); // need to check rgb values for game pieces
-        colorMatch.addColorMatch(Color.kYellow);
+        colorMatch.addColorMatch(cube); 
+        colorMatch.addColorMatch(Color.kYellow); // need to check rgb values for cone
     }
 
     public void senseColor() {
