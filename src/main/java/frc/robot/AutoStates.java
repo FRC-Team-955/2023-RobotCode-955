@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Actions.AutoAction;
 import frc.robot.Actions.StopAction;
 
@@ -10,7 +11,6 @@ public class AutoStates {
         AutoProfileNew.autoVersion("Auto1");
         autoActionList = AutoProfileNew.AutoActions.get(0);
     }
-
 
     public void autoPeriodic() {
         boolean stepFinished = true;
@@ -23,5 +23,9 @@ public class AutoStates {
             AutoProfileNew.AutoActions.remove(0);
             autoActionList = AutoProfileNew.AutoActions.get(0);
         }
+    }
+
+    public void displayData() {
+        SmartDashboard.putNumber("Step", AutoProfileNew.getOriginalList().size() - AutoProfileNew.AutoActions.size() + 1);
     }
 }

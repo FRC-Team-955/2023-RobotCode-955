@@ -6,6 +6,8 @@ import java.util.List;
 import frc.robot.Actions.*;
 
 public class AutoProfileNew {
+    static String autoVersion;
+
     static ArrayList<AutoAction[]> AutoActions = new ArrayList<>();
 
     static ArrayList<AutoAction[]> Auto1Actions = new ArrayList<>(List.of(
@@ -19,8 +21,17 @@ public class AutoProfileNew {
     ));
 
     public static void autoVersion(String autoVersion) {
+        AutoProfileNew.autoVersion = autoVersion;
         if (autoVersion == "Auto1") {
             AutoActions = Auto1Actions;
+        }
+    }
+
+    public static ArrayList<AutoAction[]> getOriginalList() {
+        if (autoVersion == "Auto1") {
+            return Auto1Actions;
+        } else {
+            return null;
         }
     }
 }

@@ -1,5 +1,5 @@
-package frc.robot.Actions;
-import frc.robot.*;
+// package frc.robot.Actions;
+// import frc.robot.*;
 
 /*
 ==================== SCORE ACTION ====================
@@ -12,29 +12,29 @@ Steps:
 
 */
 
-public class ScoreAction implements AutoAction {
+// public class ScoreAction implements AutoAction {
 
-    enum State {
-        Align,
-        Score
-    }
+//     enum State {
+//         Align,
+//         Score
+//     }
 
-    State ActionState;
+//     State ActionState;
 
-    public boolean Act(int[] Options) {
+//     public boolean Act(int[] Options) {
 
-        switch (ActionState) {
-            case Align:
-                //AutoAlign
-                break;
+//         switch (ActionState) {
+//             case Align:
+//                 //AutoAlign
+//                 break;
 
-            case Score:
-                //Score
-                //if (Scored)
-                    //return true;
-                break;
-        }
+//             case Score:
+//                 //Score
+//                 //if (Scored)
+//                     //return true;
+//                 break;
+//         }
 
-        return false;
-    }
-}
+//         return false;
+//     }
+// }
