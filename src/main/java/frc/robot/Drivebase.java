@@ -5,7 +5,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 public class Drivebase {
     
-    public static PIDController pid = new PIDController(Settings.kP, Settings.kI, Settings.kD);
+    public static PIDController pid = new PIDController(IO.kP, IO.kI, IO.kD);
     public static double currentAngle = 34; // get from gyroscope
 
     public static void driveFieldRelative(){
