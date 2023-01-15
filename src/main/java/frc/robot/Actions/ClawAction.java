@@ -1,15 +1,29 @@
 package frc.robot.Actions;
 
 public class ClawAction implements AutoAction {
-    public boolean Act(int[] Options) {
-        if (Options[0] == -1) {
+    int speed;
+    Double time;
+    Double storedTime;
+    boolean isTimerRunning;
+    public ClawAction(int speed, Double time) {
+        this.speed = speed;
+        this.time = time;
+    }
+    public boolean Act() {
+        if (!isTimerRunning) {
+            isTimerRunning = true;
+            storedTime = (double) System.currentTimeMillis();
+        }
+        if (System.currentTimeMillis() - storedTime > time) {
+            return true;
+        }
+        if (speed == -1) {
             gamepieceController.reverseClaw();
-        } else if (Options[0] == 0) {
+        } else if (speed == 0) {
             gamepieceController.stopClaw();
-        } else if (Options[0] == 1) {
+        } else if (speed == 1) {
             gamepieceController.moveClaw();
         }
-        return gamepieceController.clawAtSetpoint();
+        return false;
     }
-    
 }
