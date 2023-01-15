@@ -1,12 +1,15 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Swerve.SwerveSettings;
 
 public final class IO {
-    // Drivebase
     private static Joystick joy0 = new Joystick(0);
     private static Joystick joy1 = new Joystick(1);
 
+    // Drivebase
     public static boolean isAutoAlignActive() {
         return true;
     }

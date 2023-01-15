@@ -24,7 +24,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.IO;
-import frc.robot.Sensors.Pigeon;
+import frc.robot.Sesnsors.Gyro;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -49,7 +49,7 @@ public class SwerveDrive {
     public Timer timer = new Timer();
     public String File = "pathplanner/generatedJSON/CorrectPath.path"; 
 
-    Pigeon pigeon = new Pigeon(0);
+    Gyro pigeon = new Gyro(0);
 
     // chassis velocity status
     ChassisSpeeds chassisVelocity = new ChassisSpeeds(); // not used, commented out in updateSwerveOdometry()
