@@ -1,6 +1,6 @@
-package frc.robot.Sesnsors;
+package frc.robot.Sensors;
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.Pigeon2; 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.MathUtil; 
 
@@ -19,6 +19,11 @@ public class Gyro {
      /**
      * @return acummulated rotaton -179 - 180
      */
+
+    public double getPitch() {
+        return pigeon.getPitch(); 
+    };
+
     public double getYaw() {
         return MathUtil.inputModulus(getAngle(), -180.0, 179.0);
         // Alternative
@@ -40,6 +45,7 @@ public class Gyro {
         // return angle % 360;
     };
 
+
      /**
      * @return acummulated rotaton -179 - 180
      */
@@ -59,6 +65,10 @@ public class Gyro {
      */
     public Rotation2d getHeadingR2D(){
         return Rotation2d.fromDegrees(getHeading());
+    }
+
+    public Rotation2d getPitchR2D(){
+        return Rotation2d.fromDegrees(getPitch()); 
     }
 
     public void reset(){
