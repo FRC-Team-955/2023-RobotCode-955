@@ -49,7 +49,7 @@ public class SwerveDrive {
     public Timer timer = new Timer();
     public String File = "pathplanner/generatedJSON/CorrectPath.path"; 
 
-    Gyro pigeon = new Gyro(0);
+    
 
     // chassis velocity status
     ChassisSpeeds chassisVelocity = new ChassisSpeeds(); // not used, commented out in updateSwerveOdometry()
@@ -59,7 +59,7 @@ public class SwerveDrive {
     public boolean locked = false;
 
     public SwerveDrive() {       
-        pigeon.set(0); 
+        Gyro.set(0); 
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
@@ -74,7 +74,7 @@ public class SwerveDrive {
             initPoses[mod.moduleNumber] = mod.getState();
         }
         
-        swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, pigeon.getYawR2D(), initPoses, new Pose2d(0.0,0.0,pigeon.getYawR2D()));
+        swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
 
 
     }
@@ -102,8 +102,8 @@ public class SwerveDrive {
                     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                         translation.getX(), 
                                         translation.getY(), 
-                                        controller.calculate(pigeon.getAngle(), headingSetPoint), 
-                                        pigeon.getHeadingR2D() //might need to be 0-360
+                                        controller.calculate(Gyro.getAngle(), headingSetPoint), 
+                                        Gyro.getHeadingR2D() //might need to be 0-360
                                     )
                                     : new ChassisSpeeds(
                                         translation.getX(), 
@@ -124,7 +124,7 @@ public class SwerveDrive {
     }
 
     public void resetOdometry(Pose2d pose) {
-        swerveOdometry.resetPosition(pigeon.getYawR2D(), getPoses(), pose);
+        swerveOdometry.resetPosition(Gyro.getYawR2D(), getPoses(), pose);
     }
 
     public void resetAnglesToAbsolute() {
@@ -143,7 +143,7 @@ public class SwerveDrive {
     }
 
     public void updateSwerveOdometry(){
-        swerveOdometry.update(Rotation2d.fromDegrees(-pigeon.getHeading()), getPoses()); //maybe 0-360
+        swerveOdometry.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses()); //maybe 0-360
         // chassisVelocity = SwerveSettings.SwerveConstants.swerveKinematics.toChassisSpeeds(
         //     SwerveMods[0].getState(),
         //     SwerveMods[1].getState(),

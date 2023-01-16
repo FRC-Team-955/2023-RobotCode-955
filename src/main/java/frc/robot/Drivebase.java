@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Swerve.SwerveDrive;
+import frc.robot.Sensors.Gyro;
 
 public class Drivebase {
     
@@ -38,12 +39,12 @@ public class Drivebase {
     }
 
     public static double autoBalance() {
-       double output = MathUtil.clamp(pid.calculate(currentAngle, 0), -1 ,1);
+       double output = MathUtil.clamp(pid.calculate(Gyro.getPitch(), 0), -1 ,1);
        return output;
     }
     
     public boolean isBalanced() {
-        if (2.5 <= currentAngle && currentAngle >= -2.5) {
+        if (2.5 <= Gyro.getPitch() && Gyro.getPitch() >= -2.5) {
             return true;
         } else {
             return false;

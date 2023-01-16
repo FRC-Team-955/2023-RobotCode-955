@@ -5,26 +5,23 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.MathUtil; 
 
 public class Gyro {
-    Pigeon2 pigeon;
-    public Gyro(int id) {
-        pigeon = new Pigeon2(id);
-    }; 
+    static Pigeon2 pigeon = new Pigeon2(0);
 
      /**
      * @return acummulated rotaton -inf - inf
      */
-    public double getAngle() {
+    public static double getAngle() {
         return pigeon.getYaw(); 
     }; 
      /**
      * @return acummulated rotaton -179 - 180
      */
 
-    public double getPitch() {
+    public static double getPitch() {
         return pigeon.getPitch(); 
     };
 
-    public double getYaw() {
+    public static double getYaw() {
         return MathUtil.inputModulus(getAngle(), -180.0, 179.0);
         // Alternative
         // double angle = pigeon.getYaw();
@@ -38,7 +35,7 @@ public class Gyro {
      /**
      * @return acummulated rotaton 0 - 359
      */
-    public double getHeading() {
+    public static double getHeading() {
         return MathUtil.inputModulus(getAngle(), 0.0, 359.0);
         // Alternative
         // double angle = pigeon.getYaw();
@@ -49,34 +46,34 @@ public class Gyro {
      /**
      * @return acummulated rotaton -179 - 180
      */
-    public Rotation2d getYawR2D(){
+    public static Rotation2d getYawR2D(){
         return Rotation2d.fromDegrees(getYaw());
     }
 
      /**
      * @return acummulated rotaton -inf - inf
      */
-    public Rotation2d getAngleR2D(){
+    public static Rotation2d getAngleR2D(){
         return Rotation2d.fromDegrees(getAngle());
     }
     
      /**
      * @return acummulated rotaton 0 - 359
      */
-    public Rotation2d getHeadingR2D(){
+    public static Rotation2d getHeadingR2D(){
         return Rotation2d.fromDegrees(getHeading());
     }
 
-    public Rotation2d getPitchR2D(){
+    public static Rotation2d getPitchR2D(){
         return Rotation2d.fromDegrees(getPitch()); 
     }
 
-    public void reset(){
+    public static void reset(){
         pigeon.setYaw(0);
     }
 
 
-    public void set(double offset){
+    public static void set(double offset){
         pigeon.setYaw(offset);
     }
 };
