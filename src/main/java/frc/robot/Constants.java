@@ -1,7 +1,8 @@
 package frc.robot;
 
+
 public final class Constants {
-    
+   
     public final static class ElevatorConstants {
         // Elevator Motor Id's
         public static int kElevatorMotorId = 0;
@@ -17,7 +18,10 @@ public final class Constants {
         public static double kPElevator = 1;
         public static double kIElevator = 0;
         public static double kDElevator = 0;
+        // Elevator Feedforward Values
+        public static double kSElevator = 1;
+        public static double kGElevator = 0;
+        public static double kVElevator = 0;
     }
-    
+   
 }
-
