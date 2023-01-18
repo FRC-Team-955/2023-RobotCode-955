@@ -13,6 +13,6 @@ public class ElevatorPosition {
     public static double calculate(double firstPos, double secondPos) {
         double rotations = (double) Math.round(((firstPos - 1/ratio * secondPos) / ((1/ratio - 1) * 360)) % 34);
         if (rotations < 0) {rotations = rotations + 34;}
-        return rotations;
+        return 5*rotations + 5*firstPos/360;
     }
 }
