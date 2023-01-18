@@ -22,6 +22,8 @@ public final class Constants {
         public static double kSElevator = 1;
         public static double kGElevator = 0;
         public static double kVElevator = 0;
+        // Elevator gear ratio
+        public static double kGearRatio = 33./34.;
     }
    
 }

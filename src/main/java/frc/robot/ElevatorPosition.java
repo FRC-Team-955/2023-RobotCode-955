@@ -7,11 +7,11 @@ public class ElevatorPosition {
     //actualPos = firstPos (mod 360), actualPos = b/a * secondPos (mod 360*b/a)
     //firstPos + 360rot = b/a * secondPos +360*b/a rot
     //firstPos - b/a secondPos = (b/a-1)*360 rot
-    
-    public static final double ratio = 33.0 / 34.0;
+    //https://docs.google.com/spreadsheets/d/1vmimM9WY0oizPk8pCv3PD8BcboQV6MVU4hQiDylCEdw/edit?usp=sharing
+    //google sheet by ethan (edited by me a bit) w/ simple calculations
 
     public static double calculate(double firstPos, double secondPos) {
-        double rotations = (double) Math.round(((firstPos - 1/ratio * secondPos) / ((1/ratio - 1) * 360)) % 34);
+        double rotations = (double) Math.round(((firstPos - 1/Constants.ElevatorConstants.kGearRatio * secondPos) / ((1/Constants.ElevatorConstants.kGearRatio - 1) * 360)) % 34);
         if (rotations < 0) {rotations = rotations + 34;}
         return 5*rotations + 5*firstPos/360;
     }
