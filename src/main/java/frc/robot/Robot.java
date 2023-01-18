@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.Sensors.ColorSensor;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,7 +17,6 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
-  ColorSensor colorSensor = new ColorSensor();
 
   @Override
   public void robotInit() {}
@@ -36,10 +34,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {
-    colorSensor.senseColor();
-    // colorSensor.senseObj();
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void disabledInit() {}
