@@ -1,7 +1,12 @@
 package frc.robot;
 
-public final class Joystick {
+import edu.wpi.first.wpilibj.XboxController;
 
+public final class Joystick {
+    static XboxController xboxController;
+    public Joystick() {
+        xboxController = new XboxController(0);
+    }
     public static boolean isAutoAlignActive() {
         return true;
     }
@@ -9,4 +14,11 @@ public final class Joystick {
     public static boolean isAutoBalanceActive(){
         return false;
     }
+    public static boolean isOverrrideEnabled() {
+        if (xboxController.getBButton() == false) {
+            return false;
+        } else {
+            return true;
+        }
+    } 
 }

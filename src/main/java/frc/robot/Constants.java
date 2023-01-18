@@ -1,6 +1,8 @@
 package frc.robot;
 
 public final class Constants {
+
+
     public static final class Arm {
         // Arm Motor Id's
         public static int kArmMotorId = 0;

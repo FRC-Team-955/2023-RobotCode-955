@@ -9,7 +9,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 
 public final class Arm {
     static CANSparkMax armMotor;
@@ -19,13 +21,15 @@ public final class Arm {
     static Timer timer;
     static CANCoderConfiguration config;
     public double lastVelocity = 0;
-
+    XboxController xboxController;
     public Arm() {
         armMotor = new CANSparkMax(Constants.Arm.kArmMotorId, MotorType.kBrushless);
+        armMotor.setSmartCurrentLimit(40);
         pid = new PIDController(Constants.Arm.kP, 
                                 Constants.Arm.kI, 
                                 Constants.Arm.kD);   
         encoder = new CANCoder(Constants.Arm.kArmEncoderId);
+        xboxController = new XboxController(0);
 
         // set units of the CANCoder to radians, with velocity being radians per second
         config = new CANCoderConfiguration();
@@ -39,47 +43,57 @@ public final class Arm {
     }
 
     public void moveArm(double joyPos) {
-        if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit ||
-            encoder.getPosition() <= Constants.Arm.kArmLowerLimit) {
-            armMotor.set(joyPos);
+        if (Joystick.isOverrrideEnabled() == false) {
+            if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit ||
+                encoder.getPosition() <= Constants.Arm.kArmLowerLimit) {
+                armMotor.stopMotor();
+            } else {
+                armMotor.set(joyPos);
+            }
         } else {
-            armMotor.stopMotor();
+            armMotor.set(joyPos);
         }
     }
 
-    public void setArm(int level) {
-        double armSetPoint = 0;
-        switch(level) {
-            case 0:
-                armSetPoint = Constants.Arm.kRetracted;
-                break;
-            case 1:
-                armSetPoint = Constants.Arm.kBottomLevel;
-                break;
-            case 2:
-                armSetPoint = Constants.Arm.kMiddleLevel;
-                break;
-            case 3:
-                armSetPoint = Constants.Arm.kTopLevel;
-                break;
+    public void setArm(int level, double joyPos) {
+        if (Joystick.isOverrrideEnabled() == false) {
+            double armSetPoint = 0;
+            switch(level) {
+                case 0:
+                    armSetPoint = Constants.Arm.kRetracted;
+                    break;
+                case 1:
+                    armSetPoint = Constants.Arm.kBottomLevel;
+                    break;
+                case 2:
+                    armSetPoint = Constants.Arm.kMiddleLevel;
+                    break;
+                case 3:
+                    armSetPoint = Constants.Arm.kTopLevel;
+                    break;
+                }
+        
+
+        
+            timer.start();
+            double accelRadPerSecSqaured = (lastVelocity - encoder.getVelocity()) / 
+                                                Math.pow(timer.get(), 2) * 0.017453; 
+            timer.stop(); 
+            double feedFowardCalc = feedFoward.calculate(armSetPoint, 
+                                                    encoder.getVelocity(), 
+                                                    accelRadPerSecSqaured);
+
+            double pidCalc = MathUtil.clamp(pid.calculate(encoder.getPosition(), armSetPoint), -12, 12);
+
+            double output = feedFowardCalc + pidCalc;
+            
+            armMotor.setVoltage(output); 
+            lastVelocity = encoder.getVelocity();
+            } else {
+                armMotor.set(joyPos);
         }
-
-        
-        timer.start();
-        double accelRadPerSecSqaured = (lastVelocity - encoder.getVelocity()) / 
-                                            Math.pow(timer.get(), 2) * 0.017453; 
-        timer.stop(); 
-        double feedFowardCalc = feedFoward.calculate(armSetPoint, 
-                                                encoder.getVelocity(), 
-                                                accelRadPerSecSqaured);
-
-        double pidCalc = MathUtil.clamp(pid.calculate(encoder.getPosition(), armSetPoint), -12, 12);
-
-        double output = feedFowardCalc + pidCalc;
-        
-        armMotor.setVoltage(output); 
-        lastVelocity = encoder.getVelocity();
     }
-    }
+}
+
 
 
