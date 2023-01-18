@@ -27,9 +27,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {}
 
+  public void teleopAllState(){}
+
   @Override
   public void teleopPeriodic() {
     selectTeleopState();
+    teleopAllState();
+    switch(robotState){
+      case AUTO_ALIGN:
+      default: // DRIVE
+        Drivebase.driveFieldRelative();
+    }
   }
 
   @Override
