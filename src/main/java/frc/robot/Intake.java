@@ -32,13 +32,12 @@ public class Claw {
     }
     //sucks in the game piece and stop
     public static void intakeGamePiece(){
-        if(timer < 6){
+        if(timer < 4){
         motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput); // note from owen: add the 0.3 to settings
         motorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);// done
         motorThree.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput);
         motorFour.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);
-        }
-        else if (timer > 5)
+
         colorSensor.senseObj();
         if colorSenor.senseObj == true{
             motorOne.set(TalonSRXControlMode.PercentOutput, 0);
@@ -51,6 +50,7 @@ public class Claw {
             
         }
     }
+}
 
     //spits out the game piece
     public static void outputGamePiece(){
