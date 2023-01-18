@@ -14,22 +14,42 @@ public class Claw {
     static TalonSRX motorTwo;
     static TalonSRX motorThree;
     static TalonSRX motorFour;
-    static PIDController pidController;
+    static colorSensor proximityDetector;
+    // static PIDController pidController;
     //makes the motors and pid controller
     public Claw(){
         motorOne = new TalonSRX(Constants.Claw.motorOneNum);
         motorTwo = new TalonSRX(Constants.Claw.motorTwoNum);
         motorThree = new TalonSRX(Constants.Claw.motorThreeNum);
         motorFour = new TalonSRX(Constants.Claw.motorFourNum);
+        proximityDetector= new ColorSensor()
         // pidController = new PIDController(0, 0, 0); //NOT USED
     }
-    
-    //sucks in the game piece 
+   
+    Timer timer = new Timer();
+    public static void startIntake(){
+        timer.start();
+    }
+    //sucks in the game piece and stop
     public static void intakeGamePiece(){
+        if(timer < 6){
         motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput); // note from owen: add the 0.3 to settings
         motorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);// done
         motorThree.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput);
         motorFour.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);
+        }
+        else if (timer > 5)
+        colorSensor.senseObj();
+        if colorSenor.senseObj == true{
+            motorOne.set(TalonSRXControlMode.PercentOutput, 0);
+            motorTwo.set(TalonSRXControlMode.PercentOutput, 0);
+            motorThree.set(TalonSRXControlMode.PercentOutput, 0);
+            motorFour.set(TalonSRXControlMode.PercentOutput, 0);
+            timer.reset();
+        }
+        else{
+            
+        }
     }
 
     //spits out the game piece
@@ -39,7 +59,7 @@ public class Claw {
         motorThree.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);
         motorFour.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput);
     }
-    
+
     //PID and stuf
     public static void useIntake(double percentOutput){
         // pidController.setSetpoint(100); // note from owen: why are we using pid here? ethan: idk it was abandoned
