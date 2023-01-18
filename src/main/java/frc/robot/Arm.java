@@ -72,10 +72,10 @@ public final class Arm {
                 }
         
 
+            timer.stop(); 
+            double accelRadPerSecond = (lastVelocity - encoder.getVelocity()) / timer.get(); 
             timer.reset();
             timer.start();
-            double accelRadPerSecond = (lastVelocity - encoder.getVelocity()) / timer.get() * 0.017453; 
-            timer.stop(); 
             double feedFowardCalc = feedFoward.calculate(armSetPoint, 
                                                     encoder.getVelocity(), 
                                                     accelRadPerSecond);
