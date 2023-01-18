@@ -24,8 +24,10 @@ public final class Constants {
         public static double kV = 0; // velocity gain
         public static double kG = 0; // gravity gain
         public static double desiredArmPos = 0;
-        }
+    }
+
     public static class ColorSensor {
+        // Proximity Threshold
         public static double kProximityThreshold = 1700;
         // Cube RGB Values
         public static double kCubeRed = 0.211181640625;

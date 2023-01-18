@@ -1,17 +1,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.Sensors.ColorSensor;
 
 public class Robot extends TimedRobot {
-
+  // Objects
+  static Arm arm = new Arm();
+  static ColorSensor colorSensor = new ColorSensor();
+  static RobotState robotState = RobotState.DRIVING;
+  
+  // Robot States
   public enum RobotState {
     DRIVING,
     AUTO_ALIGN,
     AUTO_BALANCE
   }
-
-  RobotState robotState = RobotState.DRIVING;
-
+  
   @Override
   public void robotInit() {}
 
