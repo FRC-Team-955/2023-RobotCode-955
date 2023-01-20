@@ -1,18 +1,15 @@
 package frc.robot;
 
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 
-
 public class Elevator {
     CANSparkMax elevatorMotor;
     PIDController pid;
     ElevatorFeedforward feedforward;
-
 
     public Elevator() {
         elevatorMotor = new CANSparkMax(Constants.ElevatorConstants.kElevatorMotorId, MotorType.kBrushless);
@@ -23,24 +20,18 @@ public class Elevator {
                                             Constants.ElevatorConstants.kGElevator,
                                             Constants.ElevatorConstants.kVElevator);
     }
-   
+
     public void moveElevator(double joyPos) {
-        if(Joystick.isOverrideEnabled() == false) {
-            if(elevatorMotor.getEncoder().getPosition() >= Constants.ElevatorConstants.kElevatorUpperLimit ||
-                elevatorMotor.getEncoder().getPosition() <= Constants.ElevatorConstants.kElevatorLowerLimit) { // if elevator hit the top or bottom
-                elevatorMotor.set(0);
-            } else {
-                elevatorMotor.set(joyPos);
-            }
-        }
-        else {
+        if(!Joystick.isOverrideEnabled() && (elevatorMotor.getEncoder().getPosition() <= Constants.ElevatorConstants.kElevatorUpperLimit || joyPos < 0)
+            && (elevatorMotor.getEncoder().getPosition() >= Constants.ElevatorConstants.kElevatorLowerLimit || joyPos > 0)) { // if elevator hit the top or bottom
+            elevatorMotor.set(0);
+        } else {
             elevatorMotor.set(joyPos);
         }
     }
 
-
     public void setElevator(int level, double joyPos) { // level = desired elevator level
-        if(Joystick.isOverrideEnabled() == false) {
+        if(!Joystick.isOverrideEnabled()) {
             double elevatorSetpoint = 0;
             switch(level) {
                 case 0:
@@ -57,9 +48,9 @@ public class Elevator {
                     break;
             }
 
-
             double amount = MathUtil.clamp(pid.calculate(elevatorMotor.getEncoder().getPosition(), elevatorSetpoint) +
                                             feedforward.calculate(elevatorMotor.getEncoder().getVelocity()), -12, 12);
+            
             elevatorMotor.setVoltage(amount);
         }
         else {
