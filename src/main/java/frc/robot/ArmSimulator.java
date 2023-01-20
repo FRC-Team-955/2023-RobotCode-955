@@ -51,8 +51,8 @@ public class ArmSimulator {
   private final Joystick m_joystick = new Joystick(kJoystickPort);
 
   // Simulation classes help us simulate what's going on, including gravity.
-  private static final double m_armReduction = 600;
-  private static final double m_armMass = 1.0; // Kilograms
+  private static final double m_armReduction = 200;
+  private static final double m_armMass = 8.0; // Kilograms
   private static final double m_armLength = Units.inchesToMeters(30);
   // This arm sim represents an arm that can travel from -75 degrees (rotated down front)
   // to 255 degrees (rotated down in the back).
@@ -87,6 +87,8 @@ public class ArmSimulator {
   public void robotInit() {
     m_encoder.setDistancePerPulse(kArmEncoderDistPerPulse);
 
+    Preferences.setDouble(kArmPKey, 0.2);
+
     // Put Mechanism 2d to SmartDashboard
     SmartDashboard.putData("Arm Sim", m_mech2d);
     m_armTower.setColor(new Color8Bit(Color.kBlue));
@@ -94,9 +96,6 @@ public class ArmSimulator {
     // Set the Arm position setpoint and P constant to Preferences if the keys don't already exist
     if (!Preferences.containsKey(kArmPositionKey)) {
       Preferences.setDouble(kArmPositionKey, armPositionDeg);
-    }
-    if (!Preferences.containsKey(kArmPKey)) {
-      Preferences.setDouble(kArmPKey, kArmKp);
     }
   }
 
@@ -116,6 +115,8 @@ public class ArmSimulator {
 
     // Update the Mechanism Arm angle based on the simulated arm angle
     m_arm.setAngle(Units.radiansToDegrees(m_armSim.getAngleRads()));
+
+    SmartDashboard.putNumber("Encoder Postion", m_encoder.get()/12);
   }
 
   public void teleopInit() {
@@ -131,7 +132,7 @@ public class ArmSimulator {
     if (m_joystick.getRawAxis(3)>0.9) {
       // Here, we run PID control like normal, with a constant setpoint of 75 degrees.
       var pidOutput =
-          m_controller.calculate(m_encoder.getDistance(), Units.degreesToRadians(armPositionDeg));
+          m_controller.calculate(m_encoder.get(), armPositionDeg+75);
       m_motor.setVoltage(pidOutput);
     } else {
       // Otherwise, we disable the motor.
