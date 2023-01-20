@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
@@ -8,6 +9,8 @@ import frc.robot.Swerve.SwerveSettings;
 public final class IO {
     private static Joystick joy0 = new Joystick(0);
     private static Joystick joy1 = new Joystick(1);
+    private static SlewRateLimiter forwardAxisSlewRateLimiter = new SlewRateLimiter(Constants.forwardRateLimiter);
+    private static SlewRateLimiter strafeAxisSlewRateLimiter = new SlewRateLimiter(Constants.strafeRateLimiter);
 
     // Drivebase
     public static boolean isAutoAlignActive() {
@@ -41,10 +44,12 @@ public final class IO {
     }
 
     public static Translation2d getSwerveTranslation(){
-        double forwardAxis = joy0.getRawAxis(0);
-        double strafeAxis = joy0.getRawAxis(1);
+        double forwardRawAxis = joy0.getRawAxis(0);
+        double strafeRawAxis = joy0.getRawAxis(1);
+        double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
+        double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-        Translation2d tAxes = new Translation2d(forwardAxis, strafeAxis);
+       Translation2d tAxes = new Translation2d(forwardAxis, strafeAxis);
 
         if (Math.abs(norm(tAxes)) < 0.15) {
             return new Translation2d();

@@ -6,4 +6,6 @@ public class Constants {
     public static double kP = 1;
     public static double kI = 0;
     public static double kD = 0;
+    public static double forwardRateLimiter = 0;
+    public static double strafeRateLimiter = 0;
 }
