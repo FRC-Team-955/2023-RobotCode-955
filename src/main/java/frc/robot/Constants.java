@@ -6,4 +6,8 @@ public class Constants {
     public static double kP = 1;
     public static double kI = 0;
     public static double kD = 0;
+
+    public static class Limelight {
+        public static double kAlignDistance = 1000; // Faris: random number idk actual value
+    }
 }

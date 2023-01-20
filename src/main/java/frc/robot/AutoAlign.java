@@ -3,9 +3,12 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.Constants.Limelight;
+import frc.robot.Sensors.LimelightCamera;
 
 
 public class AutoAlign {
@@ -16,13 +19,19 @@ public class AutoAlign {
     private PhotonCamera camera = new PhotonCamera("camera");
     PhotonPipelineResult result = new PhotonPipelineResult();
     PhotonTrackedTarget target = new PhotonTrackedTarget();
-    Drivebase drive = new Drivebase();
+
+    // LimelightCamera Limelight = new LimelightCamera();
     
     PIDController PIDControllerDriveBaseSpeed = new PIDController(1, 0, 0);
-    private PhotonCamera limeLight =  PhotonCamera("gloworm");
+    private PhotonCamera limeLight =  new PhotonCamera("gloworm");
     PhotonPipelineResult limeResult = new PhotonPipelineResult();
     PhotonTrackedTarget limeTarget = new PhotonTrackedTarget();
     
+    April
+
+    PIDController gridPID = new PIDController(1, 0, 0);
+    public double desiredGridPosition = 1000;
+
     // NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     // NetworkTableEntry tx = table.getEntry("tx");
     // NetworkTableEntry ty = table.getEntry("ty");
@@ -48,7 +57,7 @@ public class AutoAlign {
     
     double getHorizontalOffset(){
         if(getTarget()){
-            //return target.getYaw() + pidgeonheading;
+            return target.getYaw();
         }
         return 42069;
     }
@@ -68,18 +77,18 @@ public class AutoAlign {
     }
 
     void Align(){
-        drive.driveFieldRelative()
+        Drivebase.driveFieldRelative()
         //turn until pidgeon heading is same as offset        
     }
 
     void driverControl(){
         if(isAlligned()){
-            drive.driverobotoriented(0.5 * Joystick.getSwerveTranslation(), 0.1 *Joystick.getSwerveRotation())
+            drive.driverobotoriented(0.5 * Joystick.getSwerveTranslation(), 0.1 *Joystick.getSwerveRotation());
         }
     }
 
     void moveToAprilTag(Pose2d goalPose){
-        Pose2d pose = drive.getPose();
+        Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
         double goalPoseX = goalPose.getX();
@@ -92,14 +101,20 @@ public class AutoAlign {
         Drivebase.driveFieldRelativeHeading(translation, 180);
     }
 
-    boolean isLimeLightTarget(){
-        if(limeResult.hasTargets()){
+    boolean isAprilTagAlign() {
+
+        return True;
+    }
+
+
+    public static boolean isLimeLightTarget(){
+        if(LimelightCamera.hasTargets()){
             return true;
         }
         return false;
      }
 
-     boolean getLimeLightTarget(){
+    boolean getLimeLightTarget(){
         limeResult = limeLight.getLatestResult();
         if(isLimeLightTarget()){
             limeTarget = limeResult.getBestTarget();
@@ -122,24 +137,37 @@ public class AutoAlign {
         return 42069; //cringe
     }
 
-    boolean isLimeLightAlligned(){
+    boolean isGridAlligned(){
         if(getLimeLightHorizontalOffset() < Constants.Limelight.kAlignDistance && getLimeLightHorizontalOffset() > -Constants.Limelight.kAlignDistance){
             return true;
         }
         return false;
     }
 
-    void limeLightAlign(){
-        drive.drivefieldoriented;
-        //turn until pidgeon heading is same as offset        
+    void alignToGridOdometery(){
+        double output = MathUtil.clamp(gridPID.calculate(Drivebase.getPose().getY(), desiredGridPosition), -1, 1);
+        Drivebase.driveFieldRelativeHeading(new Translation2d(IO.getSwerveTranslation().getX()*.5, IO.getSwerveTranslation().getY() * .5 + output), 180);     
     }
 
-    void driverLimeLightControl(){
-        if(isLimeLightAlligned()){
-            drive.driverobotoriented(0.5 * joystick.getSwerveTranslation, 0.1 *joystick.getSwerveRotation)
+    void alignToCubeNode() { // april tag
+        if (!isGridAlligned()) {
+
         }
     }
 
+    void alignToConeNode() { // limelight
+
+    }
+
+    void moveToGrid(){
+        if(isGridAlligned()){
+            Drivebase.driveRobotRelative(new Translation2d(IO.getSwerveTranslation().getX()*.5, 
+                                                            IO.getSwerveTranslation().getY() * .5), 
+                                                            180);
+        } else {
+            alignToCubeNode(); 
+        }
+    }
 }
 
 

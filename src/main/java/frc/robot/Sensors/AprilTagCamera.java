@@ -1,9 +1,7 @@
-package frc.robot;
+package frc.robot.Sensors;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 
-
-public class AprilTag {
+public final class AprilTagCamera {
     AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout(k2023ChargedUp.m_resourceFile);
 }

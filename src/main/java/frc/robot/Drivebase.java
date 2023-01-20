@@ -43,7 +43,7 @@ public class Drivebase {
        return output;
     }
     
-    public boolean isBalanced() {
+    public static boolean isBalanced() {
         if (2.5 <= Gyro.getPitch() && Gyro.getPitch() >= -2.5) {
             return true;
         } else {
@@ -51,7 +51,7 @@ public class Drivebase {
         }
     }
 
-    public Pose2d getPose() {
+    public static Pose2d getPose() {
        return drive.getPose();
     }
 }
