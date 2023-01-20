@@ -22,11 +22,11 @@ public class Elevator {
     }
 
     public void moveElevator(double joyPos) {
-        if(!Joystick.isOverrideEnabled() && (elevatorMotor.getEncoder().getPosition() <= Constants.ElevatorConstants.kElevatorUpperLimit || joyPos < 0)
-            && (elevatorMotor.getEncoder().getPosition() >= Constants.ElevatorConstants.kElevatorLowerLimit || joyPos > 0)) { // if elevator hit the top or bottom
-            elevatorMotor.set(0);
-        } else {
+        if(Joystick.isOverrideEnabled() || ((elevatorMotor.getEncoder().getPosition() <= Constants.ElevatorConstants.kElevatorUpperLimit || joyPos < 0)
+            && (elevatorMotor.getEncoder().getPosition() >= Constants.ElevatorConstants.kElevatorLowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
             elevatorMotor.set(joyPos);
+        } else {
+            elevatorMotor.set(0);
         }
     }
 
