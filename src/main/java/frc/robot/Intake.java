@@ -32,7 +32,7 @@ public class Intake {
         timer.start();
     }
     //sucks in the game piece and stop
-    public static void intakeGamePiece(){
+    public static void runEthanWheels(){
         if(timer < 4){
         motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput); // note from owen: add the 0.3 to settings
         motorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);// done
