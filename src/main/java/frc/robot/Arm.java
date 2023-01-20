@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-
 import edu.wpi.first.wpilibj.Timer;
 
 
@@ -41,9 +40,13 @@ public final class Arm {
     }
 
     public void moveArm(double joyPos) {
-        if (Joystick.isOverrrideEnabled() == false) {
-            if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit ||
-                encoder.getPosition() <= Constants.Arm.kArmLowerLimit) {
+        if (Joystick.isOverrrideEnabled() == false) { 
+            if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit && joyPos > 0) { // If elevator reach top AND trying to go up
+                armMotor.stopMotor(); //
+            } else if (encoder.getPosition() <= Constants.Arm.kArmLowerLimit && joyPos < 0) { // If elevator reach bottom ANd trying to go down
+                armMotor.stopMotor();
+            } else if  (encoder.getPosition() >= Constants.Arm.kArmUpperLimit || // if arm reaches max height
+                        encoder.getPosition() <= Constants.Arm.kArmLowerLimit) { // or 
                 armMotor.stopMotor();
             } else {
                 armMotor.set(joyPos);
