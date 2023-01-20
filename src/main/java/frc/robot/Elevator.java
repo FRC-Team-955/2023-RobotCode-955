@@ -30,7 +30,7 @@ public class Elevator {
         }
     }
 
-    public void setElevator(int level, double joyPos) { // level = desired elevator level
+    public void setElevator(int level) { // level = desired elevator level
         if(!Joystick.isOverrideEnabled()) {
             double elevatorSetpoint = 0;
             switch(level) {
@@ -54,7 +54,7 @@ public class Elevator {
             elevatorMotor.setVoltage(amount);
         }
         else {
-            elevatorMotor.set(joyPos);
+            elevatorMotor.set(0);
         }
     }
 }
