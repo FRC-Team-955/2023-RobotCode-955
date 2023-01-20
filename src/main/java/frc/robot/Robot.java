@@ -7,7 +7,7 @@ public class Robot extends TimedRobot {
   // Objects
   static Arm arm = new Arm();
   static ColorSensor colorSensor = new ColorSensor();
-  static RobotState robotState = RobotState.DRIVING;
+  static RobotState robotState;
   
   // Robot States
   public enum RobotState {

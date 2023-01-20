@@ -19,7 +19,8 @@ public final class Arm {
     static ArmFeedforward feedFoward;
     static Timer timer;
     static CANCoderConfiguration config;
-    public double lastVelocity = 0;
+    static double lastVelocity = 0;
+
     public Arm() {
         armMotor = new CANSparkMax(Constants.Arm.kArmMotorId, MotorType.kBrushless);
         armMotor.setSmartCurrentLimit(40);
@@ -39,7 +40,7 @@ public final class Arm {
         timer = new Timer();
     }
 
-    public void moveArm(double joyPos) {
+    public static void moveArm(double joyPos) {
         if (Joystick.isOverrrideEnabled() == false) { 
             if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit && joyPos > 0) { // If elevator reach top AND trying to go up
                 armMotor.stopMotor(); //
@@ -56,7 +57,8 @@ public final class Arm {
         }
     }
 
-    public void setArm(int level, double joyPos) {
+    public static void setArm(int level, double joyPos) {
+        
         if (Joystick.isOverrrideEnabled() == false) {
             double armSetPoint = 0;
             switch(level) {
