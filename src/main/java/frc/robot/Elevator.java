@@ -19,6 +19,7 @@ public class Elevator {
         feedforward = new ElevatorFeedforward(Constants.ElevatorConstants.kSElevator,
                                             Constants.ElevatorConstants.kGElevator,
                                             Constants.ElevatorConstants.kVElevator);
+        pid.setTolerance(Constants.ElevatorConstants.kElevatorTolerance);
     }
 
     public void moveElevator(double joyPos) {
@@ -30,9 +31,9 @@ public class Elevator {
         }
     }
 
-    public void setElevator(int level) { // level = desired elevator level
+    public boolean setElevator(int level) { // level = desired elevator level
         if(!Joystick.isOverrideEnabled()) {
-            double elevatorSetpoint = 0;
+            double elevatorSetpoint = Constants.ElevatorConstants.kRetracted;
             switch(level) {
                 case 0:
                     elevatorSetpoint = Constants.ElevatorConstants.kRetracted;
@@ -52,9 +53,13 @@ public class Elevator {
                                             feedforward.calculate(elevatorMotor.getEncoder().getVelocity()), -12, 12);
             
             elevatorMotor.setVoltage(amount);
+
+            return pid.atSetpoint();
         }
         else {
             elevatorMotor.set(0);
+
+            return false;
         }
     }
 }

@@ -9,6 +9,8 @@ public final class Constants {
         // Elevator Encoder Values
         public static double kElevatorUpperLimit = 5000;
         public static double kElevatorLowerLimit = 0;
+        // Elevator Tolerance Values
+        public static double kElevatorTolerance = 500;
         // Extension Level Values
         public static double kRetracted = 0;
         public static double kBottomLevel = 1000;
