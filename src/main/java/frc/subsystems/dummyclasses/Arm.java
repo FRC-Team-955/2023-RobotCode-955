@@ -4,9 +4,9 @@ public class Arm {
 
     public Arm() {}
 
-    public void moveArm(double joyPos) {}
+    public static void moveArm(double joyPos) {}
 
-    public void setArm(int level) {}
+    public static void setArm(int level) {}
 
-    public boolean armAtSetpoint() {return true;}
+    public static boolean armAtSetpoint() {return true;}
 }

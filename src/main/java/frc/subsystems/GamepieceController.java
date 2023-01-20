@@ -6,20 +6,22 @@ public class GamepieceController {
     Elevator elevator = new Elevator();
     
     public void setLocation(int position) {
-        arm.setArm(position);
-        elevator.setElevator(position);
+        Arm.setArm(position);
+        Elevator.setElevator(position);
     }
     public boolean elevatorAtSetpoint() {
-        return elevator.elevatorAtSetpoint() && arm.armAtSetpoint();
+        return Elevator.elevatorAtSetpoint() && Arm.armAtSetpoint();
     }//not currently implemented
 
-    public void reverseClaw() {
-        Claw.outputGamePiece();
+    public void intakeClaw() {
+        Intake.intakeGamePiece(); 
     }
-    public void stopClaw() {
-        Claw.stopIntake();
+
+    public void resetClawTimer() {
+        Intake.startIntake();
     }
-    public void moveClaw() {
-        Claw.intakeGamePiece();
+    
+    public void reverseEthanWheels() {
+        Intake.reverseEthanWheels();
     }
 }
