@@ -17,10 +17,15 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
+  // can only run one at a time
   ArmSimulator armSimulator = new ArmSimulator();
+  ElevatorSimulator elevatorSimulator = new ElevatorSimulator();
+  
   @Override
   public void robotInit() {
     armSimulator.robotInit();
+    elevatorSimulator.robotInit();
   }
 
   @Override
@@ -40,11 +45,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     armSimulator.teleopPeriodic();
+    elevatorSimulator.teleopPeriodic();
   }
 
   @Override
   public void disabledInit() {
     armSimulator.disabledInit();
+    elevatorSimulator.disabledInit();
   }
 
   @Override
@@ -62,5 +69,6 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {
     armSimulator.simulationPeriodic();
+    elevatorSimulator.simulationPeriodic();
   }
 }
