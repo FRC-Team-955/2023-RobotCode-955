@@ -24,8 +24,10 @@ public class LimelightCamera {
             target = result.getBestTarget();
             return true;
         }
+        else{
         return false;
-
+        }
+        
     public static  getLatestTarget() {
         return result.getLatestResult();
     } 

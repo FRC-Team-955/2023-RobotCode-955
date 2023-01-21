@@ -27,7 +27,6 @@ public class AutoAlign {
     PhotonPipelineResult limeResult = new PhotonPipelineResult();
     PhotonTrackedTarget limeTarget = new PhotonTrackedTarget();
     
-    April
 
     PIDController gridPID = new PIDController(1, 0, 0);
     public double desiredGridPosition = 1000;
