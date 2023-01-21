@@ -14,12 +14,11 @@ public class LimelightCamera {
     public static PhotonTrackedTarget target = new PhotonTrackedTarget(); 
 
 
-
     public static boolean hasTargets() {
         return result.hasTargets();
     }
 
-    boolean getLimeLightTarget(){
+    boolean getHorizontalOffset(){
         result = limeLight.getLatestResult();
         if(isLimeLightTarget()){
             target = esult.getBestTarget();
