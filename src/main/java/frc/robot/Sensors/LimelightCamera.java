@@ -21,7 +21,7 @@ public class LimelightCamera {
     boolean getHorizontalOffset(){
         result = limeLight.getLatestResult();
         if(isLimeLightTarget()){
-            target = esult.getBestTarget();
+            target = result.getBestTarget();
             return true;
         }
         return false;
