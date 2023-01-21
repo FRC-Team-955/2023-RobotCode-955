@@ -10,7 +10,7 @@
   {
     "name": "/Preferences/ArmP",
     "type": "double",
-    "value": 0.2,
+    "value": 10.0,
     "properties": {
       "persistent": true
     }

@@ -1,7 +1,6 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -87,7 +86,7 @@ public class ArmSimulator {
   public void robotInit() {
     m_encoder.setDistancePerPulse(kArmEncoderDistPerPulse);
 
-    Preferences.setDouble(kArmPKey, 0.2);
+    Preferences.setDouble(kArmPKey, 10);
 
     // Put Mechanism 2d to SmartDashboard
     SmartDashboard.putData("Arm Sim", m_mech2d);
@@ -116,7 +115,8 @@ public class ArmSimulator {
     // Update the Mechanism Arm angle based on the simulated arm angle
     m_arm.setAngle(Units.radiansToDegrees(m_armSim.getAngleRads()));
 
-    SmartDashboard.putNumber("Encoder Postion", m_encoder.get()/12);
+    SmartDashboard.putNumber("Encoder Postion", m_encoder.get()/11.3505);
+    SmartDashboard.putNumber("Encoder scaling factor", m_encoder.get()/Units.radiansToDegrees(m_armSim.getAngleRads()) /11.3505);
   }
 
   public void teleopInit() {
@@ -129,7 +129,7 @@ public class ArmSimulator {
   }
 
   public void teleopPeriodic() {
-    if (m_joystick.getRawAxis(3)>0.9) {
+    /*if (m_joystick.getRawAxis(0)>0.9) {
       // Here, we run PID control like normal, with a constant setpoint of 75 degrees.
       var pidOutput =
           m_controller.calculate(m_encoder.get(), armPositionDeg+75);
@@ -137,7 +137,9 @@ public class ArmSimulator {
     } else {
       // Otherwise, we disable the motor.
       m_motor.set(0.0);
-    }
+    }*/
+    var pidOutput = m_controller.calculate(m_encoder.get(), m_encoder.get() + m_joystick.getRawAxis(0));
+    m_motor.setVoltage(pidOutput);
   }
 
   public void disabledInit() {
