@@ -4,7 +4,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.math.geometry.Translation2d;
+//import edu.wpi.first.math.geometry.Translation2d;
 
 
 
@@ -20,15 +20,12 @@ public class LimelightCamera {
 
     boolean getHorizontalOffset(){
         result = limeLight.getLatestResult();
-        if(isLimeLightTarget()){
+        if(hasTargets()){
             target = result.getBestTarget();
             return true;
         }
         else{
         return false;
         }
-        
-    public static  getLatestTarget() {
-        return result.getLatestResult();
-    } 
-}       
+} 
+}
