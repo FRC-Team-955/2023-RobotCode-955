@@ -22,7 +22,7 @@ public final class IO {
     }
 
     public static double getSwerveRotation(){
-        double rotAxis = joy0.getRawAxis(4);
+        double rotAxis = joy0.getRawAxis(Constants.IO.joy0.rotAxis);
 
         if (Math.abs(rotAxis) < 0.15) {
             return 0.0;
@@ -44,12 +44,12 @@ public final class IO {
     }
 
     public static Translation2d getSwerveTranslation(){
-        double forwardRawAxis = joy0.getRawAxis(0);
-        double strafeRawAxis = joy0.getRawAxis(1);
+        double forwardRawAxis = joy0.getRawAxis(Constants.IO.joy0.forwardRawAxis);
+        double strafeRawAxis = joy0.getRawAxis(Constants.IO.joy0.strafeRawAxis);
         double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
         double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-       Translation2d tAxes = new Translation2d(forwardAxis, strafeAxis);
+       Translation2d tAxes = new Translation2d(thrustEnabled()? forwardAxis: forwardAxis*0.7, thrustEnabled()? strafeAxis: strafeAxis*0.7);
 
         if (Math.abs(norm(tAxes)) < 0.15) {
             return new Translation2d();
@@ -64,7 +64,10 @@ public final class IO {
     }
 
     public static boolean rotationOverrideEnabled(){
-        return joy0.getRawButton(0);
+        return joy0.getRawButton(Constants.IO.joy0.rotationOverrideButton);
+    }
+    public static boolean thrustEnabled(){
+        return joy0.getRawAxis(Constants.IO.joy0.thrustAxis) > 0.2;
     }
 }
 

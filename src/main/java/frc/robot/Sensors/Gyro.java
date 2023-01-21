@@ -21,6 +21,10 @@ public class Gyro {
         return pigeon.getPitch(); 
     };
 
+    public static double getRoll() {
+        return pigeon.getRoll();
+    };
+
     public static double getYaw() {
         return MathUtil.inputModulus(getAngle(), -180.0, 179.0);
         // Alternative
