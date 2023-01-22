@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
@@ -8,6 +9,8 @@ import frc.robot.Swerve.SwerveSettings;
 public final class IO {
     private static Joystick joy0 = new Joystick(0);
     private static Joystick joy1 = new Joystick(1);
+    private static SlewRateLimiter forwardAxisSlewRateLimiter = new SlewRateLimiter(Constants.forwardRateLimiter);
+    private static SlewRateLimiter strafeAxisSlewRateLimiter = new SlewRateLimiter(Constants.strafeRateLimiter);
 
     private static Joystick joystick  = new Joystick(0);
     
@@ -50,7 +53,7 @@ public final class IO {
     }
 
     public static double getSwerveRotation(){
-
+        
         //What is axis number reffering too?
         double rotAxis = joy0.getRawAxis(4);
         double deadband = 0.15;
@@ -80,10 +83,12 @@ public final class IO {
     }
 
     public static Translation2d getSwerveTranslation(){
-        double forwardAxis = joy0.getRawAxis(0);
-        double strafeAxis = joy0.getRawAxis(1);
+        double forwardRawAxis = joy0.getRawAxis(Constants.IO.joy0.forwardRawAxis);
+        double strafeRawAxis = joy0.getRawAxis(Constants.IO.joy0.strafeRawAxis);
+        double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
+        double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-        Translation2d tAxes = new Translation2d(forwardAxis, strafeAxis);
+       Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardAxis : forwardAxis*0.7, thrustEnabled() ? strafeAxis : strafeAxis*0.7);
 
         if (Math.abs(norm(tAxes)) < 0.15) {
             return new Translation2d();
@@ -98,7 +103,10 @@ public final class IO {
     }
 
     public static boolean rotationOverrideEnabled(){
-        return joy0.getRawButton(0);
+        return joy0.getRawButton(Constants.IO.joy0.rotationOverrideButton);
+    }
+    public static boolean thrustEnabled(){
+        return joy0.getRawAxis(Constants.IO.joy0.thrustAxis) > 0.2;
     }
 }
 

@@ -55,5 +55,9 @@ public class Drivebase {
             return false;
         }
     }
+
+    public static Pose2d getPose() {
+       return drive.getPose();
+    }
 }
 
