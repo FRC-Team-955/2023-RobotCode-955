@@ -1,40 +1,39 @@
 package frc.robot.Swerve;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.Optional;
 
-import java.util.ArrayList;
-import edu.wpi.first.wpilibj.SPI;
+import org.photonvision.EstimatedRobotPose;
 
-import com.ctre.phoenix.sensors.Pigeon2;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+
+// import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.FiducalCamera;
 import frc.robot.IO;
 import frc.robot.Sensors.Gyro;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 
 public class SwerveDrive {
     // status variable for being enabled
     public boolean mIsEnabled = false;
 
-    public SwerveDriveOdometry swerveOdometry;
+    // public SwerveDriveOdometry swerveOdometry;
+    public final SwerveDrivePoseEstimator poseEstimator;
+    public FiducalCamera fiducalCamera;
+
     public SwerveMod[] SwerveMods;
     public double headingSetPoint;
     private PIDController controller = new PIDController(0.7,0,0);
@@ -74,9 +73,8 @@ public class SwerveDrive {
             initPoses[mod.moduleNumber] = mod.getState();
         }
         
-        swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
-
-
+        // swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
+        poseEstimator = new SwerveDrivePoseEstimator(SwerveSettings.SwerveConstants.swerveKinematics,Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
@@ -120,11 +118,13 @@ public class SwerveDrive {
 
         
     public Pose2d getPose() {
-        return swerveOdometry.getPoseMeters();
+        // return swerveOdometry.getPoseMeters();
+        return poseEstimator.getEstimatedPosition();
     }
 
     public void resetOdometry(Pose2d pose) {
-        swerveOdometry.resetPosition(Gyro.getYawR2D(), getPoses(), pose);
+        // swerveOdometry.resetPosition(Gyro.getYawR2D(), getPoses(), pose);
+        poseEstimator.resetPosition(Gyro.getYawR2D(), getPoses(), pose);
     }
 
     public void resetAnglesToAbsolute() {
@@ -143,13 +143,25 @@ public class SwerveDrive {
     }
 
     public void updateSwerveOdometry(){
-        swerveOdometry.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses()); //maybe 0-360
+        // swerveOdometry.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses()); //maybe 0-360
         // chassisVelocity = SwerveSettings.SwerveConstants.swerveKinematics.toChassisSpeeds(
         //     SwerveMods[0].getState(),
         //     SwerveMods[1].getState(),
         //     SwerveMods[2].getState(),
         //     SwerveMods[3].getState()
         // );
+
+
+        poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses());
+        Optional<EstimatedRobotPose> result = fiducalCamera.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
+        //
+        if (result.isPresent() && Gyro.getPitch() < Constants.FiducalCamera.Filter.pitch && Gyro.getRoll() < Constants.FiducalCamera.Filter.roll) {
+            EstimatedRobotPose camPose = result.get();
+            if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.FiducalCamera.Filter.distance){
+                poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+            }
+        }
+
     }
 
     // public void loadTrajectory(String name){
