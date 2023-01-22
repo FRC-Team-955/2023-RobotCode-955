@@ -9,23 +9,18 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 
 public class LimelightCamera {
-    public static PhotonCamera limeLight =  new PhotonCamera("gloworm"); 
+    public static PhotonCamera limelight =  new PhotonCamera("gloworm"); 
     public static PhotonPipelineResult result = new PhotonPipelineResult();
     public static PhotonTrackedTarget target = new PhotonTrackedTarget(); 
 
 
     public static boolean hasTargets() {
+        result = limelight.getLatestResult();
         return result.hasTargets();
     }
 
-    boolean getHorizontalOffset(){
-        result = limeLight.getLatestResult();
-        if(hasTargets()){
-            target = result.getBestTarget();
-            return true;
-        }
-        else{
-        return false;
-        }
-} 
+    public static double getHorizontaloffset(){
+        result = limelight.getLatestResult();
+        return result.getBestTarget().getYaw();
+    }
 }
