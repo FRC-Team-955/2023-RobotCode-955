@@ -23,7 +23,7 @@ public class Elevator {
     }
 
     public void moveElevator(double joyPos) {
-        if(Joystick.isOverrideEnabled() || ((elevatorMotor.getEncoder().getPosition() <= Constants.ElevatorConstants.kElevatorUpperLimit || joyPos < 0)
+        if(IO.isOverrrideEnabled() || ((elevatorMotor.getEncoder().getPosition() <= Constants.ElevatorConstants.kElevatorUpperLimit || joyPos < 0)
             && (elevatorMotor.getEncoder().getPosition() >= Constants.ElevatorConstants.kElevatorLowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
             elevatorMotor.set(joyPos);
         } else {
@@ -32,7 +32,7 @@ public class Elevator {
     }
 
     public boolean setElevator(int level) { // level = desired elevator level
-        if(!Joystick.isOverrideEnabled()) {
+        if(!IO.isOverrrideEnabled()) {
             double elevatorSetpoint = Constants.ElevatorConstants.kRetracted;
             switch(level) {
                 case 0:

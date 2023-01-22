@@ -41,7 +41,7 @@ public final class Arm {
     }
 
     public static void moveArm(double joyPos) {
-        if (Joystick.isOverrrideEnabled() == false) { 
+        if (IO.isOverrrideEnabled() == false) { 
             if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit && joyPos > 0) { // If elevator reach top AND trying to go up
                 armMotor.stopMotor(); //
             } else if (encoder.getPosition() <= Constants.Arm.kArmLowerLimit && joyPos < 0) { // If elevator reach bottom ANd trying to go down
@@ -59,7 +59,7 @@ public final class Arm {
 
     public static void setArm(int level, double joyPos) {
         
-        if (Joystick.isOverrrideEnabled() == false) {
+        if (IO.isOverrrideEnabled() == false) {
             double armSetPoint = 0;
             switch(level) {
                 case 0:
