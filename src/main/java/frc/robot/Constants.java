@@ -29,5 +29,7 @@ public class Constants {
             public static int rotationOverrideButton = 0;
             public static int thrustAxis = 2;
         }
+    public static class Limelight {
+        public static double kAlignDistance = 1000; // Faris: random number idk actual value
     }
 }
