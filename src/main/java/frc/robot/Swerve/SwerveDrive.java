@@ -22,7 +22,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.FiducalCamera;
+import frc.robot.Sensors.FiducalCamera;
 import frc.robot.IO;
 import frc.robot.Sensors.Gyro;
 
@@ -150,8 +150,6 @@ public class SwerveDrive {
         //     SwerveMods[2].getState(),
         //     SwerveMods[3].getState()
         // );
-
-
         poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses());
         Optional<EstimatedRobotPose> result = fiducalCamera.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
         //

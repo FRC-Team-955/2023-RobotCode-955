@@ -1,4 +1,5 @@
 package frc.robot;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Constants {
     // Auto Balance PID
@@ -29,6 +30,18 @@ public class Constants {
             public static int rotationOverrideButton = 0;
             public static int thrustAxis = 2;
         }
+    }
+    public static class FieldPositions{
+        public static double centerLine = 4.01;
+        
+    }
+    public static DriverStation.Alliance color = DriverStation.getAlliance();
+    public static boolean isBlue(){
+        return color == DriverStation.Alliance.Blue;
+    }
+    public static boolean isRed(){
+        return color == DriverStation.Alliance.Red;
+    }
     public static class Limelight {
         public static double kAlignDistance = 1000; // Faris: random number idk actual value
     }

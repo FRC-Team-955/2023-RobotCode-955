@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Swerve.SwerveDrive;
 import frc.robot.Sensors.Gyro;
 
+
 public class Drivebase {
     
     public static PIDController pid = new PIDController(Constants.kP, Constants.kI, Constants.kD);
@@ -16,8 +17,10 @@ public class Drivebase {
     public static void driveFieldRelative(){
         Pose2d pose = drive.getPose();
         double heading = 0;
-        if(pose.getX() < 5){
-            heading = 180;
+        if (Constants.isBlue() && pose.getX() < Constants.FieldPositions.centerLine){
+                heading = 180;
+        }else if(pose.getX() > Constants.FieldPositions.centerLine){
+                heading = 180;
         }
         driveFieldRelativeHeading(IO.getSwerveTranslation(), heading);
     }
