@@ -11,6 +11,8 @@ public final class IO {
     private static Joystick joy1 = new Joystick(1);
     private static SlewRateLimiter forwardAxisSlewRateLimiter = new SlewRateLimiter(Constants.forwardRateLimiter);
     private static SlewRateLimiter strafeAxisSlewRateLimiter = new SlewRateLimiter(Constants.strafeRateLimiter);
+    private static Joystick key0 = new Joystick(2);
+    private static Joystick key1 = new Joystick(3);
 
     // Drivebase
     public static boolean isAutoAlignActive() {
@@ -68,6 +70,15 @@ public final class IO {
     }
     public static boolean thrustEnabled(){
         return joy0.getRawAxis(Constants.IO.joy0.thrustAxis) > 0.2;
+    }
+
+    public static Pose2d keyInputOdometryPosition;
+
+    public static void keyInputOdometryMapping() {
+        if (key0.getRawButton(0)|| key0.getRawButton(1)|| key0.getRawButton(2)){
+            keyInputOdometryPosition = Constants.AutoAlignPositions.blue0;
+        }
+
     }
 }
 
