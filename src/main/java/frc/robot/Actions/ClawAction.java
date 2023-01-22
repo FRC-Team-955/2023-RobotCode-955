@@ -1,6 +1,8 @@
 package frc.robot.Actions;
 
-public class ClawAction implements AutoAction {
+import frc.robot.Auto;
+
+public class ClawAction extends AutoAction {
     int speed;
     Double time;
     Double storedTime;
@@ -18,11 +20,11 @@ public class ClawAction implements AutoAction {
             return true;
         }
         if (speed == -1) {
-            gamepieceController.reverseClaw();
+            Auto.Utils.gamepieceController.reverseClaw();
         } else if (speed == 0) {
-            gamepieceController.stopClaw();
+            Auto.Utils.gamepieceController.stopClaw();
         } else if (speed == 1) {
-            gamepieceController.moveClaw();
+            Auto.Utils.gamepieceController.moveClaw();
         }
         return false;
     }

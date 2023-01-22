@@ -1,15 +1,11 @@
 package frc.robot.Actions;
 
-import frc.robot.DummyClasses.GamePieceController;
-import frc.robot.DummyClasses.SwerveDrive;
-
-public interface AutoAction {
+public abstract class AutoAction {
 
     //Auto Actions will return true when complete so the program knows to move on the the next action or path
-    //Auto Actions accept an int array in order to specify things that may be needed for certain actions, such as which cone to pick up or what spot to place the game piece on
-    public boolean Act();
+    public abstract boolean Act();
 
-    // reference to dummy class (gamepieceController)
-    public static GamePieceController gamepieceController = new GamePieceController();
-    public static SwerveDrive swerveDrive = new SwerveDrive();
+    public double startTime;
+
+    public double endTime;
 }

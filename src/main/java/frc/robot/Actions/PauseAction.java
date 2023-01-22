@@ -1,6 +1,6 @@
 package frc.robot.Actions;
 
-public class PauseAction implements AutoAction {
+public class PauseAction extends AutoAction {
     boolean isTimerRunning = false;
     double timer;
     double time;

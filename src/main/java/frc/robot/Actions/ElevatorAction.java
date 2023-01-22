@@ -1,6 +1,8 @@
 package frc.robot.Actions;
 
-public class ElevatorAction implements AutoAction{
+import frc.robot.Auto;
+
+public class ElevatorAction extends AutoAction{
     int location;
     public ElevatorAction(int location) {
         this.location = location;
@@ -8,7 +10,7 @@ public class ElevatorAction implements AutoAction{
 
     // Options[0]: 0 = retracted, 1 = lowest, 2 = mid, 3 = high
     public boolean Act() {
-        gamepieceController.setLocation(location);
-        return gamepieceController.elevatorAtSetpoint();
+        Auto.Utils.gamepieceController.setLocation(location);
+        return Auto.Utils.gamepieceController.elevatorAtSetpoint();
     }
 }

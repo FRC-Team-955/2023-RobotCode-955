@@ -2,12 +2,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Actions.AutoAction;
-import frc.robot.Actions.StopAction;
+import frc.robot.DummyClasses.GamePieceController;
+import frc.robot.DummyClasses.SwerveDrive;
 
-public class AutoStates {
-    AutoAction[] autoActionList = new AutoAction[]{new StopAction()};
+public class Auto {
+    AutoAction[] autoActionList = new AutoAction[0];
 
-    public AutoStates() {
+    public Auto() {
         AutoProfileNew.autoVersion("Auto1");
         autoActionList = AutoProfileNew.AutoActions.get(0);
     }
@@ -27,5 +28,10 @@ public class AutoStates {
 
     public void displayData() {
         SmartDashboard.putNumber("Step", AutoProfileNew.getOriginalList().size() - AutoProfileNew.AutoActions.size() + 1);
+    }
+
+    public static class Utils {
+        public static GamePieceController gamepieceController = new GamePieceController();
+        public static SwerveDrive swerveDrive = new SwerveDrive();
     }
 }

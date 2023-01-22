@@ -1,9 +1,11 @@
 package frc.robot.Actions;
 
-public class StopAction implements AutoAction {
+import frc.robot.Auto;
+
+public class StopAction extends AutoAction {
     public boolean Act() {
-        gamepieceController.setLocation(0);
-        gamepieceController.stopClaw();
+        Auto.Utils.gamepieceController.setLocation(0);
+        Auto.Utils.gamepieceController.stopClaw();
         return false;
     }  
 }

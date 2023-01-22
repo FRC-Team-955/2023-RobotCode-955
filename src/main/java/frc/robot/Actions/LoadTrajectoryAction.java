@@ -1,12 +1,14 @@
 package frc.robot.Actions;
 
-public class LoadTrajectoryAction implements AutoAction {
+import frc.robot.Auto;
+
+public class LoadTrajectoryAction extends AutoAction {
     String trajectory;
     public LoadTrajectoryAction(String trajectory) {
         this.trajectory = trajectory;
     }
     public boolean Act() {
-        swerveDrive.loadTrajectory(trajectory);
+        Auto.Utils.swerveDrive.loadTrajectory(trajectory);
         return true;
     }
 }
