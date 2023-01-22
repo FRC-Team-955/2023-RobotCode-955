@@ -2,26 +2,20 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class IO {
+    private static Joystick joy0 = new Joystick(0);
+    private static Joystick joy1 = new Joystick(1);
+    public static boolean isAutoAlignActive() {
+        return true;
+    }
 
-public void SwerveMode(Joystick joy0)
-{
-boolean LeftBumper = joy0.getRawButton(5); 
-int ModeCheck = 0; 
-
-//Fastmode and Slowmode can be configured as needed through ModeCheck
-if(LeftBumper == true)
-{
-ModeCheck ++; 
-}
-
-switch(ModeCheck)
-{
-case 1: System.out.println("Mode 1");
-
-case 2: ModeCheck = 0; 
-
-}
-
-};
-
+    public static boolean isAutoBalanceActive(){
+        return false;
+    }
+    public static boolean isOverrrideEnabled() {
+        if (joy0.getRawButton(0) == false) {
+            return false;
+        } else {
+            return true;
+        }
+    } 
 };

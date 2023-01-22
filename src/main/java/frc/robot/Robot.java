@@ -56,9 +56,9 @@ public class Robot extends TimedRobot {
 
   public void selectTeleopState(){
 
-    if (Joystick.isAutoAlignActive()) {
+    if (IO.isAutoAlignActive()) {
       robotState = RobotState.AUTO_ALIGN;
-    } else if (Joystick.isAutoBalanceActive()){
+    } else if (IO.isAutoBalanceActive()){
       robotState = RobotState.AUTO_BALANCE;
     } else {
       robotState = RobotState.DRIVING;
