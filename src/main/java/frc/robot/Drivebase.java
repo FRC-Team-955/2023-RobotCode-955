@@ -18,9 +18,9 @@ public class Drivebase {
         Pose2d pose = drive.getPose();
         double heading = 0;
         if (Constants.isBlue() && pose.getX() < Constants.FieldPositions.centerLine){
-                heading = 180;
-        }else if(pose.getX() > Constants.FieldPositions.centerLine){
-                heading = 180;
+            heading = 180;
+        }else if(Constants.isRed() && pose.getX() > Constants.FieldPositions.centerLine){
+            heading = 180;
         }
         driveFieldRelativeHeading(IO.getSwerveTranslation(), heading);
     }
