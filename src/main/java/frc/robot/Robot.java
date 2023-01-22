@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
     AUTO_ALIGN,
     AUTO_BALANCE
   }
-  
+
   @Override
   public void robotInit() {}
 
