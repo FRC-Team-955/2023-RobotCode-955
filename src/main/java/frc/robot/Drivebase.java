@@ -33,18 +33,23 @@ public class Drivebase {
     public static void driveRobotRelative(){
 
     }
-
     public static void driveRobotRelative(Translation2d translation, double rotation){
         drive.drive(translation, rotation, false, false, false, 0);
     }
 
-    public static double autoBalance() {
+    public static void autoBalance() {
+
        double output = MathUtil.clamp(pid.calculate(Gyro.getPitch(), 0), -1 ,1);
-       return output;
+
+       driveFieldRelativeRotation(new Translation2d(output, 0), 0);
+       
+       if(isBalanced()){
+        driveFieldRelativeRotation(new Translation2d(0, 0), output);
+       }
     }
     
-    public boolean isBalanced() {
-        if (2.5 <= Gyro.getPitch() && Gyro.getPitch() >= -2.5) {
+    public static boolean isBalanced() {
+        if (2.5 > Gyro.getPitch() && Gyro.getPitch() > -2.5) {
             return true;
         } else {
             return false;
