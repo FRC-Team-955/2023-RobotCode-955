@@ -7,12 +7,12 @@ import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 
 public class Elevator {
-    CANSparkMax elevatorMotor;
+    UnitTestCANSparkMax elevatorMotor;
     PIDController pid;
     ElevatorFeedforward feedforward;
 
     public Elevator() {
-        elevatorMotor = new CANSparkMax(Constants.ElevatorConstants.kElevatorMotorId, MotorType.kBrushless);
+        elevatorMotor = new UnitTestCANSparkMax(Constants.ElevatorConstants.kElevatorMotorId, MotorType.kBrushless);
         pid = new PIDController(Constants.ElevatorConstants.kPElevator,
                                 Constants.ElevatorConstants.kIElevator,
                                 Constants.ElevatorConstants.kDElevator);
@@ -53,6 +53,10 @@ public class Elevator {
                                             feedforward.calculate(elevatorMotor.getEncoder().getVelocity()), -12, 12);
             
             elevatorMotor.setVoltage(amount);
+
+            System.out.println("Voltage: " + amount);
+            System.out.println("Position: " + elevatorMotor.getEncoder().getPosition());
+            System.out.println(pid.atSetpoint());
 
             return pid.atSetpoint();
         }
