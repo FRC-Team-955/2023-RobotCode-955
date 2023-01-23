@@ -1,6 +1,12 @@
 package frc.robot;
 
 public final class Constants {
+    public static class IO{
+        public static class Joy1{
+            public static int elevatorOverrideAxis = 1;
+        }
+    }
+
 
     public static final class Arm {
         // Arm Motor Id's
@@ -26,7 +32,7 @@ public final class Constants {
         public static double desiredArmPos = 0;
     }
     
-    public final static class ElevatorConstants {
+    public final static class Elevator {
         // Elevator Motor Id's
         public static int kElevatorMotorId = 0;
         // Elevator Encoder Values
