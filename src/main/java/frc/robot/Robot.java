@@ -34,12 +34,15 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    System.out.println(ElevatorPosition.calculate(225, 133.6764706));
+  }
 
   @Override
   public void teleopPeriodic() {
     //selectTeleopState();
 
+    /*
     if (joystick.getRawButton(0))
       Elevator.setElevator(0);
     if (joystick.getRawButton(1))
@@ -48,6 +51,7 @@ public class Robot extends TimedRobot {
       Elevator.setElevator(2);
     if (joystick.getRawButton(3))
       Elevator.setElevator(3);
+      */
   }
 
   @Override
