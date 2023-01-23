@@ -1,5 +1,6 @@
 package frc.robot.Swerve;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -20,9 +21,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.Sensors.FiducalCamera;
+import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.IO;
 import frc.robot.Sensors.Gyro;
 
@@ -32,7 +34,7 @@ public class SwerveDrive {
 
     // public SwerveDriveOdometry swerveOdometry;
     public final SwerveDrivePoseEstimator poseEstimator;
-    public FiducalCamera fiducalCamera;
+    public AprilTagCameraWrapper fiducalCamera;
 
     public SwerveMod[] SwerveMods;
     public double headingSetPoint;
@@ -160,6 +162,11 @@ public class SwerveDrive {
             }
         }
 
+    }
+    public void generateTrajectory(){
+        // Translation2d interiorWaypoints = new ArrayList<Translation2d>();
+        // interiorWaypoints.add(new Translation2d(Units.feetToMeters(14.54), Units.feetToMeters(23.23)));
+        // interiorWaypoints.add(new Translation2d(Units.feetToMeters(21.04), Units.feetToMeters(18.23)));
     }
 
     // public void loadTrajectory(String name){

@@ -4,11 +4,13 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import frc.robot.Constants;
+
 //import edu.wpi.first.math.geometry.Translation2d;
 
 
 
-public class LimelightCamera {
+public class LimelightCameraWrapper {
     public static PhotonCamera limelight =  new PhotonCamera("gloworm"); 
     public static PhotonPipelineResult result = new PhotonPipelineResult();
     public static PhotonTrackedTarget target = new PhotonTrackedTarget(); 
@@ -19,8 +21,12 @@ public class LimelightCamera {
         return result.hasTargets();
     }
 
-    public static double getHorizontaloffset(){
+    public static double getHorizontalOffset(){
         result = limelight.getLatestResult();
         return result.getBestTarget().getYaw();
+    }
+
+    public static boolean isAlignedToConeNode(){
+        return Math.abs(getHorizontalOffset()) < Constants.Limelight.kAlignDistance;
     }
 }

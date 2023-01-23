@@ -43,6 +43,6 @@ public class Constants {
         return color == DriverStation.Alliance.Red;
     }
     public static class Limelight {
-        public static double kAlignDistance = 1000; // Faris: random number idk actual value
+        public static double kAlignDistance = 0.1; // Faris: random number idk actual value
     }
 }

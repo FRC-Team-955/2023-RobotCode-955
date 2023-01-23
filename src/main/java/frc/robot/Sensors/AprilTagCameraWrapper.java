@@ -27,16 +27,15 @@ import java.util.ArrayList;
 import java.util.Optional;
 // import org.photonvision.PhotonCamera;
 
-public class FiducalCamera {
+public class AprilTagCameraWrapper {
 
-    AprilTagFieldLayout aprilTagFieldLayout;
-    public PhotonCamera camera;
-    public PhotonPoseEstimator photonPoseEstimator;
+    public static AprilTagFieldLayout aprilTagFieldLayout;
+    public static PhotonCamera camera;
+    public static PhotonPoseEstimator photonPoseEstimator;
 
-    PhotonPipelineResult result;
+    private static PhotonPipelineResult result;
 
-
-    public FiducalCamera(){
+    public AprilTagCameraWrapper(){
         final AprilTag tag01 = new AprilTag(01, new Pose3d(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0))));
         ArrayList<AprilTag> atList = new ArrayList<AprilTag>();
         atList.add(tag01);
@@ -47,11 +46,12 @@ public class FiducalCamera {
         photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
 
     }
-    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+    public static Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
         photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
         return photonPoseEstimator.update();
     }    
-    double getFiducalYaw(){
+
+    public static double getHorizontalOffset(){
         result = camera.getLatestResult();
         if( result.hasTargets()){
             // System.out.println("in target: " + result.getBestTarget().getYaw());
@@ -59,9 +59,16 @@ public class FiducalCamera {
         }
         // System.out.println("no target");
 
-        return 0;
+        return 42069;
     }
-
+    public static double getVerticalOffset(){
+        result = camera.getLatestResult(); //CHANGE DOUBLE NOT SUPPOSED TO BE DOUBLE
+        if( result.hasTargets()){
+            // System.out.println("in target: " + result.getBestTarget().getYaw());
+            return result.getBestTarget().getPitch();
+        }
+        return 42069;
+    }
 
 
 }
