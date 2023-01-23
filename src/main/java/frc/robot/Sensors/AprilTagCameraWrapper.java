@@ -6,26 +6,18 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-// import org.photonvision.RobotPoseEstimator;
-// import org.photonvision.RobotPoseEstimator.PoseStrategy;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.apriltag.AprilTag;
-// import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 
-// import frc.robot.Constants.FieldConstants;
-// import frc.robot.Constants.VisionConstants;
 import java.util.ArrayList;
 import java.util.Optional;
-// import org.photonvision.PhotonCamera;
 
 public class AprilTagCameraWrapper {
 
@@ -54,17 +46,13 @@ public class AprilTagCameraWrapper {
     public static double getHorizontalOffset(){
         result = camera.getLatestResult();
         if( result.hasTargets()){
-            // System.out.println("in target: " + result.getBestTarget().getYaw());
             return result.getBestTarget().getYaw();
         }
-        // System.out.println("no target");
-
         return 42069;
     }
     public static double getVerticalOffset(){
-        result = camera.getLatestResult(); //CHANGE DOUBLE NOT SUPPOSED TO BE DOUBLE
+        result = camera.getLatestResult();
         if( result.hasTargets()){
-            // System.out.println("in target: " + result.getBestTarget().getYaw());
             return result.getBestTarget().getPitch();
         }
         return 42069;

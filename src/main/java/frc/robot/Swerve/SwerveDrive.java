@@ -1,6 +1,5 @@
 package frc.robot.Swerve;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -21,11 +20,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.IO;
+import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.Gyro;
 
 public class SwerveDrive {
@@ -34,7 +32,6 @@ public class SwerveDrive {
 
     // public SwerveDriveOdometry swerveOdometry;
     public final SwerveDrivePoseEstimator poseEstimator;
-    public AprilTagCameraWrapper fiducalCamera;
 
     public SwerveMod[] SwerveMods;
     public double headingSetPoint;
@@ -43,18 +40,15 @@ public class SwerveDrive {
     private PIDController xController = new PIDController(0.7,0,0);
     private PIDController yController = new PIDController(0.7,0,0);
     private PIDController thetaController = new PIDController(0.05,0,0);
-    private ProfiledPIDController thetaController2 = new ProfiledPIDController(0.5,0,0, new TrapezoidProfile.Constraints(40, 180));
-    public HolonomicDriveController autoController = new HolonomicDriveController(xController, yController, thetaController2);
+    private ProfiledPIDController thetaControllerFake = new ProfiledPIDController(0.5,0,0, new TrapezoidProfile.Constraints(40, 180));
+    public HolonomicDriveController autoController = new HolonomicDriveController(xController, yController, thetaControllerFake);
     public Trajectory trajectory = new Trajectory();
     public Trajectory turningTrajectory = new Trajectory();
     public Timer timer = new Timer();
     public String File = "pathplanner/generatedJSON/CorrectPath.path"; 
 
-    
-
     // chassis velocity status
     ChassisSpeeds chassisVelocity = new ChassisSpeeds(); // not used, commented out in updateSwerveOdometry()
-    
     
     // boolean to lock Swerve wheels
     public boolean locked = false;
@@ -80,8 +74,8 @@ public class SwerveDrive {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
-        if(IO.rotationOverrideEnabled()){
-            rotation = IO.getSwerveRotation();
+        if(IO.Drivebase.rotationOverrideEnabled()){
+            rotation = IO.Drivebase.getSwerveRotation();
         }else if (useFixedHeading){
             headingSetPoint = heading;
         }else{
@@ -153,7 +147,7 @@ public class SwerveDrive {
         //     SwerveMods[3].getState()
         // );
         poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses());
-        Optional<EstimatedRobotPose> result = fiducalCamera.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
+        Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
         //
         if (result.isPresent() && Gyro.getPitch() < Constants.FiducalCamera.Filter.pitch && Gyro.getRoll() < Constants.FiducalCamera.Filter.roll) {
             EstimatedRobotPose camPose = result.get();
@@ -175,7 +169,7 @@ public class SwerveDrive {
     //     try {
     //         deployDirectory = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
     //         trajectory = TrajectoryUtil.fromPathweaverJson(deployDirectory);
-    //     } catch (IOException ex) {
+    //     } catch (IO.DrivebaseException ex) {
     //         DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     //     }
 

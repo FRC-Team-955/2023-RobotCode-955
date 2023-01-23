@@ -22,7 +22,7 @@ public class Drivebase {
         }else if(Constants.isRed() && pose.getX() > Constants.FieldPositions.centerLine){
             heading = 180;
         }
-        driveFieldRelativeHeading(IO.getSwerveTranslation(), heading);
+        driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), heading);
     }
 
     public static void driveFieldRelativeRotation(Translation2d translation, double rotation){
