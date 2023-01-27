@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Handoff {
     static TalonSRX handoffMotorOne;
-    static TalonSRX handoffMotorTwo;
     
     public Handoff(){
         //handoff only has one motor

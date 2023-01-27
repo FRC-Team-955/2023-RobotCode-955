@@ -12,14 +12,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import com.revrobotics.ColorSensorV3;
 
 public class Intake {
-    static TalonSRX motorOne;
-    static TalonSRX motorTwo;
+    static TalonSRX intakeMotorOne;
+    static TalonSRX intakeMotorTwo;
     static ColorSensorV3 colorSensor;
+    static TalonSRX intakeFoldMotor;
     // static PIDController pidController;
     //makes the motors and pid controller
     public Intake(){
-        motorOne = new TalonSRX(Constants.Claw.motorOneNum);
-        motorTwo = new TalonSRX(Constants.Claw.motorTwoNum);
+        intakeMotorOne = new TalonSRX(Constants.Claw.motorOneNum);
+        intakeMotorTwo = new TalonSRX(Constants.Claw.motorTwoNum);
         // pidController = new PIDController(0, 0, 0); //NOT USED
     }
    
@@ -34,16 +35,16 @@ public class Intake {
         colorSensor = new ColorSensorV3(Port.kOnboard);
         
         if(timer.get() < 4){
-        motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput); // note from owen: add the 0.3 to settings
-        motorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput); //done
+        intakeMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput); // note from owen: add the 0.3 to settings
+        intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput); //done
+        }
     }
-
 
     static public boolean senseObj() { // boolean if using the if else in the function
         System.out.println(colorSensor.getProximity());
         if(colorSensor.getProximity() < 1000) { //CHANGE THE 1000 not actual number
-            motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorStop);
-            motorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorStop);
+            intakeMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorStop);
+            intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorStop);
             return true;
         }
         else {
@@ -53,12 +54,13 @@ public class Intake {
 
     //spits out the game piece
     public static void reverseEthanWheels(){
-        motorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);
-        motorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput);
+        intakeMotorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);
+        intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput);
     }
 
     public static void foldInIntake(){
-
+        intakeFoldMotor.setSelectedSensorPosition(0);
+        if 
     }
 
     public static void foldOutIntake(){
