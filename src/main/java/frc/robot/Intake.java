@@ -2,7 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
@@ -35,18 +35,20 @@ public class Intake {
         
         if(timer.get() < 4){
         motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput); // note from owen: add the 0.3 to settings
-        motorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);// done
-
-        static public boolean senseObj() { // boolean if using the if else in the function
-            System.out.println(colorSensor.getProximity());
-            if(colorSensor.getProximity() > 1700) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+        motorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput); //done
     }
+
+
+    static public boolean senseObj() { // boolean if using the if else in the function
+        System.out.println(colorSensor.getProximity());
+        if(colorSensor.getProximity() < 1000) { //CHANGE THE 1000 not actual number
+            motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorStop);
+            motorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorStop);
+            return true;
+        }
+        else {
+            return false;
+        }
 }
 
     //spits out the game piece
