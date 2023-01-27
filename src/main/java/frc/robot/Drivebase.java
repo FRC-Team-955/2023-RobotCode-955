@@ -29,16 +29,15 @@ public class Drivebase {
     public static void driveFieldRelativeRotation(Translation2d translation, double rotation){
         drive.drive(translation, rotation, true, false, false, 0);
     }
-
     public static void driveFieldRelativeHeading(Translation2d translation, double heading){
         drive.drive(translation, 0, true, false, true, heading);
     }
 
-    public static void driveRobotRelative(){
-
-    }
-    public static void driveRobotRelative(Translation2d translation, double rotation){
+    public static void driveRobotRelativeRotation(Translation2d translation, double rotation){
         drive.drive(translation, rotation, false, false, false, 0);
+    }
+    public static void driveRobotRelativeHeading(Translation2d translation, double heading){
+
     }
 
     public static void logData() {
