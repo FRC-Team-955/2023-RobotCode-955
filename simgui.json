@@ -1,5 +1,12 @@
 {
   "HALProvider": {
+    "Encoders": {
+      "0": {
+        "header": {
+          "open": true
+        }
+      }
+    },
     "Timing": {
       "window": {
         "visible": false

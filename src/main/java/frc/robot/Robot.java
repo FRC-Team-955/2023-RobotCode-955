@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
@@ -13,6 +12,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
   private static final double kElevatorDrumRadius = Units.inchesToMeters(2.0);
   private static final double kCarriageMass = 4.0; // kg
 
-  private static final double kMinElevatorHeight = Units.inchesToMeters(4);
+  private static final double kMinElevatorHeight = Units.inchesToMeters(2);
   private static final double kMaxElevatorHeight = Units.inchesToMeters(50);
 
   // distance per pulse = (distance per revolution) / (pulses per revolution)
@@ -44,12 +44,10 @@ public class Robot extends TimedRobot {
   private final DCMotor m_elevatorGearbox = DCMotor.getVex775Pro(4);
 
   // Standard classes for controlling our elevator
-  private final PIDController m_controller = new PIDController(kElevatorKp, 0, 0);
+  private final PIDController pid = new PIDController(kElevatorKp, 0, 0);
   private final Encoder m_encoder = new Encoder(kEncoderAChannel, kEncoderBChannel);
   private final CANSparkMax m_motor = new CANSparkMax(kMotorPort, MotorType.kBrushless);
-  private final Joystick m_joystick = new Joystick(kJoystickPort);
-
-  ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0, 0);
+  private final XboxController m_joystick = new XboxController(kJoystickPort);
 
   // Simulation classes help us simulate what's going on, including gravity.
   private final ElevatorSim m_elevatorSim =
@@ -97,15 +95,26 @@ public class Robot extends TimedRobot {
     RoboRioSim.setVInVoltage(
         BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevatorSim.getCurrentDrawAmps()));
 
+    // Update elevator visualization with simulated position
     m_elevatorMech2d.setLength(Units.metersToInches(m_elevatorSim.getPositionMeters()));
   }
 
   @Override
   public void teleopPeriodic() {
-    m_motor.setVoltage(MathUtil.clamp(m_joystick.getRawAxis(0), -12, 12));
+    if (m_joystick.getLeftY() > 0) {
+      // Here, we run PID control like normal, with a constant setpoint of 30in.
+      // double pidOutput = pid.calculate(m_encoder.getDistance(), Units.inchesToMeters(30));
+      double amount = MathUtil.clamp(m_joystick.getLeftY(), -12, 12);
+      m_motor.setVoltage(amount);
+    } else {
+      // Otherwise, we disable the motor.
+      m_motor.set(0.0);
+    }
   }
+
   @Override
   public void disabledInit() {
+    // This just makes sure that our simulation code knows that the motor's off.
     m_motor.set(0.0);
   }
 }
