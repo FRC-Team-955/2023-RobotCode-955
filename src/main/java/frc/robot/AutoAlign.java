@@ -11,12 +11,12 @@ public class AutoAlign {
 
     Drivebase drive = new Drivebase();
 
-    public boolean alignOdometry(Pose2d goalPose){
+    public boolean alignOdometry(Translation2d goalTranslation){
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
-        double goalPoseX = goalPose.getX();
-        double goalPoseY = goalPose.getY();
+        double goalPoseX = goalTranslation.getX();
+        double goalPoseY = goalTranslation.getY();
     
         Double movementX = PIDOdometeryAlignX.calculate(poseX, goalPoseX);
         Double movementY = PIDOdometeryAlignX.calculate(poseY, goalPoseY);
@@ -32,24 +32,85 @@ public class AutoAlign {
     }
 
     public boolean alignAprilTag(){
-        double horizontalOffset = AprilTagCameraWrapper.getHorizontalOffset();
-    
-        Double movementY = PIDOdometeryAlignX.calculate(horizontalOffset, 0);
-        Translation2d translation = new Translation2d(0, movementY); 
-        Drivebase.driveFieldRelativeHeading(translation, 180);
+        if(AprilTagCameraWrapper.hasTargets()){
+            double movementY = PIDOdometeryAlignX.calculate(AprilTagCameraWrapper.getHorizontalOffset(), 0);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(0, movementY), 180);
+        }
 
-        if (LimelightCameraWrapper.isAlignedToConeNode()) {
+        if (AprilTagCameraWrapper.isAlignedToCubeNode()) {
             return true;
         }
         else {
             return false;
         }
     }
+    public boolean alignTape(){
+        if (LimelightCameraWrapper.hasTargets()){
+            double movementY = PIDOdometeryAlignX.calculate(LimelightCameraWrapper.getHorizontalOffset(), 0);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(0, movementY), 180);
+        }
 
-    public void moveMeter() {
+        if (LimelightCameraWrapper.isAlignedToConeNode()){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    void alignToPiece(){
+        // double heading = (GamepieceCamera.getHorizontaloffset() * Constants.AutoAlign.kHorizontalOffsetToPidgeonFactor) + Gyro.getHeading();
+        // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), heading);
+    }
+
+    public boolean moveIntoPosition() {
+        return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlue: Constants.FieldPositions.atGridRed, 
+                            gridAlignY));
         //the move forward function
     }
-    void moveToGridPosition(){
-        //the code to do the entire align sequence
+    private boolean isInCommunity(){
+        if ((Constants.isBlue() && Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX ||
+            Constants.isRed() && Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX) &&
+            Drivebase.getPose().getY() > Constants.FieldPositions.inCommunityY){
+            return true;
+        }
+        return false;
+    }
+    public enum GridAlignState {
+        AlignedToOdometry,
+        AlignedToNode,
+        InPosition
+    }
+    public static GridAlignState gridAlignState = GridAlignState.AlignedToOdometry;
+    public static double gridAlignY;
+    boolean moveToGridPosition(){
+        //REMEMBER TO RESET THE STATE BACK TO AlignedToOdometry AT SOME POINT
+        if(isInCommunity()){
+            if(gridAlignState == GridAlignState.AlignedToOdometry){
+                if(alignOdometry(IO.keyInputOdometryPosition)){
+                    gridAlignState = GridAlignState.AlignedToNode;
+                }
+            }else if (gridAlignState == GridAlignState.AlignedToNode){
+                if(IO.isConeNodePosition){
+                    if(alignTape()){
+                        gridAlignY = Drivebase.getPose().getY();
+                        gridAlignState = GridAlignState.InPosition;
+                    }
+                }else{
+                    if(alignAprilTag()){
+                        gridAlignY = Drivebase.getPose().getY();
+                        gridAlignState = GridAlignState.InPosition;
+                    }
+                }
+            }else if (gridAlignState == GridAlignState.InPosition){
+                return moveIntoPosition();
+            } 
+        }
+        return false;
+    }
+    boolean moveToGridPositionOdometry(){
+        if(isInCommunity()){
+            return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlue:Constants.FieldPositions.atGridRed, IO.keyInputOdometryPosition.getY()));
+        }
+        return false;
     }
 }

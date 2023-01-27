@@ -1,4 +1,5 @@
 package frc.robot;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Constants {
@@ -10,17 +11,22 @@ public class Constants {
     public static double forwardRateLimiter = 0;
     public static double strafeRateLimiter = 0;
 
-    public static class FiducalCamera{
+    public static class AprilTagCamera{
         //The position of the globalshutter camera in robot cordinate system
         public static double xPosition = 0.5;
         public static double yPosition = 0;
         public static double zPosition = 0.5;
+
+        public static double kAlignTolerance= 0.1; // Faris: random number idk actual value
         
         public static class Filter{
             public static double pitch = 2;
             public static double roll = 2;
             public static double distance = 2;
         }
+    }
+    public static class LimelightCamera {
+        public static double kAlignTolerance= 0.1; // Faris: random number idk actual value
     }
     public static class IO{
         public static class joy0{
@@ -37,8 +43,21 @@ public class Constants {
     }
     public static class FieldPositions{
         public static double centerLine = 4.01;
+        public static double inBlueCommunityX = 2;
+        public static double inRedCommunityX = 6;
+        public static double inCommunityY = 2;
+
+        public static double atGridBlue = 1;
+        public static double atGridRed = 7;
+
+        public static class AutoAlignPositions{
+
+            public static Translation2d blue0 = new Translation2d(2.0,2.0);
+            public static Translation2d red0 = new Translation2d(6,2);
+        }
         
     }
+
     public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static boolean isBlue(){
         return color == DriverStation.Alliance.Blue;
@@ -46,7 +65,5 @@ public class Constants {
     public static boolean isRed(){
         return color == DriverStation.Alliance.Red;
     }
-    public static class Limelight {
-        public static double kAlignDistance = 0.1; // Faris: random number idk actual value
-    }
+
 }

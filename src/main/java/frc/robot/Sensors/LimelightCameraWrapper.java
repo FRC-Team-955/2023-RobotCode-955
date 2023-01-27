@@ -15,18 +15,19 @@ public class LimelightCameraWrapper {
     public static PhotonPipelineResult result = new PhotonPipelineResult();
     public static PhotonTrackedTarget target = new PhotonTrackedTarget(); 
 
-
-    public static boolean hasTargets() {
-        result = limelight.getLatestResult();
-        return result.hasTargets();
+    public static boolean hasTargets(){
+        return limelight.getLatestResult().hasTargets();
     }
-
+    
     public static double getHorizontalOffset(){
         result = limelight.getLatestResult();
-        return result.getBestTarget().getYaw();
+        if (hasTargets()){
+            return result.getBestTarget().getYaw();
+        }
+        return 42069;
     }
 
     public static boolean isAlignedToConeNode(){
-        return Math.abs(getHorizontalOffset()) < Constants.Limelight.kAlignDistance;
+        return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.kAlignTolerance;
     }
 }

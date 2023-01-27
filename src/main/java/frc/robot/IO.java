@@ -1,10 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import frc.robot.AutoAlign.GridAlignState;
 import frc.robot.Swerve.SwerveSettings;
 
 public final class IO {
@@ -109,13 +110,18 @@ public final class IO {
             return joy0.getRawAxis(Constants.IO.joy0.thrustAxis) > 0.2;
         }
     }
-    
+    public static void rumbleJoy0(){
+        joy0.setRumble(RumbleType.kBothRumble, 0.5);
+    }
 
-    public static Pose2d keyInputOdometryPosition;
+    public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
+    public static boolean isConeNodePosition = true;
 
     public static void keyInputOdometryMapping() {
         if (key0.getRawButton(0)|| key0.getRawButton(1)|| key0.getRawButton(2)){
-            // keyInputOdometryPosition = Constants.AutoAlignPositions.blue0;
+            keyInputOdometryPosition = Constants.FieldPositions.AutoAlignPositions.blue0;
+            isConeNodePosition = true;
+            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
         }
 
     }
