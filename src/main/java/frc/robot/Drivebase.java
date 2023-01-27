@@ -3,6 +3,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
 import frc.robot.Swerve.SwerveDrive;
 import frc.robot.Sensors.Gyro;
 
@@ -38,6 +39,10 @@ public class Drivebase {
     }
     public static void driveRobotRelative(Translation2d translation, double rotation){
         drive.drive(translation, rotation, false, false, false, 0);
+    }
+
+    public static void logData() {
+        drive.logSwerve();
     }
 
     public static void autoBalance() {

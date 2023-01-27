@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.IO;
@@ -58,10 +59,10 @@ public class SwerveDrive {
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
-            new SwerveMod(0, 4, 8, 9, 254.3 - 1.23 + 2.813),
-            new SwerveMod(1, 1, 5, 12, 121.4 - 0.88),
-            new SwerveMod(2, 3, 2, 11, 33.8 + 0.09),
-            new SwerveMod(3, 6, 7, 10, 44.5  + 2.37 - 5.274),
+            new SwerveMod(0, 4, 8, 9, 254.3 - 1.23 + 2.813, "mod0"),
+            new SwerveMod(1, 1, 5, 12, 121.4 - 0.88, "mod1"),
+            new SwerveMod(2, 3, 2, 11, 33.8 + 0.09, "mod2"),
+            new SwerveMod(3, 6, 7, 10, 44.5  + 2.37 - 5.274, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];
@@ -157,6 +158,14 @@ public class SwerveDrive {
         }
 
     }
+
+    public void logSwerve() {
+        SwerveMods[0].logSwerveMod();
+        SwerveMods[1].logSwerveMod();
+        SwerveMods[2].logSwerveMod();
+        SwerveMods[3].logSwerveMod();
+    }
+
     public void generateTrajectory(){
         // Translation2d interiorWaypoints = new ArrayList<Translation2d>();
         // interiorWaypoints.add(new Translation2d(Units.feetToMeters(14.54), Units.feetToMeters(23.23)));

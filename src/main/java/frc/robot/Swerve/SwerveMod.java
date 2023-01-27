@@ -13,6 +13,9 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 
 
 
@@ -35,9 +38,14 @@ public class SwerveMod{
     private double drivekI;
     private double drivekD;
 
+    private DoubleLogEntry driveMotorLog;
+    private DoubleLogEntry driveEncoderLog;
+    private DoubleLogEntry angleMotorLog;
+    private DoubleLogEntry turningEncoderLog;
+
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(SwerveSettings.SwerveConstants.driveKS, SwerveSettings.SwerveConstants.driveKV, SwerveSettings.SwerveConstants.driveKA);
 
-    public SwerveMod(int moduleNumber, int driveMotorID,  int angleMotorID,int cancoderID, double angleOffset){
+    public SwerveMod(int moduleNumber, int driveMotorID,  int angleMotorID,int cancoderID, double angleOffset, String key){
         this.moduleNumber = moduleNumber;
         this.angleOffset = angleOffset;
 
@@ -89,10 +97,24 @@ public class SwerveMod{
         drivePID.setP(drivekP);
         drivePID.setI(drivekI);
         drivePID.setD(drivekD);
+
+        // Setup Datalogging
+        DataLog log = DataLogManager.getLog();
+        driveMotorLog = new DoubleLogEntry(log, "/swerve/driveMotor/"+key);
+        driveEncoderLog = new DoubleLogEntry(log, "/swerve/driveEncoder/"+key);
+        angleMotorLog = new DoubleLogEntry(log, "/swerve/angleMotor/"+key);
+        turningEncoderLog = new DoubleLogEntry(log, "/swerve/turningEncoder/"+key);
     }
 
     public double deltaAdjustedAngle(double targetAngle, double currentAngle) {
         return ((targetAngle - currentAngle + 180) % 360 + 360) % 360 - 180;
+    }
+
+    public void logSwerveMod() {
+        driveMotorLog.append(driveMotor.getOutputCurrent());
+        driveEncoderLog.append(driveEncoder.getPosition());
+        angleMotorLog.append(angleMotor.getOutputCurrent());
+        turningEncoderLog.append(turningEncoder.getPosition());
     }
 
     public void setDesiredState(SwerveModuleState state) {
