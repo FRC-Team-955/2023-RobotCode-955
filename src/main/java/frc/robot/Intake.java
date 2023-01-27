@@ -16,7 +16,7 @@ public class Intake {
     static TalonSRX motorTwo;
     static TalonSRX motorThree;
     static TalonSRX motorFour;
-    static ColorSensor proximityDetector;
+    static ColorSensorV3 proximityDetector;
     // static PIDController pidController;
     //makes the motors and pid controller
     public Intake(){
@@ -24,7 +24,7 @@ public class Intake {
         motorTwo = new TalonSRX(Constants.Claw.motorTwoNum);
         motorThree = new TalonSRX(Constants.Claw.motorThreeNum);
         motorFour = new TalonSRX(Constants.Claw.motorFourNum);
-        proximityDetector = new ColorSensor()
+        proximityDetector = new ColorSensorV3(null);
         // pidController = new PIDController(0, 0, 0); //NOT USED
     }
    
@@ -40,8 +40,8 @@ public class Intake {
         motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput); // note from owen: add the 0.3 to settings
         motorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);// done
 
-        colorSensor.senseObj();
-        if colorSenor.senseObj == true{
+        proximityDetector.senseObj();
+        if proximityDetector.senseObj == true{
             motorOne.set(TalonSRXControlMode.PercentOutput, 0);
             motorTwo.set(TalonSRXControlMode.PercentOutput, 0);
         }
