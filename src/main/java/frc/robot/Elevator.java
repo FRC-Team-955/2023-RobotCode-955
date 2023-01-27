@@ -5,11 +5,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 
 public class Elevator {
     CANSparkMax elevatorMotor;
     PIDController pid;
     ElevatorFeedforward feedforward;
+    DoubleLogEntry motorlog;
+    DoubleLogEntry encoderlog;
 
     public Elevator() {
         elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
@@ -20,6 +25,15 @@ public class Elevator {
                                             Constants.Elevator.kGElevator,
                                             Constants.Elevator.kVElevator);
         pid.setTolerance(Constants.Elevator.kElevatorTolerance);
+
+        DataLog log = DataLogManager.getLog();
+        motorlog = new DoubleLogEntry(log, "/elevator/motor");
+        encoderlog = new DoubleLogEntry(log, "/elevator/encoder");
+    }
+
+    public void logData() {
+        motorlog.append(elevatorMotor.getOutputCurrent());
+        encoderlog.append(elevatorMotor.getEncoder().getPosition());
     }
 
     public void moveElevator(double joyPos) {
