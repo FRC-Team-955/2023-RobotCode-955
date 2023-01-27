@@ -6,11 +6,9 @@ public class Constants {
         static double motorOutput = 0.3;
         static int motorOneNum = 1;
         static int motorTwoNum = 2;
-        static int motorThreeNum = 3;
-        static int motorFourNum = 4;
     }
     public static class Handoff{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
-        static int handoffMotorOneNum = 5;
+        static int handoffMotorOneNum = 3;
     }
 }

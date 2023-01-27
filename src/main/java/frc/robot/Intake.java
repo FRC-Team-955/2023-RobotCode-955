@@ -22,8 +22,6 @@ public class Intake {
     public Intake(){
         motorOne = new TalonSRX(Constants.Claw.motorOneNum);
         motorTwo = new TalonSRX(Constants.Claw.motorTwoNum);
-        motorThree = new TalonSRX(Constants.Claw.motorThreeNum);
-        motorFour = new TalonSRX(Constants.Claw.motorFourNum);
         proximityDetector = new ColorSensorV3(null);
         // pidController = new PIDController(0, 0, 0); //NOT USED
     }
@@ -56,4 +54,13 @@ public class Intake {
         motorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);
         motorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput);
     }
+
+    public static void foldInIntake(){
+
+    }
+
+    public static void foldOutIntake(){
+
+    }
+    
 }
