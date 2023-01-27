@@ -12,19 +12,19 @@ public class Elevator {
     ElevatorFeedforward feedforward;
 
     public Elevator() {
-        elevatorMotor = new CANSparkMax(Constants.ElevatorConstants.kElevatorMotorId, MotorType.kBrushless);
-        pid = new PIDController(Constants.ElevatorConstants.kPElevator,
-                                Constants.ElevatorConstants.kIElevator,
-                                Constants.ElevatorConstants.kDElevator);
-        feedforward = new ElevatorFeedforward(Constants.ElevatorConstants.kSElevator,
-                                            Constants.ElevatorConstants.kGElevator,
-                                            Constants.ElevatorConstants.kVElevator);
-        pid.setTolerance(Constants.ElevatorConstants.kElevatorTolerance);
+        elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
+        pid = new PIDController(Constants.Elevator.kPElevator,
+                                Constants.Elevator.kIElevator,
+                                Constants.Elevator.kDElevator);
+        feedforward = new ElevatorFeedforward(Constants.Elevator.kSElevator,
+                                            Constants.Elevator.kGElevator,
+                                            Constants.Elevator.kVElevator);
+        pid.setTolerance(Constants.Elevator.kElevatorTolerance);
     }
 
     public void moveElevator(double joyPos) {
-        if(IO.isOverrrideEnabled() || ((elevatorMotor.getEncoder().getPosition() <= Constants.ElevatorConstants.kElevatorUpperLimit || joyPos < 0)
-            && (elevatorMotor.getEncoder().getPosition() >= Constants.ElevatorConstants.kElevatorLowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
+        if(IO.isOverrrideEnabled() || ((elevatorMotor.getEncoder().getPosition() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
+            && (elevatorMotor.getEncoder().getPosition() >= Constants.Elevator.kElevatorLowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
             elevatorMotor.set(joyPos);
         } else {
             elevatorMotor.set(0);
@@ -33,19 +33,19 @@ public class Elevator {
 
     public boolean setElevator(int level) { // level = desired elevator level
         if(!IO.isOverrrideEnabled()) {
-            double elevatorSetpoint = Constants.ElevatorConstants.kRetracted;
+            double elevatorSetpoint = Constants.Elevator.kRetracted;
             switch(level) {
                 case 0:
-                    elevatorSetpoint = Constants.ElevatorConstants.kRetracted;
+                    elevatorSetpoint = Constants.Elevator.kRetracted;
                     break;
                 case 1:
-                    elevatorSetpoint = Constants.ElevatorConstants.kBottomLevel;
+                    elevatorSetpoint = Constants.Elevator.kBottomLevel;
                     break;
                 case 2:
-                    elevatorSetpoint = Constants.ElevatorConstants.kMediumLevel;
+                    elevatorSetpoint = Constants.Elevator.kMediumLevel;
                     break;
                 case 3:
-                    elevatorSetpoint = Constants.ElevatorConstants.kTopLevel;
+                    elevatorSetpoint = Constants.Elevator.kTopLevel;
                     break;
             }
 
@@ -55,9 +55,8 @@ public class Elevator {
             elevatorMotor.setVoltage(amount);
 
             return pid.atSetpoint();
-        }
-        else {
-            elevatorMotor.set(0);
+        } else {
+            elevatorMotor.set(IO.elevatorOverride());
 
             return false;
         }
