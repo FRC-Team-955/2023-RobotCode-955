@@ -14,15 +14,12 @@ import com.revrobotics.ColorSensorV3;
 public class Intake {
     static TalonSRX motorOne;
     static TalonSRX motorTwo;
-    static TalonSRX motorThree;
-    static TalonSRX motorFour;
-    static ColorSensorV3 proximityDetector;
+    static ColorSensorV3 colorSensor;
     // static PIDController pidController;
     //makes the motors and pid controller
     public Intake(){
         motorOne = new TalonSRX(Constants.Claw.motorOneNum);
         motorTwo = new TalonSRX(Constants.Claw.motorTwoNum);
-        proximityDetector = new ColorSensorV3(null);
         // pidController = new PIDController(0, 0, 0); //NOT USED
     }
    
@@ -34,17 +31,20 @@ public class Intake {
     }
     //sucks in the game piece and stop
     public static void runEthanWheels(){
+        colorSensor = new ColorSensorV3(Port.kOnboard);
+        
         if(timer.get() < 4){
         motorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput); // note from owen: add the 0.3 to settings
         motorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);// done
 
-        proximityDetector.senseObj();
-        if proximityDetector.senseObj == true{
-            motorOne.set(TalonSRXControlMode.PercentOutput, 0);
-            motorTwo.set(TalonSRXControlMode.PercentOutput, 0);
-        }
-        else{
-            
+        static public boolean senseObj() { // boolean if using the if else in the function
+            System.out.println(colorSensor.getProximity());
+            if(colorSensor.getProximity() > 1700) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
 }
@@ -62,5 +62,5 @@ public class Intake {
     public static void foldOutIntake(){
 
     }
-    
+
 }
