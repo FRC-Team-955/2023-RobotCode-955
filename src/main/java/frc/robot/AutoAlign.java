@@ -20,7 +20,7 @@ public class AutoAlign {
     
         Double movementX = PIDOdometeryAlignX.calculate(poseX, goalPoseX);
         Double movementY = PIDOdometeryAlignX.calculate(poseY, goalPoseY);
-        Translation2d translation = new Translation2d(movementX, movementY); 
+        Translation2d translation = new Translation2d(Constants.isBlue()?movementY:-movementY, Constants.isBlue()?movementX:-movementX); 
         Drivebase.driveFieldRelativeHeading(translation, 180);
 
         if (Math.abs(goalPoseX - poseX) < 0.1 && Math.abs(goalPoseY - poseY) < 0.1) {
@@ -34,7 +34,7 @@ public class AutoAlign {
     public boolean alignAprilTag(){
         if(AprilTagCameraWrapper.hasTargets()){
             double movementY = PIDOdometeryAlignX.calculate(AprilTagCameraWrapper.getHorizontalOffset(), 0);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(0, movementY), 180);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), 180);
         }
 
         if (AprilTagCameraWrapper.isAlignedToCubeNode()) {
@@ -47,7 +47,7 @@ public class AutoAlign {
     public boolean alignTape(){
         if (LimelightCameraWrapper.hasTargets()){
             double movementY = PIDOdometeryAlignX.calculate(LimelightCameraWrapper.getHorizontalOffset(), 0);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(0, movementY), 180);
+            Drivebase.driveFieldRelativeHeading(new Translation2d( -movementY, 0), 180);
         }
 
         if (LimelightCameraWrapper.isAlignedToConeNode()){
@@ -63,7 +63,7 @@ public class AutoAlign {
     }
 
     public boolean moveIntoPosition() {
-        return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlue: Constants.FieldPositions.atGridRed, 
+        return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlueX: Constants.FieldPositions.atGridRedX, 
                             gridAlignY));
         //the move forward function
     }
@@ -109,7 +109,7 @@ public class AutoAlign {
     }
     boolean moveToGridPositionOdometry(){
         if(isInCommunity()){
-            return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlue:Constants.FieldPositions.atGridRed, IO.keyInputOdometryPosition.getY()));
+            return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()));
         }
         return false;
     }

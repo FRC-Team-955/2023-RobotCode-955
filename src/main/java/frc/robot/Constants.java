@@ -47,8 +47,8 @@ public class Constants {
         public static double inRedCommunityX = 6;
         public static double inCommunityY = 2;
 
-        public static double atGridBlue = 1;
-        public static double atGridRed = 7;
+        public static double atGridBlueX = 1;
+        public static double atGridRedX = 7;
 
         public static class AutoAlignPositions{
 
