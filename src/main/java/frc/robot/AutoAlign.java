@@ -47,7 +47,7 @@ public class AutoAlign {
     public boolean alignTape(){
         if (LimelightCameraWrapper.hasTargets()){
             double movementY = PIDOdometeryAlignX.calculate(LimelightCameraWrapper.getHorizontalOffset(), 0);
-            Drivebase.driveFieldRelativeHeading(new Translation2d( -movementY, 0), 180);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), 180);
         }
 
         if (LimelightCameraWrapper.isAlignedToConeNode()){
