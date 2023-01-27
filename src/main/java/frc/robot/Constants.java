@@ -36,21 +36,21 @@ public final class Constants {
         // Elevator Motor Id's
         public static int kElevatorMotorId = 0;
         // Elevator Encoder Values
-        public static double kElevatorUpperLimit = 5000;
-        public static double kElevatorLowerLimit = 0;
+        public static double kElevatorUpperLimit = 15000;
+        public static double kElevatorLowerLimit = 1000;
         // Elevator Tolerance Values
         public static double kElevatorTolerance = 500;
         // Extension Level Values
-        public static double kRetracted = 0;
-        public static double kBottomLevel = 1000;
-        public static double kMediumLevel = 2000;
-        public static double kTopLevel = 3000;
+        public static double kRetracted = 1000;
+        public static double kBottomLevel = 7000;
+        public static double kMediumLevel = 12000;
+        public static double kTopLevel = 15000;
         // Elevator PID Values
-        public static double kPElevator = 1;
+        public static double kPElevator = 0.0001;
         public static double kIElevator = 0;
         public static double kDElevator = 0;
         // Elevator Feedforward Values
-        public static double kSElevator = 1;
+        public static double kSElevator = 0;
         public static double kGElevator = 0;
         public static double kVElevator = 0;
         // Elevator gear ratio

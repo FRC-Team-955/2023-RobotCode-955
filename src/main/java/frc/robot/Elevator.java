@@ -5,14 +5,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Encoder;
 
 public class Elevator {
-    CANSparkMax elevatorMotor;
+    CANSparkMax motor;
     PIDController pid;
     ElevatorFeedforward feedforward;
+    Encoder encoder;
 
-    public Elevator() {
-        elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
+    public Elevator(CANSparkMax motor, Encoder encoder) {
         pid = new PIDController(Constants.Elevator.kPElevator,
                                 Constants.Elevator.kIElevator,
                                 Constants.Elevator.kDElevator);
@@ -20,14 +21,16 @@ public class Elevator {
                                             Constants.Elevator.kGElevator,
                                             Constants.Elevator.kVElevator);
         pid.setTolerance(Constants.Elevator.kElevatorTolerance);
+        this.motor = motor;
+        this.encoder = encoder;
     }
 
     public void moveElevator(double joyPos) {
-        if((elevatorMotor.getEncoder().getPosition() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
-            && (elevatorMotor.getEncoder().getPosition() >= Constants.Elevator.kElevatorLowerLimit || joyPos > 0)) { // if elevator hit the top or bottom
-            elevatorMotor.set(joyPos);
+        if((encoder.get() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
+            && (encoder.get() >= Constants.Elevator.kElevatorLowerLimit || joyPos > 0)) { // if elevator hit the top or bottom
+            motor.set(joyPos);
         } else {
-            elevatorMotor.set(0);
+            motor.set(0);
         }
     }
 
@@ -48,10 +51,10 @@ public class Elevator {
                     break;
             }
 
-            double amount = MathUtil.clamp(pid.calculate(elevatorMotor.getEncoder().getPosition(), elevatorSetpoint) +
-                                            feedforward.calculate(elevatorMotor.getEncoder().getVelocity()), -12, 12);
+            double amount = MathUtil.clamp(pid.calculate(encoder.get(), elevatorSetpoint) +
+                                            feedforward.calculate(encoder.getRate()), -1, 1);
             
-            elevatorMotor.setVoltage(amount);
+            motor.set(amount);
 
             return pid.atSetpoint();
         }
