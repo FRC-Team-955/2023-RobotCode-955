@@ -13,11 +13,11 @@ public class Handoff {
 
     //sucks in the game piece and stops
     public static void intakeGamePiece(){
-        handoffMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Claw.motorOutput);
+        handoffMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
 }
 
     //spits out the game piece
     public static void outputGamePiece(){
-        handoffMotorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.motorOutput);
+        handoffMotorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
     }
 }
