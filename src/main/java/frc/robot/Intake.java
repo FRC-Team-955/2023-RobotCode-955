@@ -83,7 +83,7 @@ public class Intake {
             intakeFoldMotor.set(-Constants.Intake.intakeFoldMotorNum); // idk if this is negative or not too.
         }
     }
-
+      
     public static boolean isIntakeFolded(){
         return(intakeFoldMotorEncoderValue.getPosition() > 87 ^ intakeFoldMotorEncoderValue.getPosition() < 93);
     }
