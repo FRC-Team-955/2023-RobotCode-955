@@ -10,16 +10,20 @@ import edu.wpi.first.wpilibj.Timer;
 // import edu.wpi.first.wpilibj.DriverStation;
 // import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
+
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 public class Intake {
     static TalonSRX intakeMotorOne;
     static TalonSRX intakeMotorTwo;
     static ColorSensorV3 colorSensor;
-    static TalonSRX intakeFoldMotor = new
+    static CANSparkMax intakeFoldMotor = new CANSparkMax(Constants.Intake.intakeFoldMotorNum, MotorType.kBrushless);
     //THIS IS CAN SPARK MAX, THE INTAKE FOLD THING
-    TalonSRX(Constants.Intake.intakeFoldMotorNum);
-    static double intakeFoldMotorEncoderValue = intakeFoldMotor.getSelectedSensorPosition(); //this is here because 2 functions need it at the same time
+    static SparkMaxAbsoluteEncoder intakeFoldMotorEncoderValue = intakeFoldMotor.getAbsoluteEncoder(Type.kDutyCycle); //this is here because 2 functions need it at the same time
     // static PIDController pidController;
     //makes the motors and pid controller
     public Intake(){
@@ -63,28 +67,28 @@ public class Intake {
     }
     //THIS IS CAN SPARK MAX USE ABSOLUTE ENCODER!!! <-----IMPORTANT IMPORTANT IMPORTANT (for future ethan kim, others ignore)
     public static void foldInIntake(){
-        double intakeFoldMotorEncoderValue = intakeFoldMotor.getSelectedSensorPosition();
-        intakeFoldMotor = new TalonSRX(Constants.Intake.intakeFoldMotorNum);
+        SparkMaxAbsoluteEncoder intakeFoldMotorEncoderValue = intakeFoldMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        intakeFoldMotor = new CANSparkMax(Constants.Intake.intakeFoldMotorNum, MotorType.kBrushless);
 
-        if (intakeFoldMotorEncoderValue > 87 ^ intakeFoldMotorEncoderValue < 93) {
-            intakeFoldMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.intakeFoldMotorOutput); //idk if it's negative or not so it's positive for now
+        if (intakeFoldMotorEncoderValue.getPosition() > 87 && intakeFoldMotorEncoderValue.getPosition() < 93) {
+            intakeFoldMotor.set(Constants.Intake.intakeFoldMotorOutput); //idk if it's negative or not so it's positive for now
         }
     }
 
     public static void foldOutIntake(){
-        double intakeFoldMotorEncoderValue = intakeFoldMotor.getSelectedSensorPosition();
-        intakeFoldMotor = new TalonSRX(Constants.Intake.intakeFoldMotorNum);
+        SparkMaxAbsoluteEncoder intakeFoldMotorEncoderValue = intakeFoldMotor.getAbsoluteEncoder(Type.kDutyCycle);
+        intakeFoldMotor = new CANSparkMax(Constants.Intake.intakeFoldMotorNum, MotorType.kBrushless);
 
-        if (intakeFoldMotorEncoderValue > -3 ^ intakeFoldMotorEncoderValue < 3){
-            intakeFoldMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.intakeFoldMotorNum); // idk if this is negative or not too.
+        if (intakeFoldMotorEncoderValue.getPosition() > -3 ^ intakeFoldMotorEncoderValue.getPosition() < 3){
+            intakeFoldMotor.set(-Constants.Intake.intakeFoldMotorNum); // idk if this is negative or not too.
         }
     }
 
     public static boolean isIntakeFolded(){
-        return(intakeFoldMotorEncoderValue > 87 ^ intakeFoldMotorEncoderValue < 93);
+        return(intakeFoldMotorEncoderValue.getPosition() > 87 ^ intakeFoldMotorEncoderValue.getPosition() < 93);
     }
 
     public static boolean isIntakeUnFolded(){
-        return(intakeFoldMotorEncoderValue > -3 ^ intakeFoldMotorEncoderValue < 3);
+        return(intakeFoldMotorEncoderValue.getPosition() > -3 ^ intakeFoldMotorEncoderValue.getPosition() < 3);
     }
 }
