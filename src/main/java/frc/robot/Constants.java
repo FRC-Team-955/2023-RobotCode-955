@@ -36,6 +36,7 @@ public class Constants {
             public static int rotAxis = 4;
             public static int rotationOverrideButton = 0;
             public static int thrustAxis = 2;
+            public static int autoAlignButton = 3;
         }
         public static class joy1{
             public static int joy1Id = 1;

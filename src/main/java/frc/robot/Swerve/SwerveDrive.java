@@ -98,7 +98,7 @@ public class SwerveDrive {
                                         translation.getX(), 
                                         translation.getY(), 
                                         controller.calculate(Gyro.getAngle(), headingSetPoint), 
-                                        Gyro.getHeadingR2D() //might need to be 0-360
+                                        Gyro.getHeadingR2D()
                                     )
                                     : new ChassisSpeeds(
                                         translation.getX(), 
@@ -223,19 +223,4 @@ public class SwerveDrive {
     //     }
     //     return false;
     // }
-
-    // public float getHeading(){
-    //     float raw_yaw = ahrs.getYaw() - (float)offset; // Returns yaw as -180 to +180.
-    //     // float raw_yaw = m_ahrs.getHeading(); // Returns yaw as -180 to +180.
-    //     float calc_yaw = raw_yaw;
-    
-    //     if (0.0 > raw_yaw ) { // yaw is negative
-    //       calc_yaw += 360.0;
-    //     }
-    //     return calc_yaw;
-    //   }
-
-    //   public void setHeading(){
-    //       headingSetPoint = ahrs.getAngle();
-    //   }
 }
