@@ -51,27 +51,38 @@ public class Constants {
         public static double atGridRedX = 7;
 
         public static class AutoAlignPositions{
-            public static Translation2d blue0 = new Translation2d(2.0,2.0);
-            public static Translation2d blue1 = new Translation2d(2.0,2.3);
-            public static Translation2d blue2 = new Translation2d(2.0,2.6);
-            public static Translation2d blue3 = new Translation2d(2.0,2.9);
-            public static Translation2d blue4 = new Translation2d(2.0,3.2);
-            public static Translation2d blue5 = new Translation2d(2.0,3.5);
-            public static Translation2d blue6 = new Translation2d(2.0,3.8);
-            public static Translation2d blue7 = new Translation2d(2.0,4.1);
-            public static Translation2d blue8 = new Translation2d(2.0,4.4);
+            public static Translation2d blue0 = new Translation2d(2.0,3);
+            public static Translation2d blue1 = new Translation2d(2.0,3.5625);
+            public static Translation2d blue2 = new Translation2d(2.0,4.125);
+            public static Translation2d blue3 = new Translation2d(2.0,4.6875);
+            public static Translation2d blue4 = new Translation2d(2.0, 5.25);
+            public static Translation2d blue5 = new Translation2d(2.0, 5.8125);
+            public static Translation2d blue6 = new Translation2d(2.0,6.375);
+            public static Translation2d blue7 = new Translation2d(2.0,6.9375);
+            public static Translation2d blue8 = new Translation2d(2.0,7.5);
+            public static Translation2d blueAvoidChargerUppper = new Translation2d(5.5,3);
+            public static Translation2d blueOutCommunityUppper = new Translation2d(4.0, 3);
+            public static Translation2d blueInCommunityUppper = new Translation2d(2.0, 3);
+            public static Translation2d blueAvoidChargerLower = new Translation2d(5.5,7.5);
+            public static Translation2d blueOutCommunityLower = new Translation2d(4.0, 7.5);
+            public static Translation2d blueInCommunityLower = new Translation2d(2.0, 7.5);
 
-            public static Translation2d red0 = new Translation2d(6,2);
-            public static Translation2d red1 = new Translation2d(6,2.3);
-            public static Translation2d red2 = new Translation2d(6,2.6);
-            public static Translation2d red3 = new Translation2d(6,2.9);
-            public static Translation2d red4 = new Translation2d(6,3.2);
-            public static Translation2d red5 = new Translation2d(6,3.5);
-            public static Translation2d red6 = new Translation2d(6,3.8);
-            public static Translation2d red7 = new Translation2d(6,4.1);
-            public static Translation2d red8 = new Translation2d(6,4.4);
-        }
-        
+            public static Translation2d red0 = new Translation2d(14.0,3);
+            public static Translation2d red1 = new Translation2d(14.0,3.5625);
+            public static Translation2d red2 = new Translation2d(14.0,4.125);
+            public static Translation2d red3 = new Translation2d(14.0,4.6875);
+            public static Translation2d red4 = new Translation2d(14.0, 5.25);
+            public static Translation2d red5 = new Translation2d(14.0, 5.8125);
+            public static Translation2d red6 = new Translation2d(14.0,6.375);
+            public static Translation2d red7 = new Translation2d(14.0,6.9375);
+            public static Translation2d red8 = new Translation2d(14.0,7.5);
+            public static Translation2d redAvoidChargerUppper = new Translation2d(11,3);
+            public static Translation2d redOutCommunityUppper = new Translation2d(12.5, 3);
+            public static Translation2d redInCommunityUppper = new Translation2d(14, 3);
+            public static Translation2d redAvoidChargerLower = new Translation2d(11,7.5);
+            public static Translation2d redOutCommunityLower = new Translation2d(12.5, 7.5);
+            public static Translation2d redInCommunityLower = new Translation2d(14, 7.5);
+        }   
     }
 
     public static DriverStation.Alliance color = DriverStation.getAlliance();

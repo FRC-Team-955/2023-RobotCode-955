@@ -6,8 +6,8 @@ import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.LimelightCameraWrapper;
 
 public class AutoAlign {
-    PIDController PIDOdometeryAlignX = new PIDController(1, 0, 0);
-    PIDController PIDOdometeryAlignY = new PIDController(1, 0, 0);
+    PIDController PIDOdometeryAlignX = new PIDController(0.7, 0, 0);
+    PIDController PIDOdometeryAlignY = new PIDController(0.7, 0, 0);
 
     Drivebase drive = new Drivebase();
 

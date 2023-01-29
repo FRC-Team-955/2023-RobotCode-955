@@ -1,5 +1,7 @@
 package frc.robot.Swerve;
 
+import java.io.IOError;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -19,10 +21,14 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
+import frc.robot.Drivebase;
 import frc.robot.IO;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.Gyro;
@@ -167,11 +173,61 @@ public class SwerveDrive {
     }
 
     public void generateTrajectory(){
-        // Translation2d interiorWaypoints = new ArrayList<Translation2d>();
-        // interiorWaypoints.add(new Translation2d(Units.feetToMeters(14.54), Units.feetToMeters(23.23)));
-        // interiorWaypoints.add(new Translation2d(Units.feetToMeters(21.04), Units.feetToMeters(18.23)));
-    }
+        ArrayList<Translation2d> interiorWaypoints = new ArrayList<Translation2d>();
+        if(Constants.isBlue()? getPose().getX() > 5.2 : getPose().getX() < 11){
+            if(getPose().getY() >= 4 || getPose().getY() <= 5.25){
+                if(Constants.isBlue()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.blueAvoidChargerUppper);
+                }if(Constants.isRed()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.redAvoidChargerUppper);
+                }
+            }
+            if(getPose().getY() > 5.25 || getPose().getY() <= 6.5){
+                if(Constants.isBlue()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.blueAvoidChargerLower);
+                }if(Constants.isRed()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.redAvoidChargerLower);
+                }
+            }
+        }
+        if(Constants.isBlue()? getPose().getX() > 4: getPose().getX() < 12.2){
+            if (getPose().getY() <= 5.25){
+                if (Constants.isBlue()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.blueOutCommunityUppper);
+                }else if (Constants.isRed()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.redOutCommunityUppper);
+                }
+            }        
+            else if (getPose().getY() > 5.25){
+                if (Constants.isBlue()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.blueInCommunityLower);
+                }else if (Constants.isRed()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.redInCommunityLower);
+                }
+            } 
+        }
+        if(Constants.isBlue()? getPose().getX() > 2.2 : getPose().getX() < 13.8){
+            if (getPose().getY() <= 5.25){
+                if (Constants.isBlue()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.blueInCommunityUppper);
+                }else if (Constants.isRed()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.redInCommunityUppper);
+                }
+            }        
+            else if (getPose().getY() > 5.25){
+                if (Constants.isBlue()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.blueInCommunityLower);
+                }else if (Constants.isRed()){
+                    interiorWaypoints.add(Constants.FieldPositions.AutoAlignPositions.redInCommunityLower);
+                }
+            } 
+        }
+        TrajectoryConfig config = new TrajectoryConfig(SwerveSettings.SwerveConstants.maxSpeed, SwerveSettings.SwerveConstants.maxAcceleration);
+        // config.setReversed(false);
+        trajectory = TrajectoryGenerator.generateTrajectory(getPose(), interiorWaypoints, new Pose2d(interiorWaypoints.get(interiorWaypoints.size()-1) , new Rotation2d()), config);
+        // trajectory = TrajectoryGenerator.generateTrajectory(getPose(), interiorWaypoints, new Pose2d(IO.keyInputOdometryPosition, new Rotation2d()), config);
 
+    }  
     // public void loadTrajectory(String name){
     //     String trajectoryJSON = "pathplanner/generatedJSON/" + name;
     //     Path deployDirectory;

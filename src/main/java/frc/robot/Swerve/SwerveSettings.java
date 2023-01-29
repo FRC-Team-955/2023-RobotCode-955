@@ -26,6 +26,8 @@ public class SwerveSettings {
         public static  boolean canCoderInvert = true;
         public static double maxSpeed = 4.5;
         public static double maxAngularVelocity = 10.0;
+        public static double maxAcceleration = 1;
+
 
         public static boolean angleMotorInvert = false;
         public static IdleMode angleIdleMode = IdleMode.kBrake;
