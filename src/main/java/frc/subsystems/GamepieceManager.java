@@ -1,20 +1,17 @@
 package frc.subsystems;
 import frc.subsystems.dummyclasses.*;
 
-public class GamepieceController {
+public class GamepieceManager {
     Arm arm = new Arm();
     Elevator elevator = new Elevator();
     
-    public void setLocation(int position) {
-        Arm.setArm(position);
+    public boolean setLocation(int position) {
         Elevator.setElevator(position);
+        return Arm.setArm(position, 0) && Elevator.elevatorAtSetpoint();
     }
-    public boolean elevatorAtSetpoint() {
-        return Elevator.elevatorAtSetpoint() && Arm.armAtSetpoint();
-    }//not currently implemented
 
     public void intakeClaw() {
-        Intake.intakeGamePiece(); 
+        Intake.runEthanWheels(); 
     }
 
     public void resetClawTimer() {

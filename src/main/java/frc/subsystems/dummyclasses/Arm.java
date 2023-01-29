@@ -1,12 +1,13 @@
 package frc.subsystems.dummyclasses;
 
-public class Arm {
+
+public final class Arm {
 
     public Arm() {}
 
+    public static void logData() {}
+
     public static void moveArm(double joyPos) {}
 
-    public static void setArm(int level) {}
-
-    public static boolean armAtSetpoint() {return true;}
+    public static boolean setArm(int level, double joyPos) {return true;}
 }
