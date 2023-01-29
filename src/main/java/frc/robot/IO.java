@@ -9,36 +9,34 @@ import frc.robot.AutoAlign.GridAlignState;
 import frc.robot.Swerve.SwerveSettings;
 
 public final class IO {
-    private static Joystick joy0 = new Joystick(Constants.IO.joy0.joy0Id);
-    private static Joystick joy1 = new Joystick(Constants.IO.joy1.joy1Id);
+    private static Joystick joy0 = new Joystick(Constants.IO.Joy0.joy0Id);
+    private static Joystick joy1 = new Joystick(Constants.IO.Joy1.joy1Id);
     private static SlewRateLimiter forwardAxisSlewRateLimiter = new SlewRateLimiter(Constants.forwardRateLimiter);
     private static SlewRateLimiter strafeAxisSlewRateLimiter = new SlewRateLimiter(Constants.strafeRateLimiter);
     
     private static Joystick key0 = new Joystick(2);
     private static Joystick key1 = new Joystick(3);
+    
+    public static boolean isOverrrideEnabled() {
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.overrrideEnabledButton);
+      } 
+      
+    public static double elevatorOverride(){
+        return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
+    }
 
     public static class Drivebase{
         public static boolean isAutoAlignActive() {
-            return joy0.getRawButton(Constants.IO.joy0.autoAlignButton);
+            return joy0.getRawAxis(Constants.IO.Joy0.autoAlignAxis) > 0.2;
         }
 
         public static boolean isAutoBalanceActive(){
-            return false;
-        }
-        public static boolean isOverrrideEnabled() {
-          if (joy0.getRawButton(0) == false) {
-              return false;
-          } else {
-              return true;
-          }
-        } 
-        public static double elevatorOverride(){
-          return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
+            return joy0.getRawButtonPressed(Constants.IO.Joy0.autoBalanceButton);
         }
   
         public static double getSwerveRotation(){
             //What is axis number reffering too?
-            double rotAxis = joy0.getRawAxis(Constants.IO.joy0.rotAxis);
+            double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis);
             double deadband = 0.15;
 
             if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;
@@ -65,8 +63,8 @@ public final class IO {
         }
 
         public static Translation2d getSwerveTranslation(){
-            double forwardRawAxis = joy0.getRawAxis(Constants.IO.joy0.forwardRawAxis);
-            double strafeRawAxis = joy0.getRawAxis(Constants.IO.joy0.strafeRawAxis);
+            double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
+            double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
             double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
             double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
@@ -85,10 +83,10 @@ public final class IO {
         }
 
         public static boolean rotationOverrideEnabled(){
-            return joy0.getRawButton(Constants.IO.joy0.rotationOverrideButton);
+            return joy0.getRawButton(Constants.IO.Joy0.rotationOverrideButton);
         }
         public static boolean thrustEnabled(){
-            return joy0.getRawAxis(Constants.IO.joy0.thrustAxis) > 0.2;
+            return joy0.getRawAxis(Constants.IO.Joy0.thrustAxis) > 0.2;
         }
     }
     public static void rumbleJoy0(){

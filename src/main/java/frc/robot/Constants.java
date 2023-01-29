@@ -29,17 +29,19 @@ public class Constants {
         public static double kAlignTolerance= 0.1; // Faris: random number idk actual value
     }
     public static class IO{
-        public static class joy0{
+        public static class Joy0{
             public static int joy0Id = 0;
             public static int forwardRawAxis = 0;
             public static int strafeRawAxis = 1;
             public static int rotAxis = 4;
             public static int rotationOverrideButton = 0;
             public static int thrustAxis = 2;
-            public static int autoAlignButton = 3;
+            public static int autoAlignAxis = 3;
+            public static int autoBalanceButton = 3;
         }
-        public static class joy1{
+        public static class Joy1{
             public static int joy1Id = 1;
+            public static int overrrideEnabledButton = 3;
             public static int elevatorOverrideAxis = 1;
         }
     }
