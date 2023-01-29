@@ -1,4 +1,4 @@
-package frc.robot.Actions;
+package frc.robot.Auto.Actions;
 
 public class PauseAction extends AutoAction {
     boolean isTimerRunning = false;

@@ -1,8 +1,8 @@
-package frc.robot;
+package frc.robot.Auto;
 
 import java.util.ArrayList;
 
-import frc.robot.Actions.AutoAction;
+import frc.robot.Auto.Actions.AutoAction;
 
 public class AutoProfile {
     public ArrayList<AutoAction> Actions;

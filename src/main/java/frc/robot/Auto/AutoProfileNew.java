@@ -1,9 +1,9 @@
-package frc.robot;
+package frc.robot.Auto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import frc.robot.Actions.*;
+import frc.robot.Auto.Actions.*;
 
 public class AutoProfileNew {
     static String autoVersion;

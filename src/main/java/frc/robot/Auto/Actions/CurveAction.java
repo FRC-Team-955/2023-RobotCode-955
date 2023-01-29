@@ -1,6 +1,6 @@
-package frc.robot.Actions;
+package frc.robot.Auto.Actions;
 
-import frc.robot.Auto;
+import frc.robot.Auto.Auto;
 
 public class CurveAction extends AutoAction {
     public boolean Act() {

@@ -1,9 +1,9 @@
-package frc.robot;
+package frc.robot.Auto;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Actions.AutoAction;
-import frc.robot.DummyClasses.GamePieceController;
-import frc.robot.DummyClasses.SwerveDrive;
+import frc.robot.GamePieceController;
+import frc.robot.Auto.Actions.AutoAction;
+
 
 public class Auto {
     AutoAction[] autoActionList = new AutoAction[0];
