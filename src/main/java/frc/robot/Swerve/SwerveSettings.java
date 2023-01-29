@@ -42,14 +42,15 @@ public class SwerveSettings {
 
         public static double driveVelocityConversion = driveGearRatio * wheelCircumference;
         
-        public static double trackWidth = 0.1;
+        public static double trackWidth = 0.685;
+        public static double trackLength = 0.545;
     
-
+        
         public static final edu.wpi.first.math.geometry.Translation2d[] swerveModuleLocations = {
-            new edu.wpi.first.math.geometry.Translation2d(trackWidth / 2.0, -trackWidth / 2.0),
-            new edu.wpi.first.math.geometry.Translation2d(trackWidth / 2.0, trackWidth / 2.0),
-            new edu.wpi.first.math.geometry.Translation2d(-trackWidth / 2.0, trackWidth / 2.0),
-            new edu.wpi.first.math.geometry.Translation2d(-trackWidth / 2.0, -trackWidth / 2.0)
+            new edu.wpi.first.math.geometry.Translation2d(trackWidth / 2.0, -trackLength / 2.0),
+            new edu.wpi.first.math.geometry.Translation2d(trackWidth / 2.0, trackLength / 2.0),
+            new edu.wpi.first.math.geometry.Translation2d(-trackWidth / 2.0, trackLength / 2.0),
+            new edu.wpi.first.math.geometry.Translation2d(-trackWidth / 2.0, -trackLength / 2.0)
         };
 
         public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(swerveModuleLocations);

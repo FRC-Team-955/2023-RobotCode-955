@@ -12,6 +12,8 @@ public class Robot extends TimedRobot {
 
   RobotState robotState = RobotState.DRIVING;
 
+  AutoAlign autoAlign = new AutoAlign();
+
   @Override
   public void robotInit() {}
 
@@ -27,15 +29,19 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {}
 
-  public void teleopAllState(){}
+  public void teleopAllState(){
+    Drivebase.logData();
+    IO.keyInputOdometryMapping();
+    IO.keyInputRowPosition();
+  }
 
   @Override
   public void teleopPeriodic() {
     selectTeleopState();
     teleopAllState();
-    Drivebase.logData();
     switch(robotState){
       case AUTO_ALIGN:
+        autoAlign.moveToGridPosition();
       default: // DRIVE
         Drivebase.driveFieldRelative();
     }
@@ -61,7 +67,7 @@ public class Robot extends TimedRobot {
 
   public void selectTeleopState(){
 
-    if (false) {
+    if (IO.Drivebase.isAutoAlignActive()) {
       robotState = RobotState.AUTO_ALIGN;
     } else if (false){
       robotState = RobotState.AUTO_BALANCE;

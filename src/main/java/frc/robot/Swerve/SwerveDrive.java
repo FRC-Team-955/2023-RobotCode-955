@@ -42,7 +42,7 @@ public class SwerveDrive {
 
     public SwerveMod[] SwerveMods;
     public double headingSetPoint;
-    private PIDController controller = new PIDController(0.7,0,0);
+    private PIDController controller = new PIDController(0.07,0,0);
 
     private PIDController xController = new PIDController(0.7,0,0);
     private PIDController yController = new PIDController(0.7,0,0);
@@ -65,10 +65,10 @@ public class SwerveDrive {
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
-            new SwerveMod(0, 4, 8, 9, 254.3 - 1.23 + 2.813, "mod0"),
-            new SwerveMod(1, 1, 5, 12, 121.4 - 0.88, "mod1"),
-            new SwerveMod(2, 3, 2, 11, 33.8 + 0.09, "mod2"),
-            new SwerveMod(3, 6, 7, 10, 44.5  + 2.37 - 5.274, "mod3"),
+            new SwerveMod(0, 4, 8, 9, 253.775, "mod0"),
+            new SwerveMod(1, 3, 2, 11, 123.886, "mod1"),
+            new SwerveMod(2, 6, 7, 10, 309.223, "mod2"),
+            new SwerveMod(3, 1, 5, 12, 250.524, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];
@@ -104,7 +104,7 @@ public class SwerveDrive {
                                         translation.getX(), 
                                         translation.getY(), 
                                         controller.calculate(Gyro.getAngle(), headingSetPoint), 
-                                        Gyro.getHeadingR2D() //might need to be 0-360
+                                        Gyro.getHeadingR2D()
                                     )
                                     : new ChassisSpeeds(
                                         translation.getX(), 
@@ -279,19 +279,4 @@ public class SwerveDrive {
     //     }
     //     return false;
     // }
-
-    // public float getHeading(){
-    //     float raw_yaw = ahrs.getYaw() - (float)offset; // Returns yaw as -180 to +180.
-    //     // float raw_yaw = m_ahrs.getHeading(); // Returns yaw as -180 to +180.
-    //     float calc_yaw = raw_yaw;
-    
-    //     if (0.0 > raw_yaw ) { // yaw is negative
-    //       calc_yaw += 360.0;
-    //     }
-    //     return calc_yaw;
-    //   }
-
-    //   public void setHeading(){
-    //       headingSetPoint = ahrs.getAngle();
-    //   }
 }

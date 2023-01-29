@@ -13,42 +13,13 @@ public final class IO {
     private static Joystick joy1 = new Joystick(Constants.IO.joy1.joy1Id);
     private static SlewRateLimiter forwardAxisSlewRateLimiter = new SlewRateLimiter(Constants.forwardRateLimiter);
     private static SlewRateLimiter strafeAxisSlewRateLimiter = new SlewRateLimiter(Constants.strafeRateLimiter);
+    
     private static Joystick key0 = new Joystick(2);
     private static Joystick key1 = new Joystick(3);
 
-    private static Joystick joystick  = new Joystick(0);
-    
-    private static boolean toggleOn = false;
-    private static boolean togglePressed = false;
-
-    public void teleopPeriodic(){
-        updateToggle();
-
-        //if button pressed then do this
-        if (toggleOn){
-            System.out.println("Slow");
-        }
-
-        //If pressed again do this
-        else{
-            System.out.println("Fast");
-        }
-    }
-
-    public void updateToggle(){
-        if(joystick.getRawButton(1)){
-            if(!togglePressed){
-                toggleOn = !toggleOn;
-                togglePressed = true;
-            }
-            else{
-                togglePressed = false;
-            }
-        }
-    }
     public static class Drivebase{
         public static boolean isAutoAlignActive() {
-            return true;
+            return joy0.getRawButton(Constants.IO.joy0.autoAlignButton);
         }
 
         public static boolean isAutoBalanceActive(){
