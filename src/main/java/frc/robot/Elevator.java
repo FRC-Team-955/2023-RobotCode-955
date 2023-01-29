@@ -1,17 +1,20 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator {
     CANSparkMax motor;
     PIDController pid;
     ElevatorFeedforward feedforward;
     Encoder encoder;
+    Timer timer;
+    double previousRate=0;
 
     public Elevator(CANSparkMax motor, Encoder encoder) {
         pid = new PIDController(Constants.Elevator.kPElevator,
@@ -19,10 +22,13 @@ public class Elevator {
                                 Constants.Elevator.kDElevator);
         feedforward = new ElevatorFeedforward(Constants.Elevator.kSElevator,
                                             Constants.Elevator.kGElevator,
-                                            Constants.Elevator.kVElevator);
+                                            Constants.Elevator.kVElevator,
+                                            Constants.Elevator.kAElevator);
         pid.setTolerance(Constants.Elevator.kElevatorTolerance);
         this.motor = motor;
         this.encoder = encoder;
+        timer = new Timer();
+        timer.start();
     }
 
     public void moveElevator(double joyPos) {
@@ -51,10 +57,11 @@ public class Elevator {
                     break;
             }
 
-            double amount = MathUtil.clamp(pid.calculate(encoder.get(), elevatorSetpoint) +
-                                            feedforward.calculate(encoder.getRate()), -1, 1);
-            
-            motor.set(amount);
+            double pidAmount = pid.calculate(encoder.get(), elevatorSetpoint);
+            double amount = pidAmount + feedforward.calculate(encoder.getRate());
+            SmartDashboard.putNumber("pid output", pidAmount);
+            SmartDashboard.putNumber("pid modified", amount);
+            motor.set(MathUtil.clamp(amount, -1, 1));
 
             return pid.atSetpoint();
         }

@@ -26,15 +26,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ElevatorSimulator{
   Elevator elevator;
   int level = 0;
+  double maxVelocity = 0;
 
   private static final int kMotorPort = 0;
   private static final int kEncoderAChannel = 0;
   private static final int kEncoderBChannel = 1;
   private static final int kJoystickPort = 0;
 
-  private static final double kElevatorGearing = 10.0;
+  private static final double kElevatorGearing = 5.0;
   private static final double kElevatorDrumRadius = Units.inchesToMeters(2.0);
-  private static final double kCarriageMass = 4.0; // kg
+  private static final double kCarriageMass = Units.lbsToKilograms(20); // kg
 
   private static final double kMinElevatorHeight = Units.inchesToMeters(2);
   private static final double kMaxElevatorHeight = Units.inchesToMeters(50);
@@ -61,7 +62,7 @@ public class ElevatorSimulator{
           kMinElevatorHeight,
           kMaxElevatorHeight,
           true,
-          VecBuilder.fill(0.00));
+          VecBuilder.fill(0.0001));
   private final EncoderSim m_encoderSim = new EncoderSim(m_encoder);
 
   // Create a Mechanism2d visualization of the elevator
@@ -93,18 +94,26 @@ public class ElevatorSimulator{
     m_encoderSim.setDistance(m_elevatorSim.getPositionMeters());
     // SimBattery estimates loaded battery voltages
     RoboRioSim.setVInVoltage(
-        BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevatorSim.getCurrentDrawAmps()));
+      BatterySim.calculateDefaultBatteryLoadedVoltage(m_elevatorSim.getCurrentDrawAmps())
+      //12
+    );
 
     // Update elevator visualization with simulated position
     m_elevatorMech2d.setLength(Units.metersToInches(m_elevatorSim.getPositionMeters()));
     SmartDashboard.putNumber("encoder postion", m_encoder.get());
+    SmartDashboard.putNumber("Battery voltage", RoboRioSim.getVInVoltage());
   }
 
   public void teleopPeriodic() {
-    if (m_joystick.getRawButtonPressed(2)) {
-      level = (level+1)%4;
+    // if (m_joystick.getRawButtonPressed(2)) {
+    //   level = (level+1)%4;
+    // }
+    // elevator.setElevator(level);
+    elevator.moveElevator(m_joystick.getRawAxis(1));
+    SmartDashboard.putNumber("max velocity", maxVelocity);
+    if (m_encoder.getRate() > maxVelocity) {
+      maxVelocity = m_encoder.getRate();
     }
-    elevator.setElevator(level);
   }
 
   public void disabledInit() {
