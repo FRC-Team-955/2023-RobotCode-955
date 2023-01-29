@@ -45,11 +45,12 @@ public class Robot extends TimedRobot {
     teleopAllState();
     switch(robotState){
       case AUTO_ALIGN:
+      //move the auto align into game pience along with the arm code
         if (autoAlign.moveToGridPosition()){
-          //run auto arm code
+          //run drop function
         }
       case AUTO_BALANCE:
-
+        Drivebase.autoBalance();
       default: // DRIVE
         AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
         Drivebase.driveFieldRelative();
