@@ -19,12 +19,12 @@ public class Robot extends TimedRobot {
    */
 
   // can only run one at a time
-  ArmSimulator2 armSimulator2 = new ArmSimulator2();
+  ArmSimulator3 ArmSimulator3 = new ArmSimulator3();
 
   
   @Override
   public void robotInit() {
-    armSimulator2.robotInit();
+    ArmSimulator3.robotInit();
   
   }
 
@@ -39,18 +39,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    armSimulator2.teleopInit();
+    ArmSimulator3.teleopInit();
   }
 
   @Override
   public void teleopPeriodic() {
-    armSimulator2.teleopPeriodic();
+    ArmSimulator3.teleopPeriodic();
 
   }
 
   @Override
   public void disabledInit() {
-    armSimulator2.disabledInit();
+    ArmSimulator3.disabledInit();
   
   }
 
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationPeriodic() {
-    armSimulator2.simulationPeriodic();
+    ArmSimulator3.simulationPeriodic();
 
   }
 }

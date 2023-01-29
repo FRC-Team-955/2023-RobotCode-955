@@ -10,6 +10,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
       "/LiveWindow/Ungrouped/PWMSparkMax[0]": "Motor Controller",
       "/SmartDashboard/Arm Sim": "Mechanism2d"
     },
@@ -52,6 +53,11 @@
         },
         "open": true
       }
+    }
+  },
+  "NetworkTables Info": {
+    "Server": {
+      "open": true
     }
   }
 }

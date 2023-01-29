@@ -1,6 +1,10 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -9,7 +13,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
@@ -46,7 +49,7 @@ public class ArmSimulator {
   // Standard classes for controlling our arm
   private final PIDController m_controller = new PIDController(kArmKp, 0, 0);
   private final Encoder m_encoder = new Encoder(kEncoderAChannel, kEncoderBChannel);
-  private final PWMSparkMax m_motor = new PWMSparkMax(kMotorPort);
+  private final CANSparkMax m_motor = new CANSparkMax(kMotorPort, MotorType.kBrushless);
   private final Joystick m_joystick = new Joystick(kJoystickPort);
 
   // Simulation classes help us simulate what's going on, including gravity.
@@ -86,7 +89,7 @@ public class ArmSimulator {
   public void robotInit() {
     m_encoder.setDistancePerPulse(kArmEncoderDistPerPulse);
 
-    Preferences.setDouble(kArmPKey, 10);
+    Preferences.setDouble(kArmPKey, 2);
 
     // Put Mechanism 2d to SmartDashboard
     SmartDashboard.putData("Arm Sim", m_mech2d);
@@ -139,7 +142,9 @@ public class ArmSimulator {
       m_motor.set(0.0);
     }*/
     var pidOutput = m_controller.calculate(m_encoder.get(), m_encoder.get() + m_joystick.getRawAxis(0));
-    m_motor.setVoltage(pidOutput);
+    SmartDashboard.putNumber("pidOutput", pidOutput);
+    SmartDashboard.putNumber("MotorOutput", m_motor.get());
+    m_motor.set(MathUtil.clamp(pidOutput, -1, 1));
   }
 
   public void disabledInit() {
