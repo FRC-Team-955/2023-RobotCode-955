@@ -16,7 +16,6 @@ public class Constants {
         static double motorOutput = 0.3;
         static int motorOneNum = 1;
         static int motorTwoNum = 2;
-        static int motorStop = 0;
         static int intakeFoldMotorNum = 4;
         static double intakeFoldMotorOutput = 0.1;
     }
