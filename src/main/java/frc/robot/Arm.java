@@ -57,7 +57,7 @@ public final class Arm {
         }
     }
 
-    public static void setArm(int level, double joyPos) {
+    public static boolean setArm(int level, double joyPos) {
         
         if (IO.isOverrrideEnabled() == false) {
             double armSetPoint = 0;
@@ -92,6 +92,7 @@ public final class Arm {
             } else {
                 armMotor.set(joyPos);
         }
+        return pid.atSetpoint();
     }
 }
 

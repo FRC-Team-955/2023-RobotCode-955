@@ -6,10 +6,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 
-public class Elevator {
-    CANSparkMax elevatorMotor;
-    PIDController pid;
-    ElevatorFeedforward feedforward;
+public class Elevator {  
+    static CANSparkMax elevatorMotor;
+    static PIDController pid;
+    static ElevatorFeedforward feedforward;
 
     public Elevator() {
         elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
@@ -22,7 +22,7 @@ public class Elevator {
         pid.setTolerance(Constants.Elevator.kElevatorTolerance);
     }
 
-    public void moveElevator(double joyPos) {
+    public static void moveElevator(double joyPos) {
         if(IO.isOverrrideEnabled() || ((elevatorMotor.getEncoder().getPosition() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
             && (elevatorMotor.getEncoder().getPosition() >= Constants.Elevator.kElevatorLowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
             elevatorMotor.set(joyPos);
@@ -31,7 +31,7 @@ public class Elevator {
         }
     }
 
-    public boolean setElevator(int level) { // level = desired elevator level
+    public static boolean setElevator(int level) { // level = desired elevator level
         if(!IO.isOverrrideEnabled()) {
             double elevatorSetpoint = Constants.Elevator.kRetracted;
             switch(level) {

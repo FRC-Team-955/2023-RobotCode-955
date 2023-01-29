@@ -38,6 +38,16 @@ public class Intake {
         timer.reset();
         timer.start();
     }
+
+    public static void setSpeed(double Speed) {
+        if (timer.get() > 4 && Speed > 0)
+            return;
+
+        intakeMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput * Speed); // note from owen: add the 0.3 to settings
+        intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput * Speed); //done
+    }
+
+
     //sucks in the game piece and stop
     public static void runEthanWheels(){
         colorSensor = new ColorSensorV3(Port.kOnboard);
