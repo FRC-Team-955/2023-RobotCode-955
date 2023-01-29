@@ -1,28 +1,24 @@
 package frc.robot.Auto;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GamePieceController;
 import frc.robot.Auto.Actions.AutoAction;
+import frc.robot.Swerve.SwerveDrive;
 
 
 public class Auto {
-    AutoAction[] autoActionList = new AutoAction[0];
+    AutoAction[] Actions = new AutoAction[0];
 
     public Auto() {
         AutoProfileNew.autoVersion("Auto1");
-        autoActionList = AutoProfileNew.AutoActions.get(0);
+        Actions = AutoProfileNew.AutoActions.get(0);
     }
 
     public void autoPeriodic() {
-        boolean stepFinished = true;
-        for (int i = 0; i < autoActionList.length; i++) {
-            if (!autoActionList[i].Act()) {
-                stepFinished = false;
-            }
-        }
-        if (stepFinished = true) {
-            AutoProfileNew.AutoActions.remove(0);
-            autoActionList = AutoProfileNew.AutoActions.get(0);
+        for (int i = 0; i < Actions.length; i++) {
+            if (DriverStation.getMatchTime() > Actions[i].startTime && DriverStation.getMatchTime() < Actions[i].endTime)
+                Actions[i].Act();
         }
     }
 

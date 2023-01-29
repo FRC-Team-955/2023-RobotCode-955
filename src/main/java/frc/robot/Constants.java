@@ -167,4 +167,8 @@ public final class Constants {
         return color == DriverStation.Alliance.Red;
     }
 
+    public static class Handoff{
+        //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
+        static int handoffMotorOneNum = 3;
+    }
 }

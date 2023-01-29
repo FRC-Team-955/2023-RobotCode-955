@@ -2,6 +2,8 @@ package frc.robot.Auto.Actions;
 
 import frc.robot.Auto.Auto;
 
+//REWRITE
+
 public class ClawAction extends AutoAction {
     int speed;
     Double time;
@@ -17,7 +19,7 @@ public class ClawAction extends AutoAction {
             storedTime = (double) System.currentTimeMillis();
         }
         if (System.currentTimeMillis() - storedTime > time) {
-            return true;
+            
         }
         if (speed == -1) {
             Auto.Utils.gamepieceController.reverseClaw();
@@ -26,6 +28,5 @@ public class ClawAction extends AutoAction {
         } else if (speed == 1) {
             Auto.Utils.gamepieceController.moveClaw();
         }
-        return false;
     }
 }
