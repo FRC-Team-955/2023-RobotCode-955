@@ -9,6 +9,6 @@ public class GamepieceManager {
         Arm.setArm(0, 0);
         Handoff.intakeGamePiece();
 
-        return /*SENSOR RTUFF YAAAAAAAAAAAAAAYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY */ false;
+        return (Intake.isIntakeFolded() && !Intake.senseObj() /* If Handoff has gamepiece */);
     }
 }
