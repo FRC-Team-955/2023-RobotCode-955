@@ -1,10 +1,11 @@
 package frc.robot.Sensors;
 
-import com.ctre.phoenix.sensors.Pigeon2; 
+import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.MathUtil; 
 
 public class Gyro {
+    //add gryo id to constants
     static Pigeon2 pigeon = new Pigeon2(0);
 
      /**
@@ -45,8 +46,6 @@ public class Gyro {
         // double angle = pigeon.getYaw();
         // return angle % 360;
     };
-
-
      /**
      * @return acummulated rotaton -179 - 180
      */
@@ -75,7 +74,6 @@ public class Gyro {
     public static void reset(){
         pigeon.setYaw(0);
     }
-
 
     public static void set(double offset){
         pigeon.setYaw(offset);

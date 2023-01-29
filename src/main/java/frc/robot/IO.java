@@ -25,7 +25,17 @@ public final class IO {
         public static boolean isAutoBalanceActive(){
             return false;
         }
-
+        public static boolean isOverrrideEnabled() {
+          if (joy0.getRawButton(0) == false) {
+              return false;
+          } else {
+              return true;
+          }
+        } 
+        public static double elevatorOverride(){
+          return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
+        }
+  
         public static double getSwerveRotation(){
             //What is axis number reffering too?
             double rotAxis = joy0.getRawAxis(Constants.IO.joy0.rotAxis);
@@ -168,4 +178,3 @@ public final class IO {
 
     }
 }
-
