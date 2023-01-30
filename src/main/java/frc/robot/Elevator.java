@@ -5,11 +5,16 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 
 public class Elevator {
-    CANSparkMax elevatorMotor;
-    PIDController pid;
-    ElevatorFeedforward feedforward;
+    static CANSparkMax elevatorMotor;
+    static PIDController pid;
+    static ElevatorFeedforward feedforward;
+    static DoubleLogEntry motorlog;
+    static DoubleLogEntry encoderlog;
 
     public Elevator() {
         elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
@@ -20,9 +25,18 @@ public class Elevator {
                                             Constants.Elevator.kGElevator,
                                             Constants.Elevator.kVElevator);
         pid.setTolerance(Constants.Elevator.kElevatorTolerance);
+
+        DataLog log = DataLogManager.getLog();
+        motorlog = new DoubleLogEntry(log, "/elevator/motor");
+        encoderlog = new DoubleLogEntry(log, "/elevator/encoder");
     }
 
-    public void moveElevator(double joyPos) {
+    public static void logData() {
+        motorlog.append(elevatorMotor.getOutputCurrent());
+        encoderlog.append(elevatorMotor.getEncoder().getPosition());
+    }
+
+    public static void moveElevator(double joyPos) {
         if(IO.isOverrrideEnabled() || ((elevatorMotor.getEncoder().getPosition() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
             && (elevatorMotor.getEncoder().getPosition() >= Constants.Elevator.kElevatorLowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
             elevatorMotor.set(joyPos);
@@ -31,7 +45,7 @@ public class Elevator {
         }
     }
 
-    public boolean setElevator(int level) { // level = desired elevator level
+    public static boolean setElevator(int level) { // level = desired elevator level
         if(!IO.isOverrrideEnabled()) {
             double elevatorSetpoint = Constants.Elevator.kRetracted;
             switch(level) {

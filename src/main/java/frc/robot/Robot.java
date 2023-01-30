@@ -4,18 +4,19 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Sensors.ColorSensor;
 
 public class Robot extends TimedRobot {
-  // Objects
-  static Arm arm = new Arm();
-  static ColorSensor colorSensor = new ColorSensor();
-  static RobotState robotState;
-  
   // Robot States
   public enum RobotState {
     DRIVING,
     AUTO_ALIGN,
     AUTO_BALANCE
   }
+  // Objects
+  static Arm arm = new Arm();
+  static ColorSensor colorSensor = new ColorSensor();
+  static RobotState robotState = RobotState.DRIVING;
 
+  AutoAlign autoAlign = new AutoAlign();
+  
   @Override
   public void robotInit() {}
 
@@ -31,9 +32,29 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {}
 
+  public void teleopAllState(){
+    Drivebase.logData();
+    IO.keyInputOdometryMapping();
+    IO.keyInputRowPosition();
+  }
+
   @Override
   public void teleopPeriodic() {
+
     selectTeleopState();
+    teleopAllState();
+    switch(robotState){
+      case AUTO_ALIGN:
+      //move the auto align into game pience along with the arm code
+        if (autoAlign.moveToGridPosition()){
+          //run drop function
+        }
+      case AUTO_BALANCE:
+        Drivebase.autoBalance();
+      default: // DRIVE
+        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+        Drivebase.driveFieldRelative();
+    }
   }
 
   @Override
@@ -56,9 +77,11 @@ public class Robot extends TimedRobot {
 
   public void selectTeleopState(){
 
-    if (IO.isAutoAlignActive()) {
+    if (IO.Drivebase.isAutoAlignActive()) {
       robotState = RobotState.AUTO_ALIGN;
-    } else if (IO.isAutoBalanceActive()){
+    } 
+    //once auto balance is added into false
+    else if (IO.Drivebase.isAutoBalanceActive()){
       robotState = RobotState.AUTO_BALANCE;
     } else {
       robotState = RobotState.DRIVING;

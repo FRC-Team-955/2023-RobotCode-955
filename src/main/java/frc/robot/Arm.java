@@ -9,6 +9,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
 
 
@@ -20,6 +23,8 @@ public final class Arm {
     static Timer timer;
     static CANCoderConfiguration config;
     static double lastVelocity = 0;
+    static DoubleLogEntry motorLog;
+    static DoubleLogEntry encoderLog;
 
     public Arm() {
         armMotor = new CANSparkMax(Constants.Arm.kArmMotorId, MotorType.kBrushless);
@@ -38,6 +43,15 @@ public final class Arm {
 
         feedFoward = new ArmFeedforward(Constants.Arm.kS, Constants.Arm.kG, Constants.Arm.kV);
         timer = new Timer();
+
+        DataLog log = DataLogManager.getLog();
+        motorLog = new DoubleLogEntry(log, "/arm/motor");
+        encoderLog = new DoubleLogEntry(log, "/arm/encoder");
+    }
+
+    public static void logData() {
+        motorLog.append(armMotor.getOutputCurrent());
+        encoderLog.append(encoder.getPosition());
     }
 
     public static void moveArm(double joyPos) {
@@ -57,8 +71,7 @@ public final class Arm {
         }
     }
 
-    public static void setArm(int level, double joyPos) {
-        
+    public static boolean setArm(int level, double joyPos) {
         if (IO.isOverrrideEnabled() == false) {
             double armSetPoint = 0;
             switch(level) {
@@ -89,8 +102,10 @@ public final class Arm {
             
             armMotor.setVoltage(output); 
             lastVelocity = encoder.getVelocity();
-            } else {
-                armMotor.set(joyPos);
+            return pid.atSetpoint();
+        } else {
+            armMotor.set(joyPos);
+            return false;
         }
     }
 }
