@@ -4,12 +4,19 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
+
 public class Handoff {
     static TalonSRX handoffMotorOne;
-    
+    static DoubleLogEntry motorLog;
+
     public Handoff(){
         //handoff only has one motor
         handoffMotorOne = new TalonSRX(Constants.Handoff.handoffMotorOneNum);
+        DataLog log = DataLogManager.getLog();
+        motorLog = new DoubleLogEntry(log, "/handoff/motor");
     }
 
     //sucks in the game piece and stops

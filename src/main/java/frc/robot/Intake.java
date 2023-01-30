@@ -2,6 +2,10 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.I2C.Port;
 
 import com.revrobotics.CANSparkMax;
@@ -17,11 +21,22 @@ public class Intake {
     static CANSparkMax intakeFoldMotor = new CANSparkMax(Constants.Intake.intakeFoldMotorNum, MotorType.kBrushless);
     //THIS IS CAN SPARK MAX, THE INTAKE FOLD THING
     static SparkMaxAbsoluteEncoder intakeFoldMotorEncoderValue = intakeFoldMotor.getAbsoluteEncoder(Type.kDutyCycle); //this is here because 2 functions need it at the same time
+    static DoubleLogEntry motorOneLog;
+    static DoubleLogEntry motorTwoLog;
 
     public Intake(){
         intakeMotorOne = new TalonSRX(Constants.Intake.motorOneNum);
         intakeMotorTwo = new TalonSRX(Constants.Intake.motorTwoNum);;
         colorSensor = new ColorSensorV3(Port.kOnboard);
+
+        DataLog log = DataLogManager.getLog();
+        motorOneLog = new DoubleLogEntry(log, "/intake/motorOne");
+        motorTwoLog = new DoubleLogEntry(log, "/intake/motorTwo");
+    }
+
+    public static void logData() {
+        motorOneLog.append(intakeMotorOne.getStatorCurrent());
+        motorTwoLog.append(intakeMotorTwo.getStatorCurrent());
     }
 
     static public boolean senseObj() {
