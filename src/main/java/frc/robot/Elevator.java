@@ -1,6 +1,8 @@
 package frc.robot;
 
+import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
@@ -15,6 +17,8 @@ public class Elevator {
     static ElevatorFeedforward feedforward;
     static DoubleLogEntry motorlog;
     static DoubleLogEntry encoderlog;
+    static boolean override;
+    static RelativeEncoder encoder;
 
     public Elevator() {
         elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
@@ -26,9 +30,21 @@ public class Elevator {
                                             Constants.Elevator.kVElevator);
         pid.setTolerance(Constants.Elevator.kElevatorTolerance);
 
+        encoder = elevatorMotor.getEncoder();
+        encoder.setPosition(ElevatorPosition.calculate(
+            (new CANCoder(Constants.Elevator.kCoder1ID)).getPosition(),
+            (new CANCoder(Constants.Elevator.kCoder2ID)).getPosition()
+        ));
+
         DataLog log = DataLogManager.getLog();
         motorlog = new DoubleLogEntry(log, "/elevator/motor");
         encoderlog = new DoubleLogEntry(log, "/elevator/encoder");
+        override = false;
+    }
+
+    public static void setOverride(boolean _override) {
+        override = _override;
+        elevatorMotor.set(IO.elevatorOverride());
     }
 
     public static void logData() {
@@ -37,16 +53,14 @@ public class Elevator {
     }
 
     public static void moveElevator(double joyPos) {
-        if(IO.isOverrrideEnabled() || ((elevatorMotor.getEncoder().getPosition() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
+        if(!override && ((elevatorMotor.getEncoder().getPosition() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
             && (elevatorMotor.getEncoder().getPosition() >= Constants.Elevator.kElevatorLowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
             elevatorMotor.set(joyPos);
-        } else {
-            elevatorMotor.set(0);
         }
     }
 
     public static boolean setElevator(int level) { // level = desired elevator level
-        if(!IO.isOverrrideEnabled()) {
+        if(!override) {
             double elevatorSetpoint = Constants.Elevator.kRetracted;
             switch(level) {
                 case 0:
@@ -63,16 +77,13 @@ public class Elevator {
                     break;
             }
 
-            double amount = MathUtil.clamp(pid.calculate(elevatorMotor.getEncoder().getPosition(), elevatorSetpoint) +
-                                            feedforward.calculate(elevatorMotor.getEncoder().getVelocity()), -12, 12);
+            double amount = MathUtil.clamp(pid.calculate(encoder.getPosition(), elevatorSetpoint) +
+                                            feedforward.calculate(encoder.getVelocity()), -12, 12);
             
             elevatorMotor.setVoltage(amount);
 
             return pid.atSetpoint();
-        } else {
-            elevatorMotor.set(IO.elevatorOverride());
-
-            return false;
         }
+        return false;
     }
 }

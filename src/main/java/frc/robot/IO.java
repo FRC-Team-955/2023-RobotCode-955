@@ -19,7 +19,11 @@ public final class IO {
     
     public static boolean isOverrrideEnabled() {
         return joy1.getRawButtonPressed(Constants.IO.Joy1.overrrideEnabledButton);
-      } 
+    }
+    
+    public static boolean getIntakeButton() {
+        return joy1.getRawButton(Constants.IO.Joy1.intakeButton);
+    }
       
     public static double elevatorOverride(){
         return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);

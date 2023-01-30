@@ -57,6 +57,7 @@ public class Constants {
             public static int joy1Id = 1;
             public static int overrrideEnabledButton = 3;
             public static int elevatorOverrideAxis = 1;
+            public static int intakeButton = 2;
         }
     }
     public static final class Arm {
@@ -106,6 +107,9 @@ public class Constants {
         public static double kVElevator = 0;
         // Elevator gear ratio
         public static double kGearRatio = 33./34.;
+        // Elevator CANCoder IDs
+        public static int kCoder1ID = 9;
+        public static int kCoder2ID = 46;
     }
 
     public static class ColorSensor {
