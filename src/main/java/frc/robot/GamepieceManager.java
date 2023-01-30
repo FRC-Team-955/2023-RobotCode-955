@@ -17,10 +17,10 @@ public class GamepieceManager {
     }
 
     public void foldIntake(int position) {
-        if (position == -1) {
-            Intake.foldInIntake();
-        } else if (position == 1) {
+        if (position == 0) {
             Intake.foldOutIntake();
+        } else if (position == 1) {
+            Intake.foldInIntake();
         }
     }
     
@@ -31,6 +31,15 @@ public class GamepieceManager {
             Handoff.intakeGamePiece();
         } else {
             Handoff.stopMotor();
+        }
+    }
+    
+    public void loadHandoff() {
+        if (Intake.senseObj() || IO.loadHandoffButton()) {
+            moveHandoff(1);
+            foldIntake(1);
+        } else {
+            moveHandoff(0);
         }
     }
 }

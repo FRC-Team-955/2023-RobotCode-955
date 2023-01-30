@@ -21,7 +21,7 @@ public final class IO {
         return joy1.getRawButtonPressed(Constants.IO.Joy1.overrrideEnabledButton);
     }
     
-    public static boolean getIntakeButton() {
+    public static boolean loadHandoffButton() {
         return joy1.getRawButton(Constants.IO.Joy1.intakeButton);
     }
       
