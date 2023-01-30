@@ -68,8 +68,8 @@ public class AutoAlign {
         //the move forward function
     }
     private boolean isInCommunity(){
-        if ((Constants.isBlue() && Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX ||
-            Constants.isRed() && Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX) &&
+        if (((Constants.isBlue() && Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX) ||
+            (Constants.isRed() && Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX)) &&
             Drivebase.getPose().getY() > Constants.FieldPositions.inCommunityY){
             return true;
         }
