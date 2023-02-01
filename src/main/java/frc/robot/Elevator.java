@@ -5,12 +5,15 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Elevator {
     CANSparkMax motor;
     PIDController pid;
     ElevatorFeedforward feedforward;
     Encoder encoder;
+    Timer timer;
+    double previousRate=0;
 
     public Elevator(CANSparkMax motor, Encoder encoder) {
         pid = new PIDController(Constants.Elevator.kPElevator,
@@ -22,6 +25,8 @@ public class Elevator {
         pid.setTolerance(Constants.Elevator.kElevatorTolerance);
         this.motor = motor;
         this.encoder = encoder;
+        timer = new Timer();
+        timer.start();
     }
 
     public void moveElevator(double joyPos) {
