@@ -4,7 +4,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import frc.robot.Constants;
+import frc.robot.gamepieceManager.Constants;
 
 //import edu.wpi.first.math.geometry.Translation2d;
 

@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.gamepieceManager;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;

@@ -1,7 +1,7 @@
 package frc.robot.Actions;
 
-import frc.robot.DummyClasses.GamePieceController;
 import frc.robot.DummyClasses.SwerveDrive;
+import frc.robot.gamepieceManager.GamepieceManager;
 
 public interface AutoAction {
 
@@ -10,6 +10,6 @@ public interface AutoAction {
     public boolean Act();
 
     // reference to dummy class (gamepieceController)
-    public static GamePieceController gamepieceController = new GamePieceController();
+    public static GamepieceManager gamepieceManager = new GamepieceManager();
     public static SwerveDrive swerveDrive = new SwerveDrive();
 }

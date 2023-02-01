@@ -2,6 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Sensors.ColorSensor;
+import frc.robot.gamepieceManager.Arm;
+import frc.robot.gamepieceManager.Drivebase;
+import frc.robot.gamepieceManager.IO;
 
 public class Robot extends TimedRobot {
   // Robot States

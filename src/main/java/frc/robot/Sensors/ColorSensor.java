@@ -5,7 +5,7 @@ import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.Constants;
+import frc.robot.gamepieceManager.Constants;
 
 public class ColorSensor {
     static ColorSensorV3 colorSensor;

@@ -17,7 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
-import frc.robot.Constants;
+import frc.robot.gamepieceManager.Constants;
 
 public class AprilTagCameraWrapper {
 

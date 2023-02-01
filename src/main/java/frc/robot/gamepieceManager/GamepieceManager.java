@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.gamepieceManager;
 
 public class GamepieceManager {
     public boolean setLocation(int position) {

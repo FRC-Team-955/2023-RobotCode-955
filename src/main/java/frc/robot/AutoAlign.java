@@ -4,6 +4,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.LimelightCameraWrapper;
+import frc.robot.gamepieceManager.Constants;
+import frc.robot.gamepieceManager.Drivebase;
+import frc.robot.gamepieceManager.IO;
 
 public class AutoAlign {
     PIDController PIDOdometeryAlignX = new PIDController(0.7, 0, 0);

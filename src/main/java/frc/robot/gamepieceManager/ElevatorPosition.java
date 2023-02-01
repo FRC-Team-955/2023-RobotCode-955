@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.gamepieceManager;
 
 public class ElevatorPosition {
     //Calculate position of elevator based on two encoders, one measuring the shaft of rotation, and the other one measuring the same thing at a 31/30 gear ratio

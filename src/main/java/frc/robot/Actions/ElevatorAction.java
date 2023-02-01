@@ -6,9 +6,8 @@ public class ElevatorAction implements AutoAction{
         this.location = location;
     }
 
-    // Options[0]: 0 = retracted, 1 = lowest, 2 = mid, 3 = high
+    // 0 = retracted, 1 = lowest, 2 = mid, 3 = high
     public boolean Act() {
-        gamepieceController.setLocation(location);
-        return gamepieceController.elevatorAtSetpoint();
+        return gamepieceManager.setLocation(location);
     }
 }
