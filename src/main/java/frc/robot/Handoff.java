@@ -12,7 +12,7 @@ public class Handoff {
     static TalonSRX handoffMotorOne;
     static DoubleLogEntry motorLog;
 
-    public Handoff(){
+    public static void setup(){
         //handoff only has one motor
         handoffMotorOne = new TalonSRX(Constants.Handoff.handoffMotorOneNum);
         DataLog log = DataLogManager.getLog();
