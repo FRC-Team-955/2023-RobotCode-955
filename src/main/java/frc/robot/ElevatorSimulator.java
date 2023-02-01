@@ -101,10 +101,11 @@ public class ElevatorSimulator{
   }
 
   public void teleopPeriodic() {
-    if (m_joystick.getRawButtonPressed(2)) {
+    if(m_joystick.getRawButtonPressed(2)) {
       level = (level+1)%4;
     }
-    elevator.setElevator(level);
+    // elevator.setElevator(level);
+    elevator.moveElevator(m_joystick.getRawAxis(1) * -0.02);
   }
 
   public void disabledInit() {

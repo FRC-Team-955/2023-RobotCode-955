@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
@@ -26,11 +25,11 @@ public class Elevator {
     }
 
     public void moveElevator(double joyPos) {
-        if((encoder.get() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
+        if(((encoder.get() <= Constants.Elevator.kElevatorUpperLimit - feedforward.calculate(encoder.getRate()) || joyPos < 0) && joyPos != 0)
             && (encoder.get() >= Constants.Elevator.kElevatorLowerLimit || joyPos > 0)) { // if elevator hit the top or bottom
-            motor.set(joyPos);
-        } else {
-            motor.set(0);
+            motor.set(joyPos + feedforward.calculate(encoder.getRate()));
+        } else {  
+            motor.set(feedforward.calculate(encoder.getRate()));
         }
     }
 
@@ -52,9 +51,9 @@ public class Elevator {
             }
 
             double amount = MathUtil.clamp(pid.calculate(encoder.get(), elevatorSetpoint) +
-                                            feedforward.calculate(encoder.getRate()), -1, 1);
+                                            feedforward.calculate(encoder.getRate()) * 10, -1, 1);
             
-            motor.set(amount);
+            motor.set(amount * 0.1);
 
             return pid.atSetpoint();
         }

@@ -46,12 +46,12 @@ public final class Constants {
         public static double kMediumLevel = 12000;
         public static double kTopLevel = 15000;
         // Elevator PID Values
-        public static double kPElevator = 0.0001;
+        public static double kPElevator = 0.00027;
         public static double kIElevator = 0;
         public static double kDElevator = 0;
         // Elevator Feedforward Values
         public static double kSElevator = 0;
-        public static double kGElevator = 0;
+        public static double kGElevator = 0.07480395665;
         public static double kVElevator = 0;
         // Elevator gear ratio
         public static double kGearRatio = 33./34.;
