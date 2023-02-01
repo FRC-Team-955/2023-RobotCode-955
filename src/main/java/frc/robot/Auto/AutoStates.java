@@ -1,8 +1,9 @@
-package frc.robot;
+package frc.robot.Auto;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Actions.AutoAction;
 import frc.robot.Actions.StopAction;
+import frc.robot.gamepieceManager.GamepieceManager;
 
 public class AutoStates {
     AutoAction[] autoActionList = new AutoAction[]{new StopAction()};
@@ -19,7 +20,7 @@ public class AutoStates {
                 stepFinished = false;
             }
         }
-        if (stepFinished = true) {
+        if (GamepieceManager.moveArmElevator() && stepFinished) {
             AutoProfileNew.AutoActions.remove(0);
             autoActionList = AutoProfileNew.AutoActions.get(0);
         }

@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.Auto;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -85,7 +85,7 @@ public class AutoAlign {
     }
     public static GridAlignState gridAlignState = GridAlignState.AlignedToOdometry;
     public static double gridAlignY;
-    boolean moveToGridPosition(){
+    public boolean moveToGridPosition(){
         //REMEMBER TO RESET THE STATE BACK TO AlignedToOdometry AT SOME POINT
         if(isInCommunity()){
             if(gridAlignState == GridAlignState.AlignedToOdometry){

@@ -1,5 +1,7 @@
 package frc.robot.Actions;
 
+import frc.robot.gamepieceManager.GamepieceManager;
+
 public class ElevatorAction implements AutoAction{
     int location;
     public ElevatorAction(int location) {
@@ -8,6 +10,7 @@ public class ElevatorAction implements AutoAction{
 
     // 0 = retracted, 1 = lowest, 2 = mid, 3 = high
     public boolean Act() {
-        return gamepieceManager.setLocation(location);
+        GamepieceManager.setLocation(location);
+        return true;
     }
 }

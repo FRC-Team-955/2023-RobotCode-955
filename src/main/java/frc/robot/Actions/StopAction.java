@@ -1,11 +1,13 @@
 package frc.robot.Actions;
 
+import frc.robot.gamepieceManager.GamepieceManager;
+
 public class StopAction implements AutoAction {
     public boolean Act() {
-        gamepieceManager.setLocation(0);
-        gamepieceManager.moveHandoff(0);
-        gamepieceManager.foldIntake(0);
-        gamepieceManager.runEthanWheels(0);
+        GamepieceManager.setLocation(0);
+        GamepieceManager.moveHandoff(0);
+        GamepieceManager.foldIntake(0);
+        GamepieceManager.runEthanWheels(0);
         return false;
     }  
 }

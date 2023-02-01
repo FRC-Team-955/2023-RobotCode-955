@@ -1,6 +1,7 @@
 package frc.robot.Actions;
 
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.gamepieceManager.GamepieceManager;
 
 public class HandoffAction implements AutoAction {
     int speed;
@@ -19,7 +20,7 @@ public class HandoffAction implements AutoAction {
         if (timer.hasElapsed(time)) {
             return true;
         } else {
-            gamepieceManager.moveHandoff(speed);
+            GamepieceManager.moveHandoff(speed);
         }
         return false;
     }

@@ -1,10 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.Auto.AutoAlign;
 import frc.robot.Sensors.ColorSensor;
 import frc.robot.gamepieceManager.Arm;
 import frc.robot.gamepieceManager.Drivebase;
+import frc.robot.gamepieceManager.Elevator;
+import frc.robot.gamepieceManager.Handoff;
 import frc.robot.gamepieceManager.IO;
+import frc.robot.gamepieceManager.Intake;
 
 public class Robot extends TimedRobot {
   // Robot States
