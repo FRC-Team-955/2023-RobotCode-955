@@ -1,15 +1,6 @@
 package frc.robot;
 
 public class GamepieceManager {
-    public void setLocation(int position) {
-        Arm.setArmLocation(position);
-        Elevator.setElevatorPosition(position);
-    }
-
-    public boolean moveArmElevator() {
-        boolean armAtSetpoint = Arm.setArm();
-        return Elevator.setElevator() && armAtSetpoint;
-    }
 
     public void runEthanWheels(int speed) {
         if (speed == -1) {
@@ -68,15 +59,16 @@ public class GamepieceManager {
             }
         }
     }
-    IO.GridRowPosition extentionState = IO.GridRowPosition.Retract;
+    IO.GridRowPosition elevatorState = IO.GridRowPosition.Retract;
     IO.GridArmPosition armState = IO.GridArmPosition.Retract;
     public void extention(){
         if (IO.manualDown()){
-            extentionState = IO.GridRowPosition.Retract;
+            elevatorState = IO.GridRowPosition.Retract;
         }else if(IO.manualUp()){
-            extentionState = IO.gridRowPosition;
+            elevatorState = IO.gridRowPosition;
         }
-        Elevator.setElevator(extentionState);
+        Elevator.setElevator(elevatorState);
+        Arm.setArm(armState, startTime);
     }
 
 
