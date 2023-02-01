@@ -17,10 +17,10 @@ public class Elevator {
     static ElevatorFeedforward feedforward;
     static DoubleLogEntry motorlog;
     static DoubleLogEntry encoderlog;
-    static boolean override;
     static RelativeEncoder encoder;
+    static double elevatorSetpoint = Constants.Elevator.kRetracted;
 
-    public Elevator() {
+    public static void setup() {
         elevatorMotor = new CANSparkMax(Constants.Elevator.kElevatorMotorId, MotorType.kBrushless);
         pid = new PIDController(Constants.Elevator.kPElevator,
                                 Constants.Elevator.kIElevator,
@@ -39,12 +39,6 @@ public class Elevator {
         DataLog log = DataLogManager.getLog();
         motorlog = new DoubleLogEntry(log, "/elevator/motor");
         encoderlog = new DoubleLogEntry(log, "/elevator/encoder");
-        override = false;
-    }
-
-    public static void setOverride(boolean _override) {
-        override = _override;
-        elevatorMotor.set(IO.elevatorOverride());
     }
 
     public static void logData() {
@@ -53,30 +47,35 @@ public class Elevator {
     }
 
     public static void moveElevator(double joyPos) {
-        if(!override && ((elevatorMotor.getEncoder().getPosition() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
+        if(!IO.isOverrideEnabled() && ((elevatorMotor.getEncoder().getPosition() <= Constants.Elevator.kElevatorUpperLimit || joyPos < 0)
             && (elevatorMotor.getEncoder().getPosition() >= Constants.Elevator.kElevatorLowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
             elevatorMotor.set(joyPos);
         }
     }
+    
+    public static void moveElevatorOverride(double joyPos) {
+        elevatorMotor.set(joyPos);
+    }
 
-    public static boolean setElevator(IO.GridRowPosition level) { // level = desired elevator level
-        if(!override) {
-            double elevatorSetpoint = Constants.Elevator.kRetracted;
-            switch(level) {
-                case Retract:
-                    elevatorSetpoint = Constants.Elevator.kRetracted;
-                    break;
-                case Low:
-                    elevatorSetpoint = Constants.Elevator.kBottomLevel;
-                    break;
-                case Mid:
-                    elevatorSetpoint = Constants.Elevator.kMediumLevel;
-                    break;
-                case High:
-                    elevatorSetpoint = Constants.Elevator.kTopLevel;
-                    break;
-            }
+    public static void setElevator(IO.GridRowPosition level) { // level = desired elevator level
+        switch(level) {
+            case Retract:
+                elevatorSetpoint = Constants.Elevator.kRetracted;
+                break;
+            case Low:
+                elevatorSetpoint = Constants.Elevator.kBottomLevel;
+                break;
+            case Mid:
+                elevatorSetpoint = Constants.Elevator.kMediumLevel;
+                break;
+            case High:
+                elevatorSetpoint = Constants.Elevator.kTopLevel;
+                break;
+        }
+    }
 
+    public static boolean setElevator() {
+        if(!IO.isOverrideEnabled()) {
             double amount = MathUtil.clamp(pid.calculate(encoder.getPosition(), elevatorSetpoint) +
                                             feedforward.calculate(encoder.getVelocity()), -12, 12);
             

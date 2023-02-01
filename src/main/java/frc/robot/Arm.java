@@ -26,7 +26,7 @@ public final class Arm {
     static DoubleLogEntry motorLog;
     static DoubleLogEntry encoderLog;
 
-    public Arm() {
+    public static void setup() {
         armMotor = new CANSparkMax(Constants.Arm.kArmMotorId, MotorType.kBrushless);
         armMotor.setSmartCurrentLimit(40);
         pid = new PIDController(Constants.Arm.kP, 
@@ -55,7 +55,7 @@ public final class Arm {
     }
 
     public static void moveArm(double joyPos) {
-        if (IO.isOverrrideEnabled() == false) { 
+        if (IO.isOverrideEnabled() == false) { 
             if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit && joyPos > 0) { // If elevator reach top AND trying to go up
                 armMotor.stopMotor(); //
             } else if (encoder.getPosition() <= Constants.Arm.kArmLowerLimit && joyPos < 0) { // If elevator reach bottom ANd trying to go down
@@ -66,13 +66,11 @@ public final class Arm {
             } else {
                 armMotor.set(joyPos);
             }
-        } else {
-            armMotor.set(joyPos);
         }
     }
 
-    public static boolean setArm(IO.GridArmPosition level) {
-        if (IO.isOverrrideEnabled() == false) {
+    public static boolean setArm(IO.GridArmPosition level, double joyPos) {
+        if (IO.isOverrideEnabled() == false) {
             double armSetPoint = 0;
             switch(level) {
                 case Retract:
@@ -106,6 +104,8 @@ public final class Arm {
             armMotor.setVoltage(output); 
             lastVelocity = encoder.getVelocity();
             return pid.atSetpoint();
+        } else {
+            return false;
         }
     }
 }

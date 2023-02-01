@@ -24,7 +24,7 @@ public class Intake {
     static DoubleLogEntry motorOneLog;
     static DoubleLogEntry motorTwoLog;
 
-    public Intake(){
+    public static void setup(){
         intakeMotorOne = new TalonSRX(Constants.Intake.motorOneNum);
         intakeMotorTwo = new TalonSRX(Constants.Intake.motorTwoNum);;
         colorSensor = new ColorSensorV3(Port.kOnboard);
