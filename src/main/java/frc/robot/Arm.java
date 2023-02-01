@@ -69,7 +69,7 @@ public final class Arm {
         }
     }
 
-    public static boolean setArm(IO.GridArmPosition level, double joyPos) {
+    public static boolean setArm(IO.GridArmPosition level) {
         if (IO.isOverrideEnabled() == false) {
             double armSetPoint = 0;
             switch(level) {

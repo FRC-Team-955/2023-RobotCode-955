@@ -68,7 +68,7 @@ public class GamepieceManager {
             elevatorState = IO.gridRowPosition;
         }
         Elevator.setElevator(elevatorState);
-        Arm.setArm(armState, startTime);
+        Arm.setArm(armState);
     }
 
 
