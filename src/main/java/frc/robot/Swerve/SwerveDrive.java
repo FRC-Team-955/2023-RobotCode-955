@@ -153,10 +153,11 @@ public class SwerveDrive {
         //     SwerveMods[3].getState()
         // );
         poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses());
-        Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
-        //
+        Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(getPose());
+        //Filter when not level
         if (result.isPresent() && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll) {
             EstimatedRobotPose camPose = result.get();
+            //Filter when pose is too far from current pose
             if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
                 poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
             }

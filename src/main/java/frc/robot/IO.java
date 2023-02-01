@@ -24,9 +24,19 @@ public final class IO {
     public static boolean loadHandoffButton() {
         return joy1.getRawButton(Constants.IO.Joy1.intakeButton);
     }
+    public static boolean manualUp(){
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton);
+    }
+    public static boolean manualDown(){
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorDownButton);
+    }
       
     public static double elevatorOverride(){
         return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
+    }
+
+    public static boolean deployRunIntake(){
+        return joy0.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
     }
 
     public static class Drivebase{
@@ -99,8 +109,18 @@ public final class IO {
 
     public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
     public static boolean isConeNodePosition = true;
+
+    public static enum GridArmPosition{
+        Retract,
+        ConePrep,
+        ConeReady,
+        CubePrep,
+        CubeReady
+    }
+    public static GridRowPosition gridArmPosition = GridRowPosition.Retract;
     
-    private static enum GridRowPosition{
+    public static enum GridRowPosition{
+        Retract,
         Low,
         Mid,
         High

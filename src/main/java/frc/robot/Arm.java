@@ -71,21 +71,24 @@ public final class Arm {
         }
     }
 
-    public static boolean setArm(int level, double joyPos) {
+    public static boolean setArm(IO.GridArmPosition level) {
         if (IO.isOverrrideEnabled() == false) {
             double armSetPoint = 0;
             switch(level) {
-                case 0:
+                case Retract:
                     armSetPoint = Constants.Arm.kRetracted;
                     break;
-                case 1:
-                    armSetPoint = Constants.Arm.kBottomLevel;
+                case ConePrep:
+                    armSetPoint = Constants.Arm.kConePrep;
                     break;
-                case 2:
-                    armSetPoint = Constants.Arm.kMiddleLevel;
+                case ConeReady:
+                    armSetPoint = Constants.Arm.kConeReady;
                     break;
-                case 3:
-                    armSetPoint = Constants.Arm.kTopLevel;
+                case CubePrep:
+                    armSetPoint = Constants.Arm.kCubePrep;
+                    break;
+                case CubeReady:
+                    armSetPoint = Constants.Arm.kCubeReady;
                     break;
                 }
         
@@ -103,9 +106,6 @@ public final class Arm {
             armMotor.setVoltage(output); 
             lastVelocity = encoder.getVelocity();
             return pid.atSetpoint();
-        } else {
-            armMotor.set(joyPos);
-            return false;
         }
     }
 }

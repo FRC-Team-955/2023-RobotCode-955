@@ -23,6 +23,7 @@ public class Constants {
     public static class Handoff{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
         static int handoffMotorOneNum = 3;
+        static double runTime = 2000;
     }
 
     public static class AprilTagCamera{
@@ -55,9 +56,12 @@ public class Constants {
         }
         public static class Joy1{
             public static int joy1Id = 1;
-            public static int overrrideEnabledButton = 3;
+            public static int overrrideEnabledButton = 2;
+            public static int elevatorUpButton = 3;
+            public static int elevatorDownButton = 0;
             public static int elevatorOverrideAxis = 1;
             public static int intakeButton = 2;
+            public static int deployRunIntakeAxis = 3;
         }
     }
     public static final class Arm {
@@ -66,13 +70,21 @@ public class Constants {
         // Arm Encoder Id
         public static int kArmEncoderId = 0;
         // Arm Encoder Values
-        public static int kArmUpperLimit = 1000;
+        public static int kArmUpperLimit = 10000;
         public static int kArmLowerLimit = 0 ;
         // Arm Setpoint Values
         public static int kRetracted = 0;
-        public static int kBottomLevel = 1000;
-        public static int kMiddleLevel = 2000;
-        public static int kTopLevel = 3000;
+        
+        // public static int kBottomLevel = 1000;
+        // public static int kMiddleLevel = 2000;
+        // public static int kTopLevel = 3000;
+
+        public static int kConePrep = 7000;
+        public static int kConeReady = 6000;
+
+        public static int kCubePrep = 4000;
+        public static int kCubeReady = 5000;
+
         // Arm Pid Values
         public static double kP = 1;
         public static double kI = 0;

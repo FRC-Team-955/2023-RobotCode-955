@@ -3,14 +3,15 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.Swerve.SwerveDrive;
 import frc.robot.Sensors.Gyro;
+import frc.robot.Swerve.SwerveDrive;
 
 
 public class Drivebase {
     
     public static PIDController pid = new PIDController(Constants.kP, Constants.kI, Constants.kD);
     public static double currentAngle = 34; // get from gyroscope
+    private static double lastPitch = Gyro.getPitch();
 
     private static SwerveDrive drive = new SwerveDrive();
 
@@ -53,6 +54,39 @@ public class Drivebase {
         driveFieldRelativeRotation(new Translation2d(0, 0), output);
        }
     }
+
+    // public static void autoBalanceBangBang() {
+    //     double newPitch = Gyro.getPitch();
+    //     double heading = 0;
+    //     if (heading > 90)
+    //         heading = 0;
+    //     else if (heading  >= 90 && heading < 180 || heading >= 180 && heading < 270) {
+    //         heading = 180;
+    //     }
+    //     else {
+    //         heading = 0;
+    //     }
+        
+        
+    //     if (Gyro.getPitch() > 2.5 || Gyro.getPitch() < 2.5) {
+    //         if (newPitch - lastPitch > 0) {
+    //             driveFieldRelativeHeading(Drive.autoBalanceStop, heading);
+    //         }
+    //         else {
+    //             if (Gyro.getPitch() > 2.5) {
+    //                 driveFieldRelativeHeading(Drive.autoBalanceForward, heading);
+    //             }
+    //             else if (Gyro.getPitch() < 2.5) {
+    //                 driveFieldRelativeHeading(Drive.autoBalanceBackward, heading);
+    
+    //             }
+    //         }
+    //     }
+    //     else {
+    //         driveFieldRelativeHeading(Drive.autoBalanceStop, heading);
+    //     }
+    //     lastPitch = newPitch;
+    // }
     
     public static boolean isBalanced() {
         if (2.5 > Gyro.getPitch() && Gyro.getPitch() > -2.5) {

@@ -16,13 +16,12 @@ public class GamepieceManager {
         }
     }
 
-    public boolean foldIntake(int position) {
+    public void foldIntake(int position) {
         if (position == 0) {
-            return Intake.foldOutIntake();
+            Intake.foldOutIntake();
         } else if (position == 1) {
-            return Intake.foldInIntake();
+            Intake.foldInIntake();
         }
-        return false;
     }
     
     public void moveHandoff(int speed) {
@@ -36,10 +35,44 @@ public class GamepieceManager {
     }
     
     public void loadHandoff() {
-        if ((Intake.senseObj() || IO.loadHandoffButton()) && !foldIntake(1)) {
+        if (Intake.senseObj() || IO.loadHandoffButton()) {
             moveHandoff(1);
+            foldIntake(1);
         } else {
             moveHandoff(0);
         }
     }
+
+    private boolean runHandOff = false;
+    private long startTime = System.currentTimeMillis();
+
+    public void loadHandoffv2(){
+        if(IO.deployRunIntake()){
+            Intake.foldOutIntake();
+            Intake.runEthanWheels();
+            startTime = System.currentTimeMillis();
+            runHandOff = true;
+        }
+        else{
+            Intake.foldInIntake();
+            if (runHandOff){
+                Handoff.intakeGamePiece();
+            }
+            if (System.currentTimeMillis() - (startTime + Constants.Handoff.runTime) < 0){
+                runHandOff = false;
+            }
+        }
+    }
+    IO.GridRowPosition extentionState = IO.GridRowPosition.Retract;
+    IO.GridArmPosition armState = IO.GridArmPosition.Retract;
+    public void extention(){
+        if (IO.manualDown()){
+            extentionState = IO.GridRowPosition.Retract;
+        }else if(IO.manualUp()){
+            extentionState = IO.gridRowPosition;
+        }
+        Elevator.setElevator(extentionState);
+    }
+
+
 }

@@ -59,20 +59,20 @@ public class Elevator {
         }
     }
 
-    public static boolean setElevator(int level) { // level = desired elevator level
+    public static boolean setElevator(IO.GridRowPosition level) { // level = desired elevator level
         if(!override) {
             double elevatorSetpoint = Constants.Elevator.kRetracted;
             switch(level) {
-                case 0:
+                case Retract:
                     elevatorSetpoint = Constants.Elevator.kRetracted;
                     break;
-                case 1:
+                case Low:
                     elevatorSetpoint = Constants.Elevator.kBottomLevel;
                     break;
-                case 2:
+                case Mid:
                     elevatorSetpoint = Constants.Elevator.kMediumLevel;
                     break;
-                case 3:
+                case High:
                     elevatorSetpoint = Constants.Elevator.kTopLevel;
                     break;
             }
