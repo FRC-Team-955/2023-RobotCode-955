@@ -18,12 +18,22 @@ public final class IO {
     private static Joystick key0 = new Joystick(2);
     private static Joystick key1 = new Joystick(3);
     
-    public static boolean isOverrrideEnabled() {
-        return joy1.getRawButtonPressed(Constants.IO.Joy1.overrrideEnabledButton);
+    private static boolean override = false;
+
+    public static void setOverride(boolean _override) {
+        override = _override;
+    }
+
+    public static boolean isOverrideEnabled() {
+        return override;
     }
     
     public static boolean loadHandoffButton() {
         return joy1.getRawButton(Constants.IO.Joy1.intakeButton);
+    }
+
+    public static double armOverride() {
+        return joy1.getRawAxis(Constants.IO.Joy1.armOverrideAxis);
     }
       
     public static double elevatorOverride(){

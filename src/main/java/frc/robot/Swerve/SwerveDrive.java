@@ -7,8 +7,6 @@ import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -33,11 +31,11 @@ import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Constants;
+import frc.robot.Drivebase;
+import frc.robot.IO;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.Gyro;
-import frc.robot.gamepieceManager.Constants;
-import frc.robot.gamepieceManager.Drivebase;
-import frc.robot.gamepieceManager.IO;
 
 public class SwerveDrive {
     // status variable for being enabled
@@ -49,6 +47,7 @@ public class SwerveDrive {
     public SwerveMod[] SwerveMods;
     public double headingSetPoint;
     private PIDController controller = new PIDController(0.07,0,0);
+
     private PIDController xController = new PIDController(0.7,0,0);
     private PIDController yController = new PIDController(0.7,0,0);
     private PIDController thetaController = new PIDController(0.05,0,0);
@@ -80,7 +79,7 @@ public class SwerveDrive {
         for(SwerveMod mod : SwerveMods){
             initPoses[mod.moduleNumber] = mod.getState();
         }
-
+        
         swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
         poseEstimator = new SwerveDrivePoseEstimator(SwerveSettings.SwerveConstants.swerveKinematics,Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
     }

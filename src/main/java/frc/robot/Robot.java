@@ -21,7 +21,12 @@ public class Robot extends TimedRobot {
   AutoAlign autoAlign = new AutoAlign();
   
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    Arm.setup();
+    Elevator.setup();
+    Intake.setup();
+    Handoff.setup();
+  }
 
   @Override
   public void robotPeriodic() {}

@@ -57,6 +57,7 @@ public class Constants {
             public static int joy1Id = 1;
             public static int overrrideEnabledButton = 3;
             public static int elevatorOverrideAxis = 1;
+            public static int armOverrideAxis = 4;
             public static int intakeButton = 2;
         }
     }

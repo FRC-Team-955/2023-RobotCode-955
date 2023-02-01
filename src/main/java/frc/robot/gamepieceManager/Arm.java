@@ -25,8 +25,9 @@ public final class Arm {
     static double lastVelocity = 0;
     static DoubleLogEntry motorLog;
     static DoubleLogEntry encoderLog;
+    static double armSetPoint = 0;
 
-    public Arm() {
+    public static void setup() {
         armMotor = new CANSparkMax(Constants.Arm.kArmMotorId, MotorType.kBrushless);
         armMotor.setSmartCurrentLimit(40);
         pid = new PIDController(Constants.Arm.kP, 
@@ -55,41 +56,40 @@ public final class Arm {
     }
 
     public static void moveArm(double joyPos) {
-        if (IO.isOverrrideEnabled() == false) { 
+        if (!IO.isOverrideEnabled()) { 
             if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit && joyPos > 0) { // If elevator reach top AND trying to go up
                 armMotor.stopMotor(); //
             } else if (encoder.getPosition() <= Constants.Arm.kArmLowerLimit && joyPos < 0) { // If elevator reach bottom ANd trying to go down
                 armMotor.stopMotor();
-            } else if  (encoder.getPosition() >= Constants.Arm.kArmUpperLimit || // if arm reaches max height
-                        encoder.getPosition() <= Constants.Arm.kArmLowerLimit) { // or 
-                armMotor.stopMotor();
             } else {
                 armMotor.set(joyPos);
             }
-        } else {
-            armMotor.set(joyPos);
         }
     }
 
-    public static boolean setArm(int level, double joyPos) {
-        if (IO.isOverrrideEnabled() == false) {
-            double armSetPoint = 0;
-            switch(level) {
-                case 0:
-                    armSetPoint = Constants.Arm.kRetracted;
-                    break;
-                case 1:
-                    armSetPoint = Constants.Arm.kBottomLevel;
-                    break;
-                case 2:
-                    armSetPoint = Constants.Arm.kMiddleLevel;
-                    break;
-                case 3:
-                    armSetPoint = Constants.Arm.kTopLevel;
-                    break;
-                }
-        
+    public static void moveArmOverride(double joyPos) {
+        armMotor.set(joyPos);
+    }
 
+    public static void setArmLocation(int level) {
+        switch(level) {
+            case 0:
+                armSetPoint = Constants.Arm.kRetracted;
+                break;
+            case 1:
+                armSetPoint = Constants.Arm.kBottomLevel;
+                break;
+            case 2:
+                armSetPoint = Constants.Arm.kMiddleLevel;
+                break;
+            case 3:
+                armSetPoint = Constants.Arm.kTopLevel;
+                break;
+        }
+    }
+
+    public static boolean setArm() {
+        if (!IO.isOverrideEnabled()) {
             timer.stop(); 
             double accelRadPerSecond = (lastVelocity - encoder.getVelocity()) / timer.get(); 
             timer.reset();
@@ -104,7 +104,6 @@ public final class Arm {
             lastVelocity = encoder.getVelocity();
             return pid.atSetpoint();
         } else {
-            armMotor.set(joyPos);
             return false;
         }
     }

@@ -1,9 +1,14 @@
 package frc.robot.gamepieceManager;
 
 public class GamepieceManager {
-    public boolean setLocation(int position) {
-        boolean atSetpoint = Elevator.setElevator(position);
-        return Arm.setArm(position, 0) && atSetpoint;
+    public void setLocation(int position) {
+        Arm.setArmLocation(position);
+        Elevator.setElevatorPosition(position);
+    }
+
+    public boolean moveArmElevator() {
+        boolean armAtSetpoint = Arm.setArm();
+        return Elevator.setElevator() && armAtSetpoint;
     }
 
     public void runEthanWheels(int speed) {
