@@ -2,7 +2,7 @@ package frc.robot;
 
 public class GamepieceManager {
 
-    public static void runEthanWheels(int speed) {
+    public static boolean runEthanWheels(int speed) {
         if (speed == -1) {
             Intake.reverseEthanWheels();
         } else if (speed == 1) {
@@ -10,6 +10,7 @@ public class GamepieceManager {
         } else {
             Intake.stopEthanWheels();
         }
+        return Intake.senseObj();
     }
 
     public static void foldIntake(int position) {
