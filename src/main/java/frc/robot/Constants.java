@@ -56,21 +56,20 @@ public class Constants {
             public static int forwardRawAxis = 0;
             public static int strafeRawAxis = 1;
             public static int rotAxis = 4;
-            public static int rotationOverrideButton = 0;
+            public static int rotationOverrideButton = 1;
             public static int thrustAxis = 2;
             public static int autoAlignAxis = 3;
-            public static int autoBalanceButton = 3;
+            public static int autoBalanceButton = 4;
         }
         public static class Joy1{
             public static int joy1Id = 1;
-            public static int overrrideEnabledButton = 2;
-            public static int elevatorUpButton = 3;
-            public static int elevatorDownButton = 0;
+            public static int overrrideEnabledButton = 8;
+            public static int elevatorUpButton = 4;
+            public static int elevatorDownButton = 1;
             public static int elevatorOverrideAxis = 1;
             public static int armOverrideAxis = 4;
-            public static int intakeButton = 2;
             public static int deployRunIntakeAxis = 3;
-            public static int clawDropPieceButton = 1;
+            public static int clawDropPieceButton = 2;
         }
     }
     public static final class Arm {

@@ -31,15 +31,6 @@ public class GamepieceManager {
             Claw.stopMotor();
         }
     }
-    
-    // public static void loadClaw() {
-    //     if (Intake.senseObj() || IO.loadClawButton()) {
-    //         moveClaw(1);
-    //         foldIntake(1);
-    //     } else {
-    //         moveClaw(0);
-    //     }
-    // }
 
     private static boolean runClaw = false;
     private static long startTime = System.currentTimeMillis();
