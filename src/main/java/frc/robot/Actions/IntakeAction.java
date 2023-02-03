@@ -17,7 +17,9 @@ public class IntakeAction implements AutoAction{
         timer.start();
         if (timer.hasElapsed(time)) {
             GamepieceManager.runEthanWheels(speed);
+            return true;
         }
+        return false;
     }
     
 }

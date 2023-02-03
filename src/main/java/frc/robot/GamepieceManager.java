@@ -13,12 +13,13 @@ public class GamepieceManager {
         return Intake.senseObj();
     }
 
-    public static void foldIntake(int position) {
+    public static boolean foldIntake(int position) {
         if (position == 0) {
-            Intake.foldOutIntake();
+            return Intake.foldOutIntake();
         } else if (position == 1) {
-            Intake.foldInIntake();
+            return Intake.foldInIntake();
         }
+        return false;
     }
     
     public static void moveClaw(int speed) {
