@@ -147,9 +147,10 @@ public class Constants {
     }
     public static class FieldPositions{
         public static double centerLine = 4.01;
-        public static double inBlueCommunityX = 2;
-        public static double inRedCommunityX = 6;
-        public static double inCommunityY = 2;
+
+        public static double inBlueCommunityX = 3;
+        public static double inRedCommunityX = 13;
+        public static double inCommunityY = 2.5;
 
         public static double atGridBlueX = 1;
         public static double atGridRedX = 7;
