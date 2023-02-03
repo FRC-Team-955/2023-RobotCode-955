@@ -66,5 +66,13 @@ public class Drivebase {
     public static Pose2d getPose() {
        return drive.getPose();
     }
+
+    public static void updateSwerveOdometry(){
+        drive.updateSwerveOdometry();
+    }
+
+    public static void resetAnglesToAbsolute(){
+        drive.resetAnglesToAbsolute();
+    }
 }
 

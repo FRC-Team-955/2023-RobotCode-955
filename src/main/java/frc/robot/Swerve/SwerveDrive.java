@@ -65,8 +65,8 @@ public class SwerveDrive {
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
-            new SwerveMod(0, 4, 8, 9, 253.775, "mod0"),
-            new SwerveMod(1, 3, 2, 11, 123.886, "mod1"),
+            new SwerveMod(0, 4, 8, 9, 254.3 - 1.23 + 2.813-1.142-0.966, "mod0"),
+            new SwerveMod(1, 3, 2, 11,  123.8 - 0.09+0.176, "mod1"),
             new SwerveMod(2, 6, 7, 10, 309.223, "mod2"),
             new SwerveMod(3, 1, 5, 12, 250.524, "mod3"),
         };
@@ -90,7 +90,7 @@ public class SwerveDrive {
         }
         
         SwerveModuleState[] swerveModuleStates = null;
-        if (locked) {
+        if (false) {
             swerveModuleStates = new SwerveModuleState[]{
                 new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
                 new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
@@ -109,7 +109,7 @@ public class SwerveDrive {
                                     : new ChassisSpeeds(
                                         translation.getX(), 
                                         translation.getY(),
-                                        rotation)
+                                        rotation * 0.2)
                                     );
         }
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);

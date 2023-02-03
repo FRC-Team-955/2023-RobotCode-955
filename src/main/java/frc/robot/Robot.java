@@ -1,6 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.IO;
+import frc.robot.Constants.AprilTagCamera;
+import frc.robot.Sensors.AprilTagCameraWrapper;
 
 public class Robot extends TimedRobot {
 
@@ -27,24 +30,29 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    AprilTagCameraWrapper.setUp();
+    Drivebase.resetAnglesToAbsolute();
+  }
 
   public void teleopAllState(){
-    Drivebase.logData();
-    IO.keyInputOdometryMapping();
-    IO.keyInputRowPosition();
+    // Drivebase.logData();
+    // IO.keyInputOdometryMapping();
+    // IO.keyInputRowPosition();
   }
 
   @Override
   public void teleopPeriodic() {
-    selectTeleopState();
-    teleopAllState();
-    switch(robotState){
-      case AUTO_ALIGN:
-        autoAlign.moveToGridPosition();
-      default: // DRIVE
-        Drivebase.driveFieldRelative();
-    }
+    Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+    Drivebase.updateSwerveOdometry();
+    // selectTeleopState();
+    // teleopAllState();
+    // switch(robotState){
+    //   case AUTO_ALIGN:
+    //     autoAlign.moveToGridPosition();
+    //   default: // DRIVE
+    //     Drivebase.driveFieldRelative();
+    // }
   }
 
   @Override

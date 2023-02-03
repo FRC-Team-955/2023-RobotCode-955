@@ -11,7 +11,7 @@ public class Gyro {
      * @return acummulated rotaton -inf - inf
      */
     public static double getAngle() {
-        return pigeon.getYaw(); 
+        return -pigeon.getYaw(); 
     }; 
      /**
      * @return acummulated rotaton -179 - 180

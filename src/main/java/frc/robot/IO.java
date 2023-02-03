@@ -31,15 +31,15 @@ public final class IO {
             double rotAxis = joy0.getRawAxis(Constants.IO.joy0.rotAxis);
             double deadband = 0.15;
 
-            if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;
+            // if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;
             
-            return deadband * Math.signum(rotAxis) + ((rotAxis - deadband) / (1.0 - deadband));
+            // return deadband * Math.signum(rotAxis) + ((rotAxis - deadband) / (1.0 - deadband));
 
-            // if (Math.abs(rotAxis) < 0.15) {
-            //     return 0.0;
-            // } else {
-            //     return SwerveSettings.SwerveConstants.maxAngularVelocity * (rotAxis - (Math.signum(rotAxis) * 0.15)) / (1 - 0.15);
-            // }
+            if (Math.abs(rotAxis) < 0.15) {
+                return 0.0;
+            } else {
+                return SwerveSettings.SwerveConstants.maxAngularVelocity * (rotAxis - (Math.signum(rotAxis) * 0.15)) / (1 - 0.15);
+            }
         }
 
         private static double norm(Translation2d tAxes) {
@@ -57,10 +57,10 @@ public final class IO {
         public static Translation2d getSwerveTranslation(){
             double forwardRawAxis = joy0.getRawAxis(Constants.IO.joy0.forwardRawAxis);
             double strafeRawAxis = joy0.getRawAxis(Constants.IO.joy0.strafeRawAxis);
-            double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
-            double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
+            // double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
+            // double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-        Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardAxis : forwardAxis*0.7, thrustEnabled() ? strafeAxis : strafeAxis*0.7);
+        Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardRawAxis : forwardRawAxis*0.7, thrustEnabled() ? strafeRawAxis : strafeRawAxis*0.7);
 
             if (Math.abs(norm(tAxes)) < 0.15) {
                 return new Translation2d();
@@ -96,75 +96,75 @@ public final class IO {
     public static GridRowPosition gridRowPosition = GridRowPosition.Low;
 
     public static void keyInputRowPosition(){
-        if(key0.getRawButton(0) || key0.getRawButton(3)|| key0.getRawButton(6) || key0.getRawButton(9)|| key0.getRawButton(12)
-            || key1.getRawButton(0) || key1.getRawButton(3) || key1.getRawButton(6) || key1.getRawButton(9)){
-                gridRowPosition = GridRowPosition.Low;
-        }
-        if( key0.getRawButton(1) || key0.getRawButton(4) || key0.getRawButton(7) || key0.getRawButton(10) || key0.getRawButton(13) 
-            || key1.getRawButton(1) || key1.getRawButton(4) ||key1.getRawButton(7) || key1.getRawButton(10)){
-                gridRowPosition = GridRowPosition.Mid;
-        }
-        if( key0.getRawButton(2) || key0.getRawButton(5) || key0.getRawButton(8) || key0.getRawButton(11) || key0.getRawButton(14) 
-            || key1.getRawButton(2) || key1.getRawButton(5) ||key1.getRawButton(8) || key1.getRawButton(11)){
-                gridRowPosition = GridRowPosition.High;
-        }
+        // if(key0.getRawButton(0) || key0.getRawButton(3)|| key0.getRawButton(6) || key0.getRawButton(9)|| key0.getRawButton(12)
+        //     || key1.getRawButton(0) || key1.getRawButton(3) || key1.getRawButton(6) || key1.getRawButton(9)){
+        //         gridRowPosition = GridRowPosition.Low;
+        // }
+        // if( key0.getRawButton(1) || key0.getRawButton(4) || key0.getRawButton(7) || key0.getRawButton(10) || key0.getRawButton(13) 
+        //     || key1.getRawButton(1) || key1.getRawButton(4) ||key1.getRawButton(7) || key1.getRawButton(10)){
+        //         gridRowPosition = GridRowPosition.Mid;
+        // }
+        // if( key0.getRawButton(2) || key0.getRawButton(5) || key0.getRawButton(8) || key0.getRawButton(11) || key0.getRawButton(14) 
+        //     || key1.getRawButton(2) || key1.getRawButton(5) ||key1.getRawButton(8) || key1.getRawButton(11)){
+        //         gridRowPosition = GridRowPosition.High;
+        // }
     }
 
     public static void keyInputOdometryMapping() {
-        //1
-        if (key0.getRawButton(0) || key0.getRawButton(1) || key0.getRawButton(2)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
-            isConeNodePosition = true;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
-        //2
-        if (key0.getRawButton(3) || key0.getRawButton(4) || key0.getRawButton(5)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue1: Constants.FieldPositions.AutoAlignPositions.red1;
-            isConeNodePosition = false;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
-        //3
-        if (key0.getRawButton(6) || key0.getRawButton(7) || key0.getRawButton(8)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue2: Constants.FieldPositions.AutoAlignPositions.red3;
-            isConeNodePosition = true;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
-        //4
-        if (key0.getRawButton(9) || key0.getRawButton(10) || key0.getRawButton(11)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue3: Constants.FieldPositions.AutoAlignPositions.red3;;
-            isConeNodePosition = true;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
-        //5
-        if (key0.getRawButton(12) || key0.getRawButton(13) || key0.getRawButton(14)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue4: Constants.FieldPositions.AutoAlignPositions.red4;
-            isConeNodePosition = false;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
-        //6
-        if (key1.getRawButton(0) || key1.getRawButton(1) || key1.getRawButton(2)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue5: Constants.FieldPositions.AutoAlignPositions.red5;
-            isConeNodePosition = true;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
-        //7
-        if (key1.getRawButton(3) || key1.getRawButton(4) || key1.getRawButton(5)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue6: Constants.FieldPositions.AutoAlignPositions.red6;
-            isConeNodePosition = true;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
-        //8
-        if (key1.getRawButton(6) || key1.getRawButton(7) || key1.getRawButton(8)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue7: Constants.FieldPositions.AutoAlignPositions.red7;
-            isConeNodePosition = false;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
-        //9
-        if (key1.getRawButton(9) || key1.getRawButton(10) || key1.getRawButton(11)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue8: Constants.FieldPositions.AutoAlignPositions.red8;
-            isConeNodePosition = true;
-            AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
-        }
+        // //1
+        // if (key0.getRawButton(0) || key0.getRawButton(1) || key0.getRawButton(2)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
+        //     isConeNodePosition = true;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
+        // //2
+        // if (key0.getRawButton(3) || key0.getRawButton(4) || key0.getRawButton(5)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue1: Constants.FieldPositions.AutoAlignPositions.red1;
+        //     isConeNodePosition = false;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
+        // //3
+        // if (key0.getRawButton(6) || key0.getRawButton(7) || key0.getRawButton(8)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue2: Constants.FieldPositions.AutoAlignPositions.red3;
+        //     isConeNodePosition = true;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
+        // //4
+        // if (key0.getRawButton(9) || key0.getRawButton(10) || key0.getRawButton(11)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue3: Constants.FieldPositions.AutoAlignPositions.red3;;
+        //     isConeNodePosition = true;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
+        // //5
+        // if (key0.getRawButton(12) || key0.getRawButton(13) || key0.getRawButton(14)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue4: Constants.FieldPositions.AutoAlignPositions.red4;
+        //     isConeNodePosition = false;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
+        // //6
+        // if (key1.getRawButton(0) || key1.getRawButton(1) || key1.getRawButton(2)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue5: Constants.FieldPositions.AutoAlignPositions.red5;
+        //     isConeNodePosition = true;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
+        // //7
+        // if (key1.getRawButton(3) || key1.getRawButton(4) || key1.getRawButton(5)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue6: Constants.FieldPositions.AutoAlignPositions.red6;
+        //     isConeNodePosition = true;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
+        // //8
+        // if (key1.getRawButton(6) || key1.getRawButton(7) || key1.getRawButton(8)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue7: Constants.FieldPositions.AutoAlignPositions.red7;
+        //     isConeNodePosition = false;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
+        // //9
+        // if (key1.getRawButton(9) || key1.getRawButton(10) || key1.getRawButton(11)){
+        //     keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue8: Constants.FieldPositions.AutoAlignPositions.red8;
+        //     isConeNodePosition = true;
+        //     AutoAlign.gridAlignState = GridAlignState.AlignedToOdometry;
+        // }
 
     }
 }
