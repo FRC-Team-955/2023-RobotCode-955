@@ -69,10 +69,7 @@ public class GamepieceManager {
         elevatorInPosition = Elevator.setElevator();
         armInPosition = Arm.setArm();
         
-        if (elevatorInPosition && armInPosition){
-            return true;
-        }
-        return false;
+        return elevatorInPosition && armInPosition;
     }
     public static boolean extention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
         Elevator.setElevator(gridRowPosition);
@@ -98,16 +95,15 @@ public class GamepieceManager {
             clawDrop();
         }
     }
-    public static void manageElevator(){
+    public static void manageExtention(){
         if(!AutoAlign.isInCommunity() || !AutoAlign.isInLoadingZong()){
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
         }
         else if(IO.elevatorManualUp()){
             extention(IO.gridRowPosition, IO.gridArmPosition);
         }
-        else (IO.elevatorManualUp()){
-            extention(IO.gridRowPosition, IO.gridArmPosition);
+        else if (IO.elevatorManualDown()){
+            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
         }
-            
     }
 }
