@@ -9,6 +9,8 @@ public class AutoAlign {
     private static PIDController PIDOdometeryAlignX = new PIDController(0.7, 0, 0);
     private static PIDController PIDOdometeryAlignY = new PIDController(0.7, 0, 0);
 
+    private static final double DELTA = 0.1;
+
     Drivebase drive = new Drivebase();
 
     public static boolean alignOdometry(Translation2d goalTranslation){
@@ -17,13 +19,14 @@ public class AutoAlign {
         double poseY = pose.getY();
         double goalPoseX = goalTranslation.getX();
         double goalPoseY = goalTranslation.getY();
-    
         Double movementX = PIDOdometeryAlignX.calculate(poseX, goalPoseX);
-        Double movementY = PIDOdometeryAlignX.calculate(poseY, goalPoseY);
-        Translation2d translation = new Translation2d(Constants.isBlue()?movementY:-movementY, Constants.isBlue()?movementX:-movementX); 
+        Double movementY = PIDOdometeryAlignY.calculate(poseY, goalPoseY);
+
+        Translation2d translation = new Translation2d(Constants.isBlue()?movementY:-movementY, Constants.isBlue()?movementX:-movementX);
+
         Drivebase.driveFieldRelativeHeading(translation, 180);
 
-        if (Math.abs(goalPoseX - poseX) < 0.1 && Math.abs(goalPoseY - poseY) < 0.1) {
+        if (Math.abs(goalPoseX - poseX) < DELTA && Math.abs(goalPoseY - poseY) < DELTA) {
             return true;
         }
         else {
@@ -85,25 +88,28 @@ public class AutoAlign {
     public static boolean moveToGridPosition(){
         //REMEMBER TO RESET THE STATE BACK TO AlignedToOdometry AT SOME POINT
         if(isInCommunity()){
-            if(gridAlignState == GridAlignState.AlignedToOdometry){
-                if(alignOdometry(IO.keyInputOdometryPosition)){
-                    gridAlignState = GridAlignState.AlignedToNode;
-                }
-            }else if (gridAlignState == GridAlignState.AlignedToNode){
-                if(IO.isConeNodePosition){
-                    if(alignTape()){
-                        gridAlignY = Drivebase.getPose().getY();
-                        gridAlignState = GridAlignState.InPosition;
+            switch(gridAlignState) {
+                case AlignedToOdometry:
+                    if(alignOdometry(IO.keyInputOdometryPosition)) {
+                        gridAlignState = GridAlignState.AlignedToNode;
                     }
-                }else{
-                    if(alignAprilTag()){
-                        gridAlignY = Drivebase.getPose().getY();
-                        gridAlignState = GridAlignState.InPosition;
+                    break;
+                case AlignedToNode:
+                    if(IO.isConeNodePosition) {
+                        if(alignTape()) {
+                            gridAlignY = Drivebase.getPose().getY();
+                            gridAlignState = GridAlignState.InPosition;
+                        }
+                    } else {
+                        if(alignAprilTag()) {
+                            gridAlignY = Drivebase.getPose().getY();
+                            gridAlignState = GridAlignState.InPosition;
+                        }
                     }
-                }
-            }else if (gridAlignState == GridAlignState.InPosition){
-                return moveIntoPosition();
-            } 
+                    break;
+                case InPosition:
+                    return moveIntoPosition();
+            }
         }
         return false;
     }
