@@ -65,8 +65,7 @@ public class GamepieceManager {
         Elevator.setElevator(gridRowPosition);
         Arm.setArm(armRowPosition);
     }
-    public static boolean extention(){
-        
+    public static boolean runExtention(){
         elevatorInPosition = Elevator.setElevator();
         armInPosition = Arm.setArm();
         
@@ -74,6 +73,15 @@ public class GamepieceManager {
             return true;
         }
         return false;
+    }
+    public static boolean extention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
+        Elevator.setElevator(gridRowPosition);
+        elevatorInPosition = Elevator.setElevator();
+
+        Arm.setArm(armRowPosition);
+        armInPosition = Arm.setArm();
+        
+        return elevatorInPosition && armInPosition;
     }
 
     public static void clawDrop(){
@@ -92,15 +100,14 @@ public class GamepieceManager {
     }
     public static void manageElevator(){
         if(!AutoAlign.isInCommunity() || !AutoAlign.isInLoadingZong()){
-            // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
         }
         else if(IO.elevatorManualUp()){
-            // extention(IO.gridRowPosition, IO.gridArmPosition);
+            extention(IO.gridRowPosition, IO.gridArmPosition);
         }
-        // }
-        // else (IO.elevatorManualUp()){
-        //     // extention(IO.gridRowPosition, IO.gridArmPosition);
-        // }
+        else (IO.elevatorManualUp()){
+            extention(IO.gridRowPosition, IO.gridArmPosition);
+        }
             
     }
 }
