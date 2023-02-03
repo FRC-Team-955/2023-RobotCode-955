@@ -14,15 +14,13 @@ public class Robot extends TimedRobot {
   static Arm arm = new Arm();
   static ColorSensor colorSensor = new ColorSensor();
   static RobotState robotState = RobotState.DRIVING;
-
-  AutoAlign autoAlign = new AutoAlign();
   
   @Override
   public void robotInit() {
     Arm.setup();
     Elevator.setup();
     Intake.setup();
-    Handoff.setup();
+    Claw.setup();
   }
 
   @Override
@@ -51,7 +49,7 @@ public class Robot extends TimedRobot {
     switch(robotState){
       case AUTO_ALIGN:
       //move the auto align into game pience along with the arm code
-        if (autoAlign.moveToGridPosition()){
+        if (AutoAlign.moveToGridPosition()){
           //run drop function
         }
       case AUTO_BALANCE:

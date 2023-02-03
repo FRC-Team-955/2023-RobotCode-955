@@ -2,7 +2,7 @@ package frc.robot;
 
 public class GamepieceManager {
 
-    public void runEthanWheels(int speed) {
+    public static void runEthanWheels(int speed) {
         if (speed == -1) {
             Intake.reverseEthanWheels();
         } else if (speed == 1) {
@@ -12,7 +12,7 @@ public class GamepieceManager {
         }
     }
 
-    public void foldIntake(int position) {
+    public static void foldIntake(int position) {
         if (position == 0) {
             Intake.foldOutIntake();
         } else if (position == 1) {
@@ -20,56 +20,75 @@ public class GamepieceManager {
         }
     }
     
-    public void moveHandoff(int speed) {
+    public static void moveClaw(int speed) {
         if (speed == -1) {
-            Handoff.outputGamePiece();
+            Claw.outputGamePiece();
         } else if (speed == 1) {
-            Handoff.intakeGamePiece();
+            Claw.intakeGamePiece();
         } else {
-            Handoff.stopMotor();
+            Claw.stopMotor();
         }
     }
     
-    public void loadHandoff() {
-        if (Intake.senseObj() || IO.loadHandoffButton()) {
-            moveHandoff(1);
-            foldIntake(1);
-        } else {
-            moveHandoff(0);
-        }
-    }
+    // public static void loadClaw() {
+    //     if (Intake.senseObj() || IO.loadClawButton()) {
+    //         moveClaw(1);
+    //         foldIntake(1);
+    //     } else {
+    //         moveClaw(0);
+    //     }
+    // }
 
-    private boolean runHandOff = false;
-    private long startTime = System.currentTimeMillis();
+    private static boolean runClaw = false;
+    private static long startTime = System.currentTimeMillis();
 
-    public void loadHandoffv2(){
-        if(IO.deployRunIntake()){
+    public static void loadClaw(){
+        if(IO.intakeDeployRun()){
             Intake.foldOutIntake();
             Intake.runEthanWheels();
             startTime = System.currentTimeMillis();
-            runHandOff = true;
+            runClaw = true;
         }
         else{
             Intake.foldInIntake();
-            if (runHandOff){
-                Handoff.intakeGamePiece();
+            if (runClaw){
+                Claw.intakeGamePiece();
             }
-            if (System.currentTimeMillis() - (startTime + Constants.Handoff.runTime) < 0){
-                runHandOff = false;
+            if (System.currentTimeMillis() - (startTime + Constants.Claw.runTime) > 0){
+                runClaw = false;
             }
         }
     }
-    IO.GridRowPosition elevatorState = IO.GridRowPosition.Retract;
-    IO.GridArmPosition armState = IO.GridArmPosition.Retract;
-    public void extention(){
-        if (IO.manualDown()){
-            elevatorState = IO.GridRowPosition.Retract;
-        }else if(IO.manualUp()){
-            elevatorState = IO.gridRowPosition;
+    private static boolean elevatorInPosition = false;
+    private static boolean armInPosition = false;
+    public static boolean extention(){
+        // if (IO.elevatorManualDown()){
+        //     Elevator.setElevator(IO.GridRowPosition.Retract);
+        //     Arm.setArm(IO.GridArmPosition.Retract);
+        // }else if(IO.elevatorManualUp()){
+            Elevator.setElevator(IO.gridRowPosition);
+            Arm.setArm(IO.gridArmPosition);
+        // }
+        elevatorInPosition = Elevator.setElevator();
+        armInPosition = Arm.setArm();
+        if (elevatorInPosition && armInPosition){
+            return true;
         }
-        Elevator.setElevator(elevatorState);
-        Arm.setArm(armState);
+        return false;
     }
 
-
+    public static void clawDrop(){
+        if (IO.clawDropPiece()){
+            Claw.outputGamePiece();
+        }
+    }
+    private static boolean robotInPosition = false;
+    private static boolean extentionInPosition = false;
+    public static void autoPlace(){
+        robotInPosition = AutoAlign.moveToGridPosition();
+        extentionInPosition = AutoAlign.isInCommunity() && extention();
+        if (robotInPosition && extentionInPosition){
+            clawDrop();
+        }
+    }
 }

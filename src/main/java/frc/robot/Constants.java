@@ -20,9 +20,9 @@ public class Constants {
         static double intakeFoldMotorOutput = 0.1;
     }
 
-    public static class Handoff{
+    public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
-        static int handoffMotorOneNum = 3;
+        static int clawMotorOneNum = 3;
         static double runTime = 2000;
     }
 
@@ -63,6 +63,7 @@ public class Constants {
             public static int armOverrideAxis = 4;
             public static int intakeButton = 2;
             public static int deployRunIntakeAxis = 3;
+            public static int clawDropPieceButton = 1;
         }
     }
     public static final class Arm {

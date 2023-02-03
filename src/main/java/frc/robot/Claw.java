@@ -8,28 +8,28 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 
-public class Handoff {
-    static TalonSRX handoffMotorOne;
+public class Claw {
+    static TalonSRX clawMotorOne;
     static DoubleLogEntry motorLog;
 
     public static void setup(){
-        //handoff only has one motor
-        handoffMotorOne = new TalonSRX(Constants.Handoff.handoffMotorOneNum);
+        //claw only has one motor
+        clawMotorOne = new TalonSRX(Constants.Claw.clawMotorOneNum);
         DataLog log = DataLogManager.getLog();
-        motorLog = new DoubleLogEntry(log, "/handoff/motor");
+        motorLog = new DoubleLogEntry(log, "/claw/motor");
     }
 
     //sucks in the game piece and stops
     public static void intakeGamePiece(){
-        handoffMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
+        clawMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
     }
 
     //spits out the game piece
     public static void outputGamePiece(){
-        handoffMotorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
+        clawMotorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
     }
 
     public static void stopMotor() {
-        handoffMotorOne.set(ControlMode.PercentOutput, 0);
+        clawMotorOne.set(ControlMode.PercentOutput, 0);
     }
 }

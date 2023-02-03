@@ -108,6 +108,10 @@ public final class Arm {
             return false;
         }
     }
+    public static boolean setArm(){
+        //this is a place holder for when the PID is moved in
+        return false;
+    }
 }
 
 

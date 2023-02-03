@@ -27,15 +27,21 @@ public final class IO {
         return override;
     }
     
-    public static boolean loadHandoffButton() {
+    public static boolean loadClawButton() {
         return joy1.getRawButton(Constants.IO.Joy1.intakeButton);
     }
-    public static boolean manualUp(){
+
+    public static boolean elevatorManualUp(){
         return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton);
     }
-    public static boolean manualDown(){
+    public static boolean elevatorManualDown(){
         return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorDownButton);
     }
+    public static boolean clawDropPiece(){
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.clawDropPieceButton);
+
+    }
+
     public static double armOverride() {
         return joy1.getRawAxis(Constants.IO.Joy1.armOverrideAxis);
     }
@@ -44,7 +50,7 @@ public final class IO {
         return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
     }
 
-    public static boolean deployRunIntake(){
+    public static boolean intakeDeployRun(){
         return joy0.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
     }
 
@@ -126,7 +132,7 @@ public final class IO {
         CubePrep,
         CubeReady
     }
-    public static GridRowPosition gridArmPosition = GridRowPosition.Retract;
+    public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
     
     public static enum GridRowPosition{
         Retract,
