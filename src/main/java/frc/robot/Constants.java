@@ -56,9 +56,9 @@ public class Constants {
             public static int forwardRawAxis = 0;
             public static int strafeRawAxis = 1;
             public static int rotAxis = 4;
-            public static int rotationOverrideButton = 1;
-            public static int thrustAxis = 2;
-            public static int autoAlignAxis = 3;
+            public static int rotationOverrideButton = 5;
+            public static int thrustAxis = 3;
+            public static int autoAlignAxis = 2;
             public static int autoBalanceButton = 4;
         }
         public static class Joy1{

@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import frc.robot.AutoAlign.GridAlignState;
 import frc.robot.Swerve.SwerveSettings;
 
 public final class IO {
