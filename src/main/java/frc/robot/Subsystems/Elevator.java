@@ -1,4 +1,7 @@
-package frc.robot;
+package frc.robot.Subsystems;
+
+import frc.robot.Constants;
+import frc.robot.IO;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;

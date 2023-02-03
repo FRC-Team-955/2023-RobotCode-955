@@ -20,17 +20,17 @@ public class Constants {
 
     public static class Intake{
         //CHANGE THE MOTOR NUMBERS TO THEIR ACTUAL ONES
-        static double motorOutput = 0.3;
-        static int motorOneNum = 1;
-        static int motorTwoNum = 2;
-        static int intakeFoldMotorNum = 4;
-        static double intakeFoldMotorOutput = 0.1;
+        public static double motorOutput = 0.3;
+        public static int motorOneNum = 1;
+        public static int motorTwoNum = 2;
+        public static int intakeFoldMotorNum = 4;
+        public static double intakeFoldMotorOutput = 0.1;
     }
 
     public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
-        static int clawMotorOneNum = 3;
-        static double runTime = 2000;
+        public static int clawMotorOneNum = 3;
+        public static double runTime = 2000;
     }
 
     public static class AprilTagCamera{

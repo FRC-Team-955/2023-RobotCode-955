@@ -1,4 +1,7 @@
-package frc.robot;
+package frc.robot.Subsystems;
+
+import frc.robot.Constants;
+import frc.robot.IO;
 
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
@@ -13,7 +16,6 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
-
 
 public final class Arm {
     static CANSparkMax armMotor;
