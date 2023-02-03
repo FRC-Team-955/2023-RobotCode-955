@@ -61,16 +61,13 @@ public class GamepieceManager {
     }
     private static boolean elevatorInPosition = false;
     private static boolean armInPosition = false;
-    public static boolean extention(){
-        // if (IO.elevatorManualDown()){
-        //     Elevator.setElevator(IO.GridRowPosition.Retract);
-        //     Arm.setArm(IO.GridArmPosition.Retract);
-        // }else if(IO.elevatorManualUp()){
-            Elevator.setElevator(IO.gridRowPosition);
-            Arm.setArm(IO.gridArmPosition);
-        // }
+    public static boolean extention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
+        Elevator.setElevator(gridRowPosition);
         elevatorInPosition = Elevator.setElevator();
+
+        Arm.setArm(armRowPosition);
         armInPosition = Arm.setArm();
+        
         if (elevatorInPosition && armInPosition){
             return true;
         }
@@ -86,9 +83,15 @@ public class GamepieceManager {
     private static boolean extentionInPosition = false;
     public static void autoPlace(){
         robotInPosition = AutoAlign.moveToGridPosition();
-        extentionInPosition = AutoAlign.isInCommunity() && extention();
+        extentionInPosition = AutoAlign.isInCommunity() && extention(IO.gridRowPosition, IO.gridArmPosition);
         if (robotInPosition && extentionInPosition){
             clawDrop();
         }
+    }
+    public static void manageElevator(){
+        if(!AutoAlign.isInCommunity()){
+            extention(IO.gridRowPosition, IO.gridArmPosition);
+        }
+            
     }
 }

@@ -5,9 +5,16 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class Constants {
     // Auto Balance PID
     // Note from owen: we will have soooo many pids these need to be named better
-    public static double kP = 1;
-    public static double kI = 0;
-    public static double kD = 0;
+    public static class Drivebase{
+
+        public static double kP = 1;
+        public static double kI = 0;
+        public static double kD = 0;
+
+        public static Translation2d autoBalanceStop = new Translation2d(0,0);
+        public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
+        public static Translation2d autoBalanceBackward = new Translation2d(0,-0.1);
+    }
     public static double forwardRateLimiter = 0;
     public static double strafeRateLimiter = 0;
 

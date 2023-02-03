@@ -55,42 +55,42 @@ public final class Arm {
     }
 
     public static void moveArm(double joyPos) {
-        if (IO.isOverrideEnabled() == false) { 
-            if (encoder.getPosition() >= Constants.Arm.kArmUpperLimit && joyPos > 0) { // If elevator reach top AND trying to go up
-                armMotor.stopMotor(); //
-            } else if (encoder.getPosition() <= Constants.Arm.kArmLowerLimit && joyPos < 0) { // If elevator reach bottom ANd trying to go down
-                armMotor.stopMotor();
-            } else if  (encoder.getPosition() >= Constants.Arm.kArmUpperLimit || // if arm reaches max height
-                        encoder.getPosition() <= Constants.Arm.kArmLowerLimit) { // or 
-                armMotor.stopMotor();
-            } else {
+        if (!IO.isOverrideEnabled()) { 
+            if ((encoder.getPosition() >= Constants.Arm.kArmUpperLimit && joyPos > 0)|| 
+                (encoder.getPosition() <= Constants.Arm.kArmLowerLimit && joyPos < 0)) { // If elevator reach top AND trying to go up
+                armMotor.stopMotor(); 
+            }
+            else {
                 armMotor.set(joyPos);
             }
         }
     }
+    public static void moveArmOverride(double joyPos) {
+        armMotor.set(joyPos);
+    }
 
-    public static boolean setArm(IO.GridArmPosition level) {
-        if (IO.isOverrideEnabled() == false) {
-            double armSetPoint = 0;
-            switch(level) {
-                case Retract:
-                    armSetPoint = Constants.Arm.kRetracted;
-                    break;
-                case ConePrep:
-                    armSetPoint = Constants.Arm.kConePrep;
-                    break;
-                case ConeReady:
-                    armSetPoint = Constants.Arm.kConeReady;
-                    break;
-                case CubePrep:
-                    armSetPoint = Constants.Arm.kCubePrep;
-                    break;
-                case CubeReady:
-                    armSetPoint = Constants.Arm.kCubeReady;
-                    break;
-                }
-        
-
+    public static double armSetPoint = 0;
+    public static void setArm(IO.GridArmPosition level) {
+        switch(level) {
+            case Retract:
+                armSetPoint = Constants.Arm.kRetracted;
+                break;
+            case ConePrep:
+                armSetPoint = Constants.Arm.kConePrep;
+                break;
+            case ConeReady:
+                armSetPoint = Constants.Arm.kConeReady;
+                break;
+            case CubePrep:
+                armSetPoint = Constants.Arm.kCubePrep;
+                break;
+            case CubeReady:
+                armSetPoint = Constants.Arm.kCubeReady;
+                break;
+        }
+    }
+    public static boolean setArm(){
+        if (!IO.isOverrideEnabled()) {
             timer.stop(); 
             double accelRadPerSecond = (lastVelocity - encoder.getVelocity()) / timer.get(); 
             timer.reset();
@@ -104,12 +104,7 @@ public final class Arm {
             armMotor.setVoltage(output); 
             lastVelocity = encoder.getVelocity();
             return pid.atSetpoint();
-        } else {
-            return false;
         }
-    }
-    public static boolean setArm(){
-        //this is a place holder for when the PID is moved in
         return false;
     }
 }
