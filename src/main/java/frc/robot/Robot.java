@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+<<<<<<< Updated upstream
 
     selectTeleopState();
     teleopAllState();
@@ -59,6 +60,21 @@ public class Robot extends TimedRobot {
         AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
         Drivebase.driveFieldRelative();
     }
+=======
+    Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
+    Drivebase.updateSwerveOdometry();
+    System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());
+
+    
+    // selectTeleopState();
+    // teleopAllState();
+    // switch(robotState){
+    //   case AUTO_ALIGN:
+    //     autoAlign.moveToGridPosition();
+    //   default: // DRIVE
+    //     Drivebase.driveFieldRelative();
+    // }
+>>>>>>> Stashed changes
   }
 
   @Override

@@ -63,7 +63,7 @@ public class SwerveDrive {
     public boolean locked = false;
 
     public SwerveDrive() {       
-        Gyro.set(0); 
+        Gyro.set(-90); 
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
@@ -90,6 +90,8 @@ public class SwerveDrive {
         }else{
             headingSetPoint += rotation * 0.24;
         }
+
+        System.out.println(Gyro.getAngle());
         
         SwerveModuleState[] swerveModuleStates = null;
         if (locked) {
@@ -105,7 +107,7 @@ public class SwerveDrive {
                     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                         translation.getX(), 
                                         translation.getY(), 
-                                        controller.calculate(Gyro.getAngle(), headingSetPoint), 
+                                        controller.calculate(Gyro.getAngle()+90, headingSetPoint), 
                                         Gyro.getHeadingR2D()
                                     )
                                     : new ChassisSpeeds(
@@ -155,6 +157,7 @@ public class SwerveDrive {
         //     SwerveMods[2].getState(),
         //     SwerveMods[3].getState()
         // );
+<<<<<<< Updated upstream
         poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses());
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(getPose());
         //Filter when not level
@@ -162,8 +165,19 @@ public class SwerveDrive {
             EstimatedRobotPose camPose = result.get();
             //Filter when pose is too far from current pose
             if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
+=======
+        poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()-90), getPoses());
+        Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
+        // && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll
+        System.out.println(result.isPresent());
+
+        if (result.isPresent()) {
+            EstimatedRobotPose camPose = result.get();
+            System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
+            // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
+>>>>>>> Stashed changes
                 poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
-            }
+            // }
         }
 
     }

@@ -35,9 +35,9 @@ public class Constants {
 
     public static class AprilTagCamera{
         //The position of the globalshutter camera in robot cordinate system
-        public static double xPosition = 0.5;
+        public static double xPosition = 0.46;
         public static double yPosition = 0;
-        public static double zPosition = 0.5;
+        public static double zPosition = 0;
 
         public static double kAlignTolerance= 0.1; // Faris: random number idk actual value
         
