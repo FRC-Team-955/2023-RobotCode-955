@@ -106,7 +106,7 @@ public class Constants {
     
     public final static class Elevator {
         // Elevator Motor Id's
-        public static int kElevatorMotorId = 0;
+        public static int kElevatorMotorId = 20;
         // Elevator Encoder Values
         public static double kElevatorUpperLimit = 5000;
         public static double kElevatorLowerLimit = 0;
@@ -145,47 +145,47 @@ public class Constants {
         public static double kConeBlue = 0.0947265625;
     }
     public static class FieldPositions{
-        public static double centerLine = 4.01;
+        public static double centerLine = 8.27;
 
         public static double inBlueCommunityX = 3;
         public static double inRedCommunityX = 13;
-        public static double inCommunityY = 2.5;
+        public static double inCommunityY = 8.02-2.5;
 
-        public static double atGridBlueX = 1;
-        public static double atGridRedX = 7;
+        public static double atGridBlueX = 1.8;
+        public static double atGridRedX = 16.54-1.8;
 
         public static class AutoAlignPositions{
-            public static Translation2d blue0 = new Translation2d(2.0,3);
-            public static Translation2d blue1 = new Translation2d(2.0,3.5625);
-            public static Translation2d blue2 = new Translation2d(2.0,4.125);
-            public static Translation2d blue3 = new Translation2d(2.0,4.6875);
-            public static Translation2d blue4 = new Translation2d(2.0, 5.25);
-            public static Translation2d blue5 = new Translation2d(2.0, 5.8125);
-            public static Translation2d blue6 = new Translation2d(2.0,6.375);
-            public static Translation2d blue7 = new Translation2d(2.0,6.9375);
-            public static Translation2d blue8 = new Translation2d(2.0,7.5);
-            public static Translation2d blueAvoidChargerUppper = new Translation2d(5.5,3);
-            public static Translation2d blueOutCommunityUppper = new Translation2d(4.0, 3);
-            public static Translation2d blueInCommunityUppper = new Translation2d(2.0, 3);
-            public static Translation2d blueAvoidChargerLower = new Translation2d(5.5,7.5);
-            public static Translation2d blueOutCommunityLower = new Translation2d(4.0, 7.5);
-            public static Translation2d blueInCommunityLower = new Translation2d(2.0, 7.5);
+            public static Translation2d blue0 = new Translation2d(2.2,8.02-3);
+            public static Translation2d blue1 = new Translation2d(2.2,4.42);
+            public static Translation2d blue2 = new Translation2d(2.2,8.02-4.125);
+            public static Translation2d blue3 = new Translation2d(2.2,8.02-4.6875);
+            public static Translation2d blue4 = new Translation2d(2.2, 8.02-5.25);
+            public static Translation2d blue5 = new Translation2d(2.2, 8.02-5.8125);
+            public static Translation2d blue6 = new Translation2d(2.2,8.02-6.375);
+            public static Translation2d blue7 = new Translation2d(2.2,8.02-6.9375);
+            public static Translation2d blue8 = new Translation2d(2.2,8.02-7.5);
+            public static Translation2d blueAvoidChargerUppper = new Translation2d(5.5,8.02-3);
+            public static Translation2d blueOutCommunityUppper = new Translation2d(4.0, 8.02-3);
+            public static Translation2d blueInCommunityUppper = new Translation2d(2.0, 8.02-3);
+            public static Translation2d blueAvoidChargerLower = new Translation2d(5.5,8.02-7.5);
+            public static Translation2d blueOutCommunityLower = new Translation2d(4.0, 8.02-7.5);
+            public static Translation2d blueInCommunityLower = new Translation2d(2.0, 8.02-7.5);
 
-            public static Translation2d red0 = new Translation2d(14.0,3);
-            public static Translation2d red1 = new Translation2d(14.0,3.5625);
-            public static Translation2d red2 = new Translation2d(14.0,4.125);
-            public static Translation2d red3 = new Translation2d(14.0,4.6875);
-            public static Translation2d red4 = new Translation2d(14.0, 5.25);
-            public static Translation2d red5 = new Translation2d(14.0, 5.8125);
-            public static Translation2d red6 = new Translation2d(14.0,6.375);
-            public static Translation2d red7 = new Translation2d(14.0,6.9375);
-            public static Translation2d red8 = new Translation2d(14.0,7.5);
-            public static Translation2d redAvoidChargerUppper = new Translation2d(11,3);
-            public static Translation2d redOutCommunityUppper = new Translation2d(12.5, 3);
-            public static Translation2d redInCommunityUppper = new Translation2d(14, 3);
-            public static Translation2d redAvoidChargerLower = new Translation2d(11,7.5);
-            public static Translation2d redOutCommunityLower = new Translation2d(12.5, 7.5);
-            public static Translation2d redInCommunityLower = new Translation2d(14, 7.5);
+            public static Translation2d red0 = new Translation2d(14.34,8.02-3);
+            public static Translation2d red1 = new Translation2d(14.34,8.02-3.5625);
+            public static Translation2d red2 = new Translation2d(14.34,8.02-4.125);
+            public static Translation2d red3 = new Translation2d(14.34,8.02-4.6875);
+            public static Translation2d red4 = new Translation2d(14.34, 8.02-5.25);
+            public static Translation2d red5 = new Translation2d(14.34, 8.02-5.8125);
+            public static Translation2d red6 = new Translation2d(14.34,8.02-6.375);
+            public static Translation2d red7 = new Translation2d(14.34,8.02-6.9375);
+            public static Translation2d red8 = new Translation2d(14.34,8.02-7.5);
+            public static Translation2d redAvoidChargerUppper = new Translation2d(11,8.02-3);
+            public static Translation2d redOutCommunityUppper = new Translation2d(12.5, 8.02-3);
+            public static Translation2d redInCommunityUppper = new Translation2d(14, 8.02-3);
+            public static Translation2d redAvoidChargerLower = new Translation2d(11,8.02-7.5);
+            public static Translation2d redOutCommunityLower = new Translation2d(12.5, 8.02-7.5);
+            public static Translation2d redInCommunityLower = new Translation2d(14, 8.02-7.5);
         }   
     }
 

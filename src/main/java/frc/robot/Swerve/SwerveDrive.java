@@ -88,7 +88,7 @@ public class SwerveDrive {
         }else if (useFixedHeading){
             headingSetPoint = heading;
         }else{
-            headingSetPoint += rotation * 0.24;
+            headingSetPoint += rotation * 0.44;
         }
 
         System.out.println(Gyro.getAngle());
@@ -157,15 +157,6 @@ public class SwerveDrive {
         //     SwerveMods[2].getState(),
         //     SwerveMods[3].getState()
         // );
-<<<<<<< Updated upstream
-        poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses());
-        Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(getPose());
-        //Filter when not level
-        if (result.isPresent() && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll) {
-            EstimatedRobotPose camPose = result.get();
-            //Filter when pose is too far from current pose
-            if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
-=======
         poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()-90), getPoses());
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
         // && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll
@@ -175,7 +166,6 @@ public class SwerveDrive {
             EstimatedRobotPose camPose = result.get();
             System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
             // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
->>>>>>> Stashed changes
                 poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
             // }
         }

@@ -89,10 +89,10 @@ public final class IO {
         public static Translation2d getSwerveTranslation(){
             double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
             double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
-            double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
-            double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
+            // double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
+            // // double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-        Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardAxis : forwardAxis*0.7, thrustEnabled() ? strafeAxis : strafeAxis*0.7);
+        Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardRawAxis : forwardRawAxis*0.7, thrustEnabled() ? strafeRawAxis : strafeRawAxis*0.7);
 
             if (Math.abs(norm(tAxes)) < 0.15) {
                 return new Translation2d();

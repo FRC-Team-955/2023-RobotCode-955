@@ -16,6 +16,14 @@ public class Drivebase {
 
     private static SwerveDrive drive = new SwerveDrive();
 
+    public static void updateSwerveOdometry(){
+        drive.updateSwerveOdometry();
+    }
+
+    public static void resetAnglesToAbsolute() {
+        drive.resetAnglesToAbsolute();
+    }
+
     public static void driveFieldRelative(){
         Pose2d pose = drive.getPose();
         double heading = 0;
