@@ -86,9 +86,9 @@ public class SwerveMod{
         anglePID.setI(SwerveSettings.SwerveConstants.angleKI);
         anglePID.setD(SwerveSettings.SwerveConstants.angleKD);
 
-        // Drive Encoder
-        driveEncoder = driveMotor.getAlternateEncoder(42);
-        driveEncoder = driveMotor.getEncoder();
+        // // Drive Encoder
+        // driveEncoder = driveMotor.getAlternateEncoder(42);
+        // driveEncoder = driveMotor.getEncoder();
         
 
         // Drive PID

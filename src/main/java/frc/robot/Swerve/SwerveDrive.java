@@ -39,7 +39,7 @@ public class SwerveDrive {
     // status variable for being enabled
     public boolean mIsEnabled = false;
 
-    public SwerveDriveOdometry swerveOdometry;
+    // public SwerveDriveOdometry swerveOdometry;
     public final SwerveDrivePoseEstimator poseEstimator;
 
     public SwerveMod[] SwerveMods;
@@ -78,7 +78,7 @@ public class SwerveDrive {
             initPoses[mod.moduleNumber] = mod.getState();
         }
         
-        swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
+        // swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
         poseEstimator = new SwerveDrivePoseEstimator(SwerveSettings.SwerveConstants.swerveKinematics,Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
     }
 
@@ -254,7 +254,8 @@ public class SwerveDrive {
          //                                                       The robot fields angle (in pathweaver rotation)
         // System.out.println("trajectory: " +trajectory.getInitialPose().getRotation());
         //Rotation2d.fromDegrees(90)
-        swerveOdometry.resetPosition(trajectory.getInitialPose().getRotation(), getPoses(), trajectory.getInitialPose());
+        poseEstimator.resetPosition(trajectory.getInitialPose().getRotation(), getPoses(), trajectory.getInitialPose());
+        // swerveOdometry.resetPosition(trajectory.getInitialPose().getRotation(), getPoses(), trajectory.getInitialPose());
         timer.reset();
         timer.start();
     }

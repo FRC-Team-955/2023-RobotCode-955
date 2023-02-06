@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
 
       AutoAlign.alignAprilTag();
     }
-    if (IO.Drivebase.isAutoAlignActive()) {
+    else if (IO.Drivebase.isAutoAlignActive()) {
       AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1);
     } else {
       Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
