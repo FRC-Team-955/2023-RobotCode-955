@@ -27,13 +27,13 @@ public class AprilTagCameraWrapper {
 
     private static PhotonPipelineResult result;
 
-    public AprilTagCameraWrapper(){
-        final AprilTag tag01 = new AprilTag(01, new Pose3d(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0))));
+    public static void setUp(){
+        final AprilTag tag01 = new AprilTag(01, new Pose3d(new Pose2d(1.027, 4.42, Rotation2d.fromDegrees(0.0))));
         ArrayList<AprilTag> atList = new ArrayList<AprilTag>();
         atList.add(tag01);
         aprilTagFieldLayout = new AprilTagFieldLayout(atList, 10, 10);
         // aprilTagFieldLayout = new AprilTagFieldLayout(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile));
-        camera = new PhotonCamera("GlobalShutterCamera");
+        camera = new PhotonCamera("Global_Shutter_Camera");
         Transform3d robotToCam = new Transform3d(new Translation3d(Constants.AprilTagCamera.xPosition, Constants.AprilTagCamera.yPosition, Constants.AprilTagCamera.zPosition), new Rotation3d(0,0,0));
         photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera, robotToCam);
 

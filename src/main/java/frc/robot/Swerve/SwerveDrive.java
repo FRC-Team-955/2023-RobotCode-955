@@ -1,5 +1,7 @@
 package frc.robot.Swerve;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -17,17 +19,18 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.Drivebase;
 import frc.robot.IO;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.Gyro;
@@ -60,7 +63,7 @@ public class SwerveDrive {
     public boolean locked = false;
 
     public SwerveDrive() {       
-        Gyro.set(0); 
+        Gyro.set(-90); 
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
@@ -85,8 +88,10 @@ public class SwerveDrive {
         }else if (useFixedHeading){
             headingSetPoint = heading;
         }else{
-            headingSetPoint += rotation * 0.24;
+            headingSetPoint += rotation * 0.44;
         }
+
+        System.out.println(Gyro.getAngle());
         
         SwerveModuleState[] swerveModuleStates = null;
         if (locked) {
@@ -102,7 +107,7 @@ public class SwerveDrive {
                     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                         translation.getX(), 
                                         translation.getY(), 
-                                        controller.calculate(Gyro.getAngle(), headingSetPoint), 
+                                        controller.calculate(Gyro.getAngle()+90, headingSetPoint), 
                                         Gyro.getHeadingR2D()
                                     )
                                     : new ChassisSpeeds(
@@ -152,14 +157,17 @@ public class SwerveDrive {
         //     SwerveMods[2].getState(),
         //     SwerveMods[3].getState()
         // );
-        poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses());
+        poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()-90), getPoses());
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
-        //
-        if (result.isPresent() && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll) {
+        // && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll
+        System.out.println(result.isPresent());
+
+        if (result.isPresent()) {
             EstimatedRobotPose camPose = result.get();
-            if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
+            System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
+            // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
                 poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
-            }
+            // }
         }
 
     }
@@ -227,55 +235,54 @@ public class SwerveDrive {
         // trajectory = TrajectoryGenerator.generateTrajectory(getPose(), interiorWaypoints, new Pose2d(IO.keyInputOdometryPosition, new Rotation2d()), config);
 
     }  
-    // public void loadTrajectory(String name){
-    //     String trajectoryJSON = "pathplanner/generatedJSON/" + name;
-    //     Path deployDirectory;
-    //     try {
-    //         deployDirectory = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-    //         trajectory = TrajectoryUtil.fromPathweaverJson(deployDirectory);
-    //     } catch (IO.DrivebaseException ex) {
-    //         DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    //     }
+    
+    public void loadTrajectory(String name){
+        String trajectoryJSON = "pathplanner/generatedJSON/" + name;
+        Path deployDirectory;
+        try {
+            deployDirectory = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+            trajectory = TrajectoryUtil.fromPathweaverJson(deployDirectory);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
 
-    //     // Json = deployDirectory.toString();
+        // Json = deployDirectory.toString();
 
 
-    //     ahrs.setAngleAdjustment(0);
-    //     // ahrs.setAngleAdjustment(0);
-    //      //                                                       The robot fields angle (in pathweaver rotation)
-    //     // System.out.println("trajectory: " +trajectory.getInitialPose().getRotation());
-    //     //Rotation2d.fromDegrees(90)
-    //     swerveOdometry.resetPosition(trajectory.getInitialPose(), trajectory.getInitialPose().getRotation());
-    //     timer.reset();
-    //     timer.start();
-    // }
+        Gyro.set(0);
+        // ahrs.setAngleAdjustment(0);
+         //                                                       The robot fields angle (in pathweaver rotation)
+        // System.out.println("trajectory: " +trajectory.getInitialPose().getRotation());
+        //Rotation2d.fromDegrees(90)
+        poseEstimator.resetPosition(trajectory.getInitialPose().getRotation(), getPoses(), trajectory.getInitialPose());
+        // swerveOdometry.resetPosition(trajectory.getInitialPose().getRotation(), getPoses(), trajectory.getInitialPose());
+        timer.reset();
+        timer.start();
+    }
 
-    // public boolean followTrajectory(double holonomicRotation){
+    public boolean followTrajectory(double holonomicRotation){
      
-    //     updateSwerveOdometry();
-    //     Trajectory.State goal = trajectory.sample(timer.get());
-    //                 //                                                          rotation in Path Weaver
-    //     ChassisSpeeds adjustedSpeeds = autoController.calculate(getPose(), goal, Rotation2d.fromDegrees(0));
+        updateSwerveOdometry();
+        Trajectory.State goal = trajectory.sample(timer.get());
+                    //                                                          rotation in Path Weaver
+        ChassisSpeeds adjustedSpeeds = autoController.calculate(getPose(), goal, Rotation2d.fromDegrees(0));
 
 
-    //     adjustedSpeeds.vyMetersPerSecond *=-1;
+        adjustedSpeeds.vyMetersPerSecond *=-1;
 
-    //     ChassisSpeeds adjustedSpeeds2 = new ChassisSpeeds(adjustedSpeeds.vxMetersPerSecond,adjustedSpeeds.vyMetersPerSecond, thetaController.calculate(ahrs.getAngle(), holonomicRotation));
+        ChassisSpeeds adjustedSpeeds2 = new ChassisSpeeds(adjustedSpeeds.vxMetersPerSecond,adjustedSpeeds.vyMetersPerSecond, thetaController.calculate(Gyro.getAngle(), holonomicRotation));
 
-    //     SwerveModuleState[] swerveModuleStates = SwerveSettings.SwerveConstants.swerveKinematics.toSwerveModuleStates(adjustedSpeeds2);
+        SwerveModuleState[] swerveModuleStates = SwerveSettings.SwerveConstants.swerveKinematics.toSwerveModuleStates(adjustedSpeeds2);
 
-    //     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);
 
-    //     for (SwerveMod mod : SwerveMods) {
-    //         mod.setDesiredState(swerveModuleStates[mod.moduleNumber]);
-    //     }
-    //     System.out.println("Time: " +timer.get());
-    //     // if (timer.get() > trajectory.getTotalTimeSeconds()){
-    //     //     return true;
-    //     // }
-    //     if (timer.get() > trajectory.getTotalTimeSeconds()){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+        for (SwerveMod mod : SwerveMods) {
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber]);
+        }
+        System.out.println("Time: " +timer.get());
+        if (timer.get() > trajectory.getTotalTimeSeconds()){
+            return true;
+        }
+        return false;
+    }
 }

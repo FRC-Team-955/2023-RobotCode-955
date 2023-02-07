@@ -76,8 +76,8 @@ public class SwerveMod{
 
         // driveEncoder returns RPM by default. Use setVelocityConversionFactor() to
         // convert that to meters per second.
-        driveEncoder.setVelocityConversionFactor((1.0217 * 0.04284)/ 60.0);
-        driveEncoder.setPositionConversionFactor(0.04284 * 1.0217); //(0.098 * Math.PI) / 6.75
+        driveEncoder.setVelocityConversionFactor((1.0217 * 0.04284 * 1.098*(7.9544/7.29234))/ 60.0);
+        driveEncoder.setPositionConversionFactor(0.04284 * 1.0217 * 1.098*(7.9544/7.29234)); //(0.098 * Math.PI) / 6.75
         driveEncoder.setPosition(0);
 
         // Angle PID
@@ -86,9 +86,9 @@ public class SwerveMod{
         anglePID.setI(SwerveSettings.SwerveConstants.angleKI);
         anglePID.setD(SwerveSettings.SwerveConstants.angleKD);
 
-        // Drive Encoder
-        driveEncoder = driveMotor.getAlternateEncoder(42);
-        driveEncoder = driveMotor.getEncoder();
+        // // Drive Encoder
+        // driveEncoder = driveMotor.getAlternateEncoder(42);
+        // driveEncoder = driveMotor.getEncoder();
         
 
         // Drive PID
