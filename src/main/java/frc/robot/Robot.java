@@ -13,9 +13,7 @@ public class Robot extends TimedRobot {
     AUTO_ALIGN,
     AUTO_BALANCE
   }
-  // Objects
-  // static Arm arm = new Arm();
-  // static ColorSensor colorSensor = new ColorSensor();
+  
   static RobotState robotState = RobotState.DRIVING;
   
   @Override
@@ -24,6 +22,8 @@ public class Robot extends TimedRobot {
     // Elevator.setup();
     // Intake.setup();
     // Claw.setup();
+    AprilTagCameraWrapper.setUp();
+    Drivebase.resetAnglesToAbsolute();
   }
 
   @Override
@@ -37,7 +37,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    AprilTagCameraWrapper.setUp();
     Drivebase.resetAnglesToAbsolute();
   }
 
@@ -49,21 +48,23 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    selectTeleopState();
+    teleopAllState();
 
-    // selectTeleopState();
-    // teleopAllState();
-    // switch(robotState){
-    //   case AUTO_ALIGN:
-    //   //move the auto align into game pience along with the arm code
-    //     if (AutoAlign.moveToGridPosition()){
-    //       //run drop function
-    //     }
-    //   case AUTO_BALANCE:
-    //     Drivebase.autoBalance();
-    //   default: // DRIVE
-    //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-    //     Drivebase.driveFieldRelative();
-    // }l
+    switch(robotState){
+      case AUTO_ALIGN:
+        // GamepieceManager.autoPlace();
+      case AUTO_BALANCE:
+        Drivebase.autoBalance();
+        // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.gridArmPosition.Retract);
+        // Intake.foldInIntake();
+      default: // DRIVE
+        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+        // GamepieceManager.loadClaw();
+        // GamepieceManager.manageExtension();
+        Drivebase.drive();
+    }
+
     System.out.println(Constants.isBlue());
     System.out.println("x" + Drivebase.getPose().getX());
     System.out.println("y" + Drivebase.getPose().getY());
