@@ -11,5 +11,6 @@ public class ElevatorAction extends AutoAction{
     // Options[0]: 0 = retracted, 1 = lowest, 2 = mid, 3 = high
     public boolean Act() {
         Auto.Utils.gamepieceController.setLocation(location);
+        return false;
     }
 }

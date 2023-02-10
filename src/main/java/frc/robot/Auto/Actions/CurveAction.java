@@ -5,5 +5,6 @@ import frc.robot.Auto.Auto;
 public class CurveAction extends AutoAction {
     public boolean Act() {
         Auto.Utils.swerveDrive.followTrajectory(180);
+        return false;
     } 
 }
