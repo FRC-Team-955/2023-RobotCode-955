@@ -1,7 +1,5 @@
 package frc.robot;
 
-import frc.robot.Subsystems.*;
-
 public class GamepieceManager {
 
     // public static boolean runEthanWheels(int speed) {
@@ -87,6 +85,7 @@ public class GamepieceManager {
     //     robotInPosition = AutoAlign.moveToGridPosition();
     //     extentionInPosition = AutoAlign.isInCommunity() && extention(IO.gridRowPosition, IO.gridArmPosition);
     //     if (robotInPosition && extentionInPosition){
+    //         IO.rumbleJoy1();
     //         clawDrop();
     //     }
     // }
@@ -99,6 +98,8 @@ public class GamepieceManager {
     //     }
     //     else if (IO.elevatorManualDown()){
     //         extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+    //     }else{
+    //         runExtention();
     //     }
     // }
 }
