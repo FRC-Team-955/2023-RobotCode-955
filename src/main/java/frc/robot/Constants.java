@@ -13,6 +13,8 @@ public class Constants {
     public static class Handoff{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
         static int handoffMotorOneNum = 3;
+        static double handoffGamepieceHoldMotorOutput = 0.02;
+        static double handoffMotorOutput = 0.2;
     }
 
     public final static class Elevator {

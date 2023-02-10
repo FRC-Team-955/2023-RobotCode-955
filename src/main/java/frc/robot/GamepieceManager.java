@@ -9,6 +9,7 @@ public class GamepieceManager {
         Arm.setArm(0, 0);
         Handoff.intakeGamePiece();
 
+        //Add something that doesnt let holdGamePiece and outputGamePiece aren't called at the same time please - Ethan Kim
         return /*SENSOR RTUFF YAAAAAAAAAAAAAAYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY */ false;
     }
 }
