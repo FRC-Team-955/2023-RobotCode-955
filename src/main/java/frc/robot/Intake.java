@@ -74,19 +74,19 @@ public class Intake {;
         if (intakeFoldMotorEncoderValue.getPosition() > 80 && intakeMotorOne.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
             intakeMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Intake.ethanWheelFoldSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
         }
-        else if (intakeFoldMotorEncoderValue.getPosition() > 80 && intakeMotorOne.getSelectedSensorPosition() > 90){
+        else if (intakeFoldMotorEncoderValue.getPosition() > 80 && intakeMotorOne.getSelectedSensorPosition() > 90){ //idk what this 90 value is, change later
             intakeMotorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.ethanWheelFoldSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
         }
-        else if (intakeMotorOne.getSelectedSensorPosition() > 88 && intakeMotorOne.getSelectedSensorPosition() < 92){
+        else if (intakeMotorOne.getSelectedSensorPosition() > 88 && intakeMotorOne.getSelectedSensorPosition() < 92){ //idk what this 90 value is, change later
             intakeMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Intake.intakeMotorStop);
         }
         if (intakeFoldMotorEncoderValue.getPosition() > 80 && intakeMotorTwo.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
             intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Intake.ethanWheelFoldSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
         }
-        else if (intakeFoldMotorEncoderValue.getPosition() > 80 && intakeMotorTwo.getSelectedSensorPosition() > 90){
+        else if (intakeFoldMotorEncoderValue.getPosition() > 80 && intakeMotorTwo.getSelectedSensorPosition() > 90){ //idk what this 90 value is, change later
             intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.ethanWheelFoldSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
         }
-        else if (intakeMotorTwo.getSelectedSensorPosition() > 88 && intakeMotorOne.getSelectedSensorPosition() < 92){
+        else if (intakeMotorTwo.getSelectedSensorPosition() > 88 && intakeMotorOne.getSelectedSensorPosition() < 92){ //idk what this 90 value is, change later
             intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Intake.intakeMotorStop); //CHANGE THIS TO - OR not - NOT KNOWN YET
         }
     }
