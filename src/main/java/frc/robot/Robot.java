@@ -1,24 +1,32 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import frc.robot.Sensors.ColorSensor;
+import frc.robot.Subsystems.*;
+import frc.robot.Sensors.*;
 
-/**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
+  // Robot States
+  public enum RobotState {
+    DRIVING,
+    AUTO_ALIGN,
+    AUTO_BALANCE
+  }
+  
+  static RobotState robotState = RobotState.DRIVING;
+  
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    // Arm.setup();
+    // Elevator.setup();
+    // Intake.setup();
+    // Claw.setup();
+    AprilTagCameraWrapper.setUp();
+    Drivebase.resetAnglesToAbsolute();
+  }
 
   @Override
   public void robotPeriodic() {}
@@ -30,10 +38,69 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    Drivebase.resetAnglesToAbsolute();
+  }
 
+  public void teleopAllState(){
+    Drivebase.logData();
+    IO.keyInputOdometryMapping();
+    IO.keyInputRowPosition();
+  }
+  private final Field2d m_field = new Field2d();
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    selectTeleopState();
+    teleopAllState();
+
+    switch(robotState){
+      case AUTO_ALIGN:
+        // GamepieceManager.autoPlace();
+        // Intake.foldInIntake();
+      case AUTO_BALANCE:
+        Drivebase.autoBalance();
+        // Drivebase.autoBalanceBangBang();
+        // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.gridArmPosition.Retract);
+        // Intake.foldInIntake();
+      default: // DRIVE
+        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+        // GamepieceManager.loadClaw();
+        // GamepieceManager.manageExtension();
+        Drivebase.drive();
+    }
+
+    System.out.println(Constants.isBlue());
+    System.out.println("x" + Drivebase.getPose().getX());
+    System.out.println("y" + Drivebase.getPose().getY());
+    if (IO.Drivebase.thrustEnabled()){
+
+      // AutoAlign.alignAprilTag();
+      AutoAlign.moveToGridPosition();
+    }
+    // else if (IO.Drivebase.isAutoAlignActive()) {
+    //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1);
+    // } else if (IO.Drivebase.rotationOverrideEnabled()){
+    //   AutoAlign.moveIntoPosition();
+    // }
+    else {
+      Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
+      // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+    }
+    Drivebase.updateSwerveOdometry();
+    // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
+  
+    //System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());
+
+    
+    // selectTeleopState();
+    // teleopAllState();
+    // switch(robotState){
+    //   case AUTO_ALIGN:
+    //     autoAlign.moveToGridPosition();
+    //   default: // DRIVE
+    //     Drivebase.driveFieldRelative();
+    // }
+  }
 
   @Override
   public void disabledInit() {}
@@ -52,4 +119,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationPeriodic() {}
+
+  public void selectTeleopState(){
+
+    if (IO.Drivebase.isAutoAlignActive()) {
+      robotState = RobotState.AUTO_ALIGN;
+    } 
+    //once auto balance is added into false
+    else if (IO.Drivebase.isAutoBalanceActive()){
+      robotState = RobotState.AUTO_BALANCE;
+    } else {
+      robotState = RobotState.DRIVING;
+    }
+  }
 }
