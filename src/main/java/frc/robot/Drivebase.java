@@ -13,6 +13,9 @@ public class Drivebase {
     public static PIDController pid = new PIDController(Constants.Drivebase.kP, Constants.Drivebase.kI, Constants.Drivebase.kD);
     public static double currentAngle = 34; // get from gyroscope
     private static double lastPitch = Gyro.getPitch();
+    private static double newPitch = Gyro.getPitch();
+    private static double heading = 0;
+
 
     private static SwerveDrive drive = new SwerveDrive();
 
@@ -75,8 +78,8 @@ public class Drivebase {
     }
 
     public static void autoBalanceBangBang() {
-        double newPitch = Gyro.getPitch();
-        double heading = 0;
+        newPitch = Gyro.getPitch();
+        heading = 0;
         if (heading > 90)
             heading = 0;
         else if (heading  >= 90 && heading < 180 || heading >= 180 && heading < 270) {

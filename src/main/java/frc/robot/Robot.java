@@ -56,8 +56,10 @@ public class Robot extends TimedRobot {
     switch(robotState){
       case AUTO_ALIGN:
         // GamepieceManager.autoPlace();
+        // Intake.foldInIntake();
       case AUTO_BALANCE:
         Drivebase.autoBalance();
+        // Drivebase.autoBalanceBangBang();
         // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.gridArmPosition.Retract);
         // Intake.foldInIntake();
       default: // DRIVE

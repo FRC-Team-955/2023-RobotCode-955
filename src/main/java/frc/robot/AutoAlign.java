@@ -3,10 +3,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Sensors.AprilTagCameraWrapper;
-// import frc.robot.Sensors.LimelightCameraWrapper;
+import frc.robot.Sensors.LimelightCameraWrapper;
 
 public class AutoAlign {
     private static PIDController PIDAprilTagAlignX = new PIDController(0.045, 0, 0); //final for 1.16 meters out (from center of robot)
+    private static PIDController PIDLimelightAlignX = new PIDController(0.045, 0, 0); //Need to test
     private static PIDController PIDAlignX = new PIDController(3, 0, 0);
     private static PIDController PIDAlignY = new PIDController(3, 0, 0);
 
@@ -15,7 +16,7 @@ public class AutoAlign {
     Drivebase drive = new Drivebase();
 
     public static boolean alignOdometry(Translation2d goalTranslation){
-        System.out.println("POSE: " + goalTranslation);
+        System.out.println("Goal POSE: " + goalTranslation);
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
@@ -39,37 +40,27 @@ public class AutoAlign {
     public static boolean alignAprilTag(){
         if(AprilTagCameraWrapper.hasTargets()){
             double movementY = PIDAprilTagAlignX.calculate(AprilTagCameraWrapper.getHorizontalOffset(), 0);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), 180);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), 180);
         }
         gridAlignY = Drivebase.getPose().getY();
 
-        if (AprilTagCameraWrapper.isAlignedToCubeNode()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return AprilTagCameraWrapper.isAlignedToCubeNode();
     }
-    // public static boolean alignTape(){
-    //     if (LimelightCameraWrapper.hasTargets()){
-    //         double movementY = PIDOdometeryAlignX.calculate(LimelightCameraWrapper.getHorizontalOffset(), 0);
-    //         Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), 180);
-    //     }
+    public static boolean alignTape(){
+        if (LimelightCameraWrapper.hasTargets()){
+            double movementY = PIDLimelightAlignX.calculate(LimelightCameraWrapper.getHorizontalOffset(), 0);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), 180);
+        }
 
-    //     if (LimelightCameraWrapper.isAlignedToConeNode()){
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
+        return LimelightCameraWrapper.isAlignedToConeNode();
+    }
     public static void alignToPiece(){
         // double heading = (GamepieceCamera.getHorizontaloffset() * Constants.AutoAlign.kHorizontalOffsetToPidgeonFactor) + Gyro.getHeading();
         // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), heading);
     }
 
     public static boolean moveIntoPosition() {
-        System.out.println("KEY: " + IO.keyInputOdometryPosition);
+        System.out.println("keyInputOdometryPosition: " + IO.keyInputOdometryPosition);
 
         return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlueX: Constants.FieldPositions.atGridRedX, 
                             gridAlignY));
@@ -99,8 +90,6 @@ public class AutoAlign {
     public static GridAlignState gridAlignState = GridAlignState.AlignedToOdometry;
     public static double gridAlignY;
     public static boolean moveToGridPosition(){
-        //REMEMBER TO RESET THE STATE BACK TO AlignedToOdometry AT SOME POINT
-        System.out.println(isInCommunity());
         if(isInCommunity()){
             switch(gridAlignState) {
                 case AlignedToOdometry:
@@ -110,17 +99,17 @@ public class AutoAlign {
                     }
                     break;
                 case AlignedToNode:
-                    // if(IO.isConeNodePosition) {
-                    //     if(alignTape()) {
-                    //         gridAlignY = Drivebase.getPose().getY();
-                    //         gridAlignState = GridAlignState.InPosition;
-                    //     }
-                    // } else {
+                    if(IO.isConeNodePosition) {
+                        if(alignTape()) {
+                            gridAlignY = Drivebase.getPose().getY();
+                            gridAlignState = GridAlignState.InPosition;
+                        }
+                    } else {
                         if(alignAprilTag()) {
                             gridAlignY = Drivebase.getPose().getY();
                             gridAlignState = GridAlignState.InPosition;
                         }
-                    // }
+                    }
                     break;
                 case InPosition:
                     return moveIntoPosition();
