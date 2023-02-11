@@ -1,6 +1,6 @@
 package frc.robot.Sensors;
 
-import com.ctre.phoenix.sensors.Pigeon2; 
+import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.MathUtil; 
 
