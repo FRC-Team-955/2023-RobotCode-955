@@ -1,16 +1,28 @@
 package frc.robot.Auto;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.GamePieceController;
 import frc.robot.Auto.Actions.AutoAction;
 import frc.robot.Auto.Actions.AutoAction.EarlyEndMode;
+import frc.robot.Auto.Control.Message;
+import frc.robot.Auto.Control.Success;
+import frc.robot.Auto.Control.Message.MessageType;
 import frc.robot.Swerve.SwerveDrive;
 
 
-public class Auto {
+public class Auto implements Runnable {
     public AutoProfile profile;
 
     //See EarlyEndMode and LateEndMode in AutoAction to understand why there are 3 Auto Action arrays
@@ -23,7 +35,126 @@ public class Auto {
 
 
 
+    boolean started;
+
+    ServerSocket autoControlServer;
+    Socket autoController;
+    BufferedReader controlIn;
+    PrintWriter controlOut;
+    boolean autoControlConnected;
+    Thread autoControlThread;
+
+    public Auto(int controlPort) { //Use port 5810 maybe?
+        try {
+            autoControlServer = new ServerSocket(controlPort);
+            autoControlServer.setSoTimeout(2);
+        }
+        catch (IOException e) {
+            System.out.println("Failed to start auto control connection: ");
+            System.out.print(e);
+        }
+
+        autoControlThread = new Thread(this);
+        autoControlThread.start();
+    }
+
+    public void run() {
+        while (!started) {
+            try {
+                String input;
+                if ((input = controlIn.readLine()) != null) {
+                    //AutoProfile directory: /home/lvuser/autoProfiles/
+                    Message message = new ObjectMapper().readValue(input, Message.class);
+                    switch (message.messageType) {
+                        case Set:
+                            try {
+                                profile = new ObjectMapper().readValue(new File("/home/lvuser/autoProfiles/" + message.message + ".auto"), AutoProfile.class);
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(true, MessageType.Set)));
+                            }
+                            catch (IOException e) {
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.Set)));
+                            }
+                            break;
+
+                        case Upload:
+                            try {
+                                AutoProfile newProfile = new ObjectMapper().readValue(message.message, AutoProfile.class);
+                                File upload = new File("/home/lvuser/autoProfiles/" + newProfile.name + ".auto");
+                                upload.mkdirs();
+                                upload.createNewFile();
+                                new ObjectMapper().writeValue(upload, newProfile);
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(true, MessageType.Upload)));
+                            }
+                            catch (IOException e) {
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.Upload)));
+                            }
+                            break;
+
+                        case Update: 
+                            try {
+                                AutoProfile newProfile = new ObjectMapper().readValue(message.message, AutoProfile.class);
+                                File upload = new File("/home/lvuser/autoProfiles/" + newProfile.name + ".auto");
+                                new ObjectMapper().writeValue(upload, newProfile);
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(true, MessageType.Update)));
+                            }
+                            catch (IOException e) {
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.Update)));
+                            }
+                            break;
+
+                        case Current: 
+                            try {
+                                controlOut.println(new ObjectMapper().writeValueAsString(new Message(MessageType.Current, profile.name)));
+                            }
+                            catch (IOException e) {
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.Current)));
+                            }
+                            break;
+
+                        case List:
+                            try {
+                                ArrayList<String> profiles = new ArrayList<String>();
+                                for (File autoProfile : new File("/home/lvuser/autoProfiles/").listFiles()) {
+                                    profiles.add(autoProfile.getName());
+                                }
+                                controlOut.println(new ObjectMapper().writeValueAsString(new Message(MessageType.List, new ObjectMapper().writeValueAsString(profiles.toArray()))));
+                            }
+                            catch (IOException e) {
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.List)));
+                            }                            
+                            break;
+
+                        case Download: 
+                            try {
+                                controlOut.println(new ObjectMapper().writeValueAsString(new Message(MessageType.Download, new ObjectMapper().writeValueAsString(new ObjectMapper().readValue(new File("/home/lvuser/autoProfiles/" + message.message + ".auto"), AutoProfile.class)))));
+                            }
+                            catch (IOException e) {
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.List)));
+                            }
+                            break;
+
+                        case Success:
+                            //We're only sending Success messages
+                            break;
+                    }
+                }
+                else {
+                    autoController = autoControlServer.accept();   
+                    controlIn = new BufferedReader(new InputStreamReader(autoController.getInputStream()));
+                    controlOut = new PrintWriter(autoController.getOutputStream(), true);   
+                }
+            }
+            catch (IOException e) {
+                System.out.println("Auto control error: ");
+                System.out.print(e.getLocalizedMessage());
+            }
+        }
+    }
+
     public void autoInit() {
+        autoControlThread.interrupt();
+        started = true;
+
         queuedActions.addAll(profile.Actions);
 
         ArrayList<AutoAction> finishedActions = new ArrayList<AutoAction>();
