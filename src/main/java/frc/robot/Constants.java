@@ -26,7 +26,10 @@ public class Constants {
         public static int motorOneNum = 1;
         public static int motorTwoNum = 2;
         public static int intakeFoldMotorNum = 4;
-        public static double intakeFoldMotorOutput = 0.1;
+        public static double intakeFoldMotorOutput = 0.2;
+        public static double intakeMotorStop = 0;
+        public static double intakeFoldedEncoder = 3;
+        public static double intakeUnFoldedEncoder = 87;
     }
 
     public static class Claw{
