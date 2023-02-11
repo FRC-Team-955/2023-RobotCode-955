@@ -6,15 +6,16 @@ public class Constants {
         static double motorOutput = 0.3;
         static int motorOneNum = 1;
         static int motorTwoNum = 2;
-        static int motorStop = 0;
         static int intakeFoldMotorNum = 4;
         static double intakeFoldMotorOutput = 0.1;
+        static int intakeMotorStop = 0;
     }
     public static class Handoff{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
         static int handoffMotorOneNum = 3;
         static double handoffGamepieceHoldMotorOutput = 0.02;
         static double handoffMotorOutput = 0.2;
+        static int handoffMotorStop = 0;
     }
 
     public final static class Elevator {
