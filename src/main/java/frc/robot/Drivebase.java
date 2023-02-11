@@ -35,6 +35,14 @@ public class Drivebase {
         driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), heading);
     }
 
+    public static void drive() {
+        if (IO.Drivebase.rotationOverrideEnabled()) {
+            Drivebase.driveFieldRelative();
+        } else {
+            Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+        }
+    }
+
     public static void driveFieldRelativeRotation(Translation2d translation, double rotation){
         drive.drive(translation, rotation, true, false, false, 0);
     }
@@ -48,6 +56,8 @@ public class Drivebase {
     public static void driveRobotRelativeHeading(Translation2d translation, double heading){
 
     }
+
+
 
     public static void logData() {
         drive.logSwerve();

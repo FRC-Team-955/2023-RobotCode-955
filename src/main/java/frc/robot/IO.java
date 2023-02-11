@@ -46,7 +46,7 @@ public final class IO {
     }
 
     public static boolean intakeDeployRun(){
-        return joy0.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
+        return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
     }
 
     public static class Drivebase{
@@ -113,8 +113,8 @@ public final class IO {
             return joy0.getRawAxis(Constants.IO.Joy0.thrustAxis) > 0.2;
         }
     }
-    public static void rumbleJoy0(){
-        joy0.setRumble(RumbleType.kBothRumble, 0.5);
+    public static void rumbleJoy1(){
+        joy1.setRumble(RumbleType.kBothRumble, 0.5);
     }
 
     public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;

@@ -15,6 +15,7 @@ public class AutoAlign {
     Drivebase drive = new Drivebase();
 
     public static boolean alignOdometry(Translation2d goalTranslation){
+        System.out.println("POSE: " + goalTranslation);
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
@@ -40,6 +41,7 @@ public class AutoAlign {
             double movementY = PIDAprilTagAlignX.calculate(AprilTagCameraWrapper.getHorizontalOffset(), 0);
             Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), 180);
         }
+        gridAlignY = Drivebase.getPose().getY();
 
         if (AprilTagCameraWrapper.isAlignedToCubeNode()) {
             return true;
@@ -67,6 +69,8 @@ public class AutoAlign {
     }
 
     public static boolean moveIntoPosition() {
+        System.out.println("KEY: " + IO.keyInputOdometryPosition);
+
         return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlueX: Constants.FieldPositions.atGridRedX, 
                             gridAlignY));
         //the move forward function
@@ -94,34 +98,36 @@ public class AutoAlign {
     }
     public static GridAlignState gridAlignState = GridAlignState.AlignedToOdometry;
     public static double gridAlignY;
-    // public static boolean moveToGridPosition(){
-    //     //REMEMBER TO RESET THE STATE BACK TO AlignedToOdometry AT SOME POINT
-    //     if(isInCommunity()){
-    //         switch(gridAlignState) {
-    //             case AlignedToOdometry:
-    //                 if(alignOdometry(IO.keyInputOdometryPosition)) {
-    //                     gridAlignState = GridAlignState.AlignedToNode;
-    //                 }
-    //                 break;
-    //             case AlignedToNode:
-    //                 if(IO.isConeNodePosition) {
-    //                     if(alignTape()) {
-    //                         gridAlignY = Drivebase.getPose().getY();
-    //                         gridAlignState = GridAlignState.InPosition;
-    //                     }
-    //                 } else {
-    //                     if(alignAprilTag()) {
-    //                         gridAlignY = Drivebase.getPose().getY();
-    //                         gridAlignState = GridAlignState.InPosition;
-    //                     }
-    //                 }
-    //                 break;
-    //             case InPosition:
-    //                 return moveIntoPosition();
-    //         }
-    //     }
-    //     return false;
-    // }
+    public static boolean moveToGridPosition(){
+        //REMEMBER TO RESET THE STATE BACK TO AlignedToOdometry AT SOME POINT
+        System.out.println(isInCommunity());
+        if(isInCommunity()){
+            switch(gridAlignState) {
+                case AlignedToOdometry:
+                    // if(alignOdometry(IO.keyInputOdometryPosition)) {
+                    if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1)) {
+                        gridAlignState = GridAlignState.AlignedToNode;
+                    }
+                    break;
+                case AlignedToNode:
+                    // if(IO.isConeNodePosition) {
+                    //     if(alignTape()) {
+                    //         gridAlignY = Drivebase.getPose().getY();
+                    //         gridAlignState = GridAlignState.InPosition;
+                    //     }
+                    // } else {
+                        if(alignAprilTag()) {
+                            gridAlignY = Drivebase.getPose().getY();
+                            gridAlignState = GridAlignState.InPosition;
+                        }
+                    // }
+                    break;
+                case InPosition:
+                    return moveIntoPosition();
+            }
+        }
+        return false;
+    }
     public static boolean moveToGridPositionOdometry(){
         if(isInCommunity()){
             return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()));

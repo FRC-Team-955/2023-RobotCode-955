@@ -83,7 +83,8 @@ public class SwerveDrive {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
-        if(IO.Drivebase.rotationOverrideEnabled()){
+        // if(IO.Drivebase.rotationOverrideEnabled()){
+        if(false){
             rotation = IO.Drivebase.getSwerveRotation();
         }else if (useFixedHeading){
             headingSetPoint = heading;
@@ -91,7 +92,7 @@ public class SwerveDrive {
             headingSetPoint += rotation * 0.44;
         }
 
-        System.out.println(Gyro.getAngle());
+        // System.out.println("Gryo.getAngle(): "+ Gyro.getAngle());
         
         SwerveModuleState[] swerveModuleStates = null;
         if (locked) {
@@ -160,11 +161,10 @@ public class SwerveDrive {
         poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()-90), getPoses());
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
         // && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll
-        System.out.println(result.isPresent());
 
         if (result.isPresent()) {
             EstimatedRobotPose camPose = result.get();
-            System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
+            // System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
             // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
                 poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
             // }

@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.Sensors.ColorSensor;
 import frc.robot.Subsystems.*;
 import frc.robot.Sensors.*;
@@ -13,9 +15,7 @@ public class Robot extends TimedRobot {
     AUTO_ALIGN,
     AUTO_BALANCE
   }
-  // Objects
-  // static Arm arm = new Arm();
-  // static ColorSensor colorSensor = new ColorSensor();
+  
   static RobotState robotState = RobotState.DRIVING;
   
   @Override
@@ -24,6 +24,8 @@ public class Robot extends TimedRobot {
     // Elevator.setup();
     // Intake.setup();
     // Claw.setup();
+    AprilTagCameraWrapper.setUp();
+    Drivebase.resetAnglesToAbsolute();
   }
 
   @Override
@@ -37,7 +39,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    AprilTagCameraWrapper.setUp();
     Drivebase.resetAnglesToAbsolute();
   }
 
@@ -46,35 +47,42 @@ public class Robot extends TimedRobot {
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
   }
-
+  private final Field2d m_field = new Field2d();
   @Override
   public void teleopPeriodic() {
+    selectTeleopState();
+    teleopAllState();
 
-    // selectTeleopState();
-    // teleopAllState();
-    // switch(robotState){
-    //   case AUTO_ALIGN:
-    //   //move the auto align into game pience along with the arm code
-    //     if (AutoAlign.moveToGridPosition()){
-    //       //run drop function
-    //     }
-    //   case AUTO_BALANCE:
-    //     Drivebase.autoBalance();
-    //   default: // DRIVE
-    //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-    //     Drivebase.driveFieldRelative();
-    // }l
+    switch(robotState){
+      case AUTO_ALIGN:
+        // GamepieceManager.autoPlace();
+      case AUTO_BALANCE:
+        Drivebase.autoBalance();
+        // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.gridArmPosition.Retract);
+        // Intake.foldInIntake();
+      default: // DRIVE
+        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+        // GamepieceManager.loadClaw();
+        // GamepieceManager.manageExtension();
+        Drivebase.drive();
+    }
+
     System.out.println(Constants.isBlue());
     System.out.println("x" + Drivebase.getPose().getX());
     System.out.println("y" + Drivebase.getPose().getY());
     if (IO.Drivebase.thrustEnabled()){
 
-      AutoAlign.alignAprilTag();
+      // AutoAlign.alignAprilTag();
+      AutoAlign.moveToGridPosition();
     }
-    else if (IO.Drivebase.isAutoAlignActive()) {
-      AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1);
-    } else {
+    // else if (IO.Drivebase.isAutoAlignActive()) {
+    //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1);
+    // } else if (IO.Drivebase.rotationOverrideEnabled()){
+    //   AutoAlign.moveIntoPosition();
+    // }
+    else {
       Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
+      // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
     }
     Drivebase.updateSwerveOdometry();
     // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
