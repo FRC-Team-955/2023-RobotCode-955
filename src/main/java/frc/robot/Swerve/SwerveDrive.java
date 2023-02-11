@@ -83,7 +83,8 @@ public class SwerveDrive {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
-        if(IO.Drivebase.rotationOverrideEnabled()){
+        // if(IO.Drivebase.rotationOverrideEnabled()){
+        if(false){
             rotation = IO.Drivebase.getSwerveRotation();
         }else if (useFixedHeading){
             headingSetPoint = heading;
