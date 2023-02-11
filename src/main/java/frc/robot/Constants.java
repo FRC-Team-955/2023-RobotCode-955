@@ -1,6 +1,7 @@
 package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Swerve.SwerveSettings;
 
 public class Constants {
     // Auto Balance PID
@@ -147,12 +148,13 @@ public class Constants {
     public static class FieldPositions{
         public static double centerLine = 8.27;
 
-        public static double inBlueCommunityX = 3;
-        public static double inRedCommunityX = 13;
+        public static double inBlueCommunityX = 3-(SwerveSettings.SwerveConstants.trackWidth/2);
+        public static double inRedCommunityX = 16.54-inBlueCommunityX;
         public static double inCommunityY = 8.02-2.5;
 
-        public static double atGridBlueX = 1.8;
-        public static double atGridRedX = 16.54-1.8;
+        // public static double atGridBlueX = 1.8;
+        public static double atGridBlueX = 1.4+ (SwerveSettings.SwerveConstants.trackWidth/2);
+        public static double atGridRedX = 16.54-atGridBlueX;
 
         public static class AutoAlignPositions{
             public static Translation2d blue0 = new Translation2d(2.2,8.02-3);

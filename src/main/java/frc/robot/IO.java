@@ -46,7 +46,7 @@ public final class IO {
     }
 
     public static boolean intakeDeployRun(){
-        return joy0.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
+        return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
     }
 
     public static class Drivebase{

@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.Sensors.ColorSensor;
 import frc.robot.Subsystems.*;
 import frc.robot.Sensors.*;
@@ -46,9 +48,11 @@ public class Robot extends TimedRobot {
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
   }
-
+  private final Field2d m_field = new Field2d();
   @Override
   public void teleopPeriodic() {
+    SmartDashboard.putData("Field", m_field);
+    m_field.setRobotPose(Drivebase.getPose());
 
     // selectTeleopState();
     // teleopAllState();
@@ -63,18 +67,23 @@ public class Robot extends TimedRobot {
     //   default: // DRIVE
     //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
     //     Drivebase.driveFieldRelative();
-    // }l
-    System.out.println(Constants.isBlue());
-    System.out.println("x" + Drivebase.getPose().getX());
-    System.out.println("y" + Drivebase.getPose().getY());
+    // // }
+    // System.out.println(Constants.isBlue());
+    // System.out.println("x" + Drivebase.getPose().getX());
+    // System.out.println("y" + Drivebase.getPose().getY());
     if (IO.Drivebase.thrustEnabled()){
 
-      AutoAlign.alignAprilTag();
+      // AutoAlign.alignAprilTag();
+      AutoAlign.moveToGridPosition();
     }
-    else if (IO.Drivebase.isAutoAlignActive()) {
-      AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1);
-    } else {
+    // else if (IO.Drivebase.isAutoAlignActive()) {
+    //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1);
+    // } else if (IO.Drivebase.rotationOverrideEnabled()){
+    //   AutoAlign.moveIntoPosition();
+    // }
+    else {
       Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
+      // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
     }
     Drivebase.updateSwerveOdometry();
     // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
