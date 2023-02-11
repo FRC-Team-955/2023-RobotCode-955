@@ -9,6 +9,7 @@ public class Constants {
         static int intakeFoldMotorNum = 4;
         static double intakeFoldMotorOutput = 0.1;
         static int intakeMotorStop = 0;
+        static double ethanWheelFoldSlow = 0.15;
     }
     public static class Handoff{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
