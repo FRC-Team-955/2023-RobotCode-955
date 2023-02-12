@@ -27,7 +27,7 @@ public class AprilTagCameraWrapper {
 
     private static PhotonPipelineResult result;
 
-    public static void setUp(){
+    public AprilTagCameraWrapper(){
         final AprilTag tag01 = new AprilTag(01, new Pose3d(new Pose2d(0.0, 0.0, Rotation2d.fromDegrees(0.0))));
         ArrayList<AprilTag> atList = new ArrayList<AprilTag>();
         atList.add(tag01);

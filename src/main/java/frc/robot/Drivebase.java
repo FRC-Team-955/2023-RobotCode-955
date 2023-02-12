@@ -1,19 +1,31 @@
 package frc.robot;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.util.datalog.DoubleLogEntry;
-import frc.robot.Swerve.SwerveDrive;
 import frc.robot.Sensors.Gyro;
+import frc.robot.Swerve.SwerveDrive;
 
 
 public class Drivebase {
     
-    public static PIDController pid = new PIDController(Constants.kP, Constants.kI, Constants.kD);
+    public static PIDController pid = new PIDController(Constants.Drivebase.kP, Constants.Drivebase.kI, Constants.Drivebase.kD);
     public static double currentAngle = 34; // get from gyroscope
+    private static double lastPitch = Gyro.getPitch();
+    private static double newPitch = Gyro.getPitch();
+    private static double heading = 0;
+
 
     private static SwerveDrive drive = new SwerveDrive();
+
+    public static void updateSwerveOdometry(){
+        drive.updateSwerveOdometry();
+    }
+
+    public static void resetAnglesToAbsolute() {
+        drive.resetAnglesToAbsolute();
+    }
 
     public static void driveFieldRelative(){
         Pose2d pose = drive.getPose();
@@ -24,6 +36,14 @@ public class Drivebase {
             heading = 180;
         }
         driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), heading);
+    }
+
+    public static void drive() {
+        if (IO.Drivebase.rotationOverrideEnabled()) {
+            Drivebase.driveFieldRelative();
+        } else {
+            Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+        }
     }
 
     public static void driveFieldRelativeRotation(Translation2d translation, double rotation){
@@ -40,6 +60,8 @@ public class Drivebase {
 
     }
 
+
+
     public static void logData() {
         drive.logSwerve();
     }
@@ -54,6 +76,39 @@ public class Drivebase {
         driveFieldRelativeRotation(new Translation2d(0, 0), output);
        }
     }
+
+    public static void autoBalanceBangBang() {
+        newPitch = Gyro.getPitch();
+        heading = 0;
+        if (heading > 90)
+            heading = 0;
+        else if (heading  >= 90 && heading < 180 || heading >= 180 && heading < 270) {
+            heading = 180;
+        }
+        else {
+            heading = 0;
+        }
+        
+        
+        if (Gyro.getPitch() > 2.5 || Gyro.getPitch() < 2.5) {
+            if (newPitch - lastPitch > 0) {
+                driveFieldRelativeHeading(Constants.Drivebase.autoBalanceStop, heading);
+            }
+            else {
+                if (Gyro.getPitch() > 2.5) {
+                    driveFieldRelativeHeading(Constants.Drivebase.autoBalanceForward, heading);
+                }
+                else if (Gyro.getPitch() < 2.5) {
+                    driveFieldRelativeHeading(Constants.Drivebase.autoBalanceBackward, heading);
+    
+                }
+            }
+        }
+        else {
+            driveFieldRelativeHeading(Constants.Drivebase.autoBalanceStop, heading);
+        }
+        lastPitch = newPitch;
+    }
     
     public static boolean isBalanced() {
         if (2.5 > Gyro.getPitch() && Gyro.getPitch() > -2.5) {
@@ -65,14 +120,6 @@ public class Drivebase {
 
     public static Pose2d getPose() {
        return drive.getPose();
-    }
-
-    public static void updateSwerveOdometry(){
-        drive.updateSwerveOdometry();
-    }
-
-    public static void resetAnglesToAbsolute(){
-        drive.resetAnglesToAbsolute();
     }
 }
 
