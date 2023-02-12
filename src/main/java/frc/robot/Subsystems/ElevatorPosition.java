@@ -13,7 +13,7 @@ public class ElevatorPosition {
     //google sheet by ethan (edited by me a bit) w/ simple calculations
 
     public static double calculate(double firstPos, double secondPos) {
-        double rotations = (double) Math.round(((firstPos - 1/Constants.Elevator.kGearRatio * secondPos) / ((1/Constants.Elevator.kGearRatio - 1) * 360)) % 34);
+        double rotations = (double) Math.round(((firstPos - 1/Constants.Elevator.gearRatio * secondPos) / ((1/Constants.Elevator.gearRatio - 1) * 360)) % 34);
         if (rotations < 0) {rotations = rotations + 34;}
         return 5*rotations + 5*firstPos/360;
     }

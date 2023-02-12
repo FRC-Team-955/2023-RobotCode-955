@@ -10,8 +10,8 @@
 // public class ColorSensor {
 //     static ColorSensorV3 colorSensor;
 //     static ColorMatch colorMatch;
-//     static Color cube = new Color(Constants.ColorSensor.kCubeRed, Constants.ColorSensor.kCubeGreen, Constants.ColorSensor.kCubeBlue);
-//     static Color cone = new Color(Constants.ColorSensor.kConeRed, Constants.ColorSensor.kConeGreen, Constants.ColorSensor.kConeBlue); // not actually the cone
+//     static Color cube = new Color(Constants.ColorSensor.cubeRed, Constants.ColorSensor.cubeGreen, Constants.ColorSensor.cubeBlue);
+//     static Color cone = new Color(Constants.ColorSensor.coneRed, Constants.ColorSensor.coneGreen, Constants.ColorSensor.coneBlue); // not actually the cone
 
 //     public ColorSensor() {
 //         colorSensor = new ColorSensorV3(Port.kOnboard);
@@ -38,7 +38,7 @@
 
 //     static public boolean senseObj() { // boolean if using the if else in the function
 //         System.out.println(colorSensor.getProximity());
-//         if(colorSensor.getProximity() > Constants.ColorSensor.kProximityThreshold) {
+//         if(colorSensor.getProximity() > Constants.ColorSensor.proximityThreshold) {
 //             return true;
 //         }
 //         else {

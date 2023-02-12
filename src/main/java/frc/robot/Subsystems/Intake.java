@@ -73,28 +73,28 @@ public class Intake {
     }
 
     public static void foldInIntake(){
-        if (intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.intakeFoldedEncoder) {
-            foldMotor.set(Constants.Intake.intakeFoldMotorOutput); //idk if it's negative or not so it's positive for now
+        if (intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.foldedEncoder) {
+            foldMotor.set(Constants.Intake.foldMotorOutput); //idk if it's negative or not so it's positive for now
         }
         else{
-            foldMotor.set(Constants.Intake.intakeMotorStop); // idk if this is negative or not too.
+            foldMotor.set(Constants.Intake.motorStop); // idk if this is negative or not too.
         }
     }
 
     public static void foldOutIntake(){
-        if (intakeFoldMotorEncoderValue.getPosition() > Constants.Intake.intakeUnFoldedEncoder){
-            foldMotor.set(-Constants.Intake.intakeFoldMotorOutput); // idk if this is negative or not too.
+        if (intakeFoldMotorEncoderValue.getPosition() > Constants.Intake.unfoldedEncoder){
+            foldMotor.set(-Constants.Intake.foldMotorOutput); // idk if this is negative or not too.
         }
         else{
-            foldMotor.set(Constants.Intake.intakeMotorStop);
+            foldMotor.set(Constants.Intake.motorStop);
         }
     }
       
     public static boolean isIntakeFolded(){
-        return intakeFoldMotorEncoderValue.getPosition() > Constants.Intake.intakeFoldedEncoder;
+        return intakeFoldMotorEncoderValue.getPosition() > Constants.Intake.foldedEncoder;
     }
 
-    public static boolean isIntakeUnFolded(){
-        return intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.intakeUnFoldedEncoder;
+    public static boolean isIntakeUnfolded(){
+        return intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.unfoldedEncoder;
     }
 }

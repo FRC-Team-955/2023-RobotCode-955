@@ -29,15 +29,15 @@ public class Constants {
 
         //CHANGE THE MOTOR NUMBERS TO THEIR ACTUAL ONES
         public static double motorOutput = 0.3;
-        public static double intakeFoldMotorOutput = 0.2;
-        public static double intakeMotorStop = 0;
-        public static double intakeFoldedEncoder = 3;
-        public static double intakeUnFoldedEncoder = 87;
+        public static double foldMotorOutput = 0.2;
+        public static double motorStop = 0;
+        public static double foldedEncoder = 3;
+        public static double unfoldedEncoder = 87;
     }
 
     public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
-        public static int clawMotorOneNum = 3;
+        public static int motorID = 3;
         public static double runTime = 2000;
     }
 
@@ -47,7 +47,7 @@ public class Constants {
         public static double yPosition = 0;
         public static double zPosition = 0;
 
-        public static double kAlignTolerance= 0.1; // Faris: random number idk actual value
+        public static double alignTolerance= 0.1; // Faris: random number idk actual value
         
         public static class Filter{
             public static double pitch = 2;
@@ -56,7 +56,7 @@ public class Constants {
         }
     }
     public static class LimelightCamera {
-        public static double kAlignTolerance= 0.1; // Faris: random number idk actual value
+        public static double alignTolerance= 0.1; // Faris: random number idk actual value
     }
     public static class IO{
         public static class Joy0{
@@ -82,24 +82,24 @@ public class Constants {
     }
     public static final class Arm {
         // Arm Motor Id's
-        public static int kArmMotorId = 0;
+        public static int motorID = 0;
         // Arm Encoder Id
-        public static int kArmEncoderId = 0;
+        public static int encoderID = 0;
         // Arm Encoder Values
-        public static int kArmUpperLimit = 10000;
-        public static int kArmLowerLimit = 0 ;
+        public static int upperLimit = 10000;
+        public static int lowerLimit = 0 ;
         // Arm Setpoint Values
-        public static int kRetracted = 0;
+        public static int retracted = 0;
         
         // public static int kBottomLevel = 1000;
         // public static int kMiddleLevel = 2000;
         // public static int kTopLevel = 3000;
 
-        public static int kConePrep = 7000;
-        public static int kConeReady = 6000;
+        public static int conePrep = 7000;
+        public static int coneReady = 6000;
 
-        public static int kCubePrep = 4000;
-        public static int kCubeReady = 5000;
+        public static int cubePrep = 4000;
+        public static int cubeReady = 5000;
 
         // Arm Pid Values
         public static double kP = 1;
@@ -109,48 +109,48 @@ public class Constants {
         public static double kS = 0; // static gain
         public static double kV = 0; // velocity gain
         public static double kG = 0; // gravity gain
-        public static double desiredArmPos = 0;
+        public static double desiredPos = 0;
     }
     
     public final static class Elevator {
         // Elevator Motor Id's
-        public static int kElevatorMotorId = 20;
+        public static int motorID = 20;
         // Elevator Encoder Values
-        public static double kElevatorUpperLimit = 5000;
-        public static double kElevatorLowerLimit = 0;
+        public static double upperLimit = 5000;
+        public static double lowerLimit = 0;
         // Elevator Tolerance Values
-        public static double kElevatorTolerance = 500;
+        public static double tolerance = 500;
         // Extension Level Values
-        public static double kRetracted = 0;
-        public static double kBottomLevel = 1000;
-        public static double kMediumLevel = 2000;
-        public static double kTopLevel = 3000;
+        public static double retracted = 0;
+        public static double bottomLevel = 1000;
+        public static double mediumLevel = 2000;
+        public static double topLevel = 3000;
         // Elevator PID Values
-        public static double kPElevator = 1;
-        public static double kIElevator = 0;
-        public static double kDElevator = 0;
+        public static double kP = 1;
+        public static double kI = 0;
+        public static double kD = 0;
         // Elevator Feedforward Values
-        public static double kSElevator = 1;
-        public static double kGElevator = 0;
-        public static double kVElevator = 0;
+        public static double kS = 1;
+        public static double kG = 0;
+        public static double kV = 0;
         // Elevator gear ratio
-        public static double kGearRatio = 33./34.;
+        public static double gearRatio = 33./34.;
         // Elevator CANCoder IDs
-        public static int kCoder1ID = 9;
-        public static int kCoder2ID = 46;
+        public static int coder1ID = 9;
+        public static int coder2ID = 46;
     }
 
     public static class ColorSensor {
         // Proximity Threshold
-        public static double kProximityThreshold = 1700;
+        public static double proximityThreshold = 1700;
         // Cube RGB Values
-        public static double kCubeRed = 0.211181640625;
-        public static double kCubeGreen = 0.317626953125;
-        public static double kCubeBlue = 0.471435546875;
+        public static double cubeRed = 0.211181640625;
+        public static double cubeGreen = 0.317626953125;
+        public static double cubeBlue = 0.471435546875;
         // Cone RGB Values (not the cone)
-        public static double kConeRed = 0.3955078125;
-        public static double kConeGreen = 0.51025390625;
-        public static double kConeBlue = 0.0947265625;
+        public static double coneRed = 0.3955078125;
+        public static double coneGreen = 0.51025390625;
+        public static double coneBlue = 0.0947265625;
     }
     public static class FieldPositions{
         public static double centerLine = 8.27;
