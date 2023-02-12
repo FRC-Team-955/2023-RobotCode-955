@@ -60,7 +60,7 @@ public class SwerveMod{
         driveMotor.setIdleMode(SwerveSettings.SwerveConstants.driveIdleMode);   
 
         // Absolute Encoders
-        angleEncoder = new CANCoder(cancoderID);
+        angleEncoder = new CANCoder(cancoderID, "electrical_issue");
         CANCoderConfiguration config = new CANCoderConfiguration();
         config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
         config.sensorDirection = SwerveSettings.SwerveConstants.canCoderInvert;
