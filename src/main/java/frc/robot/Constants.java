@@ -82,9 +82,9 @@ public class Constants {
     }
     public static final class Arm {
         // Arm Motor Id's
-        public static int kArmMotorId = 0;
+        public static int kArmMotorId = 1230;
         // Arm Encoder Id
-        public static int kArmEncoderId = 0;
+        public static int kArmEncoderId = 102;
         // Arm Encoder Values
         public static int kArmUpperLimit = 10000;
         public static int kArmLowerLimit = 0 ;
@@ -160,7 +160,7 @@ public class Constants {
         public static double inCommunityY = 8.02-2.5;
 
         // public static double atGridBlueX = 1.8;
-        public static double atGridBlueX = 1.4+ (SwerveSettings.SwerveConstants.trackWidth/2);
+        public static double atGridBlueX = 1.4 + (SwerveSettings.SwerveConstants.trackWidth/2);
         public static double atGridRedX = 16.54-atGridBlueX;
 
         public static class AutoAlignPositions{

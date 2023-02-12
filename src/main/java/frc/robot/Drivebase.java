@@ -12,10 +12,7 @@ public class Drivebase {
     
     public static PIDController pid = new PIDController(Constants.Drivebase.kP, Constants.Drivebase.kI, Constants.Drivebase.kD);
     public static double currentAngle = 34; // get from gyroscope
-    private static double lastPitch = Gyro.getPitch();
-    private static double newPitch = Gyro.getPitch();
-    private static double heading = 0;
-
+    
 
     private static SwerveDrive drive = new SwerveDrive();
 
@@ -29,6 +26,7 @@ public class Drivebase {
 
     public static void driveFieldRelative(){
         Pose2d pose = drive.getPose();
+
         double heading = 0;
         if (Constants.isBlue() && pose.getX() < Constants.FieldPositions.centerLine){
             heading = 180;
@@ -76,10 +74,12 @@ public class Drivebase {
         driveFieldRelativeRotation(new Translation2d(0, 0), output);
        }
     }
-
+    
+    private static double lastPitch = Gyro.getPitch();
+    
     public static void autoBalanceBangBang() {
-        newPitch = Gyro.getPitch();
-        heading = 0;
+        double newPitch = Gyro.getPitch();
+        double heading = 0;
         if (heading > 90)
             heading = 0;
         else if (heading  >= 90 && heading < 180 || heading >= 180 && heading < 270) {
@@ -88,7 +88,6 @@ public class Drivebase {
         else {
             heading = 0;
         }
-        
         
         if (Gyro.getPitch() > 2.5 || Gyro.getPitch() < 2.5) {
             if (newPitch - lastPitch > 0) {
