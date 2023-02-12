@@ -22,16 +22,17 @@ public class Constants {
 
     public static class Intake{
 
-        public static int flapLeftMotorId = 100;
-        public static int flapRightMotorId = 200;
+        public static int flapLeftMotorId = 1232;
+        public static int flapRightMotorId = 43532;
         public static int itemHolderMotorId = 201;
         public static int foldMotorId = 423;
 
         //CHANGE THE MOTOR NUMBERS TO THEIR ACTUAL ONES
         public static double motorOutput = 0.3;
-        public static double foldMotorOutput = 0.2;
-        public static double motorStop = 0;
-        public static double foldedEncoder = 3;
+        public static double flapFoldMotorOutput = 0.2;
+        public static double flapMotorStop = 0;
+        public static double flapMotorSlow = 0.1;
+        public static double foldedEncoder = 384;
         public static double unfoldedEncoder = 87;
     }
 
@@ -160,7 +161,7 @@ public class Constants {
         public static double inCommunityY = 8.02-2.5;
 
         // public static double atGridBlueX = 1.8;
-        public static double atGridBlueX = 1.4+ (SwerveSettings.SwerveConstants.trackWidth/2);
+        public static double atGridBlueX = 1.4 + (SwerveSettings.SwerveConstants.trackWidth/2);
         public static double atGridRedX = 16.54-atGridBlueX;
 
         public static class AutoAlignPositions{

@@ -52,9 +52,11 @@ public class Intake {
         if (senseObj()) {
             flapLeftMotor.set(TalonSRXControlMode.PercentOutput, 0);
             flapRightMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            itemHolderMotor.set(TalonSRXControlMode.PercentOutput, 0);
         } else {
-            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
-            flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);//CHANGE ALL THESE FROM - or not -
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);//depends on tests
+            itemHolderMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
         }
     }
     public static void runItemHolder(){
@@ -74,19 +76,46 @@ public class Intake {
 
     public static void foldInIntake(){
         if (intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.foldedEncoder) {
-            foldMotor.set(Constants.Intake.foldMotorOutput); //idk if it's negative or not so it's positive for now
+            foldMotor.set(Constants.Intake.flapFoldMotorOutput); //idk if it's negative or not so it's positive for now
         }
         else{
-            foldMotor.set(Constants.Intake.motorStop); // idk if this is negative or not too.
+            foldMotor.set(Constants.Intake.flapMotorStop); // idk if this is negative or not too.
+        }
+        //fold in ethan wheels
+        //CHANGE ALL ENCODER VALUES WHEN TESTING!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //This is for when ethan wheel 1 is too much to one direction
+        if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapLeftMotor.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
+        }
+        //This is for when ethan wheel 1 is too much to other direction
+        else if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapLeftMotor.getSelectedSensorPosition() > 90){ //idk what this 90 value is, change later
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
+        }
+        //This is for when ehtan wheel 1 needs to stop
+        else if (flapLeftMotor.getSelectedSensorPosition() > 88 && flapLeftMotor.getSelectedSensorPosition() < 92){ //idk what this 90 value is, change later
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorStop);
+        }
+        
+        //This is for when ethan wheel 2 is too much to one direction
+        if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapRightMotor.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
+        }
+        //This is for when ethan wheel 2 is too much to other direction
+        else if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapRightMotor.getSelectedSensorPosition() > 90){ //idk what this 90 value is, change later
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
+        }
+        //This is for when ehtan wheel 2 needs to stop
+        else if (flapRightMotor.getSelectedSensorPosition() > 88 && flapRightMotor.getSelectedSensorPosition() < 92){ //idk what this 90 value is, change later
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorStop); //CHANGE THIS TO - OR not - NOT KNOWN YET
         }
     }
 
     public static void foldOutIntake(){
         if (intakeFoldMotorEncoderValue.getPosition() > Constants.Intake.unfoldedEncoder){
-            foldMotor.set(-Constants.Intake.foldMotorOutput); // idk if this is negative or not too.
+            foldMotor.set(-Constants.Intake.flapFoldMotorOutput); // idk if this is negative or not too.
         }
         else{
-            foldMotor.set(Constants.Intake.motorStop);
+            foldMotor.set(Constants.Intake.flapMotorStop);
         }
     }
       
