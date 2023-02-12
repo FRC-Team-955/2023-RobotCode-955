@@ -2,13 +2,13 @@ package frc.robot;
 
 public class GamepieceManager {
 
-    // public static boolean runEthanWheels(int speed) {
+    // public static boolean runFlaps(int speed) {
     //     if (speed == -1) {
-    //         Intake.reverseEthanWheels();
+    //         Intake.reverseFlaps();
     //     } else if (speed == 1) {
-    //         Intake.runEthanWheels();
+    //         Intake.runFlaps();
     //     } else {
-    //         Intake.stopEthanWheels();
+    //         Intake.stopFlaps();
     //     }
     //     return Intake.senseObj();
     // }
@@ -38,7 +38,7 @@ public class GamepieceManager {
     // public static void loadClaw(){
     //     if(IO.intakeDeployRun()){
     //         Intake.foldOutIntake();
-    //         Intake.runEthanWheels();
+    //         Intake.runFlaps();
     //         startTime = System.currentTimeMillis();
     //         runClaw = true;
     //     }

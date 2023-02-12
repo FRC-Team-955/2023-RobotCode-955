@@ -18,69 +18,75 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 public class Intake {
-    static TalonSRX intakeMotorOne = new TalonSRX(Constants.Intake.motorOneNum);
-    static TalonSRX intakeMotorTwo = new TalonSRX(Constants.Intake.motorTwoNum);
-    static ColorSensorV3 colorSensor = new ColorSensorV3(Port.kOnboard);
-    static CANSparkMax intakeFoldMotor = new CANSparkMax(Constants.Intake.intakeFoldMotorNum, MotorType.kBrushless);
-    static SparkMaxAbsoluteEncoder intakeFoldMotorEncoderValue = intakeFoldMotor.getAbsoluteEncoder(Type.kDutyCycle); //this is here because 2 functions need it at the same time
-    static DoubleLogEntry motorOneLog;
-    static DoubleLogEntry motorTwoLog;
+    private static TalonSRX flapLeftMotor = new TalonSRX(Constants.Intake.flapLeftMotorId);
+    private static TalonSRX flapRightMotor = new TalonSRX(Constants.Intake.flapRightMotorId);
+    private static TalonSRX itemHolderMotor = new TalonSRX(Constants.Intake.itemHolderMotorId);
+    private static CANSparkMax foldMotor = new CANSparkMax(Constants.Intake.foldMotorId, MotorType.kBrushless);
+
+    private static ColorSensorV3 colorSensor = new ColorSensorV3(Port.kOnboard);
+    private static SparkMaxAbsoluteEncoder intakeFoldMotorEncoderValue = foldMotor.getAbsoluteEncoder(Type.kDutyCycle); //this is here because 2 functions need it at the same time
+    private static DoubleLogEntry flapLeftMotorLog;
+    private static DoubleLogEntry flapRightMotorLog;
 
     public static void setup(){
-        intakeFoldMotor.setIdleMode(IdleMode.kBrake);
+        foldMotor.setIdleMode(IdleMode.kBrake);
 
         DataLog log = DataLogManager.getLog();
-        motorOneLog = new DoubleLogEntry(log, "/intake/motorOne");
-        motorTwoLog = new DoubleLogEntry(log, "/intake/motorTwo");
+        flapLeftMotorLog = new DoubleLogEntry(log, "/intake/flapLeftMotor");
+        flapRightMotorLog = new DoubleLogEntry(log, "/intake/flapRightMotor");
     }
 
     public static void logData() {
-        motorOneLog.append(intakeMotorOne.getStatorCurrent());
-        motorTwoLog.append(intakeMotorTwo.getStatorCurrent());
+        flapLeftMotorLog.append(flapLeftMotor.getStatorCurrent());
+        flapRightMotorLog.append(flapRightMotor.getStatorCurrent());
     }
 
     static public boolean senseObj() {
+        // getProximity() This value is largest when an object is close to the sensor and smallest when far away.
         //System.out.println(colorSensor.getProximity());
-        return colorSensor.getProximity() < 1000; //CHANGE THE 1000 not actual number
+        return colorSensor.getProximity() > 1000; //CHANGE THE 1000 not actual number
     }
 
     //sucks in the game piece and stop
-    public static void runEthanWheels(){
+    public static void runFlaps(){
         if (senseObj()) {
-            intakeMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
-            intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, 0);
         } else {
-            intakeMotorOne.set(TalonSRXControlMode.PercentOutput, 0);
-            intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, 0);
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
         }
+    }
+    public static void runItemHolder(){
+
     }
 
     //spits out the game piece
-    public static void reverseEthanWheels(){
-        intakeMotorOne.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
-        intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
+    public static void reverseFlaps(){
+        flapLeftMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
+        flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
     }
 
-    public static void stopEthanWheels() {
-        intakeMotorOne.set(TalonSRXControlMode.PercentOutput, 0);
-        intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, 0);
+    public static void stopFlaps() {
+        flapLeftMotor.set(TalonSRXControlMode.PercentOutput, 0);
+        flapRightMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
     public static void foldInIntake(){
         if (intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.intakeFoldedEncoder) {
-            intakeFoldMotor.set(Constants.Intake.intakeFoldMotorOutput); //idk if it's negative or not so it's positive for now
+            foldMotor.set(Constants.Intake.intakeFoldMotorOutput); //idk if it's negative or not so it's positive for now
         }
         else{
-            intakeFoldMotor.set(Constants.Intake.intakeMotorStop); // idk if this is negative or not too.
+            foldMotor.set(Constants.Intake.intakeMotorStop); // idk if this is negative or not too.
         }
     }
 
     public static void foldOutIntake(){
         if (intakeFoldMotorEncoderValue.getPosition() > Constants.Intake.intakeUnFoldedEncoder){
-            intakeFoldMotor.set(-Constants.Intake.intakeFoldMotorOutput); // idk if this is negative or not too.
+            foldMotor.set(-Constants.Intake.intakeFoldMotorOutput); // idk if this is negative or not too.
         }
         else{
-            intakeFoldMotor.set(Constants.Intake.intakeMotorStop);
+            foldMotor.set(Constants.Intake.intakeMotorStop);
         }
     }
       

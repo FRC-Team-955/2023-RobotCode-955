@@ -8,7 +8,7 @@
 //         GamepieceManager.setExtention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
 //         GamepieceManager.moveClaw(0);
 //         GamepieceManager.foldIntake(0);
-//         GamepieceManager.runEthanWheels(0);
+//         GamepieceManager.runFlaps(0);
 //         return false;
 //     }  
 // }

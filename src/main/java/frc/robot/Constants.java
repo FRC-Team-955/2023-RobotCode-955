@@ -21,11 +21,14 @@ public class Constants {
     public static double strafeRateLimiter = 0;
 
     public static class Intake{
+
+        public static int flapLeftMotorId = 100;
+        public static int flapRightMotorId = 200;
+        public static int itemHolderMotorId = 201;
+        public static int foldMotorId = 423;
+
         //CHANGE THE MOTOR NUMBERS TO THEIR ACTUAL ONES
         public static double motorOutput = 0.3;
-        public static int motorOneNum = 1;
-        public static int motorTwoNum = 2;
-        public static int intakeFoldMotorNum = 4;
         public static double intakeFoldMotorOutput = 0.2;
         public static double intakeMotorStop = 0;
         public static double intakeFoldedEncoder = 3;

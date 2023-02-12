@@ -16,7 +16,7 @@
 //     public boolean Act() {
 //         timer.start();
 //         if (timer.hasElapsed(time)) {
-//             GamepieceManager.runEthanWheels(speed);
+//             GamepieceManager.runFlaps(speed);
 //             return true;
 //         }
 //         return false;
