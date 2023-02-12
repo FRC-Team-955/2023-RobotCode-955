@@ -84,6 +84,7 @@ public class Intake {;
         else if (intakeMotorOne.getSelectedSensorPosition() > 88 && intakeMotorOne.getSelectedSensorPosition() < 92 && intakeMotorOne.getSelectedSensorPosition() < 88){ //idk what this 90 value is, change later
             intakeMotorOne.set(TalonSRXControlMode.PercentOutput, Constants.Intake.intakeMotorStop);
         }
+        
         //This is for when ethan wheel 2 is too much to one direction
         if (intakeFoldMotorEncoderValue.getPosition() > 80 && intakeMotorTwo.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
             intakeMotorTwo.set(TalonSRXControlMode.PercentOutput, Constants.Intake.ethanWheelFoldSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
