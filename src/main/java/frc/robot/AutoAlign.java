@@ -6,12 +6,12 @@ import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.LimelightCameraWrapper;
 
 public class AutoAlign {
-    private static PIDController PIDAprilTagAlignX = new PIDController(0.045, 0, 0); //final for 1.16 meters out (from center of robot)
-    private static PIDController PIDLimelightAlignX = new PIDController(0.045, 0, 0); //Need to test
-    private static PIDController PIDAlignX = new PIDController(3, 0, 0);
-    private static PIDController PIDAlignY = new PIDController(3, 0, 0);
+    private static PIDController aprilTagAlignXPID = new PIDController(Constants.AutoAlign.aprilTagAlignXkP, Constants.AutoAlign.aprilTagAlignXkI, Constants.AutoAlign.aprilTagAlignXkD); 
+    private static PIDController limelightAlignXPID = new PIDController(Constants.AutoAlign.limelightAlignXkP, Constants.AutoAlign.limelightAlignXkI, Constants.AutoAlign.limelightAlignXkD);
 
-    private static final double DELTA = 0.1;
+    private static PIDController odometryAlignXPID = new PIDController(Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignXkI, Constants.AutoAlign.odometryAlignXkD);
+    private static PIDController odometryAlignYPID = new PIDController(Constants.AutoAlign.odometryAlignYkP, Constants.AutoAlign.odometryAlignYkI, Constants.AutoAlign.odometryAlignYkD);
+
 
     Drivebase drive = new Drivebase();
 
@@ -22,14 +22,14 @@ public class AutoAlign {
         double poseY = pose.getY();
         double goalPoseX = goalTranslation.getX();
         double goalPoseY = goalTranslation.getY();
-        Double movementX = PIDAlignX.calculate(poseX, goalPoseX);
-        Double movementY = PIDAlignY.calculate(poseY, goalPoseY);
+        Double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
+        Double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
 
         Drivebase.driveFieldRelativeHeading(translation, 180);
 
-        if (Math.abs(goalPoseX - poseX) < DELTA && Math.abs(goalPoseY - poseY) < DELTA) {
+        if (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTolerance && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTolerance) {
             return true;
         }
         else {
@@ -39,7 +39,7 @@ public class AutoAlign {
 
     public static boolean alignAprilTag(){
         if(AprilTagCameraWrapper.hasTargets()){
-            double movementY = PIDAprilTagAlignX.calculate(AprilTagCameraWrapper.getHorizontalOffset(), 0);
+            double movementY = aprilTagAlignXPID.calculate(AprilTagCameraWrapper.getHorizontalOffset(), 0);
             Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), 180);
         }
         gridAlignY = Drivebase.getPose().getY();
@@ -48,7 +48,7 @@ public class AutoAlign {
     }
     public static boolean alignTape(){
         if (LimelightCameraWrapper.hasTargets()){
-            double movementY = PIDLimelightAlignX.calculate(LimelightCameraWrapper.getHorizontalOffset(), 0);
+            double movementY = limelightAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(), 0);
             Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), 180);
         }
 

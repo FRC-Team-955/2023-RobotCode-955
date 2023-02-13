@@ -47,8 +47,8 @@ public final class Arm {
         timer = new Timer();
 
         DataLog log = DataLogManager.getLog();
-        motorLog = new DoubleLogEntry(log, "/intake/armMotor");
-        encoderLog = new DoubleLogEntry(log, "/intake/armEncoder");
+        motorLog = new DoubleLogEntry(log, "/arm/motor");
+        encoderLog = new DoubleLogEntry(log, "/arm/encoder");
     }
 
     public static void logData() {

@@ -9,9 +9,9 @@ public class Constants {
     // Note from owen: we will have soooo many pids these need to be named better
     public static class Drivebase{
 
-        public static double kP = 1;
-        public static double kI = 0;
-        public static double kD = 0;
+        public static double autoBalancekP = 1;
+        public static double autoBalancekI = 0;
+        public static double autoBalancekD = 0;
 
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
         public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
@@ -20,18 +20,44 @@ public class Constants {
     public static double forwardRateLimiter = 0;
     public static double strafeRateLimiter = 0;
 
+    public static class AutoAlign{
+        //final for 1.16 meters out (from center of robot)
+        public static final double aprilTagAlignXkP = 0.045; 
+        public static final double aprilTagAlignXkI = 0;
+        public static final double aprilTagAlignXkD = 0;
+        //need to test
+        public static double limelightAlignXkP = 0.045;
+        public static double limelightAlignXkI = 0;
+        public static double limelightAlignXkD = 0;
+
+        public static double odometryAlignXkP = 3;
+        public static double odometryAlignXkI = 0;
+        public static double odometryAlignXkD = 0;
+        
+        public static double odometryAlignYkP = 3;
+        public static double odometryAlignYkI = 0;
+        public static double odometryAlignYkD = 0;
+        
+        public static double alignTolerance = 0.1;
+    }
     public static class Intake{
 
         public static int flapLeftMotorId = 1232;
         public static int flapRightMotorId = 43532;
-        public static int itemHolderMotorId = 201;
+        public static int holdMotorId = 201;
         public static int foldMotorId = 423;
 
+        public static double motorStop = 0;
+
         //CHANGE THE MOTOR NUMBERS TO THEIR ACTUAL ONES
-        public static double motorOutput = 0.3;
-        public static double flapFoldMotorOutput = 0.2;
-        public static double flapMotorStop = 0;
+        public static double flapMotorRun = 0.3;
         public static double flapMotorSlow = 0.1;
+
+        public static double foldMotorRun = 0.2;
+
+        public static double holdMotorRun = 0.1;
+        public static double holdMotorSlow = 0.05;
+
         public static double foldedEncoder = 384;
         public static double unfoldedEncoder = 87;
     }
@@ -39,6 +65,7 @@ public class Constants {
     public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
         public static int motorID = 3;
+        public static double run = 0.1;
         public static double runTime = 2000;
     }
 

@@ -10,7 +10,7 @@ import frc.robot.Swerve.SwerveDrive;
 
 public class Drivebase {
     
-    public static PIDController pid = new PIDController(Constants.Drivebase.kP, Constants.Drivebase.kI, Constants.Drivebase.kD);
+    public static PIDController autoBalancePID = new PIDController(Constants.Drivebase.autoBalancekP, Constants.Drivebase.autoBalancekI, Constants.Drivebase.autoBalancekD);
     public static double currentAngle = 34; // get from gyroscope
     
 
@@ -58,15 +58,13 @@ public class Drivebase {
 
     }
 
-
-
     public static void logData() {
         drive.logSwerve();
     }
 
     public static void autoBalance() {
 
-       double output = MathUtil.clamp(pid.calculate(Gyro.getPitch(), 0), -1 ,1);
+       double output = MathUtil.clamp(autoBalancePID.calculate(Gyro.getPitch(), 0), -1 ,1);
 
        driveFieldRelativeRotation(new Translation2d(output, 0), 0);
        

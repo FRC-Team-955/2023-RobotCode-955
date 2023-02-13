@@ -23,12 +23,12 @@ public class Claw {
 
     //sucks in the game piece and stops
     public static void intakeGamePiece(){
-        motor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorOutput);
+        motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.run);
     }
 
     //spits out the game piece
     public static void outputGamePiece(){
-        motor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.motorOutput);
+        motor.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.run);
     }
 
     public static void stopMotor() {

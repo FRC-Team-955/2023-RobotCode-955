@@ -55,17 +55,17 @@ public class Robot extends TimedRobot {
 
     switch(robotState){
       case AUTO_ALIGN:
-        // GamepieceManager.autoPlace();
-        // Intake.foldInIntake();
+        GamepieceManager.autoPlace();
+        Intake.foldInIntake();
       case AUTO_BALANCE:
         Drivebase.autoBalance();
         // Drivebase.autoBalanceBangBang();
-        // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.gridArmPosition.Retract);
-        // Intake.foldInIntake();
+        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+        Intake.foldInIntake();
       default: // DRIVE
         AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-        // GamepieceManager.loadClaw();
-        // GamepieceManager.manageExtension();
+        GamepieceManager.loadSequence();
+        GamepieceManager.manageExtension();
         Drivebase.drive();
     }
 
