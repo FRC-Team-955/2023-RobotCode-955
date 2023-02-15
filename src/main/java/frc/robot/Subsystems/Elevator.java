@@ -21,6 +21,7 @@ public class Elevator {
     static DoubleLogEntry motorlog;
     static DoubleLogEntry encoderlog;
     static RelativeEncoder encoder;
+    
     static double setpoint = Constants.Elevator.retracted;
 
     public static void setup() {
