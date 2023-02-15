@@ -3,8 +3,8 @@ package frc.robot;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Swerve.SwerveSettings;
 
 public final class IO {
@@ -15,7 +15,7 @@ public final class IO {
     
     private static Joystick key0 = new Joystick(2);
     private static Joystick key1 = new Joystick(3);
-    
+
     private static boolean override = false;
 
     public static void setOverride(boolean _override) {
@@ -27,13 +27,16 @@ public final class IO {
     }
 
     public static boolean elevatorManualUp(){
-        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton);
+        // return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton);
+        return key1.getRawButtonPressed(13);
     }
     public static boolean elevatorManualDown(){
-        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorDownButton);
+        // return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorDownButton);
+        return key1.getRawButtonPressed(14);
     }
     public static boolean clawDropPiece(){
-        return joy1.getRawButtonPressed(Constants.IO.Joy1.clawDropPieceButton);
+        // return joy1.getRawButtonPressed(Constants.IO.Joy1.clawDropPieceButton);
+        return key1.getRawButtonPressed(15);
 
     }
 
@@ -46,7 +49,8 @@ public final class IO {
     }
 
     public static boolean intakeDeployRun(){
-        return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
+        // return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
+        return key1.getRawButtonPressed(16);
     }
 
     public static class Drivebase{
