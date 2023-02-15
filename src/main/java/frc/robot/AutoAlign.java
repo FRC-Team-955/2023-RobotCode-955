@@ -59,12 +59,12 @@ public class AutoAlign {
         // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), heading);
     }
 
+    //the move forward function
     public static boolean moveIntoPosition() {
-        System.out.println("keyInputOdometryPosition: " + IO.keyInputOdometryPosition);
+        // System.out.println("keyInputOdometryPosition: " + IO.keyInputOdometryPosition);
 
         return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlueX: Constants.FieldPositions.atGridRedX, 
                             gridAlignY));
-        //the move forward function
     }
     public static boolean isInCommunity(){
         if (((Constants.isBlue() && Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX) ||
@@ -93,8 +93,8 @@ public class AutoAlign {
         if(isInCommunity()){
             switch(gridAlignState) {
                 case AlignedToOdometry:
-                    // if(alignOdometry(IO.keyInputOdometryPosition)) {
-                    if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1)) {
+                    // if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1)) {
+                    if(alignOdometry(IO.keyInputOdometryPosition)) {
                         gridAlignState = GridAlignState.AlignedToNode;
                     }
                     break;
