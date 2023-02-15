@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import frc.robot.Constants;
+import frc.robot.IO;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -49,86 +50,108 @@ public class Intake {
 
     //sucks in the game piece and stop
     public static void runFlaps(){
-        if (senseObj()) {
-            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop);
-            flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop);
+        if(!IO.isOverrideEnabled()) {
+            if (senseObj()) {
+                flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop);
+                flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop);
+                holdMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.holdMotorSlow);
+            } else {
+                flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorRun);//CHANGE ALL THESE FROM - or not -
+                flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorRun);//depends on tests
+                holdMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.holdMotorRun);
+            }
+        }
+    }
+    
+    public static void holdItem(){
+        if(!IO.isOverrideEnabled()) {
             holdMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.holdMotorSlow);
-        } else {
-            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorRun);//CHANGE ALL THESE FROM - or not -
-            flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorRun);//depends on tests
+        }
+    }
+
+    public static void unholdItem(){
+        if(!IO.isOverrideEnabled()) {
             holdMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.holdMotorRun);
         }
     }
-    public static void holdItem(){
-        holdMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.holdMotorSlow);
-    }
-    public static void unholdItem(){
-        holdMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.holdMotorRun);
-    }
+
     public static void RestItem(){
-        holdMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop);
+        if(!IO.isOverrideEnabled()) {
+            holdMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop);
+        }
     }
+
     public static void holdItemUntilFolded(){
-        if(!Intake.isIntakeFolded()){
-            Intake.holdItem();
-        }else{
-            Intake.RestItem();
+        if(!IO.isOverrideEnabled()) {
+            if(!Intake.isIntakeFolded()){
+                Intake.holdItem();
+            }else{
+                Intake.RestItem();
+            }
         }
     }
 
     //spits out the game piece
     public static void reverseFlaps(){
-        flapLeftMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorRun);
-        flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorRun);
+        if(!IO.isOverrideEnabled()) {
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorRun);
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorRun);
+        }
     }
 
     public static void stopFlaps() {
-        flapLeftMotor.set(TalonSRXControlMode.PercentOutput, 0);
-        flapRightMotor.set(TalonSRXControlMode.PercentOutput, 0);
+        if(!IO.isOverrideEnabled()) {
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, 0);
+        }
     }
 
     public static void foldInIntake(){
-        if (intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.foldedEncoder) {
-            foldMotor.set(Constants.Intake.foldMotorRun); //idk if it's negative or not so it's positive for now
-        }
-        else{
-            foldMotor.set(Constants.Intake.motorStop); // idk if this is negative or not too.
-        }
-        //fold in ethan wheels
-        //CHANGE ALL ENCODER VALUES WHEN TESTING!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //This is for when ethan wheel 1 is too much to one direction
-        if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapLeftMotor.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
-            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
-        }
-        //This is for when ethan wheel 1 is too much to other direction
-        else if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapLeftMotor.getSelectedSensorPosition() > 90){ //idk what this 90 value is, change later
-            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
-        }
-        //This is for when ehtan wheel 1 needs to stop
-        else if (flapLeftMotor.getSelectedSensorPosition() > 88 && flapLeftMotor.getSelectedSensorPosition() < 92){ //idk what this 90 value is, change later
-            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop);
-        }
+        if(!IO.isOverrideEnabled()) {
+            if (intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.foldedEncoder) {
+                foldMotor.set(Constants.Intake.foldMotorRun); //idk if it's negative or not so it's positive for now
+            }
+            else{
+                foldMotor.set(Constants.Intake.motorStop); // idk if this is negative or not too.
+            }
+            //fold in ethan wheels
+            //CHANGE ALL ENCODER VALUES WHEN TESTING!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //This is for when ethan wheel 1 is too much to one direction
+            if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapLeftMotor.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
+                flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
+            }
+            //This is for when ethan wheel 1 is too much to other direction
+            else if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapLeftMotor.getSelectedSensorPosition() > 90){ //idk what this 90 value is, change later
+                flapLeftMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
+            }
+            //This is for when ehtan wheel 1 needs to stop
+            else if (flapLeftMotor.getSelectedSensorPosition() > 88 && flapLeftMotor.getSelectedSensorPosition() < 92){ //idk what this 90 value is, change later
+                flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop);
+            }
         
-        //This is for when ethan wheel 2 is too much to one direction
-        if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapRightMotor.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
-            flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
-        }
-        //This is for when ethan wheel 2 is too much to other direction
-        else if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapRightMotor.getSelectedSensorPosition() > 90){ //idk what this 90 value is, change later
-            flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
-        }
-        //This is for when ehtan wheel 2 needs to stop
-        else if (flapRightMotor.getSelectedSensorPosition() > 88 && flapRightMotor.getSelectedSensorPosition() < 92){ //idk what this 90 value is, change later
-            flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop); //CHANGE THIS TO - OR not - NOT KNOWN YET
+            //This is for when ethan wheel 2 is too much to one direction
+            if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapRightMotor.getSelectedSensorPosition() < 90){ //idk what this 90 value is, change later
+                flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
+            }
+            //This is for when ethan wheel 2 is too much to other direction
+            else if (intakeFoldMotorEncoderValue.getPosition() > 80 && flapRightMotor.getSelectedSensorPosition() > 90){ //idk what this 90 value is, change later
+                flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorSlow); //CHANGE THIS TO - OR not - NOT DECIDED YET
+            }
+            //This is for when ehtan wheel 2 needs to stop
+            else if (flapRightMotor.getSelectedSensorPosition() > 88 && flapRightMotor.getSelectedSensorPosition() < 92){ //idk what this 90 value is, change later
+                flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.motorStop); //CHANGE THIS TO - OR not - NOT KNOWN YET
+            }
         }
     }
 
     public static void foldOutIntake(){
-        if (intakeFoldMotorEncoderValue.getPosition() > Constants.Intake.unfoldedEncoder){
-            foldMotor.set(-Constants.Intake.foldMotorRun); // idk if this is negative or not too.
-        }
-        else{
-            foldMotor.set(Constants.Intake.motorStop);
+        if(!IO.isOverrideEnabled()) {
+            if (intakeFoldMotorEncoderValue.getPosition() > Constants.Intake.unfoldedEncoder){
+                foldMotor.set(-Constants.Intake.foldMotorRun); // idk if this is negative or not too.
+            }
+            else{
+                foldMotor.set(Constants.Intake.motorStop);
+            }
         }
     }
       
@@ -138,5 +161,30 @@ public class Intake {
 
     public static boolean isIntakeUnfolded(){
         return intakeFoldMotorEncoderValue.getPosition() < Constants.Intake.unfoldedEncoder;
+    }
+
+    public static void intakeOverride(double pov) { // pov should probably be joystick.getPOV
+        if(pov == -1) {
+            foldMotor.set(0);
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            holdMotor.set(TalonSRXControlMode.PercentOutput, 0);
+        }
+        if(pov == 0) {
+            foldMotor.set(-Constants.Intake.foldMotorRun);
+        }
+        if(pov == 180) {
+            foldMotor.set(Constants.Intake.foldMotorRun);
+        }
+        if(pov == 90) {
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorRun);
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorRun);
+            holdMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.holdMotorRun);
+        }
+        if(pov == 270) {
+            flapLeftMotor.set(TalonSRXControlMode.PercentOutput, -Constants.Intake.flapMotorRun);
+            flapRightMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.flapMotorRun);
+            holdMotor.set(TalonSRXControlMode.PercentOutput, Constants.Intake.holdMotorRun); 
+        }
     }
 }
