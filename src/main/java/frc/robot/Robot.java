@@ -20,10 +20,10 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotInit() {
-    // Arm.setup();
-    // Elevator.setup();
-    // Intake.setup();
-    // Claw.setup();
+    Arm.setup();
+    Elevator.setup();
+    Intake.setup();
+    Claw.setup();
     AprilTagCameraWrapper.setUp();
     Drivebase.resetAnglesToAbsolute();
   }
@@ -46,8 +46,9 @@ public class Robot extends TimedRobot {
     Drivebase.logData();
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
+    Drivebase.updateSwerveOdometry();
   }
-  private final Field2d m_field = new Field2d();
+
   @Override
   public void teleopPeriodic() {
     selectTeleopState();
@@ -55,17 +56,17 @@ public class Robot extends TimedRobot {
 
     switch(robotState){
       case AUTO_ALIGN:
-        // GamepieceManager.autoPlace();
-        // Intake.foldInIntake();
+        GamepieceManager.autoPlace();
+        Intake.foldInIntake();
       case AUTO_BALANCE:
         Drivebase.autoBalance();
         // Drivebase.autoBalanceBangBang();
-        // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.gridArmPosition.Retract);
-        // Intake.foldInIntake();
+        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+        Intake.foldInIntake();
       default: // DRIVE
         AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-        // GamepieceManager.loadClaw();
-        // GamepieceManager.manageExtension();
+        GamepieceManager.loadSequence();
+        GamepieceManager.manageExtension();
         Drivebase.drive();
     }
 
@@ -86,20 +87,9 @@ public class Robot extends TimedRobot {
       Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
       // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
     }
-    Drivebase.updateSwerveOdometry();
-    // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
-  
-    //System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());
 
-    
-    // selectTeleopState();
-    // teleopAllState();
-    // switch(robotState){
-    //   case AUTO_ALIGN:
-    //     autoAlign.moveToGridPosition();
-    //   default: // DRIVE
-    //     Drivebase.driveFieldRelative();
-    // }
+    // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
+    //System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());
   }
 
   @Override
@@ -121,11 +111,9 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {}
 
   public void selectTeleopState(){
-
     if (IO.Drivebase.isAutoAlignActive()) {
       robotState = RobotState.AUTO_ALIGN;
-    } 
-    //once auto balance is added into false
+    }
     else if (IO.Drivebase.isAutoBalanceActive()){
       robotState = RobotState.AUTO_BALANCE;
     } else {

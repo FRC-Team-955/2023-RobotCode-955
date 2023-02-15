@@ -77,7 +77,7 @@ public class Elevator {
         }
     }
 
-    public static boolean setElevator() {
+    public static boolean setElevator(){
         if(!IO.isOverrideEnabled()) {
             double amount = MathUtil.clamp(pid.calculate(encoder.getPosition(), setpoint) +
                                             feedforward.calculate(encoder.getVelocity()), -12, 12);
