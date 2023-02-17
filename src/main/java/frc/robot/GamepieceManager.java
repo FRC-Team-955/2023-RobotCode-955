@@ -7,35 +7,35 @@ import frc.robot.Subsystems.Intake;
 
 public class GamepieceManager {
 
-    // public static boolean runFlaps(int speed) {
-    //     if (speed == -1) {
-    //         Intake.reverseFlaps();
-    //     } else if (speed == 1) {
-    //         Intake.runFlaps();
-    //     } else {
-    //         Intake.stopFlaps();
-    //     }
-    //     return Intake.senseObj();
-    // }
+    public static boolean runFlapsAuto(int speed) {
+        if (speed == -1) {
+            Intake.reverseFlaps();
+        } else if (speed == 1) {
+            Intake.runFlaps();
+        } else {
+            Intake.stopFlaps();
+        }
+        return Intake.senseObj();
+    }
 
-    // public static boolean foldIntake(int position) {
-    //     if (position == 0) {
-    //         return Intake.foldOutIntake();
-    //     } else if (position == 1) {
-    //         return Intake.foldInIntake();
-    //     }
-    //     return false;
-    // }
+    public static boolean foldIntakeAuto(int position) {
+        if (position == 0) {
+            return Intake.foldOutIntake();
+        } else if (position == 1) {
+            return Intake.foldInIntake();
+        }
+        return false;
+    }
     
-    // public static void moveClaw(int speed) {
-    //     if (speed == -1) {
-    //         Claw.outputGamePiece();
-    //     } else if (speed == 1) {
-    //         Claw.intakeGamePiece();
-    //     } else {
-    //         Claw.stopMotor();
-    //     }
-    // }
+    public static void moveClawAuto(int speed) {
+        if (speed == -1) {
+            Claw.outputGamePiece();
+        } else if (speed == 1) {
+            Claw.intakeGamePiece();
+        } else {
+            Claw.stopMotor();
+        }
+    }
 
     private static boolean runClaw = false;
     private static long startTime = System.currentTimeMillis();

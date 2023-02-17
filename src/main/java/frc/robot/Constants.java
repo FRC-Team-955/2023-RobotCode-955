@@ -47,8 +47,6 @@ public class Constants {
         public static int holdMotorId = 201;
         public static int foldMotorId = 423;
 
-        public static double motorStop = 0;
-
         //CHANGE THE MOTOR NUMBERS TO THEIR ACTUAL ONES
         public static double flapMotorRun = 0.3;
         public static double flapMotorSlow = 0.1;
@@ -60,6 +58,10 @@ public class Constants {
 
         public static double foldedEncoder = 384;
         public static double unfoldedEncoder = 87;
+
+        public static double ethanWheelsKp = 0.1;
+        public static double foldMotorKp = 0.1;
+        public static double foldMotorKs = 2;
     }
 
     public static class Claw{
