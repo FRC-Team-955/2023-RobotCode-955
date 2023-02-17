@@ -1,20 +1,19 @@
 package frc.robot.Auto.Actions;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class PauseAction extends AutoAction {
-    boolean isTimerRunning = false;
-    double timer;
     double time;
+    Timer timer;
 
     public PauseAction(double time) {
         this.time = time;
+        timer = new Timer();
     }
 
     public boolean Act() {
-        if (!isTimerRunning) {
-            timer = System.currentTimeMillis();
-            isTimerRunning = true;
-        }
-        if (System.currentTimeMillis() - timer < time) {
+        timer.start();
+        if (timer.hasElapsed(time)) {
             return true;
         } else {
             return false;

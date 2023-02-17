@@ -1,5 +1,6 @@
 package frc.robot.Auto.Actions;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Auto.Auto;
 
 //REWRITE
@@ -7,18 +8,16 @@ import frc.robot.Auto.Auto;
 public class ClawAction extends AutoAction {
     int speed;
     Double time;
-    Double storedTime;
-    boolean isTimerRunning;
+    Timer timer;
+
     public ClawAction(int speed, Double time) {
         this.speed = speed;
         this.time = time;
+        timer = new Timer();
     }
     public boolean Act() {
-        if (!isTimerRunning) {
-            isTimerRunning = true;
-            storedTime = (double) System.currentTimeMillis();
-        }
-        if (System.currentTimeMillis() - storedTime > time) {
+        timer.start();
+        if (timer.hasElapsed(time)) {
             
         }
         if (speed == -1) {
