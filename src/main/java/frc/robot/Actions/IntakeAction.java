@@ -11,6 +11,7 @@ public class IntakeAction implements AutoAction{
     public IntakeAction(double time, int speed) {
         this.time = time;
         this.speed = speed;
+        timer = new Timer();
     }
 
     public boolean Act() {
