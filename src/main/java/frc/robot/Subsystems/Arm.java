@@ -16,11 +16,11 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 public final class Arm {
     //static CANSparkMax motor;
-    static PWMTalonSRX motor;
+    static PWMSparkMax motor;
     static PIDController pid;
     static CANCoder encoder;
     static ArmFeedforward feedforward;
@@ -32,7 +32,7 @@ public final class Arm {
 
     public static void setup() {
         //motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
-        motor = new PWMTalonSRX(Constants.Arm.motorID);
+        motor = new PWMSparkMax(Constants.Arm.motorID);
         //motor.setSmartCurrentLimit(40);
         
         pid = new PIDController(Constants.Arm.kP, 

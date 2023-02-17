@@ -147,16 +147,17 @@ public final class IO {
     public static GridRowPosition gridRowPosition = GridRowPosition.Low;
 
     public static void keyInputRowPosition(){
+
         if(key0.getRawButtonPressed(1) || key0.getRawButtonPressed(4)|| key0.getRawButtonPressed(7) || key0.getRawButtonPressed(10)|| key0.getRawButtonPressed(13)
-            || key1.getRawButtonPressed(1) || key1.getRawButtonPressed(4) || key1.getRawButtonPressed(7) || key1.getRawButtonPressed(10)){
+        || key1.getRawButtonPressed(1) || key1.getRawButtonPressed(4) || key1.getRawButtonPressed(7) || key1.getRawButtonPressed(10)){
                 gridRowPosition = GridRowPosition.Low;
         }
-        if( key0.getRawButtonPressed(2) || key0.getRawButtonPressed(5) || key0.getRawButtonPressed(8) || key0.getRawButtonPressed(11) || key0.getRawButtonPressed(14) 
-            || key1.getRawButtonPressed(2) || key1.getRawButtonPressed(5) ||key1.getRawButtonPressed(8) || key1.getRawButtonPressed(11)){
+        else if( key0.getRawButtonPressed(2) || key0.getRawButtonPressed(5) || key0.getRawButtonPressed(8) || key0.getRawButtonPressed(11) || key0.getRawButtonPressed(14)
+                || key1.getRawButtonPressed(2) || key1.getRawButtonPressed(5) ||key1.getRawButtonPressed(8) || key1.getRawButtonPressed(11)){
                 gridRowPosition = GridRowPosition.Mid;
         }
-        if( key0.getRawButtonPressed(3) || key0.getRawButtonPressed(6) || key0.getRawButtonPressed(9) || key0.getRawButtonPressed(12) || key0.getRawButtonPressed(15) 
-            || key1.getRawButtonPressed(3) || key1.getRawButtonPressed(6) ||key1.getRawButtonPressed(9) || key1.getRawButtonPressed(12)){
+        else if( key0.getRawButtonPressed(3) || key0.getRawButtonPressed(6) || key0.getRawButtonPressed(9) || key0.getRawButtonPressed(12) || key0.getRawButtonPressed(15)
+                || key1.getRawButtonPressed(3) || key1.getRawButtonPressed(6) ||key1.getRawButtonPressed(9) || key1.getRawButtonPressed(12)){
                 gridRowPosition = GridRowPosition.High;
         }
     }

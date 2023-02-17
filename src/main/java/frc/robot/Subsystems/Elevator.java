@@ -36,8 +36,8 @@ public class Elevator {
 
         encoder = motor.getEncoder();
         encoder.setPosition(ElevatorPosition.calculate(
-            (new CANCoder(Constants.Elevator.coder1ID)).getPosition(),
-            (new CANCoder(Constants.Elevator.coder2ID)).getPosition()
+            (new CANCoder(Constants.Elevator.coder1ID, "electrical_issue")).getPosition(),
+            (new CANCoder(Constants.Elevator.coder2ID, "electrical_issue")).getPosition()
         ));
 
         DataLog log = DataLogManager.getLog();

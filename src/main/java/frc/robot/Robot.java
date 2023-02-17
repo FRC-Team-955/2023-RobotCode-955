@@ -20,12 +20,12 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotInit() {
-    Arm.setup();
-    Elevator.setup();
-    Intake.setup();
-    Claw.setup();
-    AprilTagCameraWrapper.setUp();
-    Drivebase.resetAnglesToAbsolute();
+    // Arm.setup();
+    // Elevator.setup();
+    // Intake.setup();
+    // Claw.setup();
+    // AprilTagCameraWrapper.setUp();
+    // Drivebase.resetAnglesToAbsolute();
   }
 
   @Override
@@ -39,57 +39,61 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    Drivebase.resetAnglesToAbsolute();
+    // Drivebase.resetAnglesToAbsolute();
   }
 
   public void teleopAllState(){
-    Drivebase.logData();
+    // Drivebase.logData();
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
-    Drivebase.updateSwerveOdometry();
+    // Drivebase.updateSwerveOdometry();
   }
 
   @Override
   public void teleopPeriodic() {
-    selectTeleopState();
+
+  System.out.println("gridRowPosition: " + IO.gridRowPosition);
+      System.out.println("isConeNode: " + IO.isConeNodePosition);
+      System.out.println("gridAlignState: " + AutoAlign.gridAlignState);
+    // selectTeleopState();
     teleopAllState();
 
-    switch(robotState){
-      case AUTO_ALIGN:
-        GamepieceManager.autoPlace();
-        Intake.foldInIntake();
-      case AUTO_BALANCE:
-        Drivebase.autoBalance();
-        // Drivebase.autoBalanceBangBang();
-        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-        Intake.foldInIntake();
-      default: // DRIVE
-        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-        GamepieceManager.loadSequence();
-        GamepieceManager.manageExtension();
-        Drivebase.drive();
-    }
-
-    System.out.println(Constants.isBlue());
-    System.out.println("x" + Drivebase.getPose().getX());
-    System.out.println("y" + Drivebase.getPose().getY());
-    if (IO.Drivebase.thrustEnabled()){
-
-      // AutoAlign.alignAprilTag();
-      AutoAlign.moveToGridPosition();
-    }
-    // else if (IO.Drivebase.isAutoAlignActive()) {
-    //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1);
-    // } else if (IO.Drivebase.rotationOverrideEnabled()){
-    //   AutoAlign.moveIntoPosition();
+    // switch(robotState){
+    //   case AUTO_ALIGN:
+    //     GamepieceManager.autoPlace();
+    //     Intake.foldInIntake();
+    //   case AUTO_BALANCE:
+    //     Drivebase.autoBalance();
+    //     // Drivebase.autoBalanceBangBang();
+    //     GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+    //     Intake.foldInIntake();
+    //   default: // DRIVE
+    //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+    //     GamepieceManager.loadSequence();
+    //     GamepieceManager.manageExtension();
+    //     Drivebase.drive();
     // }
-    else {
-      Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
-      // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
-    }
 
-    // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
-    //System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());
+    // System.out.println(Constants.isBlue());
+    // System.out.println("x" + Drivebase.getPose().getX());
+    // System.out.println("y" + Drivebase.getPose().getY());
+    // if (IO.Drivebase.thrustEnabled()){
+
+    //   // AutoAlign.alignAprilTag();
+    //   AutoAlign.moveToGridPosition();
+    // }
+    // // else if (IO.Drivebase.isAutoAlignActive()) {
+    // //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1);
+    // // } else if (IO.Drivebase.rotationOverrideEnabled()){
+    // //   AutoAlign.moveIntoPosition();
+    // // }
+    // else {
+    //   Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
+    //   // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+    // }
+
+    // // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
+    // //System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());
   }
 
   @Override
