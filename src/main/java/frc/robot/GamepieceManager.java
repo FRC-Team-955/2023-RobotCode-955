@@ -40,6 +40,7 @@ public class GamepieceManager {
     private static boolean runClaw = false;
     private static long startTime = System.currentTimeMillis();
 
+    //DO NOT USE UNTIL INTAKE IS MOUNTED
     public static void loadSequence(){
         if(IO.intakeDeployRun()){
             Intake.foldOutIntake();
@@ -102,7 +103,8 @@ public class GamepieceManager {
             clawDrop();
         }else{
             Claw.intakeGamePiece();
-            Intake.unholdItem();
+            //uncomment when intake is mounted
+            //Intake.unholdItem();
         }
     }
     public static boolean wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZong();
