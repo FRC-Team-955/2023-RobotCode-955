@@ -51,10 +51,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-
-  System.out.println("gridRowPosition: " + IO.gridRowPosition);
-      System.out.println("isConeNode: " + IO.isConeNodePosition);
-      System.out.println("gridAlignState: " + AutoAlign.gridAlignState);
     // selectTeleopState();
     teleopAllState();
 
