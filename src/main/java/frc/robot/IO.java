@@ -27,17 +27,13 @@ public final class IO {
     }
 
     public static boolean elevatorManualUp(){
-        // return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton);
-        return key1.getRawButtonPressed(13);
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key1.getRawButtonPressed(13);
     }
     public static boolean elevatorManualDown(){
-        // return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorDownButton);
-        return key1.getRawButtonPressed(14);
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorDownButton) || key1.getRawButtonPressed(14);
     }
     public static boolean clawDropPiece(){
-        // return joy1.getRawButtonPressed(Constants.IO.Joy1.clawDropPieceButton);
-        return key1.getRawButtonPressed(15);
-
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.clawDropPieceButton) || key1.getRawButtonPressed(15);
     }
 
     public static double armOverride() {
@@ -49,8 +45,7 @@ public final class IO {
     }
 
     public static boolean intakeDeployRun(){
-        // return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2;
-        return key1.getRawButtonPressed(16);
+        return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2 || key1.getRawButtonPressed(16);
     }
 
     public static class Drivebase{
