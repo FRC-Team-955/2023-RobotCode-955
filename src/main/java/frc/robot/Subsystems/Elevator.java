@@ -47,13 +47,13 @@ public class Elevator {
 
     public static void logData() {
         motorlog.append(motor.getOutputCurrent());
-        encoderlog.append(motor.getEncoder().getPosition());
+        encoderlog.append(encoder.getPosition());
     }
 
     public static void moveElevator(double joyPos) {
-        if(!IO.isOverrideEnabled() && ((motor.getEncoder().getPosition() <= Constants.Elevator.upperLimit || joyPos < 0)
-            && (motor.getEncoder().getPosition() >= Constants.Elevator.lowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
-            motor.set(joyPos);
+        if(!IO.isOverrideEnabled() && ((encoder.getPosition() <= Constants.Elevator.upperLimit - feedforward.calculate(encoder.getVelocity()) || joyPos < 0)
+            && (encoder.getPosition() >= Constants.Elevator.lowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
+            motor.set(joyPos + feedforward.calculate(encoder.getVelocity()));
         }
     }
     
