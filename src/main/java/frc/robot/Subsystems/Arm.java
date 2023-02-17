@@ -58,7 +58,7 @@ public final class Arm {
     }
 
     public static void logData() {
-        //motorLog.append(motor.getOutputCurrent());
+        motorLog.append(motor.get());
         
         encoderLog.append(encoder.getPosition());
     }
