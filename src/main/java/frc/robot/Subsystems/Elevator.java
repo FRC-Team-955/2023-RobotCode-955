@@ -75,6 +75,8 @@ public class Elevator {
             case High:
                 setpoint = Constants.Elevator.topLevel;
                 break;
+            case DoubleSubstation:
+                setpoint= Constants.Elevator.doubleSubstationPosition;
         }
     }
 

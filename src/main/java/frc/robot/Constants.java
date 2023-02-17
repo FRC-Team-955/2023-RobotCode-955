@@ -69,6 +69,7 @@ public class Constants {
         public static int motorID = 3;
         public static double run = 0.1;
         public static double runTime = 2000;
+        public static double stopish = 0.05;
     }
 
     public static class AprilTagCamera{
@@ -131,6 +132,8 @@ public class Constants {
         public static int cubePrep = 4000;
         public static int cubeReady = 5000;
 
+        public static int doubleSubstation = 3000;
+
         // Arm Pid Values
         public static double kP = 1;
         public static double kI = 0;
@@ -155,6 +158,7 @@ public class Constants {
         public static double bottomLevel = 1000;
         public static double mediumLevel = 2000;
         public static double topLevel = 3000;
+        public static double doubleSubstationPosition = 2500;
         // Elevator PID Values
         public static double kP = 1;
         public static double kI = 0;
@@ -183,15 +187,22 @@ public class Constants {
         public static double coneBlue = 0.0947265625;
     }
     public static class FieldPositions{
+        private static double fieldX = 16.54;
+        private static double fieldY = 8.02;
+
         public static double centerLine = 8.27;
 
         public static double inBlueCommunityX = 3-(SwerveSettings.SwerveConstants.trackWidth/2);
-        public static double inRedCommunityX = 16.54-inBlueCommunityX;
-        public static double inCommunityY = 8.02-2.5;
+        public static double inRedCommunityX = fieldX-inBlueCommunityX;
+        public static double inCommunityY = fieldY-2.5;
+
+        public static double inBlueLoadingZoneX = 3.5;
+        public static double inRedLoadingZoneX = fieldX - inBlueLoadingZoneX;
+        public static double inLoadingZoneY = 5.5+ (SwerveSettings.SwerveConstants.trackWidth/2);
 
         // public static double atGridBlueX = 1.8;
         public static double atGridBlueX = 1.4 + (SwerveSettings.SwerveConstants.trackWidth/2);
-        public static double atGridRedX = 16.54-atGridBlueX;
+        public static double atGridRedX = fieldX-atGridBlueX;
 
         public static class AutoAlignPositions{
             public static Translation2d blue0 = new Translation2d(2.2,8.02-3);
@@ -209,6 +220,8 @@ public class Constants {
             public static Translation2d blueAvoidChargerLower = new Translation2d(5.5,8.02-7.5);
             public static Translation2d blueOutCommunityLower = new Translation2d(4.0, 8.02-7.5);
             public static Translation2d blueInCommunityLower = new Translation2d(2.0, 8.02-7.5);
+            public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-1, 7.5);
+            public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-1, 6.25);
 
             public static Translation2d red0 = new Translation2d(14.34,8.02-3);
             public static Translation2d red1 = new Translation2d(14.34,8.02-3.5625);
@@ -225,6 +238,8 @@ public class Constants {
             public static Translation2d redAvoidChargerLower = new Translation2d(11,8.02-7.5);
             public static Translation2d redOutCommunityLower = new Translation2d(12.5, 8.02-7.5);
             public static Translation2d redInCommunityLower = new Translation2d(14, 8.02-7.5);
+            public static Translation2d redLeftDoubleSubstation = new Translation2d(1, 6.25);
+            public static Translation2d redRightDoubleSubstation = new Translation2d(1, 7.5);
         }   
     }
 

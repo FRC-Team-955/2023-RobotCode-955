@@ -96,6 +96,9 @@ public final class Arm {
             case CubeReady:
                 setpoint = Constants.Arm.cubeReady;
                 break;
+            case DoubleSubstation:
+                setpoint = Constants.Arm.doubleSubstation;
+                break;
         }
     }
     public static boolean setArm(){

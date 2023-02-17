@@ -31,7 +31,7 @@ public class Claw {
         motor.set(TalonSRXControlMode.PercentOutput, -Constants.Claw.run);
     }
 
-    public static void stopMotor() {
-        motor.set(ControlMode.PercentOutput, 0);
+    public static void stopishMotor() {
+        motor.set(ControlMode.PercentOutput, Constants.Claw.stopish);
     }
 }

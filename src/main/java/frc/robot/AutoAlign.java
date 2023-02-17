@@ -15,7 +15,7 @@ public class AutoAlign {
 
     Drivebase drive = new Drivebase();
 
-    public static boolean alignOdometry(Translation2d goalTranslation){
+    public static boolean alignOdometry(Translation2d goalTranslation, double heading){
         System.out.println("Goal POSE: " + goalTranslation);
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
@@ -27,7 +27,7 @@ public class AutoAlign {
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
 
-        Drivebase.driveFieldRelativeHeading(translation, 180);
+        Drivebase.driveFieldRelativeHeading(translation, heading);
 
         if (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTolerance && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTolerance) {
             return true;
@@ -64,7 +64,7 @@ public class AutoAlign {
         // System.out.println("keyInputOdometryPosition: " + IO.keyInputOdometryPosition);
 
         return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlueX: Constants.FieldPositions.atGridRedX, 
-                            gridAlignY));
+                            gridAlignY), 180);
     }
     public static boolean isInCommunity(){
         if (((Constants.isBlue() && Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX) ||
@@ -75,9 +75,9 @@ public class AutoAlign {
         return false;
     }
     public static boolean isInLoadingZong(){
-        if (((Constants.isBlue() && Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX) ||
-            (Constants.isRed() && Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX)) &&
-            Drivebase.getPose().getY() > Constants.FieldPositions.inCommunityY){
+        if (((Constants.isBlue() && Drivebase.getPose().getX() < Constants.FieldPositions.inBlueLoadingZoneX) ||
+            (Constants.isRed() && Drivebase.getPose().getX() > Constants.FieldPositions.inRedLoadingZoneX)) &&
+            Drivebase.getPose().getY() > Constants.FieldPositions.inLoadingZoneY){
             return true;
         }
         return false;
@@ -94,7 +94,7 @@ public class AutoAlign {
             switch(gridAlignState) {
                 case AlignedToOdometry:
                     // if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1)) {
-                    if(alignOdometry(IO.keyInputOdometryPosition)) {
+                    if(alignOdometry(IO.keyInputOdometryPosition, 180)) {
                         gridAlignState = GridAlignState.AlignedToNode;
                     }
                     break;
@@ -119,8 +119,12 @@ public class AutoAlign {
     }
     public static boolean moveToGridPositionOdometry(){
         if(isInCommunity()){
-            return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()));
+            return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
+                                IO.keyInputOdometryPosition.getY()), 180);
         }
         return false;
+    }
+    public static boolean moveToSubstationPosition(){
+        return alignOdometry(IO.keyInputSubstationLocation, 0);
     }
 }

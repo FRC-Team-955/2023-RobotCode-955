@@ -7,35 +7,35 @@ import frc.robot.Subsystems.Intake;
 
 public class GamepieceManager {
 
-    public static boolean runFlapsAuto(int speed) {
-        if (speed == -1) {
-            Intake.reverseFlaps();
-        } else if (speed == 1) {
-            Intake.runFlaps();
-        } else {
-            Intake.stopFlaps();
-        }
-        return Intake.senseObj();
-    }
+    // public static boolean runFlapsAuto(int speed) {
+    //     if (speed == -1) {
+    //         Intake.reverseFlaps();
+    //     } else if (speed == 1) {
+    //         Intake.runFlaps();
+    //     } else {
+    //         Intake.stopFlaps();
+    //     }
+    //     return Intake.senseObj();
+    // }
 
-    public static boolean foldIntakeAuto(int position) {
-        if (position == 0) {
-            return Intake.foldOutIntake();
-        } else if (position == 1) {
-            return Intake.foldInIntake();
-        }
-        return false;
-    }
+    // public static boolean foldIntakeAuto(int position) {
+    //     if (position == 0) {
+    //         return Intake.foldOutIntake();
+    //     } else if (position == 1) {
+    //         return Intake.foldInIntake();
+    //     }
+    //     return false;
+    // }
     
-    public static void moveClawAuto(int speed) {
-        if (speed == -1) {
-            Claw.outputGamePiece();
-        } else if (speed == 1) {
-            Claw.intakeGamePiece();
-        } else {
-            Claw.stopMotor();
-        }
-    }
+    // public static void moveClawAuto(int speed) {
+    //     if (speed == -1) {
+    //         Claw.outputGamePiece();
+    //     } else if (speed == 1) {
+    //         Claw.intakeGamePiece();
+    //     } else {
+    //         Claw.stopishMotor();
+    //     }
+    // }
 
     private static boolean runClaw = false;
     private static long startTime = System.currentTimeMillis();
@@ -52,9 +52,11 @@ public class GamepieceManager {
             Intake.foldInIntake();
             if(Intake.senseObj()){
                 Intake.holdItemUntilFolded();
-                if (runClaw){
-                    Claw.intakeGamePiece();
-                }  
+            }
+            if (runClaw){
+                Claw.intakeGamePiece();
+            } else{
+                Claw.stopishMotor();
             }
             if (System.currentTimeMillis() - (startTime + Constants.Claw.runTime) > 0){
                 runClaw = false;
@@ -75,6 +77,7 @@ public class GamepieceManager {
     }
     public static boolean extention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
         Elevator.setElevator(gridRowPosition);
+        elevatorInPosition = Elevator.setElevator();
         if (elevatorInPosition){
             Arm.setArm(armRowPosition);
         }
@@ -84,6 +87,18 @@ public class GamepieceManager {
 
         // return elevatorInPosition && armInPosition;
 
+    }
+    public static void autoGrab(){
+        robotInPosition = AutoAlign.moveToSubstationPosition();
+        extentionInPosition = extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
+        Claw.intakeGamePiece();
+    }
+    public static void autoAlign(){
+        if (AutoAlign.isInCommunity()){
+            autoPlace();
+        }else if (AutoAlign.isInLoadingZong()){
+            autoGrab();
+        }
     }
 
     public static void clawDrop(){

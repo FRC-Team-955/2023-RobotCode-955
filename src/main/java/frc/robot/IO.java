@@ -15,6 +15,7 @@ public final class IO {
     
     private static Joystick key0 = new Joystick(2);
     private static Joystick key1 = new Joystick(3);
+    private static Joystick key2 = new Joystick(4);
 
     private static boolean override = false;
 
@@ -120,6 +121,7 @@ public final class IO {
     }
 
     public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
+    public static Translation2d keyInputSubstationLocation;
     public static boolean isConeNodePosition = true;
 
     public static enum GridArmPosition{
@@ -127,7 +129,8 @@ public final class IO {
         ConePrep,
         ConeReady,
         CubePrep,
-        CubeReady
+        CubeReady,
+        DoubleSubstation
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
     
@@ -135,7 +138,8 @@ public final class IO {
         Retract,
         Low,
         Mid,
-        High
+        High,
+        DoubleSubstation
     }
     private static int gridColumnPosition = 0;
     private static int newGridColumnPosition = 0;
@@ -216,6 +220,21 @@ public final class IO {
             AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
             gridColumnPosition = newGridColumnPosition;
         }
-
     }
+    public static void keyInputSubstationLocation(){
+        if (key2.getRawButtonPressed(4)){
+            if (Constants.isBlue()){
+                keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation;
+            } else if (Constants.isRed()){
+                keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
+            }
+        }else if (key2.getRawButtonPressed(5)){
+            if (Constants.isBlue()){
+                keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation;
+            } else if (Constants.isRed()){
+                keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
+            }
+        }
+    }
+
 }
