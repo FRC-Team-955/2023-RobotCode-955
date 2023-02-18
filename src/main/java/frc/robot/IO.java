@@ -26,15 +26,14 @@ public final class IO {
     public static boolean isOverrideEnabled() {
         return override;
     }
-
-    public static boolean elevatorManualUp(){
-        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key1.getRawButtonPressed(13);
-    }
     public static boolean elevatorManualDown(){
-        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorDownButton) || key1.getRawButtonPressed(14);
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorDownButton) || key2.getRawButtonPressed(1);
+    }
+    public static boolean elevatorManualUp(){
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key2.getRawButtonPressed(2);
     }
     public static boolean clawDropPiece(){
-        return joy1.getRawButtonPressed(Constants.IO.Joy1.clawDropPieceButton) || key1.getRawButtonPressed(15);
+        return joy1.getRawButtonPressed(Constants.IO.Joy1.clawDropPieceButton) || key2.getRawButtonPressed(3);
     }
 
     public static double armOverride() {
@@ -45,8 +44,8 @@ public final class IO {
         return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
     }
 
-    public static boolean intakeDeployRun(){
-        return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2 || key1.getRawButtonPressed(16);
+    public static boolean intakeSequence(){
+        return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) > 0.2 || key2.getRawButtonPressed(4);
     }
 
     public static class Drivebase{
@@ -121,7 +120,7 @@ public final class IO {
     }
 
     public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
-    public static Translation2d keyInputSubstationLocation;
+    public static Translation2d keyInputSubstationLocation = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation: Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
     public static boolean isConeNodePosition = true;
 
     public static enum GridArmPosition{
@@ -222,13 +221,13 @@ public final class IO {
         }
     }
     public static void keyInputSubstationLocation(){
-        if (key2.getRawButtonPressed(4)){
+        if (key2.getRawButtonPressed(5)){
             if (Constants.isBlue()){
                 keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation;
             } else if (Constants.isRed()){
                 keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
             }
-        }else if (key2.getRawButtonPressed(5)){
+        }else if (key2.getRawButtonPressed(6)){
             if (Constants.isBlue()){
                 keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation;
             } else if (Constants.isRed()){

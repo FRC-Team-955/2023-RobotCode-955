@@ -42,7 +42,7 @@ public class GamepieceManager {
 
     //DO NOT USE UNTIL INTAKE IS MOUNTED
     public static void loadSequence(){
-        if(IO.intakeDeployRun()){
+        if(IO.intakeSequence()){
             Intake.foldOutIntake();
             Intake.runFlaps();
             startTime = System.currentTimeMillis();

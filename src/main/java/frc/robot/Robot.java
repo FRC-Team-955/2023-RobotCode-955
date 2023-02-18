@@ -54,22 +54,24 @@ public class Robot extends TimedRobot {
     // selectTeleopState();
     teleopAllState();
 
-    switch(robotState){
-      case AUTO_ALIGN:
-        GamepieceManager.autoAlign();
-        Intake.foldInIntake();
-      case AUTO_BALANCE:
-        Drivebase.autoBalance();
-        // Drivebase.autoBalanceBangBang();
-        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-        Intake.foldInIntake();
-      default: // DRIVE
-        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-        GamepieceManager.loadSequence();
-        GamepieceManager.manageExtension();
-        Drivebase.drive();
+    // switch(robotState){
+    //   case AUTO_ALIGN:
+    //     GamepieceManager.autoAlign();
+    //     Intake.foldInIntake();
+    //   case AUTO_BALANCE:
+    //     Drivebase.autoBalance();
+    //     // Drivebase.autoBalanceBangBang();
+    //     GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+    //     Intake.foldInIntake();
+    //   default: // DRIVE
+    //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+    //     GamepieceManager.loadSequence();
+    //     GamepieceManager.manageExtension();
+    //     Drivebase.drive();
+    // }
+    if (IO.Drivebase.thrustEnabled()){
+      
     }
-
     // System.out.println(Constants.isBlue());
     // System.out.println("x" + Drivebase.getPose().getX());
     // System.out.println("y" + Drivebase.getPose().getY());

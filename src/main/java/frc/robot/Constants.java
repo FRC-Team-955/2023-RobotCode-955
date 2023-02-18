@@ -5,6 +5,28 @@ import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Swerve.SwerveSettings;
 
 public class Constants {
+    public static class IO{
+        public static class Joy0{
+            public static int joy0Id = 0;
+            public static int forwardRawAxis = 0;
+            public static int strafeRawAxis = 1;
+            public static int rotAxis = 4;
+            public static int rotationOverrideButton = 5;
+            public static int thrustAxis = 3;
+            public static int autoAlignAxis = 2;
+            public static int autoBalanceButton = 4;
+        }
+        public static class Joy1{
+            public static int joy1Id = 1;
+            public static int overrrideEnabledButton = 8;
+            public static int elevatorUpButton = 4;
+            public static int elevatorDownButton = 1;
+            public static int elevatorOverrideAxis = 1;
+            public static int armOverrideAxis = 4;
+            public static int deployRunIntakeAxis = 3;
+            public static int clawDropPieceButton = 2;
+        }
+    }
     // Auto Balance PID
     // Note from owen: we will have soooo many pids these need to be named better
     public static class Drivebase{
@@ -66,7 +88,7 @@ public class Constants {
 
     public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
-        public static int motorID = 3;
+        public static int motorID = 11;
         public static double run = 0.1;
         public static double runTime = 2000;
         public static double stopish = 0.05;
@@ -89,28 +111,7 @@ public class Constants {
     public static class LimelightCamera {
         public static double alignTolerance= 0.1; // Faris: random number idk actual value
     }
-    public static class IO{
-        public static class Joy0{
-            public static int joy0Id = 0;
-            public static int forwardRawAxis = 0;
-            public static int strafeRawAxis = 1;
-            public static int rotAxis = 4;
-            public static int rotationOverrideButton = 5;
-            public static int thrustAxis = 3;
-            public static int autoAlignAxis = 2;
-            public static int autoBalanceButton = 4;
-        }
-        public static class Joy1{
-            public static int joy1Id = 1;
-            public static int overrrideEnabledButton = 8;
-            public static int elevatorUpButton = 4;
-            public static int elevatorDownButton = 1;
-            public static int elevatorOverrideAxis = 1;
-            public static int armOverrideAxis = 4;
-            public static int deployRunIntakeAxis = 3;
-            public static int clawDropPieceButton = 2;
-        }
-    }
+    
     public static final class Arm {
         // Arm Motor Id's
         public static int motorID = 0;
