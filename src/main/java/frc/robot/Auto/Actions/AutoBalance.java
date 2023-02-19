@@ -1,8 +1,8 @@
-package frc.robot.Actions;
+package frc.robot.Auto.Actions;
 
 import frc.robot.Drivebase;
 
-public class AutoBalance implements AutoAction {
+public class AutoBalance extends AutoAction {
     public AutoBalance() {}
 
     public boolean Act() {
