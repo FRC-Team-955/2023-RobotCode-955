@@ -101,7 +101,7 @@ public final class IO {
             // double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
             // // double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-            Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardRawAxis : forwardRawAxis*Constants.Drivebase.speed, thrustEnabled() ? strafeRawAxis : strafeRawAxis*0.7);
+            Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardRawAxis : forwardRawAxis*Constants.Drivebase.speed, thrustEnabled() ? strafeRawAxis : strafeRawAxis*Constants.Drivebase.speed);
 
             if (Math.abs(norm(tAxes)) < 0.15) {
                 return new Translation2d();

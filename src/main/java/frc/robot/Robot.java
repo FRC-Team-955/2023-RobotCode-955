@@ -2,13 +2,17 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.Sensors.ColorSensor;
 import frc.robot.Subsystems.*;
+import frc.robot.Auto.Auto;
+import frc.robot.Auto.AutoProfile;
 import frc.robot.Sensors.*;
 
 public class Robot extends TimedRobot {
+  Auto auto;
   // Robot States
   public enum RobotState {
     DRIVING,
@@ -26,19 +30,28 @@ public class Robot extends TimedRobot {
     Claw.setup();
     AprilTagCameraWrapper.setUp();
     Drivebase.resetAnglesToAbsolute();
+    auto = new Auto();
   }
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    auto.autoTestInit(AutoProfile.Test());
+    auto.autoInit();
+
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    auto.run();
+  }
+  Field2d field2d = new Field2d();
 
   @Override
   public void teleopInit() {
+    SmartDashboard.putData("Field", field2d);
     // Drivebase.resetAnglesToAbsolute();
   }
 
@@ -47,6 +60,7 @@ public class Robot extends TimedRobot {
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
     Drivebase.updateSwerveOdometry();
+    field2d.setRobotPose(Drivebase.getPose());
   }
 
   @Override
@@ -72,7 +86,7 @@ public class Robot extends TimedRobot {
     // if (IO.elevatorManualDown()){
       
     // }
-    // Drivebase.drive();
+    Drivebase.drive();
     // Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
     Claw.intakeFineControl(IO.elevatorFineControl());
     Arm.moveArmOverride(IO.armFineControl());

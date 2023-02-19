@@ -82,7 +82,7 @@ public final class Arm {
 
     public static void moveArmOverride(double joyPos) {
         System.out.println("Arm Absolute Encoder Position: "+ encoder.getPosition());
-        motor.set(joyPos);
+        motor.set(-joyPos*0.8);
     }
 
     public static double setpoint = 0;

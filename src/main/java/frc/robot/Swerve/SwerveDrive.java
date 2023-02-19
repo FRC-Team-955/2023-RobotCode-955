@@ -68,7 +68,7 @@ public class SwerveDrive {
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
             // The original offset for mod0: 253.775
-            new SwerveMod(0, 8, 7, 9, 0, "mod0"),
+            new SwerveMod(0, 8, 7, 9, 253.775, "mod0"),
             new SwerveMod(1, 2, 1, 11, 123.886, "mod1"),
             new SwerveMod(2, 4, 3, 10, 309.223, "mod2"),
             new SwerveMod(3, 6, 5, 12, 250.524+45, "mod3"),
@@ -103,10 +103,10 @@ public class SwerveDrive {
         SwerveModuleState[] swerveModuleStates = null;
         if (false) {
             swerveModuleStates = new SwerveModuleState[]{
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0))
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0))
             };
         } else {
             swerveModuleStates =
