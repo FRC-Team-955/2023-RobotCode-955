@@ -33,7 +33,7 @@ public class Elevator {
 
     public static void setup() {
         motor = new CANSparkMax(Constants.Elevator.motorID, MotorType.kBrushless);
-        motor.setIdleMode(IdleMode.kCoast);
+        motor.setIdleMode(IdleMode.kBrake);
         dutyCycleEncoder1 = new DutyCycleEncoder(Constants.Elevator.coder1ID);
         dutyCycleEncoder2 = new DutyCycleEncoder(Constants.Elevator.coder2ID);
         pid = new PIDController(Constants.Elevator.kP,

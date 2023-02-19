@@ -191,8 +191,8 @@ public class Constants {
         public static double coneBlue = 0.0947265625;
     }
     public static class FieldPositions{
-        private static double fieldX = 16.54;
-        private static double fieldY = 8.02;
+        public static double fieldX = 16.54;
+        public static double fieldY = 8.02;
 
         public static double centerLine = 8.27;
 
