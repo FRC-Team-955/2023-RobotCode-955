@@ -103,15 +103,16 @@ public final class Arm {
     }
     public static boolean setArm(){
         if (!IO.isOverrideEnabled()) {
-            timer.stop(); 
-            double accelRadPerSecond = (lastVelocity - encoder.getVelocity()) / timer.get(); 
-            timer.reset();
-            timer.start();
-            double feedFowardCalc = feedforward.calculate(setpoint, 
-                                                    encoder.getVelocity(), 
-                                                    accelRadPerSecond);
+            // timer.stop(); 
+            // double accelRadPerSecond = (lastVelocity - encoder.getVelocity()) / timer.get(); 
+            // timer.reset();
+            // timer.start();
+            // double feedForwardCalc = feedforward.calculate(setpoint, 
+            //                                         encoder.getVelocity(), 
+            //                                         accelRadPerSecond);
+            double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(encoder.getPosition()));
 
-            double output = MathUtil.clamp(pid.calculate(encoder.getPosition(), setpoint) + feedFowardCalc, -12, 12);
+            double output = MathUtil.clamp(pid.calculate(encoder.getPosition(), setpoint) + feedForwardCalc, -12, 12);
             
             motor.setVoltage(output); 
             lastVelocity = encoder.getVelocity();

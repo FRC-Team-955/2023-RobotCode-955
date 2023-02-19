@@ -51,9 +51,9 @@ public class Elevator {
     }
 
     public static void moveElevator(double joyPos) {
-        if(!IO.isOverrideEnabled() && ((encoder.getPosition() <= Constants.Elevator.upperLimit - feedforward.calculate(encoder.getVelocity()) || joyPos < 0)
+        if(!IO.isOverrideEnabled() && ((encoder.getPosition() <= Constants.Elevator.upperLimit - Constants.Elevator.kG || joyPos < 0)
             && (encoder.getPosition() >= Constants.Elevator.lowerLimit || joyPos > 0))) { // if elevator hit the top or bottom
-            motor.set(joyPos + feedforward.calculate(encoder.getVelocity()));
+            motor.set(joyPos + Constants.Elevator.kG);
         }
     }
     
@@ -83,7 +83,7 @@ public class Elevator {
     public static boolean setElevator(){
         if(!IO.isOverrideEnabled()) {
             double amount = MathUtil.clamp(pid.calculate(encoder.getPosition(), setpoint) +
-                                            feedforward.calculate(encoder.getVelocity()), -12, 12);
+                                            Constants.Elevator.kG, -12, 12);
             
             motor.setVoltage(amount);
 
