@@ -24,6 +24,7 @@ public class Constants {
             public static int elevatorOverrideAxis = 1;
             public static int armOverrideAxis = 4;
             public static int deployRunIntakeAxis = 3;
+            public static int clawDropPieceAxis = 2;
             public static int clawDropPieceButton = 2;
         }
     }
@@ -121,8 +122,8 @@ public class Constants {
         public static int motorID = 19;
         // Arm Encoder Values
         public static int angleOffset = 0;
-        public static int upperLimit = 1000;
-        public static int lowerLimit = -1010;
+        public static int upperLimit = 500;
+        public static int lowerLimit = -1000;
         // Arm Setpoint Values
         public static int retracted = 0;
         
@@ -130,13 +131,13 @@ public class Constants {
         // public static int kMiddleLevel = 2000;
         // public static int kTopLevel = 3000;
 
-        public static int conePrep = 7000;
-        public static int coneReady = 6000;
+        public static int conePrep = 20;
+        public static int coneReady = 20;
 
-        public static int cubePrep = 4000;
-        public static int cubeReady = 5000;
+        public static int cubePrep = 15;
+        public static int cubeReady = 15;
 
-        public static int doubleSubstation = 3000;
+        public static int doubleSubstation = 10;
 
         // Arm Pid Values
         public static double kP = 1;
@@ -153,23 +154,23 @@ public class Constants {
         // Elevator Motor Id's
         public static int motorID = 20;
         // Elevator Encoder Values
-        public static double upperLimit = 5000;
-        public static double lowerLimit = 0;
+        public static double upperLimit = 30;
+        public static double lowerLimit = 5;
         // Elevator Tolerance Values
         public static double tolerance = 500;
         // Extension Level Values
-        public static double retracted = 0;
-        public static double bottomLevel = 1000;
-        public static double mediumLevel = 2000;
-        public static double topLevel = 3000;
-        public static double doubleSubstationPosition = 2500;
+        public static double retracted = 1;
+        public static double bottomLevel = 10;
+        public static double mediumLevel = 25;
+        public static double topLevel = 32;
+        public static double doubleSubstationPosition = 10;
         // Elevator PID Values
-        public static double kP = 1;
+        public static double kP = 0.8;
         public static double kI = 0;
         public static double kD = 0;
         // Elevator Feedforward Values
-        public static double kS = 1;
-        public static double kG = 0;
+        public static double kS = 0;
+        public static double kG = 0.4;
         public static double kV = 0;
         // Elevator gear ratio
         public static double gearRatio = 33./34.;
