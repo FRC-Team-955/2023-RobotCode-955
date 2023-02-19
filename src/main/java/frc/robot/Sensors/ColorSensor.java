@@ -13,7 +13,7 @@ public class ColorSensor {
     static Color cube = new Color(Constants.ColorSensor.cubeRed, Constants.ColorSensor.cubeGreen, Constants.ColorSensor.cubeBlue);
     static Color cone = new Color(Constants.ColorSensor.coneRed, Constants.ColorSensor.coneGreen, Constants.ColorSensor.coneBlue); // not actually the cone
 
-    public ColorSensor() {
+    public static void setup() {
         colorSensor = new ColorSensorV3(Port.kOnboard);
         colorMatch = new ColorMatch();
         colorMatch.addColorMatch(cube); 

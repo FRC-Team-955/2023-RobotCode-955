@@ -114,12 +114,11 @@ public class Constants {
     
     public static final class Arm {
         // Arm Motor Id's
-        public static int motorID = 0;
-        // Arm Encoder Id
-        public static int encoderID = 0;
+        public static int motorID = 19;
         // Arm Encoder Values
-        public static int upperLimit = 10000;
-        public static int lowerLimit = 0 ;
+        public static int angleOffset = 0;
+        public static int upperLimit = 1000;
+        public static int lowerLimit = -1010;
         // Arm Setpoint Values
         public static int retracted = 0;
         
@@ -172,7 +171,7 @@ public class Constants {
         public static double gearRatio = 33./34.;
         // Elevator CANCoder IDs
         public static int coder1ID = 9;
-        public static int coder2ID = 46;
+        public static int coder2ID = 25;
     }
 
     public static class ColorSensor {
