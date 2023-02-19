@@ -1,4 +1,4 @@
-package frc.robot.Actions;
+package frc.robot.Auto.Actions;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.GamepieceManager;
@@ -6,7 +6,7 @@ import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;
 
 //Use only when intake is mounted, otherwise use other actions
-public class PickupAction implements AutoAction {
+public class PickupAction extends AutoAction {
     double timeoutTime = 10;
     enum States {
         SETUP,

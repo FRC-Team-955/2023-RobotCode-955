@@ -1,8 +1,8 @@
-package frc.robot.Actions;
+package frc.robot.Auto.Actions;
 
 import frc.robot.GamepieceManager;
 
-public class DeployIntake implements AutoAction {
+public class DeployIntake extends AutoAction {
     int location;
 
     public DeployIntake(int location) {

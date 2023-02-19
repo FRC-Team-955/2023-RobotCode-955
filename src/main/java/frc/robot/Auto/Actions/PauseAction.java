@@ -1,8 +1,8 @@
-package frc.robot.Actions;
+package frc.robot.Auto.Actions;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class PauseAction implements AutoAction {
+public class PauseAction extends AutoAction {
     Timer timer;
     double time;
 

@@ -1,9 +1,9 @@
-package frc.robot.Actions;
+package frc.robot.Auto.Actions;
 
 import frc.robot.GamepieceManager;
 import frc.robot.IO;
 
-public class ElevatorAction implements AutoAction{
+public class ElevatorAction extends AutoAction{
     IO.GridRowPosition elevatorPos;
     IO.GridArmPosition armPos;
     public ElevatorAction(IO.GridRowPosition elevatorPos, IO.GridArmPosition armPos) {
