@@ -121,6 +121,8 @@ public class SwerveMod{
     public void setDesiredState(SwerveModuleState state) {
         Rotation2d curAngle = Rotation2d.fromDegrees(turningEncoder.getPosition());
         double delta = deltaAdjustedAngle(state.angle.getDegrees(), curAngle.getDegrees());
+        //To figure out offset for absolute encoders
+        // System.out.println(moduleNumber + ": " + angleEncoder.getAbsolutePosition());
 
         // Calculate the drive motor output from the drive PID controller.
         double driveOutput = state.speedMetersPerSecond;

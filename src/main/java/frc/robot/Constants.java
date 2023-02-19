@@ -11,9 +11,9 @@ public class Constants {
             public static int forwardRawAxis = 0;
             public static int strafeRawAxis = 1;
             public static int rotAxis = 4;
-            public static int rotationOverrideButton = 5;
-            public static int thrustAxis = 3;
-            public static int autoAlignAxis = 2;
+            public static int autoHeadingButton = 6;
+            public static int thrustAxis = 2;
+            public static int autoAlignAxis = 3;
             public static int autoBalanceButton = 4;
         }
         public static class Joy1{
@@ -88,10 +88,10 @@ public class Constants {
 
     public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
-        public static int motorID = 11;
-        public static double run = 0.1;
+        public static int motorID = 21;
+        public static double run = -0.1;
         public static double runTime = 2000;
-        public static double stopish = 0.05;
+        public static double stopish = -0.05;
     }
 
     public static class AprilTagCamera{

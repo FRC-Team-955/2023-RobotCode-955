@@ -26,6 +26,9 @@ public class Claw {
     public static void intakeGamePiece(){
         motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.run);
     }
+    public static void intakeFineControl(double i){
+        motor.set(TalonSRXControlMode.PercentOutput, i);
+    }
 
     //spits out the game piece
     public static void outputGamePiece(){

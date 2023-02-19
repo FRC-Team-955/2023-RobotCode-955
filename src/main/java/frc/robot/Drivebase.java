@@ -37,8 +37,8 @@ public class Drivebase {
     }
 
     public static void drive() {
-        if (IO.Drivebase.rotationOverrideEnabled()) {
-            Drivebase.driveFieldRelative();
+        if (IO.Drivebase.autoHeadingEnabled()) {
+            // Drivebase.driveFieldRelative();
         } else {
             Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
         }

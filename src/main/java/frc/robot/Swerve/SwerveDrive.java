@@ -43,7 +43,7 @@ public class SwerveDrive {
     public final SwerveDrivePoseEstimator poseEstimator;
 
     public SwerveMod[] SwerveMods;
-    public double headingSetPoint;
+    public double headingSetPoint=-180;
     private PIDController controller = new PIDController(0.07,0,0);
 
     private PIDController xController = new PIDController(0.7,0,0);
@@ -63,14 +63,19 @@ public class SwerveDrive {
     public boolean locked = false;
 
     public SwerveDrive() {       
-        Gyro.set(-90); 
+        Gyro.set(90); 
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
-            new SwerveMod(0, 4, 8, 9, 253.775, "mod0"),
-            new SwerveMod(1, 3, 2, 11, 123.886, "mod1"),
-            new SwerveMod(2, 6, 7, 10, 309.223, "mod2"),
-            new SwerveMod(3, 1, 5, 12, 250.524, "mod3"),
+            // The original offset for mod0: 253.775
+            new SwerveMod(0, 8, 7, 9, 0, "mod0"),
+            new SwerveMod(1, 2, 1, 11, 123.886, "mod1"),
+            new SwerveMod(2, 4, 3, 10, 309.223, "mod2"),
+            new SwerveMod(3, 6, 5, 12, 250.524+45, "mod3"),
+            // new SwerveMod(0, 4, 8, 9, 253.775, "mod0"),
+            // new SwerveMod(1, 3, 2, 11, 123.886, "mod1"),
+            // new SwerveMod(2, 6, 7, 10, 309.223, "mod2"),
+            // new SwerveMod(3, 1, 5, 12, 250.524, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];
@@ -83,24 +88,25 @@ public class SwerveDrive {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
-        // if(IO.Drivebase.rotationOverrideEnabled()){
-        if(false){
-            rotation = IO.Drivebase.getSwerveRotation();
-        }else if (useFixedHeading){
+        // if(IO.Drivebase.autoHeadingEnabled()){
+        // if(false){
+        //     rotation = IO.Drivebase.getSwerveRotation();
+        // }else 
+        if (useFixedHeading){
             headingSetPoint = heading;
         }else{
-            headingSetPoint += rotation * 0.44;
+            headingSetPoint += rotation * 0.64;
         }
 
         // System.out.println("Gryo.getAngle(): "+ Gyro.getAngle());
         
         SwerveModuleState[] swerveModuleStates = null;
-        if (locked) {
+        if (false) {
             swerveModuleStates = new SwerveModuleState[]{
-                new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0, Rotation2d.fromDegrees(0))
+                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0))
             };
         } else {
             swerveModuleStates =
@@ -108,7 +114,7 @@ public class SwerveDrive {
                     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                         translation.getX(), 
                                         translation.getY(), 
-                                        controller.calculate(Gyro.getAngle()+90, headingSetPoint), 
+                                        controller.calculate(Gyro.getAngle()-90, headingSetPoint), 
                                         Gyro.getHeadingR2D()
                                     )
                                     : new ChassisSpeeds(
@@ -158,7 +164,7 @@ public class SwerveDrive {
         //     SwerveMods[2].getState(),
         //     SwerveMods[3].getState()
         // );
-        poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()-90), getPoses());
+        poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()+90), getPoses());
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
         // && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll
 
@@ -253,7 +259,7 @@ public class SwerveDrive {
         // ahrs.setAngleAdjustment(0);
          //                                                       The robot fields angle (in pathweaver rotation)
         // System.out.println("trajectory: " +trajectory.getInitialPose().getRotation());
-        //Rotation2d.fromDegrees(90)
+        //Rotation2d.fromDegrees(-90)
         poseEstimator.resetPosition(trajectory.getInitialPose().getRotation(), getPoses(), trajectory.getInitialPose());
         // swerveOdometry.resetPosition(trajectory.getInitialPose().getRotation(), getPoses(), trajectory.getInitialPose());
         timer.reset();

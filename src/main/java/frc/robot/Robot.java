@@ -23,9 +23,9 @@ public class Robot extends TimedRobot {
     // Arm.setup();
     // Elevator.setup();
     // Intake.setup();
-    // Claw.setup();
-    // AprilTagCameraWrapper.setUp();
-    // Drivebase.resetAnglesToAbsolute();
+    Claw.setup();
+    AprilTagCameraWrapper.setUp();
+    Drivebase.resetAnglesToAbsolute();
   }
 
   @Override
@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
     // Drivebase.logData();
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
-    // Drivebase.updateSwerveOdometry();
+    Drivebase.updateSwerveOdometry();
   }
 
   @Override
@@ -69,9 +69,12 @@ public class Robot extends TimedRobot {
     //     GamepieceManager.manageExtension();
     //     Drivebase.drive();
     // }
-    if (IO.elevatorManualDown()){
+    // if (IO.elevatorManualDown()){
       
-    }
+    // }
+    Drivebase.drive();
+    // Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+    Claw.intakeFineControl(IO.intakeFineControl());
     // System.out.println(Constants.isBlue());
     // System.out.println("x" + Drivebase.getPose().getX());
     // System.out.println("y" + Drivebase.getPose().getY());
@@ -82,7 +85,7 @@ public class Robot extends TimedRobot {
     // }
     // // else if (IO.Drivebase.isAutoAlignActive()) {
     // //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, 180);
-    // // } else if (IO.Drivebase.rotationOverrideEnabled()){
+    // // } else if (IO.Drivebase.autoHeadingEnabled()){
     // //   AutoAlign.moveIntoPosition();
     // // }
     // else {

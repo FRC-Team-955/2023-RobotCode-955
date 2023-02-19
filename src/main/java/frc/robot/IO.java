@@ -17,6 +17,11 @@ public final class IO {
     private static Joystick key1 = new Joystick(3);
     private static Joystick key2 = new Joystick(4);
 
+    public static double intakeFineControl(){
+        //negative value is inwards
+        return -joy1.getRawAxis(5);
+    }
+
     private static boolean override = false;
 
     public static void setOverride(boolean _override) {
@@ -105,8 +110,8 @@ public final class IO {
             }
         }
 
-        public static boolean rotationOverrideEnabled(){
-            return joy0.getRawButton(Constants.IO.Joy0.rotationOverrideButton);
+        public static boolean autoHeadingEnabled(){
+            return joy0.getRawButton(Constants.IO.Joy0.autoHeadingButton);
         }
         public static boolean thrustEnabled(){
             return joy0.getRawAxis(Constants.IO.Joy0.thrustAxis) > 0.2;

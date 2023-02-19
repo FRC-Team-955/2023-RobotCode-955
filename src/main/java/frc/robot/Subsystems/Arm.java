@@ -47,7 +47,7 @@ public final class Arm {
         config = new CANCoderConfiguration();
         config.sensorCoefficient = 2 * Math.PI / 4096.0;
         config.unitString = "rad";
-        config.sensorTimeBase = SensorTimeBase.PerSecond;
+        cosnfig.sensorTimeBase = SensorTimeBase.PerSecond;
         encoder.configAllSettings(config);
         */
 
