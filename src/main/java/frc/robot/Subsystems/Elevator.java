@@ -3,9 +3,12 @@ package frc.robot.Subsystems;
 import frc.robot.Constants;
 import frc.robot.IO;
 
+import java.security.spec.ECField;
+
 // import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
@@ -18,6 +21,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 public class Elevator {
     static CANSparkMax motor;
     static PIDController pid;
+    static PIDController pidTemp;
     static ElevatorFeedforward feedforward;
     static DoubleLogEntry motorlog;
     static DoubleLogEntry encoderlog;
@@ -29,6 +33,7 @@ public class Elevator {
 
     public static void setup() {
         motor = new CANSparkMax(Constants.Elevator.motorID, MotorType.kBrushless);
+        motor.setIdleMode(IdleMode.kCoast);
         dutyCycleEncoder1 = new DutyCycleEncoder(Constants.Elevator.coder1ID);
         dutyCycleEncoder2 = new DutyCycleEncoder(Constants.Elevator.coder2ID);
         pid = new PIDController(Constants.Elevator.kP,
@@ -38,11 +43,13 @@ public class Elevator {
                                             Constants.Elevator.kG,
                                             Constants.Elevator.kV);
         pid.setTolerance(Constants.Elevator.tolerance);
-
+        
+                                    
         encoder = motor.getEncoder();
-        encoder.setPosition(ElevatorPosition.calculate(
-            dutyCycleEncoder1.getAbsolutePosition(),
-            dutyCycleEncoder2.getAbsolutePosition()));
+        encoder.setPosition(0);
+        // encoder.setPosition(ElevatorPosition.calculate(
+        //     dutyCycleEncoder1.getAbsolutePosition(),
+        //     dutyCycleEncoder2.getAbsolutePosition()));
 
         DataLog log = DataLogManager.getLog();
         motorlog = new DoubleLogEntry(log, "/elevator/motor");
@@ -62,7 +69,19 @@ public class Elevator {
     }
     
     public static void moveElevatorOverride(double joyPos) {
+        System.out.println("Elevator Encoder Position: " + encoder.getPosition());
         motor.set(joyPos);
+    }
+    public static boolean setElevatorTempUp(){
+        if(!IO.isOverrideEnabled()) {
+            double amount = MathUtil.clamp(pid.calculate(encoder.getPosition(), setpoint) +
+                                            Constants.Elevator.kG, -12, 12);
+            
+            motor.setVoltage(amount);
+
+            return pid.atSetpoint();
+        }
+        return false;
     }
 
     public static void setElevator(IO.GridRowPosition level) { // level = desired elevator level

@@ -8,6 +8,7 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
@@ -33,14 +34,16 @@ public final class Arm {
     static DoubleLogEntry encoderLog;
 
     public static void setup() {
-        //motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
+        //motor = new CANSparkMax(Constants.Arm.motorID, af]atMotorType.kBrushless);
         motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
+        motor.setIdleMode(IdleMode.kBrake);
         //motor.setSmartCurrentLimit(40);
         
         pid = new PIDController(Constants.Arm.kP, 
                                 Constants.Arm.kI, 
                                 Constants.Arm.kD);   
         encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
+        // encoder.setZeroOffset(Constants.Arm.angleOffset);
 
         // set units of the CANCoder to radians, with velocity being radians per second
         /*
@@ -76,7 +79,9 @@ public final class Arm {
             }
         }
     }
+
     public static void moveArmOverride(double joyPos) {
+        System.out.println("Arm Absolute Encoder Position: "+ encoder.getPosition());
         motor.set(joyPos);
     }
 

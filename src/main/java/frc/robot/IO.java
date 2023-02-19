@@ -16,12 +16,17 @@ public final class IO {
     private static Joystick key0 = new Joystick(2);
     private static Joystick key1 = new Joystick(3);
     private static Joystick key2 = new Joystick(4);
-
-    public static double intakeFineControl(){
-        //negative value is inwards
-        return -joy1.getRawAxis(5);
+    public static double armFineControl(){
+        return joy1.getRawAxis(1);
     }
 
+    // public static double intakeFineControl(){
+    //     //negative value is inwards
+    //     return -joy1.getRawAxis(5);
+    // }
+    public static double elevatorFineControl(){
+        return -joy1.getRawAxis(5);
+    }
     private static boolean override = false;
 
     public static void setOverride(boolean _override) {

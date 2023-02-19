@@ -20,8 +20,8 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotInit() {
-    // Arm.setup();
-    // Elevator.setup();
+    Arm.setup();
+    Elevator.setup();
     // Intake.setup();
     Claw.setup();
     AprilTagCameraWrapper.setUp();
@@ -72,9 +72,11 @@ public class Robot extends TimedRobot {
     // if (IO.elevatorManualDown()){
       
     // }
-    Drivebase.drive();
+    // Drivebase.drive();
     // Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
-    Claw.intakeFineControl(IO.intakeFineControl());
+    Claw.intakeFineControl(IO.elevatorFineControl());
+    Arm.moveArmOverride(IO.armFineControl());
+    // Elevator.moveElevatorOverride(IO.elevatorFineControl());
     // System.out.println(Constants.isBlue());
     // System.out.println("x" + Drivebase.getPose().getX());
     // System.out.println("y" + Drivebase.getPose().getY());
