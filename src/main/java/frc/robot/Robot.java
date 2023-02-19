@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
     //     GamepieceManager.manageExtension();
     //     Drivebase.drive();
     // }
-    if (IO.Drivebase.thrustEnabled()){
+    if (IO.elevatorManualDown()){
       
     }
     // System.out.println(Constants.isBlue());

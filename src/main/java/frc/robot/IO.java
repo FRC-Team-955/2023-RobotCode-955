@@ -222,17 +222,21 @@ public final class IO {
     }
     public static void keyInputSubstationLocation(){
         if (key2.getRawButtonPressed(5)){
-            if (Constants.isBlue()){
-                keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation;
-            } else if (Constants.isRed()){
-                keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
-            }
+            // if (Constants.isBlue()){
+            //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation;
+            // } else if (Constants.isRed()){
+            //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
+            // }
+            keyInputSubstationLocation = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation:
+                                                            Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
         }else if (key2.getRawButtonPressed(6)){
-            if (Constants.isBlue()){
-                keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation;
-            } else if (Constants.isRed()){
-                keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
-            }
+            // if (Constants.isBlue()){
+            //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation;
+            // } else if (Constants.isRed()){
+            //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
+            // }
+            keyInputSubstationLocation = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation:
+                                                            Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
         }
     }
 
