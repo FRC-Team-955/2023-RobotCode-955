@@ -160,7 +160,7 @@ public class Auto implements Runnable {
     }
 
     public void autoInit() {
-        autoControlThread.interrupt();
+        //autoControlThread.interrupt();
         started = true;
 
         queuedActions.addAll(profile.Actions);
