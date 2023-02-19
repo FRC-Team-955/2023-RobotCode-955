@@ -6,8 +6,10 @@ import frc.robot.IO;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorTimeBase;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -20,9 +22,9 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 public final class Arm {
     //static CANSparkMax motor;
-    static PWMSparkMax motor;
+    static CANSparkMax motor;
     static PIDController pid;
-    static CANCoder encoder;
+    static AbsoluteEncoder encoder;
     static ArmFeedforward feedforward;
     static Timer timer;
     static CANCoderConfiguration config;
@@ -32,13 +34,13 @@ public final class Arm {
 
     public static void setup() {
         //motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
-        motor = new PWMSparkMax(Constants.Arm.motorID);
+        motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
         //motor.setSmartCurrentLimit(40);
         
         pid = new PIDController(Constants.Arm.kP, 
                                 Constants.Arm.kI, 
                                 Constants.Arm.kD);   
-        encoder = new CANCoder(Constants.Arm.encoderID);
+        encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
 
         // set units of the CANCoder to radians, with velocity being radians per second
         /*
