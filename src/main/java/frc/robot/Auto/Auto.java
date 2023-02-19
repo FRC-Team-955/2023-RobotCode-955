@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import frc.robot.GamePieceController;
 import frc.robot.Auto.Actions.AutoAction;
@@ -33,7 +34,7 @@ public class Auto implements Runnable {
 
     ArrayList<AutoAction> lateActions = new ArrayList<AutoAction>(); //Actions that have passed their end time but are still running
 
-
+    public static Timer autoTimer;
 
     boolean started;
 
@@ -175,6 +176,8 @@ public class Auto implements Runnable {
         }
 
         queuedActions.removeAll(finishedActions);
+
+        autoTimer.start();
     }
 
     public void autoPeriodic() {
@@ -198,7 +201,7 @@ public class Auto implements Runnable {
         finishedActions = new ArrayList<AutoAction>();
         
         for (int i = 0; i < queuedActions.size(); i++) {
-            if (queuedActions.get(i).startTime < 15 - DriverStation.getMatchTime()) { //getMatchTime returns the time remaining in auto / teleop, not time elapsed
+            if (queuedActions.get(i).startTime < autoTimer.get()) { //getMatchTime returns the time remaining in auto / teleop, not time elapsed
                 currentActions.add(profile.Actions.get(i));
                 finishedActions.add(queuedActions.get(i));
             }
@@ -237,7 +240,7 @@ public class Auto implements Runnable {
                         break;
                 }
             }
-            else if (currentActions.get(i).endTime >= 15 - DriverStation.getMatchTime()) {
+            else if (currentActions.get(i).endTime >= autoTimer.get()) {
                 if (currentActions.get(i).earlyMode == EarlyEndMode.Continuous && currentActions.get(i).endDeployed)
                     finishedActions.add(currentActions.get(i));
                 else {

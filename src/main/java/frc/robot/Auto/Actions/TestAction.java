@@ -10,6 +10,7 @@ public class TestAction extends AutoAction {
 
     public boolean Act() {
         motor.set(TalonSRXControlMode.PercentOutput, 0.5);
+        System.out.println("Test");
         return false;
     }
 
