@@ -44,6 +44,10 @@ public class Auto implements Runnable {
     boolean autoControlConnected;
     Thread autoControlThread;
 
+    public Auto() {
+
+    }
+
     public Auto(int controlPort) { //Use port 5810 maybe?
         try {
             autoControlServer = new ServerSocket(controlPort);
@@ -149,6 +153,10 @@ public class Auto implements Runnable {
                 System.out.print(e.getLocalizedMessage());
             }
         }
+    }
+
+    public void autoTestInit(AutoProfile testProfile) {
+        profile = testProfile;
     }
 
     public void autoInit() {

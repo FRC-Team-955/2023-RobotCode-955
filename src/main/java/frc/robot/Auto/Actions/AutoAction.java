@@ -1,6 +1,9 @@
 package frc.robot.Auto.Actions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import frc.robot.Auto.Auto;
 
 public abstract class AutoAction {
 
@@ -27,5 +30,20 @@ public abstract class AutoAction {
         Continuous, //Keep calling the action until end time and start the dependents then
         Minimumn, //Stop calling the action once it returns true, but wait until end time to start dependents
         End //Stop the action once it return true and start the dependents
+    }
+
+    public AutoAction() {
+        
+    }
+
+    public AutoAction(double _startTime, double _endTime, EarlyEndMode earlyEndMode, LateEndMode lateEndMode, AutoAction[] _endActions) {
+        startTime = _startTime;
+        endTime = _endTime;
+        earlyMode = earlyEndMode;
+        lateMode = lateEndMode;
+        endActions = new ArrayList<AutoAction>();
+        for (AutoAction action : _endActions) {
+            endActions.add(action);
+        }
     }
 }
