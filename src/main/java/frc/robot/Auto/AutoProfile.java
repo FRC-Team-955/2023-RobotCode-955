@@ -21,7 +21,7 @@ public class AutoProfile {
         AutoProfile profile = new AutoProfile();
         profile.Actions = new ArrayList<AutoAction>();
 
-        AutoAction[] autoActions = {new TestAction(1, 3, EarlyEndMode.End, LateEndMode.Enforce, 21, new AutoAction[] {})};
+        AutoAction[] autoActions = {new TestAction(2, 5, EarlyEndMode.End, LateEndMode.Enforce, 21, new AutoAction[] {})};
 
         for (AutoAction action : autoActions) {
             profile.Actions.add(action);
