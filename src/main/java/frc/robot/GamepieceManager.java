@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.IO.GridArmPosition;
+import frc.robot.IO.GridRowPosition;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
@@ -76,11 +78,21 @@ public class GamepieceManager {
         return elevatorInPosition && armInPosition;
     }
     public static boolean extention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
-        Elevator.setElevator(gridRowPosition);
-        elevatorInPosition = Elevator.setElevator();
-        if (elevatorInPosition){
+        if(gridRowPosition == GridRowPosition.Retract && armRowPosition == GridArmPosition.Retract){
             Arm.setArm(armRowPosition);
+            armInPosition = Arm.setArm();
+            if (armInPosition){
+                Elevator.setElevator(gridRowPosition);
+            }
+
+        }else{
+            Elevator.setElevator(gridRowPosition);
+            elevatorInPosition = Elevator.setElevator();
+            if (elevatorInPosition){
+                Arm.setArm(armRowPosition);
+            }
         }
+        
         return runExtention();
         // elevatorInPosition = Elevator.setElevator();
         // armInPosition = Arm.setArm();

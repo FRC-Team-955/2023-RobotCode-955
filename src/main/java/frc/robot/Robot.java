@@ -1,15 +1,15 @@
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import frc.robot.Sensors.ColorSensor;
-import frc.robot.Subsystems.*;
 import frc.robot.Auto.Auto;
 import frc.robot.Auto.AutoProfile;
-import frc.robot.Sensors.*;
+import frc.robot.Sensors.AprilTagCameraWrapper;
+// import frc.robot.Sensors.ColorSensor;
+import frc.robot.Subsystems.Arm;
+import frc.robot.Subsystems.Claw;
+import frc.robot.Subsystems.Elevator;
 
 public class Robot extends TimedRobot {
   Auto auto;
@@ -88,9 +88,28 @@ public class Robot extends TimedRobot {
     // }
     Drivebase.drive();
     // Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
-    Claw.intakeFineControl(IO.elevatorFineControl());
+    if(IO.intakeSequence()){
+      // Claw.intakeGamePiece();
+      Claw.intakeFineControl(-0.7);
+    }
+    else if(IO.clawDropPiece()){
+      // Claw.outputGamePiece();
+      Claw.intakeFineControl(1);
+    }else{
+      Claw.intakeFineControl(0);
+    }
+    // Claw.intakeFineControl(IO.elevatorFineControl());
     Arm.moveArmOverride(IO.armFineControl());
-    // Elevator.moveElevatorOverride(IO.elevatorFineControl());
+    
+    // Elevator.moveElevator(IO.elevatorFineControl());
+    if(IO.elevatorManualUp()){
+      // Elevator.setElevator(IO.gridRowPosition);
+      Elevator.setElevator(IO.GridRowPosition.High);
+    }else if (IO.elevatorManualDown()){
+      Elevator.setElevator(IO.GridRowPosition.Retract);
+    }
+    Elevator.setElevator();
+
     // System.out.println(Constants.isBlue());
     // System.out.println("x" + Drivebase.getPose().getX());
     // System.out.println("y" + Drivebase.getPose().getY());
