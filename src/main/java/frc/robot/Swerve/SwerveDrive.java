@@ -95,7 +95,7 @@ public class SwerveDrive {
         if (useFixedHeading){
             headingSetPoint = heading;
         }else{
-            headingSetPoint += rotation * 0.64;
+            headingSetPoint += rotation * Constants.Drivebase.turnRate;
         }
 
         // System.out.println("Gryo.getAngle(): "+ Gyro.getAngle());

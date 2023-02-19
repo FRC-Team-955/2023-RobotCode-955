@@ -38,6 +38,10 @@ public class Constants {
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
         public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
         public static Translation2d autoBalanceBackward = new Translation2d(0,-0.1);
+
+        public static double turnRate = 1.3;
+
+        public static double speed = 0.7;
     }
     public static double forwardRateLimiter = 0;
     public static double strafeRateLimiter = 0;
