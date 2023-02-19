@@ -88,7 +88,7 @@ public class Constants {
 
     public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
-        public static int motorID = 11;
+        public static int motorID = 21;
         public static double run = 0.1;
         public static double runTime = 2000;
         public static double stopish = 0.05;

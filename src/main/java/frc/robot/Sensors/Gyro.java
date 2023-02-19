@@ -6,7 +6,7 @@ import edu.wpi.first.math.MathUtil;
 
 public class Gyro {
     //add gryo id to constants
-    static Pigeon2 pigeon = new Pigeon2(0, "electrical_issue");
+    static Pigeon2 pigeon = new Pigeon2(30, "electrical_issue");
 
      /**
      * @return acummulated rotaton -inf - inf
