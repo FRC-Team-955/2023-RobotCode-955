@@ -3,7 +3,7 @@ package frc.robot.Subsystems;
 import frc.robot.Constants;
 import frc.robot.IO;
 
-import com.ctre.phoenix.sensors.CANCoder;
+// import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class Elevator {
     static CANSparkMax motor;
@@ -21,11 +22,15 @@ public class Elevator {
     static DoubleLogEntry motorlog;
     static DoubleLogEntry encoderlog;
     static RelativeEncoder encoder;
+    static DutyCycleEncoder dutyCycleEncoder1;
+    static DutyCycleEncoder dutyCycleEncoder2;
     
     static double setpoint = Constants.Elevator.retracted;
 
     public static void setup() {
         motor = new CANSparkMax(Constants.Elevator.motorID, MotorType.kBrushless);
+        dutyCycleEncoder1 = new DutyCycleEncoder(Constants.Elevator.coder1ID);
+        dutyCycleEncoder2 = new DutyCycleEncoder(Constants.Elevator.coder2ID);
         pid = new PIDController(Constants.Elevator.kP,
                                 Constants.Elevator.kI,
                                 Constants.Elevator.kD);
@@ -36,9 +41,8 @@ public class Elevator {
 
         encoder = motor.getEncoder();
         encoder.setPosition(ElevatorPosition.calculate(
-            (new CANCoder(Constants.Elevator.coder1ID, "electrical_issue")).getPosition(),
-            (new CANCoder(Constants.Elevator.coder2ID, "electrical_issue")).getPosition()
-        ));
+            dutyCycleEncoder1.getAbsolutePosition(),
+            dutyCycleEncoder2.getAbsolutePosition()));
 
         DataLog log = DataLogManager.getLog();
         motorlog = new DoubleLogEntry(log, "/elevator/motor");
