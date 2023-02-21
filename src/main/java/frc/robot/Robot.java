@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    auto.run();
+    auto.autoPeriodic();
   }
   Field2d field2d = new Field2d();
 
@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
     // if (IO.elevatorManualDown()){
       
     // }
-    Drivebase.drive();
+    // Drivebase.drive();
     // Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
     if(IO.intakeSequence()){
       // Claw.intakeGamePiece();
@@ -99,16 +99,24 @@ public class Robot extends TimedRobot {
       Claw.intakeFineControl(0);
     }
     // Claw.intakeFineControl(IO.elevatorFineControl());
-    Arm.moveArmOverride(IO.armFineControl());
+    // Arm.moveArm(IO.armFineControl());
     
     // Elevator.moveElevator(IO.elevatorFineControl());
     if(IO.elevatorManualUp()){
       // Elevator.setElevator(IO.gridRowPosition);
-      Elevator.setElevator(IO.GridRowPosition.High);
+      // Elevator.setElevator(IO.GridRowPosition.High);
+      Arm.setArm(IO.GridArmPosition.CubePrep);
+      System.out.println("brudsfdsh");
+
     }else if (IO.elevatorManualDown()){
-      Elevator.setElevator(IO.GridRowPosition.Retract);
+      Arm.setArm(IO.GridArmPosition.Retract);
+      System.out.println("bruh");
+      // Elevator.setElevator(IO.GridRowPosition.Retract);
     }
+    Elevator.setElevator(IO.GridRowPosition.Retract);
+
     Elevator.setElevator();
+    Arm.setArm();
 
     // System.out.println(Constants.isBlue());
     // System.out.println("x" + Drivebase.getPose().getX());

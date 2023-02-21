@@ -8,6 +8,7 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
@@ -25,7 +26,8 @@ public final class Arm {
     //static CANSparkMax motor;
     static CANSparkMax motor;
     static PIDController pid;
-    static AbsoluteEncoder encoder;
+    // static AbsoluteEncoder encoder;
+    static RelativeEncoder encoder;
     static ArmFeedforward feedforward;
     static Timer timer;
     static CANCoderConfiguration config;
@@ -42,7 +44,8 @@ public final class Arm {
         pid = new PIDController(Constants.Arm.kP, 
                                 Constants.Arm.kI, 
                                 Constants.Arm.kD);   
-        encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
+        // encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
+        encoder = motor.getAlternateEncoder(8192);
         // encoder.setZeroOffset(Constants.Arm.angleOffset);
 
         // set units of the CANCoder to radians, with velocity being radians per second
@@ -61,30 +64,34 @@ public final class Arm {
         motorLog = new DoubleLogEntry(log, "/arm/motor");
         encoderLog = new DoubleLogEntry(log, "/arm/encoder");
     }
-
+    public static double getOffsetPosition(){
+        return (encoder.getPosition()-0.3092)*360;
+    }
     public static void logData() {
         motorLog.append(motor.get());
         
-        encoderLog.append(encoder.getPosition());
+        encoderLog.append(getOffsetPosition());
     }
 
     public static void moveArm(double joyPos) {
+        System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
         if (!IO.isOverrideEnabled()) { 
-            if ((encoder.getPosition() >= Constants.Arm.upperLimit && joyPos > 0)|| 
-                (encoder.getPosition() <= Constants.Arm.lowerLimit && joyPos < 0)) { // If elevator reach top AND trying to go up
+            if ((getOffsetPosition() >= Constants.Arm.upperLimit && joyPos > 0)|| 
+                (getOffsetPosition() <= Constants.Arm.lowerLimit && joyPos < 0)) { // If arm reach top AND trying to go up
                 motor.stopMotor(); 
             }
             else {
-                motor.set(joyPos);
+                double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
+                motor.setVoltage(joyPos*12+ feedForwardCalc);
             }
         }
     }
 
     public static void moveArmOverride(double joyPos) {
-        System.out.println("Arm Absolute Encoder Position: "+ encoder.getPosition());
+        System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
         motor.set(-joyPos*0.8);
     }
-
+    //0.5600
     public static double setpoint = 0;
     public static void setArm(IO.GridArmPosition level) {
         switch(level) {
@@ -117,12 +124,11 @@ public final class Arm {
             // double feedForwardCalc = feedforward.calculate(setpoint, 
             //                                         encoder.getVelocity(), 
             //                                         accelRadPerSecond);
-            double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(encoder.getPosition()));
+            double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
 
-            double output = MathUtil.clamp(pid.calculate(encoder.getPosition(), setpoint) + feedForwardCalc, -12, 12);
+            double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), setpoint) + feedForwardCalc, -12, 12);
             
             motor.setVoltage(output); 
-            lastVelocity = encoder.getVelocity();
             return pid.atSetpoint();
         }
         return false;

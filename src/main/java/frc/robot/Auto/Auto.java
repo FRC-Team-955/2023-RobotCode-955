@@ -177,6 +177,7 @@ public class Auto implements Runnable {
 
         queuedActions.removeAll(finishedActions);
 
+        autoTimer = new Timer();
         autoTimer.start();
     }
 
