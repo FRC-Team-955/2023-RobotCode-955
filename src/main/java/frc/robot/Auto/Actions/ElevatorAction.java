@@ -16,4 +16,8 @@ public class ElevatorAction extends AutoAction{
         GamepieceManager.setExtention(elevatorPos, armPos);
         return true;
     }
+    
+    public void Finish() {
+        
+    }
 }

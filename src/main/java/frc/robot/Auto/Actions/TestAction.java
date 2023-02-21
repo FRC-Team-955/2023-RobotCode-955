@@ -13,6 +13,11 @@ public class TestAction extends AutoAction {
         System.out.println("Test");
         return false;
     }
+    
+    public void Finish() {
+        motor.set(TalonSRXControlMode.PercentOutput, 0);
+        System.out.println("Finished");
+    }
 
     public TestAction(double _startTime, double _endTime, EarlyEndMode earlyEndMode, LateEndMode lateEndMode, int motorId, AutoAction[] _endActions) {
         startTime = _startTime;

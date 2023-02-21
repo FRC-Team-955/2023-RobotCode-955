@@ -24,4 +24,8 @@ public class ClawAction extends AutoAction {
         }
         return false;
     }
+    
+    public void Finish() {
+        
+    }
 }

@@ -11,4 +11,8 @@ public class LoadTrajectoryAction extends AutoAction {
         Auto.Utils.swerveDrive.loadTrajectory(trajectory);
         return true;
     }
+    
+    public void Finish() {
+        
+    }
 }

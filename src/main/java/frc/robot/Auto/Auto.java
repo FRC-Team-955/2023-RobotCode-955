@@ -187,6 +187,7 @@ public class Auto implements Runnable {
         for (int i = 0; i < lateActions.size(); i++) {
             if (lateActions.get(i).Act()) {
                 finishedActions.add(lateActions.get(i));
+                lateActions.get(i).Finish();
 
                 if (!lateActions.get(i).endDeployed) {
                     for (AutoAction dependent : lateActions.get(i).endActions) {
@@ -202,7 +203,7 @@ public class Auto implements Runnable {
         finishedActions = new ArrayList<AutoAction>();
         
         for (int i = 0; i < queuedActions.size(); i++) {
-            if (queuedActions.get(i).startTime < autoTimer.get()) { //getMatchTime returns the time remaining in auto / teleop, not time elapsed
+            if (queuedActions.get(i).startTime <= autoTimer.get()) { //getMatchTime returns the time remaining in auto / teleop, not time elapsed
                 currentActions.add(profile.Actions.get(i));
                 finishedActions.add(queuedActions.get(i));
             }
@@ -230,6 +231,7 @@ public class Auto implements Runnable {
                         }
                         currentActions.get(i).endDeployed = true;
                         finishedActions.add(currentActions.get(i));
+                        currentActions.get(i).Finish();
                         break;
 
                     case End:
@@ -238,12 +240,16 @@ public class Auto implements Runnable {
                         }
                         currentActions.get(i).endDeployed = true;
                         finishedActions.add(currentActions.get(i));
+                        currentActions.get(i).Finish();
                         break;
                 }
             }
-            else if (currentActions.get(i).endTime >= autoTimer.get()) {
-                if (currentActions.get(i).earlyMode == EarlyEndMode.Continuous && currentActions.get(i).endDeployed)
+            else if (currentActions.get(i).endTime <= autoTimer.get()) {
+                System.out.println("Removed Actions");
+                if (currentActions.get(i).earlyMode == EarlyEndMode.Continuous && currentActions.get(i).endDeployed) {
                     finishedActions.add(currentActions.get(i));
+                    currentActions.get(i).Finish();
+                }
                 else {
                     switch (currentActions.get(i).lateMode) { //Late modes are explained in AutoAction
                         case Continue:
@@ -259,10 +265,17 @@ public class Auto implements Runnable {
                             }
                             currentActions.get(i).endDeployed = true;
                             finishedActions.add(currentActions.get(i));
+                            currentActions.get(i).Finish();
                             break;
 
                         case Rely:
                             finishedActions.add(currentActions.get(i));
+                            currentActions.get(i).Finish();
+                            break;
+                        
+                        case Wait:
+                            finishedActions.add(currentActions.get(i));
+                            lateActions.add(currentActions.get(i));
                             break;
 
                         default:
@@ -275,6 +288,8 @@ public class Auto implements Runnable {
         }
 
         currentActions.removeAll(finishedActions);
+
+        System.out.println("Queue: " + queuedActions.size() + "   |   Current: " + currentActions.size() + "   |   Late: " + lateActions.size());
     }
 
     public void displayData() {

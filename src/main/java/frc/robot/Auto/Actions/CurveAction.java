@@ -12,4 +12,8 @@ public class CurveAction extends AutoAction {
     public boolean Act() {
         return Auto.Utils.swerveDrive.followTrajectory(holonomicRotation);
     } 
+    
+    public void Finish() {
+        
+    }
 }

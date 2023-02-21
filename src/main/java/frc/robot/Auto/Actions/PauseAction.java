@@ -15,4 +15,8 @@ public class PauseAction extends AutoAction {
         timer.start();
         return timer.hasElapsed(time);
     }
+    
+    public void Finish() {
+        
+    }
 }

@@ -56,4 +56,7 @@ public class PickupAction extends AutoAction {
         return false;
     }
     
+    public void Finish() {
+        
+    }    
 }

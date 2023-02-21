@@ -10,6 +10,8 @@ public abstract class AutoAction {
     //Auto Actions will return true when complete so the program knows to move on the the next action or path
     public abstract boolean Act();
 
+    public abstract void Finish();
+
     public double startTime; //Time to start the action
 
     public double endTime; //Target time to finish the action
@@ -27,7 +29,7 @@ public abstract class AutoAction {
         Rely //Stop the action at end time and don't call dependents if not completed in time
     }
     public enum EarlyEndMode {
-        Continuous, //Keep calling the action until end time and start the dependents then
+        Continuous, //Keep calling the action until end time and start the dependents
         Minimumn, //Stop calling the action once it returns true, but wait until end time to start dependents
         End //Stop the action once it return true and start the dependents
     }

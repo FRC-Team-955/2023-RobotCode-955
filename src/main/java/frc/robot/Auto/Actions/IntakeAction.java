@@ -23,4 +23,7 @@ public class IntakeAction extends AutoAction{
         return false;
     }
     
+    public void Finish() {
+        
+    }
 }
