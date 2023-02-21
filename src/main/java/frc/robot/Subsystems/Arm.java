@@ -74,7 +74,7 @@ public final class Arm {
     }
 
     public static void moveArm(double joyPos) {
-        System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
+        // System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
         if (!IO.isOverrideEnabled()) { 
             if ((getOffsetPosition() >= Constants.Arm.upperLimit && joyPos > 0)|| 
                 (getOffsetPosition() <= Constants.Arm.lowerLimit && joyPos < 0)) { // If arm reach top AND trying to go up
@@ -82,13 +82,14 @@ public final class Arm {
             }
             else {
                 double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
+                feedForwardCalc = 0;
                 motor.setVoltage(joyPos*12+ feedForwardCalc);
             }
         }
     }
 
     public static void moveArmOverride(double joyPos) {
-        System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
+        // System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
         motor.set(-joyPos*0.8);
     }
     //0.5600

@@ -30,14 +30,14 @@ public class AprilTagCameraWrapper {
     private static PhotonPipelineResult result;
 
     public static void setUp(){
-        final AprilTag tag01 = new AprilTag(1, new Pose3d(new Translation3d(15.513558, 1.071626, 0.462788),new Rotation3d(0.0,0.0,180)));
-        final AprilTag tag02 = new AprilTag(2, new Pose3d(new Translation3d(15.513558, 2.748026, 0.462788), new Rotation3d(0.0,0.0,180)));
-        final AprilTag tag03 = new AprilTag(3, new Pose3d(new Translation3d(15.513558, 4.424426, 0.462788),new Rotation3d(0.0,0.0,180)));
-        final AprilTag tag04 = new AprilTag(4, new Pose3d(new Translation3d(16.178784, 6.749796, 0.695452),new Rotation3d(0.0,0.0,180)));
-        final AprilTag tag05 = new AprilTag(5, new Pose3d(new Translation3d(0.36195, 6.749796, 0.695452), new Rotation3d(0.0,0.0,0.0)));
-        final AprilTag tag06 = new AprilTag(6, new Pose3d(new Translation3d(1.02743, 4.424426, 0.462788), new Rotation3d(0.0,0.0,0.0)));
-        final AprilTag tag07 = new AprilTag(7, new Pose3d(new Translation3d(1.02743, 2.748026, 0.462788), new Rotation3d(0.0,0.0,0.0)));
-        final AprilTag tag08 = new AprilTag(8, new Pose3d(new Translation3d(1.02743, 1.071626, 0.462788), new Rotation3d(0.0,0.0,0.0)));
+        final AprilTag tag01 = new AprilTag(1, new Pose3d(new Translation3d(15.513558, 1.071626, 0.462788),new Rotation3d(0,0.0,0)));
+        final AprilTag tag02 = new AprilTag(2, new Pose3d(new Translation3d(15.513558, 2.748026, 0.462788), new Rotation3d(0,0.0,0)));
+        final AprilTag tag03 = new AprilTag(3, new Pose3d(new Translation3d(15.513558, 4.424426, 0.462788),new Rotation3d(0,0.0,0)));
+        final AprilTag tag04 = new AprilTag(4, new Pose3d(new Translation3d(16.178784, 6.749796, 0.695452),new Rotation3d(0,0.0,0)));
+        final AprilTag tag05 = new AprilTag(5, new Pose3d(new Translation3d(0.36195, 6.749796, 0.695452), new Rotation3d(0.0,0.0,180)));
+        final AprilTag tag06 = new AprilTag(6, new Pose3d(new Translation3d(1.02743, 4.424426, 0.462788), new Rotation3d(0.0,0.0,180)));
+        final AprilTag tag07 = new AprilTag(7, new Pose3d(new Translation3d(1.02743, 2.748026, 0.462788), new Rotation3d(0.0,0.0,180)));
+        final AprilTag tag08 = new AprilTag(8, new Pose3d(new Translation3d(1.02743, 1.071626, 0.462788), new Rotation3d(0.0,0.0,180)));
         ArrayList<AprilTag> atList = new ArrayList<AprilTag>();
         atList.add(tag01);
         atList.add(tag02);

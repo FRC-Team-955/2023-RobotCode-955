@@ -83,11 +83,14 @@ public class Robot extends TimedRobot {
     //     GamepieceManager.manageExtension();
     //     Drivebase.drive();
     // }
+
+
     // if (IO.elevatorManualDown()){
       
     // }
     // Drivebase.drive();
     // Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+    System.out.println(Drivebase.getPose());
     if(IO.intakeSequence()){
       // Claw.intakeGamePiece();
       Claw.intakeFineControl(-0.7);
@@ -99,42 +102,43 @@ public class Robot extends TimedRobot {
       Claw.intakeFineControl(0);
     }
     // Claw.intakeFineControl(IO.elevatorFineControl());
-    // Arm.moveArm(IO.armFineControl());
+    Arm.moveArm(IO.armFineControl());
     
     // Elevator.moveElevator(IO.elevatorFineControl());
-    if(IO.elevatorManualUp()){
-      // Elevator.setElevator(IO.gridRowPosition);
-      // Elevator.setElevator(IO.GridRowPosition.High);
-      Arm.setArm(IO.GridArmPosition.CubePrep);
-      System.out.println("brudsfdsh");
+    // if(IO.elevatorManualUp()){
+    //   // Elevator.setElevator(IO.gridRowPosition);
+    //   // Elevator.setElevator(IO.GridRowPosition.High);
+    //   System.out.println("brudsfdsh");
 
-    }else if (IO.elevatorManualDown()){
-      Arm.setArm(IO.GridArmPosition.Retract);
-      System.out.println("bruh");
-      // Elevator.setElevator(IO.GridRowPosition.Retract);
-    }
-    Elevator.setElevator(IO.GridRowPosition.Retract);
+    //   Arm.setArm(IO.GridArmPosition.CubePrep);
+    // }else if (IO.elevatorManualDown()){
+    //   Arm.setArm(IO.GridArmPosition.Retract);
+    //   System.out.println("bruh");
+    //   // Elevator.setElevator(IO.GridRowPosition.Retract);
+    // }
+    // Elevator.setElevator(IO.GridRowPosition.Retract);
 
-    Elevator.setElevator();
-    Arm.setArm();
+    // Elevator.setElevator();
+    // Arm.setArm();
 
     // System.out.println(Constants.isBlue());
     // System.out.println("x" + Drivebase.getPose().getX());
     // System.out.println("y" + Drivebase.getPose().getY());
-    // if (IO.Drivebase.thrustEnabled()){
-
-    //   // AutoAlign.alignAprilTag();
-    //   AutoAlign.moveToGridPosition();
+    if (IO.Drivebase.thrustEnabled()){
+      AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.red7, -180);
+      // AutoAlign.alignAprilTag();
+      // AutoAlign.moveToGridPosition();
+    }
+    // else if (IO.Drivebase.isAutoAlignActive()) {
+    //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, 180);
+    // } else if (IO.Drivebase.autoHeadingEnabled()){
+    //   AutoAlign.moveIntoPosition();
     // }
-    // // else if (IO.Drivebase.isAutoAlignActive()) {
-    // //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, 180);
-    // // } else if (IO.Drivebase.autoHeadingEnabled()){
-    // //   AutoAlign.moveIntoPosition();
-    // // }
-    // else {
-    //   Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
-    //   // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
-    // }
+    else {
+      // Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
+      Drivebase.drive();
+      // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+    }
 
     // // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
     // //System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());

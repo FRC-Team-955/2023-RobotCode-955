@@ -44,6 +44,9 @@ public class SwerveSettings {
         
         public static double trackWidth = 0.685;
         public static double trackLength = 0.545;
+        //From Cad
+        // public static double trackWidth = 0.679450;
+        // public static double trackLength = 0.552450;
     
         
         public static final edu.wpi.first.math.geometry.Translation2d[] swerveModuleLocations = {
