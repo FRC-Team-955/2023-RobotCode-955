@@ -65,7 +65,7 @@ public final class Arm {
         encoderLog = new DoubleLogEntry(log, "/arm/encoder");
     }
     public static double getOffsetPosition(){
-        return (encoder.getPosition()-0.3092)*360;
+        return (encoder.getPosition() / (80 * (2/3)) + 50);
     }
     public static void logData() {
         motorLog.append(motor.get());
