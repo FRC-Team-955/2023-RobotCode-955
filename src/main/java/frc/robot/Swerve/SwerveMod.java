@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
+import frc.robot.Constants;
 
 
 
@@ -186,8 +187,8 @@ public class SwerveMod{
 
 
     public SwerveModulePosition getState(){
-        double m2 = -(turningEncoder.getPosition() % 360 + 360) % 360;
-        return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(m2 * Math.PI / 180));
+        double m2 = Constants.isBlue()?(-turningEncoder.getPosition() % 360 + 360) % 360: -(turningEncoder.getPosition() % 360 + 360) % 360;
+        return new SwerveModulePosition(-driveEncoder.getPosition(), new Rotation2d(m2 * Math.PI / 180));
     }
 
     public Rotation2d adjustedAngle = new Rotation2d();     

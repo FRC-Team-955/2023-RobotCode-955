@@ -19,7 +19,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -31,7 +30,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
-import frc.robot.IO;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.Gyro;
 
@@ -101,7 +99,7 @@ public class SwerveDrive {
         // System.out.println("Gryo.getAngle(): "+ Gyro.getAngle());
         
         SwerveModuleState[] swerveModuleStates = null;
-        if (true) {
+        if (false) {
             swerveModuleStates = new SwerveModuleState[]{
                 new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
                 new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
@@ -164,7 +162,12 @@ public class SwerveDrive {
         //     SwerveMods[2].getState(),
         //     SwerveMods[3].getState()
         // );
-        poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()+90), getPoses());
+        // System.out.println(Constants.isBlue());
+        if (Constants.isBlue()){
+            poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()+90), getPoses());
+        }else{
+            poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()-90), getPoses());
+        }
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
         // && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll
 
@@ -172,7 +175,10 @@ public class SwerveDrive {
             EstimatedRobotPose camPose = result.get();
             // System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
             // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
+            if(Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 5){
+                System.out.println("asdfhgasdjf;");
                 poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+            }
             // }
         }
 
