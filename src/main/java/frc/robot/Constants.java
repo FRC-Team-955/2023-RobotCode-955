@@ -121,7 +121,7 @@ public class Constants {
         // Arm Motor Id's
         public static int motorID = 19;
         // Arm Encoder Values
-        public static int angleOffset = 0;
+        public static double angleOffset = 107.37;
         public static double upperLimit = 87.5;
         public static double lowerLimit = -111.4;
         // Arm Setpoint Values
@@ -131,16 +131,17 @@ public class Constants {
         // public static int kMiddleLevel = 2000;
         // public static int kTopLevel = 3000;
 
-        public static int conePrep = 20;
-        public static int coneReady = 20;
+        public static int level = 0;
+        public static int conePrep = 30;
+        public static int coneReady = 30;
 
-        public static int cubePrep = 15;
+        public static int cubePrep = 0;
         public static int cubeReady = 15;
 
         public static int doubleSubstation = 70;
 
         // Arm Pid Values
-        public static double kP = 0.2;
+        public static double kP = 0.7;
         public static double kI = 0;
         public static double kD = 0;
         // Feedfoward Values
@@ -154,7 +155,7 @@ public class Constants {
         // Elevator Motor Id's
         public static int motorID = 20;
         // Elevator Encoder Values
-        public static double upperLimit = 30;
+        public static double upperLimit = 28;
         public static double lowerLimit = 5;
         // Elevator Tolerance Values
         public static double tolerance = 500;
@@ -162,7 +163,7 @@ public class Constants {
         public static double retracted = 1;
         public static double bottomLevel = 10;
         public static double mediumLevel = 25;
-        public static double topLevel = 31.5;
+        public static double topLevel = 30;
         public static double doubleSubstationPosition = 10;
         // Elevator PID Values
         public static double kP = 0.8;

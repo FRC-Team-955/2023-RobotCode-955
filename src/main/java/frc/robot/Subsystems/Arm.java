@@ -38,14 +38,15 @@ public final class Arm {
     public static void setup() {
         //motor = new CANSparkMax(Constants.Arm.motorID, af]atMotorType.kBrushless);
         motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
-        motor.setIdleMode(IdleMode.kBrake);
+        motor.setIdleMode(IdleMode.kCoast);
         //motor.setSmartCurrentLimit(40);
         
         pid = new PIDController(Constants.Arm.kP, 
                                 Constants.Arm.kI, 
                                 Constants.Arm.kD);   
         // encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
-        encoder = motor.getAlternateEncoder(8192);
+        // encoder = motor.getAlternateEncoder(8192);
+        encoder = motor.getAlternateEncoder( 42);
         // encoder.setZeroOffset(Constants.Arm.angleOffset);
 
         // set units of the CANCoder to radians, with velocity being radians per second
@@ -65,7 +66,7 @@ public final class Arm {
         encoderLog = new DoubleLogEntry(log, "/arm/encoder");
     }
     public static double getOffsetPosition(){
-        return (encoder.getPosition() / (80 * (2/3)) + 50);
+        return encoder.getPosition() / 200 *360 - Constants.Arm.angleOffset;
     }
     public static void logData() {
         motorLog.append(motor.get());

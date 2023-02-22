@@ -105,44 +105,45 @@ public class Robot extends TimedRobot {
     Arm.moveArm(IO.armFineControl());
     
     // Elevator.moveElevator(IO.elevatorFineControl());
-    // if(IO.elevatorManualUp()){
-    //   // Elevator.setElevator(IO.gridRowPosition);
-    //   // Elevator.setElevator(IO.GridRowPosition.High);
-    //   System.out.println("brudsfdsh");
+    if(IO.elevatorManualUp()){
+      // Elevator.setElevator(IO.gridRowPosition);
+      Elevator.setElevator(IO.GridRowPosition.Retract);
+      System.out.println("brudsfdsh");
 
-    //   Arm.setArm(IO.GridArmPosition.CubePrep);
-    // }else if (IO.elevatorManualDown()){
-    //   Arm.setArm(IO.GridArmPosition.Retract);
-    //   System.out.println("bruh");
-    //   // Elevator.setElevator(IO.GridRowPosition.Retract);
-    // }
+      Arm.setArm(IO.GridArmPosition.ConePrep);
+    }else if (IO.elevatorManualDown()){
+      Arm.setArm(IO.GridArmPosition.Retract);
+      System.out.println("bruh");
+      Elevator.setElevator(IO.GridRowPosition.Retract);
+    }
     // Elevator.setElevator(IO.GridRowPosition.Retract);
 
-    // Elevator.setElevator();
-    // Arm.setArm();
+    Elevator.setElevator();
+    // Arm.moveArm(IO.armFineControl());
+    Arm.setArm();
 
     // System.out.println(Constants.isBlue());
     // System.out.println("x" + Drivebase.getPose().getX());
     // System.out.println("y" + Drivebase.getPose().getY());
-    if (IO.Drivebase.thrustEnabled()){
+    // if (IO.Drivebase.thrustEnabled()){
       // AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.red7, -180);
-      System.out.println("okay");
-      AutoAlign.moveToGridPositionOdometryTwoStep();
+      // AutoAlign.moveToGridPositionOdometryTwoStep();
       // AutoAlign.alignAprilTag();
       // AutoAlign.moveToGridPosition();
-    }
+    // }
     // else if (IO.Drivebase.isAutoAlignActive()) {
     //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, 180);
     // } else if (IO.Drivebase.autoHeadingEnabled()){
     //   AutoAlign.moveIntoPosition();
     // }
-    else {
+    // else {
       // Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
-      Drivebase.drive();
-      AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+      // Drivebase.drive();
+      // AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+
 
       // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
-    }
+    // }
 
     // // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
     // //System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());
