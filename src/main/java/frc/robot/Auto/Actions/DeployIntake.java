@@ -1,16 +1,16 @@
-package frc.robot.Auto.Actions;
+// package frc.robot.Auto.Actions;
 
-import frc.robot.GamepieceManager;
+// import frc.robot.GamepieceManager;
 
-public class DeployIntake extends AutoAction {
-    int location;
+// public class DeployIntake extends AutoAction {
+//     int location;
 
-    public DeployIntake(int location) {
-        this.location = location;
-    }
+//     public DeployIntake(int location) {
+//         this.location = location;
+//     }
 
-    public boolean Act() {
-        return GamepieceManager.foldIntakeAuto(location);
-    }
+//     public boolean Act() {
+//         return GamepieceManager.foldIntakeAuto(location);
+//     }
     
-}
+// }

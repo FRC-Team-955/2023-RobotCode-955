@@ -67,6 +67,12 @@ public class AutoAlign {
                             gridAlignY), -180);
     }
     public static boolean isInCommunity(){
+        System.out.print("Is Red?: ");
+        System.out.println(Constants.isRed());
+        System.out.print("Y: ");
+        System.out.println(Drivebase.getPose().getY() < Constants.FieldPositions.inCommunityY);
+        System.out.print("Y: ");
+        System.out.println(Drivebase.getPose().getY() < Constants.FieldPositions.inCommunityY);
         if (((Constants.isBlue() && (Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX)) ||
             (Constants.isRed() && (Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX))) &&
             (Drivebase.getPose().getY() < Constants.FieldPositions.inCommunityY)){
@@ -121,6 +127,27 @@ public class AutoAlign {
         if(isInCommunity()){
             return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
                                 IO.keyInputOdometryPosition.getY()), -180);
+        }
+        return false;
+    }
+    public static boolean moveToGridPositionOdometryTwoStep(){
+      System.out.println("Is in community: "+ isInCommunity());
+
+        if(isInCommunity()){
+            switch(gridAlignState) {
+                case AlignedToOdometry:
+                    if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.red6, -180)) {
+                        // if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
+                        gridAlignState = GridAlignState.InPosition;
+                    }
+                case AlignedToNode:
+                    return false;
+                case InPosition:
+                    // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
+                    //             IO.keyInputOdometryPosition.getY()), -180);
+                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
+                                    Constants.FieldPositions.AutoAlignPositions.red6.getY()), -180);
+            }
         }
         return false;
     }

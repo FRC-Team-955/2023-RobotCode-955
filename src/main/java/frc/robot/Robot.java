@@ -125,7 +125,9 @@ public class Robot extends TimedRobot {
     // System.out.println("x" + Drivebase.getPose().getX());
     // System.out.println("y" + Drivebase.getPose().getY());
     if (IO.Drivebase.thrustEnabled()){
-      AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.red7, -180);
+      // AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.red7, -180);
+      System.out.println("okay");
+      AutoAlign.moveToGridPositionOdometryTwoStep();
       // AutoAlign.alignAprilTag();
       // AutoAlign.moveToGridPosition();
     }
@@ -137,6 +139,8 @@ public class Robot extends TimedRobot {
     else {
       // Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
       Drivebase.drive();
+      AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+
       // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
     }
 

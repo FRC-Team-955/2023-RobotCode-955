@@ -192,8 +192,8 @@ public class Constants {
         public static double coneBlue = 0.0947265625;
     }
 
-    public static double bumperWidth = 0.982091;
-    public static double bumperLength = 0.855091;
+    public static final double bumperWidth = 0.93;
+    public static final double bumperLength = 0.81;
 
     public static class FieldPositions{
         public static final double fieldX = 16.537877;
@@ -213,19 +213,22 @@ public class Constants {
         public static double inLoadingZoneY = inCommunityY + (bumperLength/2);
 
         // public static double atGridBlueX = 1.8;
-        public static double atGridBlueX = 1.377950 + (bumperWidth/2);
+        // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
+        public static double atGridOffset =0;
+        //offset
+        public static double atGridBlueX =1.377950 + atGridOffset +(bumperWidth/2);
         public static double atGridRedX = fieldX-atGridBlueX;
 
         public static class AutoAlignPositions{
-            public static Translation2d blue0 = new Translation2d(2.2,4.983099);
-            public static Translation2d blue1 = new Translation2d(2.2,4.424426);
-            public static Translation2d blue2 = new Translation2d(2.2,3.865499);
-            public static Translation2d blue3 = new Translation2d(2.2,3.306699);
-            public static Translation2d blue4 = new Translation2d(2.2,2.747899);
-            public static Translation2d blue5 = new Translation2d(2.2,2.189099);
-            public static Translation2d blue6 = new Translation2d(2.2,1.630299);
-            public static Translation2d blue7 = new Translation2d(2.2,1.071499);
-            public static Translation2d blue8 = new Translation2d(2.2,0.512699);
+            public static Translation2d blue0 = new Translation2d(2.16,4.983099);
+            public static Translation2d blue1 = new Translation2d(2.16,4.424426);
+            public static Translation2d blue2 = new Translation2d(2.16,3.865499);
+            public static Translation2d blue3 = new Translation2d(2.16,3.306699);
+            public static Translation2d blue4 = new Translation2d(2.16,2.747899);
+            public static Translation2d blue5 = new Translation2d(2.16,2.189099);
+            public static Translation2d blue6 = new Translation2d(2.16,1.630299);
+            public static Translation2d blue7 = new Translation2d(2.16,1.071499);
+            public static Translation2d blue8 = new Translation2d(2.16,0.512699);
             public static Translation2d blueAvoidChargerUppper = new Translation2d(5.5,8.02-3);
             public static Translation2d blueOutCommunityUppper = new Translation2d(4.0, 8.02-3);
             public static Translation2d blueInCommunityUppper = new Translation2d(2.0, 8.02-3);
@@ -233,15 +236,16 @@ public class Constants {
             public static Translation2d blueOutCommunityLower = new Translation2d(4.0, 8.02-7.5);
             public static Translation2d blueInCommunityLower = new Translation2d(2.0, 8.02-7.5);
 
-            public static Translation2d red0 = new Translation2d(fieldX - 2.2, blue8.getY());
-            public static Translation2d red1 = new Translation2d(fieldX - 2.2, blue7.getY());
-            public static Translation2d red2 = new Translation2d(fieldX - 2.2, blue6.getY());
-            public static Translation2d red3 = new Translation2d(fieldX - 2.2, blue5.getY());
-            public static Translation2d red4 = new Translation2d(fieldX - 2.2, blue4.getY());
-            public static Translation2d red5 = new Translation2d(fieldX - 2.2, blue3.getY());
-            public static Translation2d red6 = new Translation2d(fieldX - 2.2, blue2.getY());
-            public static Translation2d red7 = new Translation2d(fieldX - 2.2, blue1.getY());
-            public static Translation2d red8 = new Translation2d(fieldX - 2.2, blue0.getY());
+            public static Translation2d red0 = new Translation2d(fieldX - 2.16, blue8.getY());
+            public static Translation2d red1 = new Translation2d(fieldX - 2.16, blue7.getY());
+            public static Translation2d red2 = new Translation2d(fieldX - 2.16, blue6.getY());
+            public static Translation2d red3 = new Translation2d(fieldX - 2.16, blue5.getY());
+            public static Translation2d red4 = new Translation2d(fieldX - 2.16, blue4.getY());
+            public static Translation2d red5 = new Translation2d(fieldX - 2.16, blue3.getY());
+            public static Translation2d red6 = new Translation2d(fieldX - 2.16, blue2.getY());
+            // public static Translation2d red7 = new Translation2d(fieldX - 2.16, blue1.getY());
+            public static Translation2d red7 = new Translation2d(fieldX - 2.16, blue1.getY());
+            public static Translation2d red8 = new Translation2d(fieldX - 2.16, blue0.getY());
             //6.9375
             public static Translation2d redAvoidChargerUppper = new Translation2d(11,8.02-3);
             public static Translation2d redOutCommunityUppper = new Translation2d(12.5, 8.02-3);

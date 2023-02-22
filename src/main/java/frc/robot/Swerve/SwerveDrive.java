@@ -175,10 +175,10 @@ public class SwerveDrive {
             EstimatedRobotPose camPose = result.get();
             // System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
             // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
-            if(Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 5){
+            // if(Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 20){
                 System.out.println("asdfhgasdjf;");
                 poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
-            }
+            // }
             // }
         }
 
