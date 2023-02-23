@@ -82,13 +82,14 @@ public class Elevator {
                 setpoint = Constants.Elevator.retracted;
                 break;
             case Low:
-                setpoint = Constants.Elevator.bottomLevel;
+                // setpoint = Constants.Elevator.retracted;
+                setpoint = Constants.Elevator.low;
                 break;
             case Mid:
-                setpoint = Constants.Elevator.mediumLevel;
+                setpoint = Constants.Elevator.mid;
                 break;
             case High:
-                setpoint = Constants.Elevator.topLevel;
+                setpoint = Constants.Elevator.high;
                 break;
             case DoubleSubstation:
                 setpoint= Constants.Elevator.doubleSubstationPosition;

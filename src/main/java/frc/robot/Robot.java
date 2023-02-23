@@ -53,12 +53,14 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     SmartDashboard.putData("Field", field2d);
     // Drivebase.resetAnglesToAbsolute();
+    Arm.setOffset();
   }
 
   public void teleopAllState(){
     // Drivebase.logData();
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
+    IO.keyInputSubstationLocation();
     Drivebase.updateSwerveOdometry();
     field2d.setRobotPose(Drivebase.getPose());
   }
@@ -91,33 +93,34 @@ public class Robot extends TimedRobot {
     // Drivebase.drive();
     // Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
     System.out.println(Drivebase.getPose());
-    if(IO.intakeSequence()){
-      // Claw.intakeGamePiece();
-      Claw.intakeFineControl(-0.7);
-    }
-    else if(IO.clawDropPiece()){
-      // Claw.outputGamePiece();
-      Claw.intakeFineControl(1);
-    }else{
-      Claw.intakeFineControl(0);
-    }
+    // if(IO.intakeSequence()){
+    //   // Claw.intakeGamePiece();
+    //   Claw.intakeFineControl(-1);
+
+    // }
+    // else if(IO.clawDropPiece()){
+    //   // Claw.outputGamePiece();
+    //   Claw.intakeFineControl(1);
+
+    // }else{
+    //   Claw.intakeFineControl(-0.3);
+    // }
+    Claw.intakeFineControl(IO.armFineControl()-0.3);
     // Claw.intakeFineControl(IO.elevatorFineControl());
-    Arm.moveArm(IO.armFineControl());
+    // Arm.moveArm(IO.armFineControl());
     
     // Elevator.moveElevator(IO.elevatorFineControl());
     if(IO.elevatorManualUp()){
       // Elevator.setElevator(IO.gridRowPosition);
-      Elevator.setElevator(IO.GridRowPosition.Retract);
-      System.out.println("brudsfdsh");
+      Elevator.setElevator(IO.gridRowPosition);
+      Arm.setArm(IO.gridArmPosition);
 
-      Arm.setArm(IO.GridArmPosition.ConePrep);
     }else if (IO.elevatorManualDown()){
       Arm.setArm(IO.GridArmPosition.Retract);
-      System.out.println("bruh");
       Elevator.setElevator(IO.GridRowPosition.Retract);
     }
     // Elevator.setElevator(IO.GridRowPosition.Retract);
-
+    System.out.println(Arm.getOffsetPosition());
     Elevator.setElevator();
     // Arm.moveArm(IO.armFineControl());
     Arm.setArm();
@@ -125,25 +128,29 @@ public class Robot extends TimedRobot {
     // System.out.println(Constants.isBlue());
     // System.out.println("x" + Drivebase.getPose().getX());
     // System.out.println("y" + Drivebase.getPose().getY());
-    // if (IO.Drivebase.thrustEnabled()){
+    if (IO.Drivebase.thrustEnabled()){
       // AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.red7, -180);
-      // AutoAlign.moveToGridPositionOdometryTwoStep();
+      AutoAlign.moveToGridPositionOdometryTwoStep();
       // AutoAlign.alignAprilTag();
       // AutoAlign.moveToGridPosition();
-    // }
+    }else if(IO.Drivebase.isAutoAlignActive()){
+      AutoAlign.moveToSubstationPosition();
+    }
     // else if (IO.Drivebase.isAutoAlignActive()) {
-    //   AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, 180);
-    // } else if (IO.Drivebase.autoHeadingEnabled()){
+    //   // AutoAlign.alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, 180);
+    // } 
+    // else if (IO.Drivebase.autoHeadingEnabled()){
     //   AutoAlign.moveIntoPosition();
     // }
-    // else {
+    else {
       // Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
-      // Drivebase.drive();
-      // AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+      Drivebase.drive();
+      AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
+      AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
 
 
       // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
-    // }
+    }
 
     // // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), 180);
     // //System.out.println("HL" + AprilTagCameraWrapper.getHorizontalOffset());

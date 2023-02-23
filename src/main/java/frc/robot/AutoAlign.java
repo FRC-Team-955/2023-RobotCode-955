@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.LimelightCameraWrapper;
+import frc.robot.Swerve.SwerveDrive;
 
 public class AutoAlign {
     private static PIDController aprilTagAlignXPID = new PIDController(Constants.AutoAlign.aprilTagAlignXkP, Constants.AutoAlign.aprilTagAlignXkI, Constants.AutoAlign.aprilTagAlignXkD); 
@@ -26,7 +27,7 @@ public class AutoAlign {
         Double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
-
+System.out.println(SwerveDrive.headingSetPoint);
         Drivebase.driveFieldRelativeHeading(translation, heading);
 
         if (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTolerance && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTolerance) {
@@ -80,7 +81,7 @@ public class AutoAlign {
         }
         return false;
     }
-    public static boolean isInLoadingZong(){
+    public static boolean isInLoadingZone(){
         if (((Constants.isBlue() && (Drivebase.getPose().getX() > Constants.FieldPositions.inBlueLoadingZoneX)) ||
             (Constants.isRed() && (Drivebase.getPose().getX() < Constants.FieldPositions.inRedLoadingZoneX))) &&
             (Drivebase.getPose().getY() > Constants.FieldPositions.inLoadingZoneY)){
@@ -131,13 +132,12 @@ public class AutoAlign {
         return false;
     }
     public static boolean moveToGridPositionOdometryTwoStep(){
-      System.out.println("Is in community: "+ isInCommunity());
-
         if(isInCommunity()){
             switch(gridAlignState) {
                 case AlignedToOdometry:
-                    if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.red6, -180)) {
-                        // if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
+                    // if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.red6, -180)) {
+                    if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
+                        gridAlignY = Drivebase.getPose().getY();
                         gridAlignState = GridAlignState.InPosition;
                     }
                 case AlignedToNode:
@@ -145,13 +145,35 @@ public class AutoAlign {
                 case InPosition:
                     // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
                     //             IO.keyInputOdometryPosition.getY()), -180);
+                    if (!IO.isConeNodePosition){
+                        alignOdometry(IO.keyInputOdometryPosition, -180);
+                        return true;
+                    }
                     return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
-                                    Constants.FieldPositions.AutoAlignPositions.red6.getY()), -180);
+                                            IO.keyInputOdometryPosition.getY()), -180);
             }
         }
         return false;
     }
+    public static enum SubstationAlignState {
+        AlignedToOdometry,
+        InPosition
+    }
+    public static SubstationAlignState substationAlignState = SubstationAlignState.AlignedToOdometry;
     public static boolean moveToSubstationPosition(){
-        return alignOdometry(IO.keyInputSubstationLocation, 0);
+        if(isInLoadingZone()){
+            switch(substationAlignState) {
+                case AlignedToOdometry:
+                    if(alignOdometry(IO.keyInputSubstationLocation, 0)) {
+                        substationAlignState = SubstationAlignState.InPosition;
+                    }
+                case InPosition:
+                    // return alignOdometry(IO.keyInputSubstationLocation, 0);
+                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
+                                            IO.keyInputSubstationLocation.getY()), 0);
+            }
+        }
+        return false;
+        
     }
 }

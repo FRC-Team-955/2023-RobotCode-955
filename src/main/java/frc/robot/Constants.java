@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Swerve.SwerveSettings;
 
 public class Constants {
     public static class IO{
@@ -94,9 +93,10 @@ public class Constants {
     public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
         public static int motorID = 21;
-        public static double run = -0.1;
+        public static double run = -1;
         public static double runTime = 2000;
-        public static double stopish = -0.05;
+        public static double stopish = -0.1;
+        public static double drop = 0.1;
     }
 
     public static class AprilTagCamera{
@@ -121,7 +121,8 @@ public class Constants {
         // Arm Motor Id's
         public static int motorID = 19;
         // Arm Encoder Values
-        public static double angleOffset = 107.37;
+        public static double angleOffset = 109.37;
+        // public static double angleOffset = 0;
         public static double upperLimit = 87.5;
         public static double lowerLimit = -111.4;
         // Arm Setpoint Values
@@ -132,16 +133,18 @@ public class Constants {
         // public static int kTopLevel = 3000;
 
         public static int level = 0;
-        public static int conePrep = 30;
-        public static int coneReady = 30;
+        public static int conePrep = 25;
+        public static int coneReady = 13;
 
-        public static int cubePrep = 0;
-        public static int cubeReady = 15;
+        public static int cubePrep = 10;
+        public static int cubeReady = 0;
 
-        public static int doubleSubstation = 70;
+        public static int hybrid = -95;
+
+        public static int doubleSubstation = -5;
 
         // Arm Pid Values
-        public static double kP = 0.7;
+        public static double kP = 0.3;
         public static double kI = 0;
         public static double kD = 0;
         // Feedfoward Values
@@ -161,10 +164,10 @@ public class Constants {
         public static double tolerance = 500;
         // Extension Level Values
         public static double retracted = 1;
-        public static double bottomLevel = 10;
-        public static double mediumLevel = 25;
-        public static double topLevel = 30;
-        public static double doubleSubstationPosition = 10;
+        public static double low = 10;
+        public static double mid = 25;
+        public static double high = 30;
+        public static double doubleSubstationPosition = 30;
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;
@@ -215,10 +218,14 @@ public class Constants {
 
         // public static double atGridBlueX = 1.8;
         // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
-        public static double atGridOffset =0;
+        public static double atGridOffset =-0;
+        public static double atGridOffsetCube = 1;
         //offset
         public static double atGridBlueX =1.377950 + atGridOffset +(bumperWidth/2);
         public static double atGridRedX = fieldX-atGridBlueX;
+
+        public static double atSubstationRedX = 1.64;
+        public static double atSubstationBlueX =fieldX - 1.64;
 
         public static class AutoAlignPositions{
             public static Translation2d blue0 = new Translation2d(2.16,4.983099);
@@ -255,8 +262,10 @@ public class Constants {
             public static Translation2d redOutCommunityLower = new Translation2d(12.5, 8.02-7.5);
             public static Translation2d redInCommunityLower = new Translation2d(14, 8.02-7.5);
 
-            public static Translation2d redLeftDoubleSubstation = new Translation2d(0.9, 6.028182);
-            public static Translation2d redRightDoubleSubstation = new Translation2d(0.9, 7.471220);
+
+
+            public static Translation2d redLeftDoubleSubstation = new Translation2d(2.1, 6.028182);
+            public static Translation2d redRightDoubleSubstation = new Translation2d(2.1, 7.471220);
             public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-redLeftDoubleSubstation.getX(), 7.471220);
             public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-redRightDoubleSubstation.getX(), 6.028182);
         }   

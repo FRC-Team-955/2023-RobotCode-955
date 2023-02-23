@@ -41,7 +41,7 @@ public class SwerveDrive {
     public final SwerveDrivePoseEstimator poseEstimator;
 
     public SwerveMod[] SwerveMods;
-    public double headingSetPoint=-180;
+    public static double headingSetPoint=-180;
     private PIDController controller = new PIDController(0.07,0,0);
 
     private PIDController xController = new PIDController(0.7,0,0);
@@ -84,7 +84,8 @@ public class SwerveDrive {
         // swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
         poseEstimator = new SwerveDrivePoseEstimator(SwerveSettings.SwerveConstants.swerveKinematics,Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
     }
-
+    public static double fixAngleSavePoint = headingSetPoint;
+    public static boolean fixAngleSavePointUnsaved = false;
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
         // if(IO.Drivebase.autoHeadingEnabled()){
         // if(false){
@@ -92,6 +93,7 @@ public class SwerveDrive {
         // }else 
         if (useFixedHeading){
             headingSetPoint = heading;
+
         }else{
             headingSetPoint += rotation * Constants.Drivebase.turnRate;
         }

@@ -46,7 +46,8 @@ public final class Arm {
                                 Constants.Arm.kD);   
         // encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
         // encoder = motor.getAlternateEncoder(8192);
-        encoder = motor.getAlternateEncoder( 42);
+        // encoder = motor.getAlternateEncoder( 42);
+        encoder = motor.getEncoder();
         // encoder.setZeroOffset(Constants.Arm.angleOffset);
 
         // set units of the CANCoder to radians, with velocity being radians per second
@@ -65,8 +66,14 @@ public final class Arm {
         motorLog = new DoubleLogEntry(log, "/arm/motor");
         encoderLog = new DoubleLogEntry(log, "/arm/encoder");
     }
+    public static void setOffset(){
+        // encoder.setPosition(-Constants.Arm.angleOffset/3895.05619213716);
+        encoder.setPosition(-Constants.Arm.angleOffset/90 * 2.513758659362793);
+    }
     public static double getOffsetPosition(){
-        return encoder.getPosition() / 200 *360 - Constants.Arm.angleOffset;
+        return encoder.getPosition() * 90 / 2.513758659362793;
+        // / 200 *360
+        // - Constants.Arm.angleOffset
     }
     public static void logData() {
         motorLog.append(motor.get());
