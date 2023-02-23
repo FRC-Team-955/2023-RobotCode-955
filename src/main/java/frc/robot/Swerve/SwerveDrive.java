@@ -84,8 +84,6 @@ public class SwerveDrive {
         // swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
         poseEstimator = new SwerveDrivePoseEstimator(SwerveSettings.SwerveConstants.swerveKinematics,Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
     }
-    public static double fixAngleSavePoint = headingSetPoint;
-    public static boolean fixAngleSavePointUnsaved = false;
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
         // if(IO.Drivebase.autoHeadingEnabled()){
         // if(false){

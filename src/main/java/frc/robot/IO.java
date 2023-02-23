@@ -252,7 +252,7 @@ public final class IO {
             // } else if (Constants.isRed()){
             //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
             // }
-            AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
+            AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
             gridArmPosition = GridArmPosition.DoubleSubstation;
             gridRowPosition = GridRowPosition.DoubleSubstation;
             keyInputSubstationLocation = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation:
@@ -263,7 +263,7 @@ public final class IO {
             // } else if (Constants.isRed()){
             //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
             // }
-            AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
+            AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
             gridArmPosition = GridArmPosition.DoubleSubstation;
             gridRowPosition = GridRowPosition.DoubleSubstation;
             keyInputSubstationLocation = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation:

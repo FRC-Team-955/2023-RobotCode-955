@@ -27,7 +27,8 @@ public class AutoAlign {
         Double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
-System.out.println(SwerveDrive.headingSetPoint);
+
+
         Drivebase.driveFieldRelativeHeading(translation, heading);
 
         if (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTolerance && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTolerance) {
@@ -159,13 +160,13 @@ System.out.println(SwerveDrive.headingSetPoint);
         AlignedToOdometry,
         InPosition
     }
-    public static SubstationAlignState substationAlignState = SubstationAlignState.AlignedToOdometry;
+    public static SubstationAlignState substationAlignStateSave = SubstationAlignState.AlignedToOdometry;
     public static boolean moveToSubstationPosition(){
         if(isInLoadingZone()){
-            switch(substationAlignState) {
+            switch(substationAlignStateSave) {
                 case AlignedToOdometry:
                     if(alignOdometry(IO.keyInputSubstationLocation, 0)) {
-                        substationAlignState = SubstationAlignState.InPosition;
+                        substationAlignStateSave = SubstationAlignState.InPosition;
                     }
                 case InPosition:
                     // return alignOdometry(IO.keyInputSubstationLocation, 0);

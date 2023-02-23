@@ -10,6 +10,7 @@ import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
+import frc.robot.Swerve.SwerveDrive;
 
 public class Robot extends TimedRobot {
   Auto auto;
@@ -64,7 +65,6 @@ public class Robot extends TimedRobot {
     Drivebase.updateSwerveOdometry();
     field2d.setRobotPose(Drivebase.getPose());
   }
-
   @Override
   public void teleopPeriodic() {
     // selectTeleopState();
@@ -145,7 +145,8 @@ public class Robot extends TimedRobot {
     else {
       // Drivebase.driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), 180);
       Drivebase.drive();
-      AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
+      
+      AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
       AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
 
 

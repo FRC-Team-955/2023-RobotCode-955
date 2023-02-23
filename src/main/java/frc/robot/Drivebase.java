@@ -35,11 +35,13 @@ public class Drivebase {
         }
         driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), heading);
     }
+    public static double headingSetPointSave = SwerveDrive.headingSetPoint;
 
     public static void drive() {
         if (IO.Drivebase.autoHeadingEnabled()) {
             Drivebase.driveFieldRelative();
         } else {
+            headingSetPointSave = SwerveDrive.headingSetPoint;
             Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
         }
     }
@@ -48,6 +50,19 @@ public class Drivebase {
         drive.drive(translation, rotation, true, false, false, 0);
     }
     public static void driveFieldRelativeHeading(Translation2d translation, double heading){
+
+        double setpoint = Drivebase.headingSetPointSave % 360;
+        if (setpoint<0){
+            setpoint = setpoint+360;
+        }
+        double diff= setpoint - heading;
+        if (diff>180){
+            diff = diff - 360;
+        }else if (diff<-180){
+            diff = diff + 360;
+        }
+        heading = Drivebase.headingSetPointSave - diff;
+
         drive.drive(translation, 0, true, false, true, heading);
     }
 
