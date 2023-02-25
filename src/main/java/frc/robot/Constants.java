@@ -91,6 +91,26 @@ public class Constants {
         public static double foldMotorKs = 2;
     }
 
+    public static class IntakeV2{
+        public static int retractMotorID = 120;
+        public static int handoffMotorID = 121;
+
+        public static double Kp = 0.2;
+        public static double Ki = 0.01;
+        public static double Kd = 0.01;
+
+        public static double Ks = 3;
+
+        public static double intakeAmpThreshhold = 30;
+        public static double handOffMotorRun = 0.5;
+        public static double handoffMotorSlow = 0.2;
+        public static double handoffMotorReverse = -0.2;
+
+        public static double ExtendPosition = 1.2;
+        public static double RetractPosition = 2.1;
+        public static double HandoffPosition = 1.7;
+    }
+
     public static class Claw{
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
         public static int motorID = 21;

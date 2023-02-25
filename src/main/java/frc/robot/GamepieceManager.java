@@ -1,11 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.Intake;
+import frc.robot.Subsystems.IntakeV2;
 
 public class GamepieceManager {
 
@@ -41,27 +43,32 @@ public class GamepieceManager {
 
     private static boolean runClaw = false;
     private static long startTime = System.currentTimeMillis();
+    private static Timer loadSequenceTimer = new Timer();
 
     //DO NOT USE UNTIL INTAKE IS MOUNTED
+    //Assumes runExtension is constantly called
     public static void loadSequence(){
         if(IO.intakeSequence()){
-            Intake.foldOutIntake();
-            Intake.runFlaps();
+            IntakeV2.extend();
+            IntakeV2.intake();
+            setExtention(GridRowPosition.Retract, GridArmPosition.Retract);
+            loadSequenceTimer.reset();
             startTime = System.currentTimeMillis();
             runClaw = true;
         }
         else{
-            Intake.foldInIntake();
-            if(Intake.senseObj()){
-                Intake.holdItemUntilFolded();
-            }
-            if (runClaw){
+            loadSequenceTimer.start();
+            if(runClaw && runExtention() && IntakeV2.handOff()) {
                 Claw.intakeGamePiece();
-            } else{
+            } else {
                 Claw.stopishMotor();
             }
-            if (System.currentTimeMillis() - (startTime + Constants.Claw.runTime) > 0){
+            if (loadSequenceTimer.hasElapsed(Constants.Claw.runTime)){
                 runClaw = false;
+                IntakeV2.extend();
+                IntakeV2.reverseIntake();
+            } else {
+                IntakeV2.slowIntake();
             }
         }
     }
