@@ -25,7 +25,7 @@ public class Elevator {
     static ElevatorFeedforward feedforward;
     static DoubleLogEntry motorlog;
     static DoubleLogEntry encoderlog;
-    static RelativeEncoder encoder;
+    public static RelativeEncoder encoder;
     static DutyCycleEncoder dutyCycleEncoder1;
     static DutyCycleEncoder dutyCycleEncoder2;
     

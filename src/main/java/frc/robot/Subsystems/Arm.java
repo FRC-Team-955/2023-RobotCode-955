@@ -71,9 +71,11 @@ public final class Arm {
     public static void setOffset(){
         // encoder.setPosition(-Constants.Arm.angleOffset/3895.05619213716);
         encoder.setPosition(-Constants.Arm.angleOffset/90 * 2.513758659362793);
+        // encoder.setPosition(0);
     }
     public static double getOffsetPosition(){
         return encoder.getPosition() * 90 / 2.513758659362793;
+        // return encoder.getPosition();
         // / 200 *360
         // - Constants.Arm.angleOffset
     }

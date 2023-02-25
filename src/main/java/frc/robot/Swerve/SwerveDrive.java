@@ -32,6 +32,8 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.Gyro;
+import frc.robot.Subsystems.Arm;
+import frc.robot.Subsystems.Elevator;
 
 public class SwerveDrive {
     // status variable for being enabled
@@ -42,7 +44,8 @@ public class SwerveDrive {
 
     public SwerveMod[] SwerveMods;
     public static double headingSetPoint=-180;
-    private PIDController controller = new PIDController(0.1,0,0);
+    private static double kP =0.1;
+    private PIDController controller = new PIDController(kP,0,0);
 
     private PIDController xController = new PIDController(0.7,0,0);
     private PIDController yController = new PIDController(0.7,0,0);
@@ -93,7 +96,9 @@ public class SwerveDrive {
         if (useFixedHeading){
             headingSetPoint = heading;
 
-        }else{/* commented out cause errors :(
+        }else{
+            headingSetPoint += rotation * Constants.Drivebase.turnRate;
+            /* commented out cause errors :(
             if (armRetracted && elevatorRetracted) {
                 headingSetPoint += rotation * Constants.Drivebase.turnRate;
             }
@@ -114,7 +119,9 @@ public class SwerveDrive {
                 new SwerveModuleState(0.1, Rotation2d.fromDegrees(0))
             };
         } else {
-            swerveModuleStates =
+            double extentiondistance = 2*Math.cos(Math.toRadians(Arm.getOffsetPosition())+ 2* Math.cos(Math.toRadians(42))*Elevator.encoder.getPosition()/30);
+            // controller.setP((1-(extentiondistance/3.5)*0.5)*kP);
+            // swerveModuleStates =
                 SwerveSettings.SwerveConstants.swerveKinematics.toSwerveModuleStates(
                     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                         translation.getX(), 
@@ -183,7 +190,6 @@ public class SwerveDrive {
             // System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
             // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
             // if(Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 20){
-                System.out.println("asdfhgasdjf;");
                 poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
             // }
             // }

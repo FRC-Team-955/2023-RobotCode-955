@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
     Claw.setup();
     AprilTagCameraWrapper.setUp();
     Drivebase.resetAnglesToAbsolute();
-    auto = new Auto();
+    // auto = new Auto();
     IntakeV2.setup();
   }
 
@@ -56,8 +56,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     SmartDashboard.putData("Field", field2d);
-    // Drivebase.resetAnglesToAbsolute();
-    // Arm.setOffset();
+    // IntakeV2.setup();
+    Drivebase.resetAnglesToAbsolute();
+    Arm.setOffset();
   }
 
   public void teleopAllState(){
@@ -70,32 +71,32 @@ public class Robot extends TimedRobot {
     Arm.setArm(IO.GridArmPosition.Retract);
     Elevator.setElevator(IO.GridRowPosition.Retract);
 
-    // IntakeV2.displayInformation();
 
   }
   @Override
   public void teleopPeriodic() {
-    selectTeleopState();
-    teleopAllState();
+    // IntakeV2.displayInformation();
+    // IntakeV2.moveMotor(IO.intakeOverride() * 0.5);
+    // selectTeleopState();
+    // teleopAllState();
 
-    System.out.println(Drivebase.getPose());
 
-    switch(robotState){
-      case AUTO_ALIGN:
-        GamepieceManager.autoAlign();
-        // Intake.foldInIntake();
-      case AUTO_BALANCE:
-        Drivebase.autoBalance();
-        // Drivebase.autoBalanceBangBang();
-        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-        // Intake.foldInIntake();
-      default: // DRIVE
-        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-        AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
-        // GamepieceManager.loadSequence();
-        GamepieceManager.manageExtension();
-        Drivebase.drive();
-    }
+    // // switch(robotState){
+    // //   case AUTO_ALIGN:
+    // //     GamepieceManager.autoAlign();
+    // //     // Intake.foldInIntake();
+    // //   case AUTO_BALANCE:
+    // //     Drivebase.autoBalance();
+    // //     // Drivebase.autoBalanceBangBang();
+    // //     GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+    // //     // Intake.foldInIntake();
+    // //   default: // DRIVE
+    // //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+    // //     AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+    // //     // GamepieceManager.loadSequence();
+    // //     GamepieceManager.manageExtension();
+    // //     Drivebase.drive();
+    // // }
 
     // if(IO.intakeSequence()){
     //   Claw.intakeGamePiece();
@@ -118,20 +119,20 @@ public class Robot extends TimedRobot {
     //   Elevator.setElevator(IO.GridRowPosition.Retract);
     // }
     // Elevator.setElevator();
-    // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
-    // Arm.setArm();
+    // // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
+    // // Arm.setArm();
 
-    // if (IO.Drivebase.thrustEnabled()){
-    //   AutoAlign.moveToGridPositionOdometryTwoStep();
-    // }else if(IO.Drivebase.isAutoAlignActive()){
-    //   AutoAlign.moveToSubstationPosition();
-    // }
-    // else {
-    //   Drivebase.drive();
+    if (IO.Drivebase.thrustEnabled()){
+      AutoAlign.moveToGridPositionOdometryTwoStep();
+    }else if(IO.Drivebase.isAutoAlignActive()){
+      AutoAlign.moveToSubstationPosition();
+    }
+    else {
+      Drivebase.drive();
       
-    //   AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
-    //   AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-    // }
+      AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+      AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+    }
   }
 
   @Override

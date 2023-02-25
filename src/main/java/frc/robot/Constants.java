@@ -91,14 +91,14 @@ public class Constants {
     }
 
     public static class IntakeV2{
-        public static int retractMotorID = 120;
+        public static int retractMotorID = 18;
         public static int handoffMotorID = 121;
 
         public static double Kp = 0.2;
         public static double Ki = 0.01;
         public static double Kd = 0.01;
 
-        public static double Ks = 3;
+        public static double Ks = 0.4;
 
         public static double intakeAmpThreshhold = 30;
         public static double handOffMotorRun = 0.5;
@@ -141,7 +141,7 @@ public class Constants {
         // Arm Motor Id's
         public static int motorID = 19;
         // Arm Encoder Values
-        public static double angleOffset = 109.37;
+        public static double angleOffset = 124.2786;
         // public static double angleOffset = 0;
         public static double upperLimit = 87.5;
         public static double lowerLimit = -111.4;
@@ -186,7 +186,7 @@ public class Constants {
         // Elevator Tolerance Values
         public static double tolerance = 500;
         // Extension Level Values
-        public static double retracted = 1;
+        public static double retracted = 4;
         public static double low = 10;
         public static double mid = 25;
         public static double high = 30;
@@ -298,11 +298,11 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return false;
+        return true;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){
-        return true;
+        return false;
         // return color == DriverStation.Alliance.Red;
     }
 }

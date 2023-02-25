@@ -29,33 +29,35 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class IntakeV2 {
     private static CANSparkMax retractMotor = new CANSparkMax(Constants.IntakeV2.retractMotorID, MotorType.kBrushless);
-    private static TalonSRX handOffMotor = new TalonSRX(Constants.IntakeV2.handoffMotorID);
+    //private static TalonSRX handOffMotor = new TalonSRX(Constants.IntakeV2.handoffMotorID);
     private static PIDController pid = new PIDController(Constants.IntakeV2.Kp, Constants.IntakeV2.Ki, Constants.IntakeV2.Kd);
     private static RelativeEncoder relativeEncoder = retractMotor.getEncoder(); 
     private static double theta;
 
     public static void setup() {
-        retractMotor.setIdleMode(IdleMode.kBrake);
-        relativeEncoder.setPosition(-1 / 4);
+        retractMotor.setIdleMode(IdleMode.kCoast);
+        retractMotor.setSmartCurrentLimit(20);
+        relativeEncoder.setPosition(-1 / 4 * 63);
     }
 
     public static boolean moveIntake(double current) {
         if (!IO.isOverrideEnabled()) {
-            handOffMotor.set(TalonSRXControlMode.Current, current);
-            return handOffMotor.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold;
+            //handOffMotor.set(TalonSRXControlMode.Current, current);
+            //return handOffMotor.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold;
         }
         return false;
     }
 
     public static void runIntakeOverride(double handoffPercentOutput, double intakePercentOutput) {
-        retractMotor.set(intakePercentOutput);
-        handOffMotor.set(TalonSRXControlMode.PercentOutput, handoffPercentOutput);
+        //retractMotor.set(intakePercentOutput);
+        retractMotor.setVoltage(0.3);
+        //handOffMotor.set(TalonSRXControlMode.PercentOutput, handoffPercentOutput);
     }
-
-    private static boolean moveMotor(double setpoint) {
-        theta = relativeEncoder.getPosition() * 2 * Math.PI;
+//  + pid.calculate(theta)
+    public static boolean moveMotor(double setpoint) {
+        theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
         pid.setSetpoint(setpoint);
-        retractMotor.setVoltage(MathUtil.clamp(Constants.IntakeV2.Ks * Math.cos(theta) + pid.calculate(theta), -12, 12));
+        retractMotor.setVoltage(MathUtil.clamp(Constants.IntakeV2.Ks * Math.cos(theta) + setpoint, -12, 12));
         return pid.atSetpoint();
     }
 
@@ -82,37 +84,39 @@ public class IntakeV2 {
 
     public static void slowIntake() {
         if(!IO.isOverrideEnabled()) {
-            handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
+            //handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
         } else {
-            handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            //handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
         }
     }
 
     public static void reverseIntake() {
         if (!IO.isOverrideEnabled()) {
-            handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
+            //handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
         } else {
-            handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            //handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
         }
     }
 
     public static boolean intake() {
         if (!IO.isOverrideEnabled()) {
-            handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorRun);
-            if (handOffMotor.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold) {
-                handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
-                return true;
-            }
-            else {
+            //handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorRun);
+            //if (handOffMotor.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold) {
+                //handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
+                //return true;
+            //}
+            //else {
                 return false;
-            }
+            //}
         }
         return true;
     }
 
     public static void displayInformation() {
-        SmartDashboard.putNumber("Motor Amps", handOffMotor.getStatorCurrent());
-        SmartDashboard.putNumber("Angle", relativeEncoder.getPosition() * 2 * Math.PI);
+        //SmartDashboard.putNumber("Motor Amps", handOffMotor.getStatorCurrent());
+        SmartDashboard.putNumber("Encoder Postion", relativeEncoder.getPosition());
+        SmartDashboard.putNumber("rotations", relativeEncoder.getPosition() / 63);
+        SmartDashboard.putNumber("Angle", relativeEncoder.getPosition() / 63 * 360+90+42);
     }
 
 }
