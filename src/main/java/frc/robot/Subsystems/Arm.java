@@ -38,14 +38,18 @@ public final class Arm {
     public static void setup() {
         //motor = new CANSparkMax(Constants.Arm.motorID, af]atMotorType.kBrushless);
         motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
-        motor.setIdleMode(IdleMode.kBrake);
+        motor.setIdleMode(IdleMode.kCoast);
         //motor.setSmartCurrentLimit(40);
         
         pid = new PIDController(Constants.Arm.kP, 
                                 Constants.Arm.kI, 
                                 Constants.Arm.kD);   
         // encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
-        encoder = motor.getAlternateEncoder(8192);
+        // encoder = motor.getAlternateEncoder(8192);
+        // encoder = motor.getAlternateEncoder( 42);
+        encoder = motor.getEncoder();
+        // encoder.setPositionConversionFactor(1/90*  2.513758659362793);
+        // encoder.setPosition(-Constants.Arm.angleOffset);
         // encoder.setZeroOffset(Constants.Arm.angleOffset);
 
         // set units of the CANCoder to radians, with velocity being radians per second
@@ -64,8 +68,14 @@ public final class Arm {
         motorLog = new DoubleLogEntry(log, "/arm/motor");
         encoderLog = new DoubleLogEntry(log, "/arm/encoder");
     }
+    public static void setOffset(){
+        // encoder.setPosition(-Constants.Arm.angleOffset/3895.05619213716);
+        encoder.setPosition(-Constants.Arm.angleOffset/90 * 2.513758659362793);
+    }
     public static double getOffsetPosition(){
-        return (encoder.getPosition()-0.3092)*360;
+        return encoder.getPosition() * 90 / 2.513758659362793;
+        // / 200 *360
+        // - Constants.Arm.angleOffset
     }
     public static void logData() {
         motorLog.append(motor.get());
@@ -74,7 +84,7 @@ public final class Arm {
     }
 
     public static void moveArm(double joyPos) {
-        System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
+        // System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
         if (!IO.isOverrideEnabled()) { 
             if ((getOffsetPosition() >= Constants.Arm.upperLimit && joyPos > 0)|| 
                 (getOffsetPosition() <= Constants.Arm.lowerLimit && joyPos < 0)) { // If arm reach top AND trying to go up
@@ -82,37 +92,47 @@ public final class Arm {
             }
             else {
                 double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
+                feedForwardCalc = 0;
                 motor.setVoltage(joyPos*12+ feedForwardCalc);
             }
         }
     }
 
     public static void moveArmOverride(double joyPos) {
-        System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
+        // System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
         motor.set(-joyPos*0.8);
     }
     //0.5600
     public static double setpoint = 0;
+    public static boolean armRetract = true;
     public static void setArm(IO.GridArmPosition level) {
         switch(level) {
             case Retract:
                 setpoint = Constants.Arm.retracted;
+                armRetract = true;
                 break;
             case ConePrep:
                 setpoint = Constants.Arm.conePrep;
+                armRetract = false;
                 break;
             case ConeReady:
                 setpoint = Constants.Arm.coneReady;
+                armRetract = false;
                 break;
             case CubePrep:
                 setpoint = Constants.Arm.cubePrep;
+                armRetract = false;
                 break;
             case CubeReady:
                 setpoint = Constants.Arm.cubeReady;
+                armRetract = false;
                 break;
             case DoubleSubstation:
                 setpoint = Constants.Arm.doubleSubstation;
+                armRetract = false;
                 break;
+            case Up:
+                setpoint = Constants.Arm.up;
         }
     }
     public static boolean setArm(){
