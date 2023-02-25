@@ -102,25 +102,32 @@ public final class Arm {
     }
     //0.5600
     public static double setpoint = 0;
+    public boolean armRetract = true;
     public static void setArm(IO.GridArmPosition level) {
         switch(level) {
             case Retract:
                 setpoint = Constants.Arm.retracted;
+                armRetract = true;
                 break;
             case ConePrep:
                 setpoint = Constants.Arm.conePrep;
+                armRetract = false;
                 break;
             case ConeReady:
                 setpoint = Constants.Arm.coneReady;
+                armRetract = false;
                 break;
             case CubePrep:
                 setpoint = Constants.Arm.cubePrep;
+                armRetract = false;
                 break;
             case CubeReady:
                 setpoint = Constants.Arm.cubeReady;
+                armRetract = false;
                 break;
             case DoubleSubstation:
                 setpoint = Constants.Arm.doubleSubstation;
+                armRetract = false;
                 break;
         }
     }
