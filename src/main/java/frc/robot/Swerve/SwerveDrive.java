@@ -53,6 +53,7 @@ public class SwerveDrive {
     public Trajectory turningTrajectory = new Trajectory();
     public Timer timer = new Timer();
     public String File = "pathplanner/generatedJSON/CorrectPath.path"; 
+    public double turnRate = 1.5;
 
     // chassis velocity status
     ChassisSpeeds chassisVelocity = new ChassisSpeeds(); // not used, commented out in updateSwerveOdometry()
@@ -93,7 +94,13 @@ public class SwerveDrive {
             headingSetPoint = heading;
 
         }else{
-            headingSetPoint += rotation * Constants.Drivebase.turnRate;
+            if (armRetracted && elevatorRetracted) {
+                headingSetPoint += rotation * Constants.Drivebase.turnRate;
+            }
+            if (armRetracted == false || elevatorRetracted == false) {
+                headingSetPoint += rotation * (Constants.Drivebase.turnRate / 2);
+            }
+
         }
 
         // System.out.println("Gryo.getAngle(): "+ Gyro.getAngle());
