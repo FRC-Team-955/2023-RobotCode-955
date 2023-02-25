@@ -65,15 +65,15 @@ public class SwerveDrive {
     public boolean locked = false;
 
     public SwerveDrive() {       
-        Gyro.set(90); 
+        Gyro.set(89); 
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
             // The original offset for mod0: 253.775
-            new SwerveMod(0, 8, 7, 9, 253.775, "mod0"),
+            new SwerveMod(0, 8, 7, 9, 253.775+2.373, "mod0"),
             new SwerveMod(1, 2, 1, 11, 123.886, "mod1"),
             new SwerveMod(2, 4, 3, 10, 309.223, "mod2"),
-            new SwerveMod(3, 6, 5, 12, 250.524, "mod3"),
+            new SwerveMod(3, 6, 5, 12, 250.524-24.52, "mod3"),
             // new SwerveMod(0, 4, 8, 9, 253.775, "mod0"),
             // new SwerveMod(1, 3, 2, 11, 123.886, "mod1"),
             // new SwerveMod(2, 6, 7, 10, 309.223, "mod2"),
@@ -121,7 +121,7 @@ public class SwerveDrive {
         } else {
             double extentiondistance = 2*Math.cos(Math.toRadians(Arm.getOffsetPosition())+ 2* Math.cos(Math.toRadians(42))*Elevator.encoder.getPosition()/30);
             // controller.setP((1-(extentiondistance/3.5)*0.5)*kP);
-            // swerveModuleStates =
+            swerveModuleStates =
                 SwerveSettings.SwerveConstants.swerveKinematics.toSwerveModuleStates(
                     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                         translation.getX(), 
@@ -304,7 +304,7 @@ public class SwerveDrive {
         for (SwerveMod mod : SwerveMods) {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber]);
         }
-        System.out.println("Time: " +timer.get());
+        // System.out.println("Time: " +timer.get());
         if (timer.get() > trajectory.getTotalTimeSeconds()){
             return true;
         }

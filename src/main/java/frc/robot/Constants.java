@@ -63,8 +63,8 @@ public class Constants {
         public static double odometryAlignYkP = 3;
         public static double odometryAlignYkI = 0;
         public static double odometryAlignYkD = 0;
-        
-        public static double alignTolerance = 0.1;
+        //not sure was one 0.1 before
+        public static double alignTolerance = 0.05;
     }
     public static class Intake{
 
@@ -154,17 +154,17 @@ public class Constants {
 
         public static int level = 0;
         public static int conePrep = 30;
-        public static int coneReady = 13;
+        public static int coneReady = 25;
 
         public static int cubePrep = 10;
-        public static int cubeReady = 0;
+        public static int cubeReady = 10;
 
         public static int hybrid = -95;
 
         // public static int doubleSubstation = -5;
-        public static int doubleSubstation = 85;
+        public static int doubleSubstation = 30;
 
-        public static int up = 90;
+        public static int up = 110;
 
         // Arm Pid Values
         public static double kP = 0.3;
@@ -191,7 +191,7 @@ public class Constants {
         public static double mid = 25;
         public static double high = 30;
         // public static double doubleSubstationPosition = 30;
-        public static double doubleSubstationPosition = 1;
+        public static double doubleSubstationPosition = 4;
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;
@@ -238,7 +238,8 @@ public class Constants {
 
         public static double inRedLoadingZoneX = 6.710363;
         public static double inBlueLoadingZoneX = fieldX - inRedLoadingZoneX;
-        public static double inLoadingZoneY = inCommunityY + (bumperLength/2);
+        // public static double inLoadingZoneY = inCommunityY + (bumperLength/2);
+        public static double inLoadingZoneY = inCommunityY;
 
         // public static double atGridBlueX = 1.8;
         // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
@@ -248,8 +249,8 @@ public class Constants {
         public static double atGridBlueX =1.377950 + atGridOffset +(bumperWidth/2);
         public static double atGridRedX = fieldX-atGridBlueX;
 
-        public static double atSubstationRedX = 1.64;
-        public static double atSubstationBlueX =fieldX - 1.64;
+        public static double atSubstationRedX = 0.9;
+        public static double atSubstationBlueX =fieldX - atSubstationRedX;
 
         public static class AutoAlignPositions{
             public static Translation2d blue0 = new Translation2d(2.16,4.983099);
@@ -298,11 +299,11 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return true;
+        return false;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){
-        return false;
+        return true;
         // return color == DriverStation.Alliance.Red;
     }
 }

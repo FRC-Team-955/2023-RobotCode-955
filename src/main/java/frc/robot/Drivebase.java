@@ -61,7 +61,8 @@ public class Drivebase {
         }else if (diff<-180){
             diff = diff + 360;
         }
-        heading = Drivebase.headingSetPointSave - diff;
+        double headingOffset = 2;
+        heading = Drivebase.headingSetPointSave - diff + headingOffset;
 
         drive.drive(translation, 0, true, false, true, heading);
     }

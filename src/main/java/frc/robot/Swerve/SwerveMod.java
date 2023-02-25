@@ -143,28 +143,28 @@ public class SwerveMod{
         drivePID.setReference(driveOutput, ControlType.kVelocity, 0, 2.96 * driveOutput);
     }
     
-    public void setOpenLoopState(SwerveModuleState state) {
-        Rotation2d curAngle = Rotation2d.fromDegrees(turningEncoder.getPosition());
+    // public void setOpenLoopState(SwerveModuleState state) {
+    //     Rotation2d curAngle = Rotation2d.fromDegrees(turningEncoder.getPosition());
 
-        double delta = deltaAdjustedAngle(state.angle.getDegrees(), curAngle.getDegrees());
+    //     double delta = deltaAdjustedAngle(state.angle.getDegrees(), curAngle.getDegrees());
 
-        // Calculate the drive motor output from the drive PID controller.
-        double driveOutput = state.speedMetersPerSecond;
+    //     // Calculate the drive motor output from the drive PID controller.
+    //     double driveOutput = state.speedMetersPerSecond;
 
-        if (Math.abs(delta) > 90) {
-            driveOutput *= -1;
-            delta -= Math.signum(delta) * 180;
-        }
+    //     if (Math.abs(delta) > 90) {
+    //         driveOutput *= -1;
+    //         delta -= Math.signum(delta) * 180;
+    //     }
 
-        adjustedAngle = Rotation2d.fromDegrees(delta + curAngle.getDegrees());
+    //     adjustedAngle = Rotation2d.fromDegrees(delta + curAngle.getDegrees());
 
-        anglePID.setReference(
-            adjustedAngle.getDegrees(),
-            ControlType.kPosition
-        );        
+    //     // anglePID.setReference(
+    //     //     adjustedAngle.getDegrees(),
+    //     //     ControlType.kPosition
+    //     // );        
 
-        driveMotor.setVoltage(2.96 * driveOutput);
-    }
+    //     driveMotor.setVoltage(2.96 * driveOutput);
+    // }
 
 
     public void syncEncoders(){

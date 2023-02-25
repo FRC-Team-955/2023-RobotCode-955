@@ -5,14 +5,12 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Auto.Auto;
 import frc.robot.Auto.AutoProfile;
-import frc.robot.Constants.IO.Joy0;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 // import frc.robot.Sensors.ColorSensor;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.IntakeV2;
-import frc.robot.Swerve.SwerveDrive;
 
 public class Robot extends TimedRobot {
   Auto auto;
@@ -58,7 +56,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Field", field2d);
     // IntakeV2.setup();
     Drivebase.resetAnglesToAbsolute();
-    Arm.setOffset();
+    Arm.setOffset();    
+    Arm.setArm(IO.GridArmPosition.Retract);
+    Elevator.setElevator(IO.GridRowPosition.Retract);
   }
 
   public void teleopAllState(){
@@ -68,8 +68,7 @@ public class Robot extends TimedRobot {
     IO.keyInputSubstationLocation();
     Drivebase.updateSwerveOdometry();
     field2d.setRobotPose(Drivebase.getPose());
-    Arm.setArm(IO.GridArmPosition.Retract);
-    Elevator.setElevator(IO.GridRowPosition.Retract);
+
 
 
   }
@@ -77,35 +76,34 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // IntakeV2.displayInformation();
     // IntakeV2.moveMotor(IO.intakeOverride() * 0.5);
-    // selectTeleopState();
-    // teleopAllState();
+    selectTeleopState();
+    teleopAllState();
+
+    System.out.println("AutoAlign.gridAlignState: "+ AutoAlign.gridAlignState);
+    System.out.println(" AutoAlign.substationAlignStateSave: "+  AutoAlign.substationAlignStateSave);
+
+    //This is the broken one.
+    switch(robotState){
+      case AUTO_ALIGN:
+        GamepieceManager.autoAlign();
+        // Intake.foldInIntake();
+        System.out.println("auto");
+
+      case AUTO_BALANCE:
+        Drivebase.autoBalance();
+        // Drivebase.autoBalanceBangBang();
+        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+        // Intake.foldInIntake();
+      default: // DRIVE
+        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+        AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+        // GamepieceManager.loadSequence();
+        Claw.stopishMotor();
+        GamepieceManager.manageExtension();
+        Drivebase.drive();
+    }
 
 
-    // // switch(robotState){
-    // //   case AUTO_ALIGN:
-    // //     GamepieceManager.autoAlign();
-    // //     // Intake.foldInIntake();
-    // //   case AUTO_BALANCE:
-    // //     Drivebase.autoBalance();
-    // //     // Drivebase.autoBalanceBangBang();
-    // //     GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-    // //     // Intake.foldInIntake();
-    // //   default: // DRIVE
-    // //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-    // //     AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
-    // //     // GamepieceManager.loadSequence();
-    // //     GamepieceManager.manageExtension();
-    // //     Drivebase.drive();
-    // // }
-
-    // if(IO.intakeSequence()){
-    //   Claw.intakeGamePiece();
-    // }
-    // else if(IO.clawDropPiece()){
-    //   Claw.outputGamePiece();
-    // }else{
-    //   Claw.stopishMotor();
-    // }
 
     // if(IO.elevatorManualUp()){
     //   Elevator.setElevator(IO.gridRowPosition);
@@ -120,19 +118,31 @@ public class Robot extends TimedRobot {
     // }
     // Elevator.setElevator();
     // // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
-    // // Arm.setArm();
+    // Arm.setArm();
 
-    if (IO.Drivebase.thrustEnabled()){
-      AutoAlign.moveToGridPositionOdometryTwoStep();
-    }else if(IO.Drivebase.isAutoAlignActive()){
-      AutoAlign.moveToSubstationPosition();
-    }
-    else {
-      Drivebase.drive();
-      
-      AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
-      AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-    }
+
+    //Working??
+    // GamepieceManager.manageExtension();
+
+    // if(IO.intakeSequence()){
+    //   Claw.intakeGamePiece();
+    // }
+    // else if(IO.clawDropPiece()){
+    //   Claw.outputGamePiece();
+    // }else{
+    //   Claw.stopishMotor();
+    // }
+
+    // if (IO.Drivebase.thrustEnabled()){
+    //   AutoAlign.moveToGridPositionOdometryTwoStep();
+    // }else if(IO.Drivebase.isAutoAlignActive()){
+    //   AutoAlign.moveToSubstationPosition();
+    // }
+    // else {
+    //   Drivebase.drive();
+    //   AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+    //   AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+    // }
   }
 
   @Override

@@ -21,7 +21,7 @@ public class Success {
         }
         catch (IOException e) {
             System.out.println("Error when creating success message: ");
-            System.out.print(e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage());
             return null;
         }
     }

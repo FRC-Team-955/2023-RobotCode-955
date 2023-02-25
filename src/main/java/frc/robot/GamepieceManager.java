@@ -95,6 +95,7 @@ public class GamepieceManager {
         // }
         Arm.setArm(armRowPosition);
         Elevator.setElevator(gridRowPosition);
+        System.out.println("extention function");
         return runExtention();
         // elevatorInPosition = Elevator.setElevator();
         // armInPosition = Arm.setArm();
@@ -105,20 +106,27 @@ public class GamepieceManager {
 
 
     public static void autoAlign(){
+        System.out.println("isInCommunity(): " + AutoAlign.isInCommunity());
         if (AutoAlign.isInCommunity()){
             autoPlace();
+            System.out.println("community");
         }else if (AutoAlign.isInLoadingZone()){
             autoGrab();
+            System.out.println("loading");
         }
     }
 
     public static void autoPlace(){
         boolean robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
         if (robotInPosition){
+            System.out.println("in position");
+        // if (false){
             clawDrop();
         }else{
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             Claw.stopishMotor();
+            System.out.println("not ins position");
+
             //uncomment when intake is mounted
             //Intake.unholdItem();
         }
@@ -151,17 +159,23 @@ public class GamepieceManager {
         //     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
         // }
         if(IO.elevatorManualUp()){
-            extention(IO.gridRowPosition, IO.gridArmPosition);
-            if(Constants.isBlue()? Drivebase.getPose().getX() > Constants.FieldPositions.centerLine : Drivebase.getPose().getX() < Constants.FieldPositions.centerLine){
+            if(Constants.isBlue()? Drivebase.getPose().getX() < Constants.FieldPositions.centerLine : Drivebase.getPose().getX() > Constants.FieldPositions.centerLine){
+                extention(IO.gridRowPosition, IO.gridArmPosition);
+            }
+            else{
                 extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
             }
+            System.out.println("grid row position: " + IO.gridRowPosition);
+            System.out.println("gridArmPosition: " + IO.gridArmPosition);
         }else if (IO.elevatorManualDown()){
             // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+            // System.out.println("hello");
+
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-        }else{
-            // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
-            runExtention();
         }
+            // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
+            // System.out.println("runetentions");
+        runExtention();
         wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
     }
 }

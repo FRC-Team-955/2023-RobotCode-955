@@ -56,7 +56,7 @@ public class Auto implements Runnable {
         }
         catch (IOException e) {
             System.out.println("Failed to start auto control connection: ");
-            System.out.print(e);
+            System.out.println(e);
         }
 
         autoControlThread = new Thread(this);
@@ -179,7 +179,7 @@ public class Auto implements Runnable {
             }
             catch (IOException e) {
                 System.out.println("Auto control error: ");
-                System.out.print(e.getLocalizedMessage());
+                System.out.println(e.getLocalizedMessage());
             }
         }
         try {
