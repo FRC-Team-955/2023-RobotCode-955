@@ -2,6 +2,7 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.LimelightCameraWrapper;
 import frc.robot.Swerve.SwerveDrive;
@@ -165,5 +166,12 @@ public class AutoAlign {
         }
         return false;
         
+    }
+    public static void displayInformation(){
+        SmartDashboard.putBoolean("Is in Community?", isInCommunity());
+        SmartDashboard.putBoolean("Is in Loading Zone?", isInLoadingZone());
+
+        SmartDashboard.putString("AutoAlign.gridAlignState:", gridAlignState.toString());
+        SmartDashboard.putString("AutoAlign.substationAlignStateSave", substationAlignStateSave.toString());
     }
 }

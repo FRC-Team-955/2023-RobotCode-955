@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Auto.Auto;
@@ -66,8 +67,11 @@ public class Robot extends TimedRobot {
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
     IO.keyInputSubstationLocation();
+    IO.displayInformation();
     Drivebase.updateSwerveOdometry();
+    AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
+
 
 
 
@@ -79,10 +83,6 @@ public class Robot extends TimedRobot {
     selectTeleopState();
     teleopAllState();
 
-    System.out.println("AutoAlign.gridAlignState: "+ AutoAlign.gridAlignState);
-    System.out.println(" AutoAlign.substationAlignStateSave: "+  AutoAlign.substationAlignStateSave);
-
-    //This is the broken one.
     switch(robotState){
       case AUTO_ALIGN:
         GamepieceManager.autoAlign();

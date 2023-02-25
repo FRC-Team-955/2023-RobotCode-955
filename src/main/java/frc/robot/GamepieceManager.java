@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;
 import frc.robot.Subsystems.Arm;
@@ -106,27 +107,21 @@ public class GamepieceManager {
 
 
     public static void autoAlign(){
-        System.out.println("isInCommunity(): " + AutoAlign.isInCommunity());
         if (AutoAlign.isInCommunity()){
             autoPlace();
-            System.out.println("community");
         }else if (AutoAlign.isInLoadingZone()){
             autoGrab();
-            System.out.println("loading");
         }
     }
 
     public static void autoPlace(){
         boolean robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
         if (robotInPosition){
-            System.out.println("in position");
         // if (false){
             clawDrop();
         }else{
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             Claw.stopishMotor();
-            System.out.println("not ins position");
-
             //uncomment when intake is mounted
             //Intake.unholdItem();
         }
@@ -137,8 +132,6 @@ public class GamepieceManager {
         extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
         Claw.intakeGamePiece();
     }
-
-
 
     public static void clawDrop(){
         if (IO.clawDropPiece()){  
@@ -165,8 +158,7 @@ public class GamepieceManager {
             else{
                 extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
             }
-            System.out.println("grid row position: " + IO.gridRowPosition);
-            System.out.println("gridArmPosition: " + IO.gridArmPosition);
+
         }else if (IO.elevatorManualDown()){
             // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
             // System.out.println("hello");
