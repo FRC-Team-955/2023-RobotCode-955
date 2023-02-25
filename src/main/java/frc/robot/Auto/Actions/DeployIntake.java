@@ -13,4 +13,7 @@ public class DeployIntake extends AutoAction {
         return GamepieceManager.foldIntakeAuto(location);
     }
     
+    public void Finish() {
+        
+    }
 }

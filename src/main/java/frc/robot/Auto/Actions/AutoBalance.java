@@ -10,4 +10,7 @@ public class AutoBalance extends AutoAction {
         return Drivebase.isBalanced();
     }
     
+    public void Finish() {
+        
+    }
 }
