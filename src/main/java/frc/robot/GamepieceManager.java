@@ -6,27 +6,21 @@ import frc.robot.IO.GridRowPosition;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
-import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.IntakeV2;
 
 public class GamepieceManager {
 
     public static boolean runFlapsAuto(int speed) {
-        if (speed == -1) {
-            Intake.reverseFlaps();
-        } else if (speed == 1) {
-            Intake.runFlaps();
-        } else {
-            Intake.stopFlaps();
-        }
-        return Intake.senseObj();
+        return IntakeV2.moveIntake(speed * 4);
     }
 
     public static boolean foldIntakeAuto(int position) {
         if (position == 0) {
-            return Intake.foldOutIntake();
+            return IntakeV2.handOff();
         } else if (position == 1) {
-            return Intake.foldInIntake();
+            return IntakeV2.extend();
+        } else if (position == -1) {
+            return IntakeV2.retract();
         }
         return false;
     }

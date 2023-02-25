@@ -75,7 +75,7 @@ public class Elevator {
     public static void moveElevatorOverride(double joyPos) {
         motor.setVoltage(joyPos*12);
     }
-    public boolean elevatorRetract = true; 
+    public static boolean elevatorRetract = true; 
     public static void setElevator(IO.GridRowPosition level) { // level = desired elevator level
         switch(level) {
             case Retract:

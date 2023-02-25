@@ -102,7 +102,7 @@ public final class Arm {
     }
     //0.5600
     public static double setpoint = 0;
-    public boolean armRetract = true;
+    public static boolean armRetract = true;
     public static void setArm(IO.GridArmPosition level) {
         switch(level) {
             case Retract:

@@ -39,6 +39,14 @@ public class IntakeV2 {
         relativeEncoder.setPosition(-1 / 4);
     }
 
+    public static boolean moveIntake(double current) {
+        if (!IO.isOverrideEnabled()) {
+            handOffMotor.set(TalonSRXControlMode.Current, current);
+            return handOffMotor.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold;
+        }
+        return false;
+    }
+
     public static void runIntakeOverride(double handoffPercentOutput, double intakePercentOutput) {
         retractMotor.set(intakePercentOutput);
         handOffMotor.set(TalonSRXControlMode.PercentOutput, handoffPercentOutput);

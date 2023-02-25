@@ -93,14 +93,14 @@ public class SwerveDrive {
         if (useFixedHeading){
             headingSetPoint = heading;
 
-        }else{
+        }else{/* commented out cause errors :(
             if (armRetracted && elevatorRetracted) {
                 headingSetPoint += rotation * Constants.Drivebase.turnRate;
             }
             if (armRetracted == false || elevatorRetracted == false) {
                 headingSetPoint += rotation * (Constants.Drivebase.turnRate / 2);
             }
-
+            */
         }
 
         // System.out.println("Gryo.getAngle(): "+ Gyro.getAngle());
