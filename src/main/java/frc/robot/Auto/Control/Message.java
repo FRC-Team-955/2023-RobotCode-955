@@ -8,6 +8,9 @@ public class Message {
         Current, //Get the information about the current auto profile
         List, //Get all available auto profiles
         Download, //Send an auto profile to the controller
+        
+        ActionsDownload, //Send a list of the action definitions stored on the robot
+        ActionsUpload, //Set the list of action definitions on the robot
 
         Success //Confirm or deny successful completion of a message
     } 

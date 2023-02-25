@@ -73,7 +73,7 @@ public class Auto implements Runnable {
                     switch (message.messageType) {
                         case Set:
                             try {
-                                profile = new ObjectMapper().readValue(new File("/home/lvuser/autoProfiles/" + message.message + ".auto"), AutoProfile.class);
+                                profile = new ObjectMapper().readValue(new File("/home/lvuser/auto/autoProfiles/" + message.message + ".auto"), AutoProfile.class);
                                 controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(true, MessageType.Set)));
                             }
                             catch (IOException e) {
@@ -84,7 +84,7 @@ public class Auto implements Runnable {
                         case Upload:
                             try {
                                 AutoProfile newProfile = new ObjectMapper().readValue(message.message, AutoProfile.class);
-                                File upload = new File("/home/lvuser/autoProfiles/" + newProfile.name + ".auto");
+                                File upload = new File("/home/lvuser/auto/autoProfiles/" + newProfile.name + ".auto");
                                 upload.mkdirs();
                                 upload.createNewFile();
                                 new ObjectMapper().writeValue(upload, newProfile);
@@ -98,7 +98,7 @@ public class Auto implements Runnable {
                         case Update: 
                             try {
                                 AutoProfile newProfile = new ObjectMapper().readValue(message.message, AutoProfile.class);
-                                File upload = new File("/home/lvuser/autoProfiles/" + newProfile.name + ".auto");
+                                File upload = new File("/home/lvuser/auto/autoProfiles/" + newProfile.name + ".auto");
                                 new ObjectMapper().writeValue(upload, newProfile);
                                 controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(true, MessageType.Update)));
                             }
@@ -119,7 +119,7 @@ public class Auto implements Runnable {
                         case List:
                             try {
                                 ArrayList<String> profiles = new ArrayList<String>();
-                                for (File autoProfile : new File("/home/lvuser/autoProfiles/").listFiles()) {
+                                for (File autoProfile : new File("/home/lvuser/auto/autoProfiles/").listFiles()) {
                                     profiles.add(autoProfile.getName());
                                 }
                                 controlOut.println(new ObjectMapper().writeValueAsString(new Message(MessageType.List, new ObjectMapper().writeValueAsString(profiles.toArray()))));
@@ -131,10 +131,38 @@ public class Auto implements Runnable {
 
                         case Download: 
                             try {
-                                controlOut.println(new ObjectMapper().writeValueAsString(new Message(MessageType.Download, new ObjectMapper().writeValueAsString(new ObjectMapper().readValue(new File("/home/lvuser/autoProfiles/" + message.message + ".auto"), AutoProfile.class)))));
+                                controlOut.println(new ObjectMapper().writeValueAsString(new Message(MessageType.Download, new ObjectMapper().writeValueAsString(new ObjectMapper().readValue(new File("/home/lvuser/auto/autoProfiles/" + message.message + ".auto"), AutoProfile.class)))));
                             }
                             catch (IOException e) {
                                 controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.List)));
+                            }
+                            break;
+
+                        case ActionsDownload:
+                            try {
+                                controlOut.println(new ObjectMapper().writeValueAsString(new Message(MessageType.ActionsDownload, new ObjectMapper().writeValueAsString(new ObjectMapper().readTree(new File("/home/lvuser/auto/actionData.json")).toString()))));
+                            }
+                            catch (IOException e) {
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.ActionsDownload)));
+                            }
+                            break;
+
+                        case ActionsUpload:
+                            try {
+                                File upload = new File("/home/lvuser/auto/actionData.json");
+                                if (upload.exists()) {
+                                    new ObjectMapper().writeValue(upload, message.message);
+                                    controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(true, MessageType.Update)));
+                                }
+                                else {
+                                    upload.mkdirs();
+                                    upload.createNewFile();
+                                    new ObjectMapper().writeValue(upload, message.message);
+                                    controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(true, MessageType.ActionsUpload)));
+                                }
+                            }
+                            catch (IOException e) {
+                                controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(false, MessageType.ActionsUpload)));
                             }
                             break;
 
@@ -153,6 +181,12 @@ public class Auto implements Runnable {
                 System.out.println("Auto control error: ");
                 System.out.print(e.getLocalizedMessage());
             }
+        }
+        try {
+            autoControlServer.close();
+        }
+        catch (IOException e) {
+
         }
     }
 
