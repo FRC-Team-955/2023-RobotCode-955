@@ -48,6 +48,8 @@ public final class Arm {
         // encoder = motor.getAlternateEncoder(8192);
         // encoder = motor.getAlternateEncoder( 42);
         encoder = motor.getEncoder();
+        // encoder.setPositionConversionFactor(1/90*  2.513758659362793);
+        // encoder.setPosition(-Constants.Arm.angleOffset);
         // encoder.setZeroOffset(Constants.Arm.angleOffset);
 
         // set units of the CANCoder to radians, with velocity being radians per second
