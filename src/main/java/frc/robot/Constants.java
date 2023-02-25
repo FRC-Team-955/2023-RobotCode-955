@@ -42,6 +42,7 @@ public class Constants {
         public static double turnRate = 1.3;
 
         public static double speed = 0.7;
+        public static double turnSpeed = 0.7;
     }
     public static double forwardRateLimiter = 0;
     public static double strafeRateLimiter = 0;
