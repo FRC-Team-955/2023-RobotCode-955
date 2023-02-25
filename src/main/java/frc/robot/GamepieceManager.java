@@ -47,7 +47,6 @@ public class GamepieceManager {
             IntakeV2.intake();
             setExtention(GridRowPosition.Retract, GridArmPosition.Retract);
             loadSequenceTimer.reset();
-            startTime = System.currentTimeMillis();
             runClaw = true;
         }
         else{
@@ -103,11 +102,8 @@ public class GamepieceManager {
         // return elevatorInPosition && armInPosition;
 
     }
-    public static void autoGrab(){
-        robotInPosition = AutoAlign.moveToSubstationPosition();
-        extentionInPosition = extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
-        Claw.intakeGamePiece();
-    }
+
+
     public static void autoAlign(){
         if (AutoAlign.isInCommunity()){
             autoPlace();
@@ -116,39 +112,54 @@ public class GamepieceManager {
         }
     }
 
-    public static void clawDrop(){
-        if (IO.clawDropPiece()){
-            Claw.outputGamePiece();
-        }else{
-            Claw.stopishMotor();
-        }
-    }
-    private static boolean robotInPosition = false;
-    private static boolean extentionInPosition = false;
     public static void autoPlace(){
-        // robotInPosition = AutoAlign.moveToGridPosition();
-        robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
-        extentionInPosition = AutoAlign.isInCommunity() && extention(IO.gridRowPosition, IO.gridArmPosition);
-        if (robotInPosition && extentionInPosition){
-            IO.rumbleJoy1();
+        boolean robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
+        if (robotInPosition){
             clawDrop();
         }else{
+            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             Claw.stopishMotor();
             //uncomment when intake is mounted
             //Intake.unholdItem();
         }
     }
+
+    public static void autoGrab(){
+        AutoAlign.moveToSubstationPosition();
+        extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
+        Claw.intakeGamePiece();
+    }
+
+
+
+    public static void clawDrop(){
+        if (IO.clawDropPiece()){  
+            if (extention(IO.gridRowPosition, IO.isConeNodePosition?IO.GridArmPosition.ConeReady:IO.gridArmPosition)){
+                Claw.outputGamePiece();
+            }else{
+                Claw.stopishMotor();
+            }
+                // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
+        }else{
+            extention(IO.gridRowPosition, IO.gridArmPosition);
+            Claw.stopishMotor();
+        }
+    }
     public static boolean wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
     public static void manageExtension(){
-        if(wasInCommunityOrLoadingZone && (!AutoAlign.isInCommunity() || !AutoAlign.isInLoadingZone())){
-            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-        }
-        else if(IO.elevatorManualUp()){
+        // if(wasInCommunityOrLoadingZone && (!AutoAlign.isInCommunity() || !AutoAlign.isInLoadingZone())){
+        //     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+        // }
+        if(IO.elevatorManualUp()){
             extention(IO.gridRowPosition, IO.gridArmPosition);
-        }
-        else if (IO.elevatorManualDown()){
-            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+            if(Constants.isBlue()? Drivebase.getPose().getX() > Constants.FieldPositions.centerLine : Drivebase.getPose().getX() < Constants.FieldPositions.centerLine){
+                extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
+            }
+        }else if (IO.elevatorManualDown()){
+            // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
         }else{
+            // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
             runExtention();
         }
         wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();

@@ -42,7 +42,7 @@ public class SwerveDrive {
 
     public SwerveMod[] SwerveMods;
     public static double headingSetPoint=-180;
-    private PIDController controller = new PIDController(0.07,0,0);
+    private PIDController controller = new PIDController(0.1,0,0);
 
     private PIDController xController = new PIDController(0.7,0,0);
     private PIDController yController = new PIDController(0.7,0,0);

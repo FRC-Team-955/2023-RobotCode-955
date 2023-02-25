@@ -129,6 +129,8 @@ public final class Arm {
                 setpoint = Constants.Arm.doubleSubstation;
                 armRetract = false;
                 break;
+            case Up:
+                setpoint = Constants.Arm.up;
         }
     }
     public static boolean setArm(){

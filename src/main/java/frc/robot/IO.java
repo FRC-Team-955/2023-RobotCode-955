@@ -17,25 +17,14 @@ public final class IO {
     private static Joystick key1 = new Joystick(3);
     private static Joystick key2 = new Joystick(4);
 
-    public static double handoffOverride() {
-        return joy0.getRawAxis(0);
-    }
-
-    public static double intakeOverride() {
-        return joy0.getRawAxis(4);
-    }
-
-    public static double armFineControl(){
-        return joy1.getRawAxis(1);
-    }
-
-    // public static double intakeFineControl(){
-    //     //negative value is inwards
-    //     return -joy1.getRawAxis(5);
-    // }
     public static double elevatorFineControl(){
-        return -joy1.getRawAxis(5);
+        return -joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
     }
+    
+    public static double armFineControl(){
+        return joy1.getRawAxis(Constants.IO.Joy1.armOverrideAxis);
+    }
+
     private static boolean override = false;
 
     public static void setOverride(boolean _override) {
@@ -52,8 +41,9 @@ public final class IO {
         return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key2.getRawButtonPressed(2);
     }
     public static boolean clawDropPiece(){
-        // return joy1.getRawButtonPressed(Constants.IO.Joy1.clawDropPieceButton) || key2.getRawButtonPressed(3);
-        return joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2;
+        return key2.getRawButton(3);
+        //joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2 ||
+        // return joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2;
     }
 
     public static double armOverride() {
@@ -65,7 +55,8 @@ public final class IO {
     }
 
     public static boolean intakeSequence(){
-        return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) < 0.2 || key2.getRawButtonPressed(4);
+        return key2.getRawButton(4);
+        // return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) < 0.2 || key2.getRawButtonPressed(4);
     }
 
     public static class Drivebase{
@@ -151,7 +142,8 @@ public final class IO {
         ConeReady,
         CubePrep,
         CubeReady,
-        DoubleSubstation
+        DoubleSubstation,
+        Up
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
     
@@ -256,6 +248,7 @@ public final class IO {
             gridColumnPosition = newGridColumnPosition;
         }
     }
+
     public static void keyInputSubstationLocation(){
         if (key2.getRawButton(5)){
             // if (Constants.isBlue()){
@@ -264,8 +257,8 @@ public final class IO {
             //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
             // }
             AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
-            gridArmPosition = GridArmPosition.DoubleSubstation;
-            gridRowPosition = GridRowPosition.DoubleSubstation;
+            // gridArmPosition = GridArmPosition.DoubleSubstation;
+            // gridRowPosition = GridRowPosition.DoubleSubstation;
             keyInputSubstationLocation = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation:
                                                             Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
         }else if (key2.getRawButton(6)){
@@ -275,8 +268,8 @@ public final class IO {
             //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
             // }
             AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
-            gridArmPosition = GridArmPosition.DoubleSubstation;
-            gridRowPosition = GridRowPosition.DoubleSubstation;
+            // gridArmPosition = GridArmPosition.DoubleSubstation;
+            // gridRowPosition = GridRowPosition.DoubleSubstation;
             keyInputSubstationLocation = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation:
                                                             Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
         }

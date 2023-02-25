@@ -21,10 +21,9 @@ public class Constants {
             public static int elevatorUpButton = 4;
             public static int elevatorDownButton = 1;
             public static int elevatorOverrideAxis = 1;
-            public static int armOverrideAxis = 4;
-            public static int deployRunIntakeAxis = 3;
-            public static int clawDropPieceAxis = 2;
-            public static int clawDropPieceButton = 2;
+            public static int armOverrideAxis = 5;
+            public static int deployRunIntakeAxis = 2;
+            public static int clawDropPieceAxis = 3;
         }
     }
     // Auto Balance PID
@@ -39,7 +38,7 @@ public class Constants {
         public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
         public static Translation2d autoBalanceBackward = new Translation2d(0,-0.1);
 
-        public static double turnRate = 1.3;
+        public static double turnRate = 2;
 
         public static double speed = 0.7;
         public static double turnSpeed = 0.7;
@@ -116,8 +115,8 @@ public class Constants {
         public static int motorID = 21;
         public static double run = -1;
         public static double runTime = 2000;
-        public static double stopish = -0.1;
-        public static double drop = 0.1;
+        public static double stopish = -0.3;
+        public static double drop = 0.3;
     }
 
     public static class AprilTagCamera{
@@ -154,7 +153,7 @@ public class Constants {
         // public static int kTopLevel = 3000;
 
         public static int level = 0;
-        public static int conePrep = 25;
+        public static int conePrep = 30;
         public static int coneReady = 13;
 
         public static int cubePrep = 10;
@@ -162,7 +161,10 @@ public class Constants {
 
         public static int hybrid = -95;
 
-        public static int doubleSubstation = -5;
+        // public static int doubleSubstation = -5;
+        public static int doubleSubstation = 85;
+
+        public static int up = 90;
 
         // Arm Pid Values
         public static double kP = 0.3;
@@ -188,7 +190,8 @@ public class Constants {
         public static double low = 10;
         public static double mid = 25;
         public static double high = 30;
-        public static double doubleSubstationPosition = 30;
+        // public static double doubleSubstationPosition = 30;
+        public static double doubleSubstationPosition = 1;
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;

@@ -99,6 +99,12 @@ public class Elevator {
                 setpoint= Constants.Elevator.doubleSubstationPosition;
         }
     }
+    // public static void setElevator(IO.SubstationArmPosition level){
+    //     switch(level){
+    //         case Retract:
+                
+    //     }
+    // }
 
     public static boolean setElevator(){
         if(!IO.isOverrideEnabled()) {

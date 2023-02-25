@@ -17,7 +17,6 @@ public class AutoAlign {
     Drivebase drive = new Drivebase();
 
     public static boolean alignOdometry(Translation2d goalTranslation, double heading){
-        System.out.println("Goal POSE: " + goalTranslation);
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
@@ -27,7 +26,6 @@ public class AutoAlign {
         Double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
-
 
         Drivebase.driveFieldRelativeHeading(translation, heading);
 
@@ -63,18 +61,10 @@ public class AutoAlign {
 
     //the move forward function
     public static boolean moveIntoPosition() {
-        // System.out.println("keyInputOdometryPosition: " + IO.keyInputOdometryPosition);
-
         return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlueX: Constants.FieldPositions.atGridRedX, 
                             gridAlignY), -180);
     }
     public static boolean isInCommunity(){
-        System.out.print("Is Red?: ");
-        System.out.println(Constants.isRed());
-        System.out.print("Y: ");
-        System.out.println(Drivebase.getPose().getY() < Constants.FieldPositions.inCommunityY);
-        System.out.print("Y: ");
-        System.out.println(Drivebase.getPose().getY() < Constants.FieldPositions.inCommunityY);
         if (((Constants.isBlue() && (Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX)) ||
             (Constants.isRed() && (Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX))) &&
             (Drivebase.getPose().getY() < Constants.FieldPositions.inCommunityY)){
@@ -101,8 +91,8 @@ public class AutoAlign {
         if(isInCommunity()){
             switch(gridAlignState) {
                 case AlignedToOdometry:
-                    if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, -180)) {
-                    // if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
+                    // if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, -180)) {
+                    if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
                         gridAlignState = GridAlignState.AlignedToNode;
                     }
                     break;
@@ -169,7 +159,6 @@ public class AutoAlign {
                         substationAlignStateSave = SubstationAlignState.InPosition;
                     }
                 case InPosition:
-                    // return alignOdometry(IO.keyInputSubstationLocation, 0);
                     return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
                                             IO.keyInputSubstationLocation.getY()), 0);
             }
