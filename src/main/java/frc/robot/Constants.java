@@ -156,7 +156,7 @@ public class Constants {
 
         public static int level = 0;
         public static int conePrep = 30;
-        public static int coneReady = 25;
+        public static int coneReady = -10;
 
         public static int cubePrep = 10;
         public static int cubeReady = 10;

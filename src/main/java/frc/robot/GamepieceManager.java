@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;
@@ -134,7 +135,7 @@ public class GamepieceManager {
     }
 
     public static void clawDrop(){
-        if (IO.clawDropPiece()){  
+        if (IO.clawDropPiece()){
             if (extention(IO.gridRowPosition, IO.isConeNodePosition?IO.GridArmPosition.ConeReady:IO.gridArmPosition)){
                 Claw.outputGamePiece();
             }else{
@@ -169,5 +170,8 @@ public class GamepieceManager {
             // System.out.println("runetentions");
         runExtention();
         wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
+    }
+    public static void displayInformation(){
+        SmartDashboard.putBoolean("clawDropPiece()", IO.clawDropPiece());
     }
 }

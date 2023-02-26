@@ -3,15 +3,11 @@ package frc.robot.Subsystems;
 import frc.robot.Constants;
 import frc.robot.IO;
 
-import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
-import com.ctre.phoenix.sensors.SensorTimeBase;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -20,7 +16,6 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 public final class Arm {
     //static CANSparkMax motor;
@@ -133,6 +128,9 @@ public final class Arm {
                 setpoint = Constants.Arm.doubleSubstation;
                 armRetract = false;
                 break;
+            case Hybrid:
+                setpoint = Constants.Arm.hybrid;
+                armRetract = true;
             case Up:
                 setpoint = Constants.Arm.up;
         }

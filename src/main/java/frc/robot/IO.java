@@ -1,6 +1,6 @@
 package frc.robot;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
+// import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -11,8 +11,8 @@ import frc.robot.Swerve.SwerveSettings;
 public final class IO {
     private static Joystick joy0 = new Joystick(Constants.IO.Joy0.joy0Id);
     private static Joystick joy1 = new Joystick(Constants.IO.Joy1.joy1Id);
-    private static SlewRateLimiter forwardAxisSlewRateLimiter = new SlewRateLimiter(Constants.forwardRateLimiter);
-    private static SlewRateLimiter strafeAxisSlewRateLimiter = new SlewRateLimiter(Constants.strafeRateLimiter);
+    // private static SlewRateLimiter forwardAxisSlewRateLimiter = new SlewRateLimiter(Constants.forwardRateLimiter);
+    // private static SlewRateLimiter strafeAxisSlewRateLimiter = new SlewRateLimiter(Constants.strafeRateLimiter);
     
     private static Joystick key0 = new Joystick(2);
     private static Joystick key1 = new Joystick(3);
@@ -156,6 +156,7 @@ public final class IO {
         CubePrep,
         CubeReady,
         DoubleSubstation,
+        Hybrid,
         Up
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
@@ -191,10 +192,16 @@ public final class IO {
 
     public static void keyInputOdometryMapping() {
         //1
-        if (key0.getRawButton(1) || key0.getRawButton(2) || key0.getRawButton(3)){
+        if (key0.getRawButton(2) || key0.getRawButton(3)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
             isConeNodePosition = true;
             gridArmPosition = GridArmPosition.ConePrep;
+            newGridColumnPosition = 0;
+        }
+        if (key0.getRawButton(1)){
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
+            isConeNodePosition = false;
+            gridArmPosition = GridArmPosition.Retract;
             newGridColumnPosition = 0;
         }
         //2

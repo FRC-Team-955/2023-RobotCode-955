@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Auto.Auto;
@@ -71,10 +70,8 @@ public class Robot extends TimedRobot {
     Drivebase.updateSwerveOdometry();
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
-
-
-
-
+    System.out.println(Drivebase.getPose());
+    GamepieceManager.displayInformation();
   }
   @Override
   public void teleopPeriodic() {
@@ -99,6 +96,7 @@ public class Robot extends TimedRobot {
         AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
         // GamepieceManager.loadSequence();
         Claw.stopishMotor();
+
         GamepieceManager.manageExtension();
         Drivebase.drive();
     }
