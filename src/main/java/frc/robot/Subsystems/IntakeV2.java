@@ -29,7 +29,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class IntakeV2 {
     private static CANSparkMax retractMotor = new CANSparkMax(Constants.IntakeV2.retractMotorID, MotorType.kBrushless);
-    //private static TalonSRX handOffMotor = new TalonSRX(Constants.IntakeV2.handoffMotorID);
+    private static TalonSRX handOffMotorFront = new TalonSRX(Constants.IntakeV2.handoffMotorFrontID);
+    private static TalonSRX handOffMotorBack = new TalonSRX(Constants.IntakeV2.handoffMotorBackID);
     private static PIDController pid = new PIDController(Constants.IntakeV2.Kp, Constants.IntakeV2.Ki, Constants.IntakeV2.Kd);
     private static RelativeEncoder relativeEncoder = retractMotor.getEncoder(); 
     private static double theta;
@@ -38,6 +39,36 @@ public class IntakeV2 {
         retractMotor.setIdleMode(IdleMode.kCoast);
         retractMotor.setSmartCurrentLimit(20);
         relativeEncoder.setPosition(-1 / 4 * 63);
+    }
+
+    public static void extendNoPid(){
+        if (!IO.isOverrideEnabled()) {
+            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
+            if(theta < Math.PI/2){
+                retractMotor.setVoltage(3);
+            }
+        }
+    }
+
+    public static void retractNoPid(){
+        if (!IO.isOverrideEnabled()) {
+            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
+            if(theta > Math.PI/2){
+                retractMotor.setVoltage(-3);
+            }
+        }
+    }
+
+    public static void handOffNoPid(){
+        if (!IO.isOverrideEnabled()) {
+            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
+            if(theta > Math.PI/2){
+                retractMotor.setVoltage(-3);
+            }else{
+                handOffMotorFront.set(ControlMode.PercentOutput, .2);
+                handOffMotorBack.set(ControlMode.PercentOutput, .2);
+            }
+        }
     }
 
     public static boolean moveIntake(double current) {

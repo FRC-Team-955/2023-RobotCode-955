@@ -93,7 +93,8 @@ public class Constants {
 
     public static class IntakeV2{
         public static int retractMotorID = 18;
-        public static int handoffMotorID = 121;
+        public static int handoffMotorFrontID = 121;
+        public static int handoffMotorBackID = 121;
 
         public static double Kp = 0.2;
         public static double Ki = 0.01;
