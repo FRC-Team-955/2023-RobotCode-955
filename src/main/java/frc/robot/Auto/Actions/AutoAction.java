@@ -7,9 +7,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
+import frc.robot.Auto.AutoProfile;
+
 @JsonTypeInfo(use = Id.CLASS, include = As.PROPERTY, property = "@class")
 @JsonSubTypes.Type(value = Object.class)
 public abstract class AutoAction {
+
+    public static AutoProfile profile;
 
     //Auto Actions will return true when complete so the program knows to move on the the next action or path
     public abstract boolean Act();
