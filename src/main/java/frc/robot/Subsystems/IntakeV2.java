@@ -3,12 +3,14 @@ package frc.robot.Subsystems;
 import frc.robot.Constants;
 import frc.robot.IO;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -30,37 +32,46 @@ public class IntakeV2 {
     public static void setup() {
         retractMotor.setIdleMode(IdleMode.kCoast);
         retractMotor.setSmartCurrentLimit(20);
-        relativeEncoder.setPosition(-1 / 4 * 63);
+        handOffMotorBack.set(ControlMode.Follower, Constants.IntakeV2.handoffMotorFrontID);
     }
 
-    public static void extendNoPid(){
+    public static boolean extendNoPid(){
         if (!IO.isOverrideEnabled()) {
             theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
             if(theta < Math.PI/2){
                 retractMotor.setVoltage(3);
+                return true;
             }
+            retractMotor.setVoltage(0);
         }
+        return false;
     }
 
-    public static void retractNoPid(){
+    public static boolean retractNoPid(){
         if (!IO.isOverrideEnabled()) {
             theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
             if(theta > Math.PI/2){
                 retractMotor.setVoltage(-3);
+                return true;
             }
+            retractMotor.setVoltage(0);
         }
+        return false;
     }
 
-    public static void handOffNoPid(){
+    public static boolean handOffNoPid(){
         if (!IO.isOverrideEnabled()) {
             theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
             if(theta > Math.PI/2){
                 retractMotor.setVoltage(-3);
+                return true;
             }else{
                 handOffMotorFront.set(ControlMode.PercentOutput, .2);
                 handOffMotorBack.set(ControlMode.PercentOutput, .2);
             }
+            retractMotor.setVoltage(0);
         }
+        return false;
     }
 
     public static boolean moveIntake(double current) {
