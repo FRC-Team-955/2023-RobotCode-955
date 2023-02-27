@@ -67,7 +67,7 @@ public class SwerveDrive {
     public boolean locked = false;
 
     public SwerveDrive() {       
-        Gyro.set(89); 
+        Gyro.set(90); 
         
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF

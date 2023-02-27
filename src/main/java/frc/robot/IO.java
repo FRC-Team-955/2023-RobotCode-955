@@ -111,7 +111,7 @@ public final class IO {
             return new Translation2d(direction.getCos() * magnitude, direction.getSin() * magnitude);
         }
         public static double xBump(){
-            return joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
+            return joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
         }
         public static Translation2d getSwerveTranslation(){
             double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);

@@ -142,7 +142,7 @@ public class Constants {
         // Arm Motor Id's
         public static int motorID = 19;
         //
-        public static int tolerance = 2;
+        public static int tolerance = 8;
         // Arm Encoder Values
         public static double angleOffset = 124.2786;
         // public static double angleOffset = 0;
@@ -167,7 +167,7 @@ public class Constants {
         // public static int doubleSubstation = -5;
         public static int doubleSubstation = 35;
 
-        public static int up = 110;
+        public static int up = 130;
 
         // Arm Pid Values
         public static double kP = 0.3;
@@ -246,8 +246,7 @@ public class Constants {
 
         // public static double atGridBlueX = 1.8;
         // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
-        public static double atGridOffset =-0;
-        public static double atGridOffsetCube = 1;
+        public static double atGridOffset =-0.05;
         //offset
         public static double atGridBlueX =1.377950 + atGridOffset +(bumperWidth/2);
         public static double atGridRedX = fieldX-atGridBlueX;
@@ -294,8 +293,8 @@ public class Constants {
 
             // public static Translation2d redLeftDoubleSubstation = new Translation2d(2.1, 6.028182);
             // public static Translation2d redRightDoubleSubstation = new Translation2d(2.1, 7.471220);
-            public static Translation2d redLeftDoubleSubstation = new Translation2d(2.5, 6.028182);
-            public static Translation2d redRightDoubleSubstation = new Translation2d(2.5, 7.471220);
+            public static Translation2d redLeftDoubleSubstation = new Translation2d(1.7, 6.028182);
+            public static Translation2d redRightDoubleSubstation = new Translation2d(1.7, 7.471220);
             public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-redLeftDoubleSubstation.getX(), 7.471220);
             public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-redRightDoubleSubstation.getX(), 6.028182);
         }   
