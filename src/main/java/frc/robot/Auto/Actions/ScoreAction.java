@@ -2,10 +2,8 @@ package frc.robot.Auto.Actions;
 
 import java.util.ArrayList;
 
-import edu.wpi.first.hal.simulation.RoboRioDataJNI;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.counter.ExternalDirectionCounter;
 import frc.robot.AutoAlign;
 import frc.robot.Constants;
 import frc.robot.Drivebase;
@@ -15,7 +13,6 @@ import frc.robot.Auto.AutoProfile.Team;
 import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;
 import frc.robot.Subsystems.Claw;
-import frc.robot.Swerve.SwerveDrive;
 
 public class ScoreAction extends AutoAction {
     public int position;
@@ -23,7 +20,7 @@ public class ScoreAction extends AutoAction {
 
     Translation2d target;
 
-    public ScoreAction() {
+    public void Start() {
         if (profile.team == Team.Red) {
             switch (position) {
                 case 0: target = Constants.FieldPositions.AutoAlignPositions.red0; break;
@@ -103,32 +100,9 @@ public class ScoreAction extends AutoAction {
         for (AutoAction action : _endActions) {
             endActions.add(action);
         }
+    }
 
-        if (profile.team == Team.Red) {
-            switch (position) {
-                case 0: target = Constants.FieldPositions.AutoAlignPositions.red0; break;
-                case 1: target = Constants.FieldPositions.AutoAlignPositions.red1; break;
-                case 2: target = Constants.FieldPositions.AutoAlignPositions.red2; break;
-                case 3: target = Constants.FieldPositions.AutoAlignPositions.red3; break;
-                case 4: target = Constants.FieldPositions.AutoAlignPositions.red4; break;
-                case 5: target = Constants.FieldPositions.AutoAlignPositions.red5; break;
-                case 6: target = Constants.FieldPositions.AutoAlignPositions.red6; break;
-                case 7: target = Constants.FieldPositions.AutoAlignPositions.red7; break;
-                case 8: target = Constants.FieldPositions.AutoAlignPositions.red8; break;
-            }
-        }
-        else {
-            switch (position) {
-                case 0: target = Constants.FieldPositions.AutoAlignPositions.blue0; break;
-                case 1: target = Constants.FieldPositions.AutoAlignPositions.blue1; break;
-                case 2: target = Constants.FieldPositions.AutoAlignPositions.blue2; break;
-                case 3: target = Constants.FieldPositions.AutoAlignPositions.blue3; break;
-                case 4: target = Constants.FieldPositions.AutoAlignPositions.blue4; break;
-                case 5: target = Constants.FieldPositions.AutoAlignPositions.blue5; break;
-                case 6: target = Constants.FieldPositions.AutoAlignPositions.blue6; break;
-                case 7: target = Constants.FieldPositions.AutoAlignPositions.blue7; break;
-                case 8: target = Constants.FieldPositions.AutoAlignPositions.blue8; break;
-            }
-        }
+    public ScoreAction() {
+
     }
 }
