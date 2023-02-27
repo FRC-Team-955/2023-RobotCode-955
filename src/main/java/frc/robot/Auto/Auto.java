@@ -236,7 +236,8 @@ public class Auto implements Runnable {
         
         for (int i = 0; i < queuedActions.size(); i++) {
             if (queuedActions.get(i).startTime <= autoTimer.get()) { //getMatchTime returns the time remaining in auto / teleop, not time elapsed
-                currentActions.add(profile.Actions.get(i));
+                currentActions.add(queuedActions.get(i));
+                queuedActions.get(i).Start();
                 finishedActions.add(queuedActions.get(i));
             }
         }

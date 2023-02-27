@@ -15,6 +15,8 @@ public abstract class AutoAction {
 
     public static AutoProfile profile;
 
+    public void Start() {}
+
     //Auto Actions will return true when complete so the program knows to move on the the next action or path
     public abstract boolean Act();
 
