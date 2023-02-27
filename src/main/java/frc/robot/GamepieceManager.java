@@ -18,11 +18,11 @@ public class GamepieceManager {
 
     public static boolean foldIntakeAuto(int position) {
         if (position == 0) {
-            return IntakeV2.handOff();
+            return IntakeV2.handOffNoPid();
         } else if (position == 1) {
-            return IntakeV2.extend();
+            return IntakeV2.extendNoPid();
         } else if (position == -1) {
-            return IntakeV2.retract();
+            return IntakeV2.retractNoPid();
         }
         return false;
     }
@@ -45,7 +45,7 @@ public class GamepieceManager {
     //Assumes runExtension is constantly called
     public static void loadSequence(){
         if(IO.intakeSequence()){
-            IntakeV2.extend();
+            IntakeV2.extendNoPid();
             IntakeV2.intake();
             setExtention(GridRowPosition.Retract, GridArmPosition.Retract);
             loadSequenceTimer.reset();
@@ -53,14 +53,14 @@ public class GamepieceManager {
         }
         else{
             loadSequenceTimer.start();
-            if(runClaw && runExtention() && IntakeV2.handOff()) {
+            if(runClaw && runExtention() && IntakeV2.handOffNoPid()) {
                 Claw.intakeGamePiece();
             } else {
                 Claw.stopishMotor();
             }
             if (loadSequenceTimer.hasElapsed(Constants.Claw.runTime)){
                 runClaw = false;
-                IntakeV2.extend();
+                IntakeV2.extendNoPid();
                 IntakeV2.reverseIntake();
             } else {
                 IntakeV2.slowIntake();

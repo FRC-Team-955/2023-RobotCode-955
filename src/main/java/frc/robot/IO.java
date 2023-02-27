@@ -244,6 +244,7 @@ public final class IO {
             isConeNodePosition = false;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 3;     
+        }
         //5
         if (key0.getRawButton(14) || key0.getRawButton(15)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue4: Constants.FieldPositions.AutoAlignPositions.red4;
@@ -255,7 +256,8 @@ public final class IO {
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue4: Constants.FieldPositions.AutoAlignPositions.red4;
             isConeNodePosition = false;
             gridArmPosition = GridArmPosition.Hybrid;
-            newGridColumnPosition = 4;     
+            newGridColumnPosition = 4;  
+        }   
         //6
         if (key1.getRawButton(2) || key1.getRawButton(3)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue5: Constants.FieldPositions.AutoAlignPositions.red5;
