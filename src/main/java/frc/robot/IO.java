@@ -88,15 +88,15 @@ public final class IO {
 
             rotAxis = thrustEnabled() ? rotAxis : rotAxis*Constants.Drivebase.speed;
 
-            if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;
+            if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;\
             
-            return deadband * Math.signum(rotAxis) + ((rotAxis - deadband) / (1.0 - deadband));
+            // return deadband * Math.signum(rotAxis) + ((rotAxis - deadband) / (1.0 - deadband));
 
-            // if (Math.abs(rotAxis) < 0.15) {
-            //     return 0.0;
-            // } else {
-            //     return SwerveSettings.SwerveConstants.maxAngularVelocity * (rotAxis - (Math.signum(rotAxis) * 0.15)) / (1 - 0.15);
-            // }
+            if (Math.abs(rotAxis) < 0.15) {
+                return 0.0;
+            } else {
+                return SwerveSettings.SwerveConstants.maxAngularVelocity * (rotAxis - (Math.signum(rotAxis) * 0.15)) / (1 - 0.15);
+            }
         }
 
         private static double norm(Translation2d tAxes) {
@@ -114,12 +114,14 @@ public final class IO {
             return joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
         }
         public static Translation2d getSwerveTranslation(){
+
             double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
             double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
             // double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
             // // double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
             Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardRawAxis : forwardRawAxis*Constants.Drivebase.speed, thrustEnabled() ? strafeRawAxis : strafeRawAxis*Constants.Drivebase.speed);
+
 
             if (Math.abs(norm(tAxes)) < 0.15) {
                 return new Translation2d();
@@ -175,7 +177,6 @@ public final class IO {
     public static GridRowPosition gridRowPosition = GridRowPosition.Low;
 
     public static void keyInputRowPosition(){
-
         if(key0.getRawButton(1) || key0.getRawButton(4)|| key0.getRawButton(7) || key0.getRawButton(10)|| key0.getRawButton(13)
         || key1.getRawButton(1) || key1.getRawButton(4) || key1.getRawButton(7) || key1.getRawButton(10)){
                 gridRowPosition = GridRowPosition.Retract;
@@ -312,6 +313,7 @@ public final class IO {
             gridArmPosition = GridArmPosition.ConePrep;
             newGridColumnPosition = 8;
         }
+
 
 
         // gridArmPosition = isConeNodePosition?GridArmPosition.ConeReady:GridArmPosition.CubeReady;

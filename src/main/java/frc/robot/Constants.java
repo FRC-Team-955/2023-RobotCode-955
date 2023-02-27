@@ -221,6 +221,7 @@ public class Constants {
         public static double coneRed = 0.3955078125;
         public static double coneGreen = 0.51025390625;
         public static double coneBlue = 0.0947265625;
+
     }
 
     public static final double bumperWidth = 0.93;

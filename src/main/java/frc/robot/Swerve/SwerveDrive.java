@@ -134,7 +134,7 @@ public class SwerveDrive {
                                     : new ChassisSpeeds(
                                         translation.getX(), 
                                         translation.getY(),
-                                        rotation)
+                                        rotation * 0.2)
                                     );
         }
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);
