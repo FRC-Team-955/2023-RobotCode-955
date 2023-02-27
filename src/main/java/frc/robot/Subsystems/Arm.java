@@ -134,8 +134,10 @@ public final class Arm {
             case Hybrid:
                 setpoint = Constants.Arm.hybrid;
                 armRetract = true;
+                break;
             case Up:
                 setpoint = Constants.Arm.up;
+                break;
         }
     }
     public static boolean setArm(){

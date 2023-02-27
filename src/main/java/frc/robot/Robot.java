@@ -70,7 +70,6 @@ public class Robot extends TimedRobot {
     Drivebase.updateSwerveOdometry();
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
-    System.out.println(Drivebase.getPose());
     // GamepieceManager.displayInformation();
   }
   @Override
@@ -96,8 +95,14 @@ public class Robot extends TimedRobot {
         AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
         GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
         // GamepieceManager.loadSequence();
-        Claw.stopishMotor();
-
+        if(IO.intakeSequence()){
+            Claw.intakeGamePiece();
+        }
+        else if(IO.clawDropPiece()){
+          Claw.outputGamePiece();
+        }else{
+          Claw.stopishMotor();
+        }
         GamepieceManager.manageExtension();
         Drivebase.drive();
     }

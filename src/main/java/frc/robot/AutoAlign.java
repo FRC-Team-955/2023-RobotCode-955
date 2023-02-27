@@ -128,7 +128,7 @@ public class AutoAlign {
         return false;
     }
     public static double alignRotation = -180;
-    public static double bumpX = Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX;
+    public static Translation2d alignTranslation = IO.keyInputOdometryPosition;
     public static boolean moveToGridPositionOdometryTwoStep(){
         if(isInCommunity()){
             switch(gridAlignState) {
@@ -138,26 +138,22 @@ public class AutoAlign {
                         // gridAlignY = Drivebase.getPose().getY();
                         gridAlignState = GridAlignState.InPosition;
                         alignRotation = -180;
-                        bumpX = Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX;
+                        alignTranslation = IO.keyInputOdometryPosition;
                     }
+                break;
                 case AlignedToNode:
                     return false;
                 case InPosition:
                     // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
                     //             IO.keyInputOdometryPosition.getY()), -180);
                     alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.5;
-                    // if(Constants.isBlue()){
-                    //     bumpX = bumpX + Math.abs(IO.Drivebase.xBump()) * 0.5;
-
-                    // }else if (Constants.isRed()){
-                    //     bumpX = bumpX - Math.abs(IO.Drivebase.xBump()) * 0.5;
-                    // }
-
+                    // alignTranslation = new Translation2d(alignTranslation.getX() + (Constants.isBlue()?-IO.Drivebase.getSwerveTranslation().getX() *0.5:IO.Drivebase.getSwerveTranslation().getX() *0.5),
+                    //                                         alignTranslation.getY() +(Constants.isBlue()?-IO.Drivebase.getSwerveTranslation().getY() *0.5:IO.Drivebase.getSwerveTranslation().getY() *0.5));
                     if (!IO.isConeNodePosition){
-                        alignOdometry(IO.keyInputOdometryPosition, alignRotation);
+                        alignOdometry(alignTranslation, alignRotation);
                         return true;
                     }
-                    return alignOdometry(new Translation2d(bumpX, IO.keyInputOdometryPosition.getY()), alignRotation);
+                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
             }
         }
         return false;
