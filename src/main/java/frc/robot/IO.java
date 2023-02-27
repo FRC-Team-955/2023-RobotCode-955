@@ -54,7 +54,7 @@ public final class IO {
         return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key2.getRawButtonPressed(2);
     }
     public static boolean clawDropPiece(){
-        return key2.getRawButton(3);
+        return key2.getRawButton(3) || joy0.getRawButton(1);
         //joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2 ||
         // return joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2;
     }
@@ -110,7 +110,9 @@ public final class IO {
         private static Translation2d fromPolar(Rotation2d direction, double magnitude){
             return new Translation2d(direction.getCos() * magnitude, direction.getSin() * magnitude);
         }
-
+        public static double xBump(){
+            return joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
+        }
         public static Translation2d getSwerveTranslation(){
             double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
             double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
@@ -297,5 +299,8 @@ public final class IO {
     public static void displayInformation(){
         SmartDashboard.putString("gridRowPosition" , IO.gridRowPosition.toString());
         SmartDashboard.putString("gridArmPosition: " , IO.gridArmPosition.toString());
+        SmartDashboard.putBoolean("clawDropPiece()", IO.clawDropPiece());
+        SmartDashboard.putNumber("IO.keyInputSubstationLocation X", IO.keyInputSubstationLocation.getX());
+
     }
 }

@@ -15,6 +15,7 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator {
     static CANSparkMax motor;
@@ -110,8 +111,12 @@ public class Elevator {
                                             Constants.Elevator.kG, -12, 12);
             
             motor.setVoltage(amount);
-            return pid.atSetpoint();
+            return Math.abs(encoder.getPosition() - setpoint) < Constants.Elevator.tolerance;
+            // return pid.atSetpoint();
         }
         return false;
+    }
+    public static void displayInformation(){
+        SmartDashboard.putBoolean("Set Elevator", Math.abs(encoder.getPosition() - setpoint) < Constants.Elevator.tolerance);
     }
 }

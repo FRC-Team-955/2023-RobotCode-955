@@ -16,6 +16,7 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public final class Arm {
     //static CANSparkMax motor;
@@ -39,6 +40,8 @@ public final class Arm {
         pid = new PIDController(Constants.Arm.kP, 
                                 Constants.Arm.kI, 
                                 Constants.Arm.kD);   
+        pid.setTolerance(Constants.Arm.tolerance);
+
         // encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
         // encoder = motor.getAlternateEncoder(8192);
         // encoder = motor.getAlternateEncoder( 42);
@@ -149,9 +152,13 @@ public final class Arm {
             double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), setpoint) + feedForwardCalc, -12, 12);
             
             motor.setVoltage(output); 
-            return pid.atSetpoint();
+            return Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance;
+            // return pid.atSetpoint();
         }
         return false;
+    }
+    public static void displayInformation(){
+        SmartDashboard.putBoolean("Set Arm",  Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance);
     }
 }
 

@@ -19,7 +19,7 @@ public class Claw {
         motor = new TalonSRX(Constants.Claw.motorID);
         DataLog log = DataLogManager.getLog();
         motorLog = new DoubleLogEntry(log, "/claw/motor");
-        motor.configContinuousCurrentLimit(30, 10);
+        motor.configContinuousCurrentLimit(40, 10);
     }
 
     //sucks in the game piece and stops

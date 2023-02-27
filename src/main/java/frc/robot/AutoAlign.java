@@ -2,6 +2,7 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.LimelightCameraWrapper;
@@ -17,6 +18,10 @@ public class AutoAlign {
     Drivebase drive = new Drivebase();
 
     public static boolean alignOdometry(Translation2d goalTranslation, double heading){
+
+        SmartDashboard.putNumber("goal transaltion X: ", goalTranslation.getX());
+        SmartDashboard.putNumber("goal transaltion Y: ", goalTranslation.getY());
+
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
@@ -122,26 +127,37 @@ public class AutoAlign {
         }
         return false;
     }
+    public static double alignRotation = -180;
+    public static double bumpX = Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX;
     public static boolean moveToGridPositionOdometryTwoStep(){
         if(isInCommunity()){
             switch(gridAlignState) {
                 case AlignedToOdometry:
                     // if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.red6, -180)) {
                     if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
-                        gridAlignY = Drivebase.getPose().getY();
+                        // gridAlignY = Drivebase.getPose().getY();
                         gridAlignState = GridAlignState.InPosition;
+                        alignRotation = -180;
+                        bumpX = Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX;
                     }
                 case AlignedToNode:
                     return false;
                 case InPosition:
                     // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
                     //             IO.keyInputOdometryPosition.getY()), -180);
+                    alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.5;
+                    // if(Constants.isBlue()){
+                    //     bumpX = bumpX + Math.abs(IO.Drivebase.xBump()) * 0.5;
+
+                    // }else if (Constants.isRed()){
+                    //     bumpX = bumpX - Math.abs(IO.Drivebase.xBump()) * 0.5;
+                    // }
+
                     if (!IO.isConeNodePosition){
-                        alignOdometry(IO.keyInputOdometryPosition, -180);
+                        alignOdometry(IO.keyInputOdometryPosition, alignRotation);
                         return true;
                     }
-                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
-                                            IO.keyInputOdometryPosition.getY()), -180);
+                    return alignOdometry(new Translation2d(bumpX, IO.keyInputOdometryPosition.getY()), alignRotation);
             }
         }
         return false;
@@ -155,9 +171,10 @@ public class AutoAlign {
         if(isInLoadingZone()){
             switch(substationAlignStateSave) {
                 case AlignedToOdometry:
-                    if(alignOdometry(IO.keyInputSubstationLocation, 0)) {
+                    if(alignOdometry(IO.keyInputSubstationLocation, 0) && GamepieceManager.runExtention()) {
                         substationAlignStateSave = SubstationAlignState.InPosition;
                     }
+                    break;
                 case InPosition:
                     return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
                                             IO.keyInputSubstationLocation.getY()), 0);
@@ -172,5 +189,7 @@ public class AutoAlign {
 
         SmartDashboard.putString("AutoAlign.gridAlignState:", gridAlignState.toString());
         SmartDashboard.putString("AutoAlign.substationAlignStateSave", substationAlignStateSave.toString());
+
+
     }
 }

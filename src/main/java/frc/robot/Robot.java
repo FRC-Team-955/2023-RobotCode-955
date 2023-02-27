@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
     System.out.println(Drivebase.getPose());
-    GamepieceManager.displayInformation();
+    // GamepieceManager.displayInformation();
   }
   @Override
   public void teleopPeriodic() {
@@ -94,6 +94,7 @@ public class Robot extends TimedRobot {
       default: // DRIVE
         AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
         AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+        GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
         // GamepieceManager.loadSequence();
         Claw.stopishMotor();
 
