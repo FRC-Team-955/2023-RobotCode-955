@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
+import frc.robot.Constants;
 
 
 
@@ -60,7 +61,7 @@ public class SwerveMod{
         driveMotor.setIdleMode(SwerveSettings.SwerveConstants.driveIdleMode);   
 
         // Absolute Encoders
-        angleEncoder = new CANCoder(cancoderID);
+        angleEncoder = new CANCoder(cancoderID, "electrical_problem");
         CANCoderConfiguration config = new CANCoderConfiguration();
         config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
         config.sensorDirection = SwerveSettings.SwerveConstants.canCoderInvert;
@@ -76,8 +77,8 @@ public class SwerveMod{
 
         // driveEncoder returns RPM by default. Use setVelocityConversionFactor() to
         // convert that to meters per second.
-        driveEncoder.setVelocityConversionFactor((1.0217 * 0.04284)/ 60.0);
-        driveEncoder.setPositionConversionFactor(0.04284 * 1.0217); //(0.098 * Math.PI) / 6.75
+        driveEncoder.setVelocityConversionFactor((1.0217 * 0.04284 * 1.098*(7.9544/7.29234))/ 60.0);
+        driveEncoder.setPositionConversionFactor(0.04284 * 1.0217 * 1.098*(7.9544/7.29234)); //(0.098 * Math.PI) / 6.75
         driveEncoder.setPosition(0);
 
         // Angle PID
@@ -86,9 +87,9 @@ public class SwerveMod{
         anglePID.setI(SwerveSettings.SwerveConstants.angleKI);
         anglePID.setD(SwerveSettings.SwerveConstants.angleKD);
 
-        // Drive Encoder
-        driveEncoder = driveMotor.getAlternateEncoder(42);
-        driveEncoder = driveMotor.getEncoder();
+        // // Drive Encoder
+        // driveEncoder = driveMotor.getAlternateEncoder(42);
+        // driveEncoder = driveMotor.getEncoder();
         
 
         // Drive PID
@@ -121,6 +122,8 @@ public class SwerveMod{
     public void setDesiredState(SwerveModuleState state) {
         Rotation2d curAngle = Rotation2d.fromDegrees(turningEncoder.getPosition());
         double delta = deltaAdjustedAngle(state.angle.getDegrees(), curAngle.getDegrees());
+        //To figure out offset for absolute encoders
+        // System.out.println(moduleNumber + ": " + angleEncoder.getAbsolutePosition());
 
         // Calculate the drive motor output from the drive PID controller.
         double driveOutput = state.speedMetersPerSecond;
@@ -140,28 +143,28 @@ public class SwerveMod{
         drivePID.setReference(driveOutput, ControlType.kVelocity, 0, 2.96 * driveOutput);
     }
     
-    public void setOpenLoopState(SwerveModuleState state) {
-        Rotation2d curAngle = Rotation2d.fromDegrees(turningEncoder.getPosition());
+    // public void setOpenLoopState(SwerveModuleState state) {
+    //     Rotation2d curAngle = Rotation2d.fromDegrees(turningEncoder.getPosition());
 
-        double delta = deltaAdjustedAngle(state.angle.getDegrees(), curAngle.getDegrees());
+    //     double delta = deltaAdjustedAngle(state.angle.getDegrees(), curAngle.getDegrees());
 
-        // Calculate the drive motor output from the drive PID controller.
-        double driveOutput = state.speedMetersPerSecond;
+    //     // Calculate the drive motor output from the drive PID controller.
+    //     double driveOutput = state.speedMetersPerSecond;
 
-        if (Math.abs(delta) > 90) {
-            driveOutput *= -1;
-            delta -= Math.signum(delta) * 180;
-        }
+    //     if (Math.abs(delta) > 90) {
+    //         driveOutput *= -1;
+    //         delta -= Math.signum(delta) * 180;
+    //     }
 
-        adjustedAngle = Rotation2d.fromDegrees(delta + curAngle.getDegrees());
+    //     adjustedAngle = Rotation2d.fromDegrees(delta + curAngle.getDegrees());
 
-        anglePID.setReference(
-            adjustedAngle.getDegrees(),
-            ControlType.kPosition
-        );        
+    //     // anglePID.setReference(
+    //     //     adjustedAngle.getDegrees(),
+    //     //     ControlType.kPosition
+    //     // );        
 
-        driveMotor.setVoltage(2.96 * driveOutput);
-    }
+    //     driveMotor.setVoltage(2.96 * driveOutput);
+    // }
 
 
     public void syncEncoders(){
@@ -186,8 +189,8 @@ public class SwerveMod{
 
 
     public SwerveModulePosition getState(){
-        double m2 = -(turningEncoder.getPosition() % 360 + 360) % 360;
-        return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(m2 * Math.PI / 180));
+        double m2 = Constants.isBlue()?(-turningEncoder.getPosition() % 360 + 360) % 360: -(turningEncoder.getPosition() % 360 + 360) % 360;
+        return new SwerveModulePosition(-driveEncoder.getPosition(), new Rotation2d(m2 * Math.PI / 180));
     }
 
     public Rotation2d adjustedAngle = new Rotation2d();     

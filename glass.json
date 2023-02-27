@@ -1,0 +1,13 @@
+{
+  "NetworkTables": {
+    "Shuffleboard": {
+      "Buttons": {
+        "open": false
+      },
+      "open": false
+    },
+    "SmartDashboard": {
+      "open": false
+    }
+  }
+}

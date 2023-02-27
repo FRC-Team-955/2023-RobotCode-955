@@ -28,6 +28,6 @@ public class LimelightCameraWrapper {
     }
 
     public static boolean isAlignedToConeNode(){
-        return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.kAlignTolerance;
+        return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.alignTolerance;
     }
 }
