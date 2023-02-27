@@ -87,34 +87,6 @@ public class IntakeV2 {
         retractMotor.setVoltage(0.3);
         //handOffMotor.set(TalonSRXControlMode.PercentOutput, handoffPercentOutput);
     }
-//  + pid.calculate(theta)
-    public static boolean moveMotor(double setpoint) {
-        theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
-        pid.setSetpoint(setpoint);
-        retractMotor.setVoltage(MathUtil.clamp(Constants.IntakeV2.Ks * Math.cos(theta) + setpoint, -12, 12));
-        return pid.atSetpoint();
-    }
-
-    public static boolean extend() {
-        if (!IO.isOverrideEnabled()) {
-            return moveMotor(Constants.IntakeV2.ExtendPosition);
-        }
-        return false;
-    }
-
-    public static boolean retract() {
-        if (!IO.isOverrideEnabled()) {
-            return moveMotor(Constants.IntakeV2.RetractPosition);
-        }
-        return false;
-    }
-
-    public static boolean handOff() {
-        if (!IO.isOverrideEnabled()){
-           return moveMotor(Constants.IntakeV2.HandoffPosition);
-        }
-        return false;
-    }
 
     public static void slowIntake() {
         if(!IO.isOverrideEnabled()) {
