@@ -20,6 +20,7 @@ public class ScoreAction extends AutoAction {
 
     Translation2d target;
 
+    @Override
     public void Start() {
         if (profile.team == Team.Red) {
             switch (position) {
