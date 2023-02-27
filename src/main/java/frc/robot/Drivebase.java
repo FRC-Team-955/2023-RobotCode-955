@@ -14,7 +14,7 @@ public class Drivebase {
     public static double currentAngle = 34; // get from gyroscope
     
 
-    private static SwerveDrive drive = new SwerveDrive();
+    public static SwerveDrive drive = new SwerveDrive();
 
     public static void updateSwerveOdometry(){
         drive.updateSwerveOdometry();
