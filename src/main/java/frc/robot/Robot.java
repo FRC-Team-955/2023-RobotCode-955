@@ -1,11 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Auto.Auto;
-import frc.robot.Auto.AutoProfile;
 import frc.robot.Sensors.AprilTagCameraWrapper;
+import frc.robot.Sensors.Gyro;
 // import frc.robot.Sensors.ColorSensor;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
@@ -38,16 +40,71 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {}
 
+  public static enum AutoState {
+        Setup,
+        Up,
+        Align,
+        Extend,
+        Place,
+        Leave,
+        Done
+  }
+  public static AutoState autoState = AutoState.Setup;
+
   @Override
   public void autonomousInit() {
-    // auto.autoTestInit(AutoProfile.Test());
-    // auto.autoInit();
-
+    Drivebase.resetAnglesToAbsolute();
+    Arm.setOffset();
   }
 
   @Override
   public void autonomousPeriodic() {
-    // auto.autoPeriodic();
+    Drivebase.updateSwerveOdometry();
+    switch(autoState){
+      case Setup:
+        Drivebase.setSwerveOdometry(new Pose2d(14,Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.getY():Constants.FieldPositions.AutoAlignPositions.red8.getY(),Gyro.getYawR2D()));
+        Claw.stopishMotor();
+        if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract)){
+          autoState = AutoState.Up;
+        }
+        break;
+      case Up:
+        Claw.stopishMotor();
+        if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up)){
+          autoState = AutoState.Align;
+        }
+        break;
+      case Align:
+        Claw.stopishMotor();
+        if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
+                                                    Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.getY():Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
+          autoState = AutoState.Extend;
+        }
+        break;
+      case Extend:
+        Claw.stopishMotor();
+        if (GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConePrep)){
+          autoState = AutoState.Place;
+        }
+        break;
+      case Place:
+        if(GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConeReady)){
+          Claw.outputGamePiece();
+          autoState = AutoState.Leave;
+        }else{
+          Claw.stopishMotor();
+        }
+        break;
+      case Leave:
+        if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?4:12, Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
+          autoState = AutoState.Done;
+        }
+        break;
+      case Done:
+        Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
+        break;
+    }
+    
   }
   Field2d field2d = new Field2d();
 
@@ -65,11 +122,12 @@ public class Robot extends TimedRobot {
     // Drivebase.logData();
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
-    IO.keyInputSubstationLocation();
+    IO.keyInputSubstationPosition();
     IO.displayInformation();
     Drivebase.updateSwerveOdometry();
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
+    System.out.println(Drivebase.getPose());
     // GamepieceManager.displayInformation();
   }
   @Override
@@ -92,17 +150,10 @@ public class Robot extends TimedRobot {
         break;
       default: // DRIVE
         AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-        AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+        AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
         GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
+
         // GamepieceManager.loadSequence();
-        if(IO.intakeSequence()){
-            Claw.intakeGamePiece();
-        }
-        else if(IO.clawDropPiece()){
-          Claw.outputGamePiece();
-        }else{
-          Claw.stopishMotor();
-        }
         GamepieceManager.manageExtension();
         Drivebase.drive();
     }

@@ -163,18 +163,24 @@ public class AutoAlign {
         AlignedToOdometry,
         InPosition
     }
-    public static SubstationAlignState substationAlignStateSave = SubstationAlignState.AlignedToOdometry;
+    public static SubstationAlignState substationAlignState = SubstationAlignState.AlignedToOdometry;
     public static boolean moveToSubstationPosition(){
         if(isInLoadingZone()){
-            switch(substationAlignStateSave) {
+            switch(substationAlignState) {
                 case AlignedToOdometry:
-                    if(alignOdometry(IO.keyInputSubstationLocation, 0) && GamepieceManager.runExtention()) {
-                        substationAlignStateSave = SubstationAlignState.InPosition;
+                    if (IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.blueSingleSubstation || 
+                        IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.redSingleSubstation){
+                        if(alignOdometry(IO.keyInputSubstationPosition, 90) && GamepieceManager.runExtention()) {
+                            return true;
+                        }
+                    }
+                    else if(alignOdometry(IO.keyInputSubstationPosition, 0) && GamepieceManager.runExtention()) {
+                        substationAlignState = SubstationAlignState.InPosition;
                     }
                     break;
                 case InPosition:
                     return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
-                                            IO.keyInputSubstationLocation.getY()), 0);
+                                            IO.keyInputSubstationPosition.getY()), 0);
             }
         }
         return false;
@@ -185,7 +191,7 @@ public class AutoAlign {
         SmartDashboard.putBoolean("Is in Loading Zone?", isInLoadingZone());
 
         SmartDashboard.putString("AutoAlign.gridAlignState:", gridAlignState.toString());
-        SmartDashboard.putString("AutoAlign.substationAlignStateSave", substationAlignStateSave.toString());
+        SmartDashboard.putString("AutoAlign.substationAlignStateSave", substationAlignState.toString());
 
 
     }

@@ -22,27 +22,29 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 //moving intake outward is
 
 public class IntakeV2 {
-    private static CANSparkMax retractMotor = new CANSparkMax(Constants.IntakeV2.retractMotorID, MotorType.kBrushless);
-    private static TalonSRX handOffMotorFront = new TalonSRX(Constants.IntakeV2.handoffMotorFrontID);
-    private static TalonSRX handOffMotorBack = new TalonSRX(Constants.IntakeV2.handoffMotorBackID);
+    private static CANSparkMax handOffMotor = new CANSparkMax(Constants.IntakeV2.handOffMotorID, MotorType.kBrushless);
+    private static TalonSRX motorLeft = new TalonSRX(Constants.IntakeV2.motorLeftID);
+    private static TalonSRX motorRight = new TalonSRX(Constants.IntakeV2.motorRightID);
     private static PIDController pid = new PIDController(Constants.IntakeV2.Kp, Constants.IntakeV2.Ki, Constants.IntakeV2.Kd);
-    private static RelativeEncoder relativeEncoder = retractMotor.getEncoder(); 
+    private static RelativeEncoder relativeEncoder = handOffMotor.getEncoder(); 
     private static double theta;
 
     public static void setup() {
-        retractMotor.setIdleMode(IdleMode.kCoast);
-        retractMotor.setSmartCurrentLimit(20);
-        handOffMotorBack.set(ControlMode.Follower, Constants.IntakeV2.handoffMotorFrontID);
+        handOffMotor.setIdleMode(IdleMode.kCoast);
+        handOffMotor.setSmartCurrentLimit(20);
+        motorRight.set(ControlMode.Follower, Constants.IntakeV2.motorLeftID);
     }
 
     public static boolean extendNoPid(){
         if (!IO.isOverrideEnabled()) {
             theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
-            if(theta < Math.PI/2){
-                retractMotor.setVoltage(3);
+            if(theta > Math.PI/2){
+                handOffMotor.setVoltage(-3);
+                return false;
+            }else{
+                handOffMotor.setVoltage(0);
                 return true;
             }
-            retractMotor.setVoltage(0);
         }
         return false;
     }
@@ -50,11 +52,15 @@ public class IntakeV2 {
     public static boolean retractNoPid(){
         if (!IO.isOverrideEnabled()) {
             theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
-            if(theta > Math.PI/2){
-                retractMotor.setVoltage(-3);
+            if(theta < Math.PI/2){
+                handOffMotor.setVoltage(3);
+            }else{
+                if (theta<2.2){
+                    IntakeV2.reverseIntake();
+                }
+                handOffMotor.setVoltage(0);
                 return true;
             }
-            retractMotor.setVoltage(0);
         }
         return false;
     }
@@ -63,13 +69,13 @@ public class IntakeV2 {
         if (!IO.isOverrideEnabled()) {
             theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
             if(theta > Math.PI/2){
-                retractMotor.setVoltage(-3);
+                handOffMotor.setVoltage(-3);
                 return true;
             }else{
-                handOffMotorFront.set(ControlMode.PercentOutput, .2);
-                handOffMotorBack.set(ControlMode.PercentOutput, .2);
+                motorLeft.set(ControlMode.PercentOutput, .2);
+                motorRight.set(ControlMode.PercentOutput, .2);
             }
-            retractMotor.setVoltage(0);
+            handOffMotor.setVoltage(0);
         }
         return false;
     }
@@ -84,7 +90,7 @@ public class IntakeV2 {
 
     public static void runIntakeOverride(double handoffPercentOutput, double intakePercentOutput) {
         //retractMotor.set(intakePercentOutput);
-        retractMotor.setVoltage(0.3);
+        handOffMotor.setVoltage(0.3);
         //handOffMotor.set(TalonSRXControlMode.PercentOutput, handoffPercentOutput);
     }
 

@@ -19,6 +19,9 @@ public class Drivebase {
     public static void updateSwerveOdometry(){
         drive.updateSwerveOdometry();
     }
+    public static void setSwerveOdometry(Pose2d pose){
+        drive.resetOdometry(pose);
+    }
 
     public static void resetAnglesToAbsolute() {
         drive.resetAnglesToAbsolute();
@@ -133,14 +136,6 @@ public class Drivebase {
 
     public static Pose2d getPose() {
        return drive.getPose();
-    }
-
-    public static void updateSwerveOdometry(){
-        drive.updateSwerveOdometry();
-    }
-
-    public static void resetAnglesToAbsolute(){
-        drive.resetAnglesToAbsolute();
     }
 }
 

@@ -22,13 +22,13 @@ public final class IO {
         return joy0.getRawButton(2);
     }
 
-    public static double handoffOverride() {
-        return joy0.getRawAxis(4);
-    }
+    // public static double handoffOverride() {
+    //     return joy0.getRawAxis(4);
+    // }
 
-    public static double intakeOverride() {
-        return joy0.getRawAxis(0);
-    }
+    // public static double intakeOverride() {
+    //     return joy0.getRawAxis(0);
+    // }
 
     public static double elevatorFineControl(){
         return -joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
@@ -71,7 +71,9 @@ public final class IO {
         return key2.getRawButton(4);
         // return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) < 0.2 || key2.getRawButtonPressed(4);
     }
-
+    public static boolean runIntakeIn(){
+        return key2.getRawButton(7);
+    }
     public static class Drivebase{
         public static boolean isAutoAlignActive() {
             return joy0.getRawAxis(Constants.IO.Joy0.autoAlignAxis) > 0.2;
@@ -88,7 +90,7 @@ public final class IO {
 
             rotAxis = thrustEnabled() ? rotAxis : rotAxis*Constants.Drivebase.speed;
 
-            if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;\
+            if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;
             
             // return deadband * Math.signum(rotAxis) + ((rotAxis - deadband) / (1.0 - deadband));
 
@@ -150,7 +152,7 @@ public final class IO {
     }
 
     public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
-    public static Translation2d keyInputSubstationLocation = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation: Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
+    public static Translation2d keyInputSubstationPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation: Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
     public static boolean isConeNodePosition = true;
 
     public static enum GridArmPosition{
@@ -159,6 +161,7 @@ public final class IO {
         ConeReady,
         CubePrep,
         CubeReady,
+        SingleSubstation,
         DoubleSubstation,
         Hybrid,
         Up
@@ -170,6 +173,7 @@ public final class IO {
         Low,
         Mid,
         High,
+        SingleSubstation,
         DoubleSubstation
     }
     private static int gridColumnPosition = 0;
@@ -325,36 +329,40 @@ public final class IO {
         
     }
 
-    public static void keyInputSubstationLocation(){
+    public static void keyInputSubstationPosition(){
         if (key2.getRawButton(5)){
             // if (Constants.isBlue()){
-            //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation;
+            //     keyInputSubstationPosition = Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation;
             // } else if (Constants.isRed()){
-            //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
+            //     keyInputSubstationPosition = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
             // }
-            AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+            AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
             // gridArmPosition = GridArmPosition.DoubleSubstation;
             // gridRowPosition = GridRowPosition.DoubleSubstation;
-            keyInputSubstationLocation = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation:
+            keyInputSubstationPosition = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation:
                                                             Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
         }else if (key2.getRawButton(6)){
             // if (Constants.isBlue()){
-            //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation;
+            //     keyInputSubstationPosition = Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation;
             // } else if (Constants.isRed()){
-            //     keyInputSubstationLocation = Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
+            //     keyInputSubstationPosition = Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
             // }
-            AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+            AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
             // gridArmPosition = GridArmPosition.DoubleSubstation;
             // gridRowPosition = GridRowPosition.DoubleSubstation;
-            keyInputSubstationLocation = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation:
+            keyInputSubstationPosition = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation:
                                                             Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
+        }else if (key2.getRawButton(8)){
+            AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
+            keyInputOdometryPosition = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueSingleSubstation:
+                                                          Constants.FieldPositions.AutoAlignPositions.redSingleSubstation;
         }
     }
     public static void displayInformation(){
         SmartDashboard.putString("gridRowPosition" , IO.gridRowPosition.toString());
         SmartDashboard.putString("gridArmPosition: " , IO.gridArmPosition.toString());
         SmartDashboard.putBoolean("clawDropPiece()", IO.clawDropPiece());
-        SmartDashboard.putNumber("IO.keyInputSubstationLocation X", IO.keyInputSubstationLocation.getX());
+        SmartDashboard.putNumber("IO.keyInputSubstationPosition X", IO.keyInputSubstationPosition.getX());
 
     }
 }

@@ -91,9 +91,9 @@ public class Constants {
     }
 
     public static class IntakeV2{
-        public static int retractMotorID = 18;
-        public static int handoffMotorFrontID = 121;
-        public static int handoffMotorBackID = 121;
+        public static int handOffMotorID = 18;
+        public static int motorLeftID = 121;
+        public static int motorRightID = 121;
 
         public static double Kp = 0.2;
         public static double Ki = 0.01;
@@ -115,7 +115,6 @@ public class Constants {
         //CHANGE MOTOR NUMBER TO THE ACTUAL ONE
         public static int motorID = 21;
         public static double run = -1;
-        public static double runTime = 2000;
         public static double stopish = -0.3;
         public static double drop = 0.3;
     }
@@ -164,7 +163,7 @@ public class Constants {
 
         public static int hybrid = -95;
 
-        // public static int doubleSubstation = -5;
+        public static int singleSubstation = 20;
         public static int doubleSubstation = 35;
 
         public static int up = 130;
@@ -194,7 +193,8 @@ public class Constants {
         public static double mid = 25;
         public static double high = 30;
         // public static double doubleSubstationPosition = 30;
-        public static double doubleSubstationPosition = 4;
+        public static double singleSubstation = 1;
+        public static double doubleSubstation = 4;
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;
@@ -224,6 +224,9 @@ public class Constants {
 
     }
 
+    public static class GamepieceManager{
+        public static double intakeRunTime = 3000;
+    }
     public static final double bumperWidth = 0.93;
     public static final double bumperLength = 0.81;
 
@@ -296,8 +299,10 @@ public class Constants {
             // public static Translation2d redRightDoubleSubstation = new Translation2d(2.1, 7.471220);
             public static Translation2d redLeftDoubleSubstation = new Translation2d(1.7, 6.028182);
             public static Translation2d redRightDoubleSubstation = new Translation2d(1.7, 7.471220);
-            public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-redLeftDoubleSubstation.getX(), 7.471220);
-            public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-redRightDoubleSubstation.getX(), 6.028182);
+            public static Translation2d redSingleSubstation = new Translation2d(2.315069, fieldY -1.17);
+            public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-redLeftDoubleSubstation.getX(), redRightDoubleSubstation.getY());
+            public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-redRightDoubleSubstation.getX(), redLeftDoubleSubstation.getY());
+            public static Translation2d blueSingleSubstation = new Translation2d(fieldX-redSingleSubstation.getX(),redSingleSubstation.getY());
         }   
     }
 
