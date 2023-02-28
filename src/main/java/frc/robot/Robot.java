@@ -13,6 +13,7 @@ import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.IntakeV2;
+import frc.robot.Swerve.SwerveDrive;
 
 public class Robot extends TimedRobot {
   Auto auto;
@@ -63,19 +64,19 @@ public class Robot extends TimedRobot {
     switch(autoState){
       case Setup:
         Drivebase.setSwerveOdometry(new Pose2d(14,Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.getY():Constants.FieldPositions.AutoAlignPositions.red8.getY(),Gyro.getYawR2D()));
-        Claw.stopishMotor();
+        Claw.intakeGamePiece();
         if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract)){
           autoState = AutoState.Up;
         }
         break;
       case Up:
-        Claw.stopishMotor();
+        Claw.intakeGamePiece();
         if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up)){
           autoState = AutoState.Align;
         }
         break;
       case Align:
-        Claw.stopishMotor();
+        Claw.intakeGamePiece();
         if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
                                                     Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.getY():Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
           autoState = AutoState.Extend;
@@ -153,7 +154,11 @@ public class Robot extends TimedRobot {
         AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
         GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
 
-        // GamepieceManager.loadSequence();
+        GamepieceManager.loadSequence();
+        if(IO.resetGyroAngle()){
+          Gyro.set(90);
+          SwerveDrive.headingSetPoint = -180;
+        }
         GamepieceManager.manageExtension();
         Drivebase.drive();
     }

@@ -35,35 +35,35 @@ public class IntakeV2 {
         motorRight.set(ControlMode.Follower, Constants.IntakeV2.motorLeftID);
     }
 
-    public static boolean extendNoPid(){
-        if (!IO.isOverrideEnabled()) {
-            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
-            if(theta > Math.PI/2){
-                handOffMotor.setVoltage(-3);
-                return false;
-            }else{
-                handOffMotor.setVoltage(0);
-                return true;
-            }
-        }
-        return false;
-    }
+    // public static boolean extendNoPid(){
+    //     if (!IO.isOverrideEnabled()) {
+    //         theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
+    //         if(theta > Math.PI/2){
+    //             handOffMotor.setVoltage(-3);
+    //             return false;
+    //         }else{
+    //             handOffMotor.setVoltage(0);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
-    public static boolean retractNoPid(){
-        if (!IO.isOverrideEnabled()) {
-            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
-            if(theta < Math.PI/2){
-                handOffMotor.setVoltage(3);
-            }else{
-                if (theta<2.2){
-                    IntakeV2.reverseIntake();
-                }
-                handOffMotor.setVoltage(0);
-                return true;
-            }
-        }
-        return false;
-    }
+    // public static boolean retractNoPid(){
+    //     if (!IO.isOverrideEnabled()) {
+    //         theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
+    //         if(theta < Math.PI/2){
+    //             handOffMotor.setVoltage(3);
+    //         }else{
+    //             if (theta<2.2){
+    //                 IntakeV2.reverseIntake();
+    //             }
+    //             handOffMotor.setVoltage(0);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public static boolean handOffNoPid(){
         if (!IO.isOverrideEnabled()) {

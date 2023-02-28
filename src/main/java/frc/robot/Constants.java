@@ -38,7 +38,7 @@ public class Constants {
         public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
         public static Translation2d autoBalanceBackward = new Translation2d(0,-0.1);
 
-        public static double turnRate = 2;
+        public static double turnRate = 1;
 
         public static double speed = 0.7;
         public static double turnSpeed = 0.7;
@@ -166,7 +166,7 @@ public class Constants {
         public static int singleSubstation = 20;
         public static int doubleSubstation = 35;
 
-        public static int up = 130;
+        public static int up = 125;
 
         // Arm Pid Values
         public static double kP = 0.3;
@@ -313,7 +313,7 @@ public class Constants {
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){
-        return true;
+        return !isBlue();
         // return color == DriverStation.Alliance.Red;
     }
 }

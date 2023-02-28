@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;
+import frc.robot.Robot.AutoState;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
@@ -49,24 +50,25 @@ public class GamepieceManager {
           }
         }else if(IO.clawDropPiece()){
             Claw.outputGamePiece();
-        }else if(IO.intakeSequence()){
-            if(IntakeV2.extendNoPid()){
-                setExtention(GridRowPosition.Retract, GridArmPosition.Retract);
-            }
-            IntakeV2.intake();
-            loadSequenceTimer.reset();
         }
+        // else if(IO.intakeSequence()){
+        //     if(IntakeV2.extendNoPid()){
+        //         setExtention(GridRowPosition.Retract, GridArmPosition.Retract);
+        //     }
+        //     IntakeV2.intake();
+        //     loadSequenceTimer.reset();
+        // }
         else{
-            loadSequenceTimer.start();
-            if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
-                // IntakeV2.slowIntake();
-                Claw.intakeGamePiece();
-                if(runExtention()){
-                    IntakeV2.retractNoPid();
-                }
-            } else {
+            // loadSequenceTimer.start();
+            // if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
+            //     // IntakeV2.slowIntake();
+            //     Claw.intakeGamePiece();
+            //     if(runExtention()){
+            //         IntakeV2.retractNoPid();
+            //     }
+            // } else {
                 Claw.stopishMotor();
-            }
+            // }
         }
     }
     private static boolean elevatorInPosition = false;
@@ -134,6 +136,11 @@ public class GamepieceManager {
                 }
                 Claw.stopishMotor();
                 boolean robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
+
+                if(AutoAlign.gridAlignState == AutoAlign.GridAlignState.InPosition){
+                    extention(IO.gridRowPosition, IO.gridArmPosition);
+                }
+                
                 if (robotInPosition){
                     placeState = PlaceState.Place;
                 }

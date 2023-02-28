@@ -37,6 +37,9 @@ public final class IO {
     public static double armFineControl(){
         return joy1.getRawAxis(Constants.IO.Joy1.armOverrideAxis);
     }
+    public static boolean resetGyroAngle(){
+        return joy0.getRawButtonPressed(8);
+    }
 
     private static boolean override = false;
 
@@ -354,15 +357,17 @@ public final class IO {
                                                             Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
         }else if (key2.getRawButton(8)){
             AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
-            keyInputOdometryPosition = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueSingleSubstation:
+            keyInputSubstationPosition = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueSingleSubstation:
                                                           Constants.FieldPositions.AutoAlignPositions.redSingleSubstation;
         }
     }
     public static void displayInformation(){
         SmartDashboard.putString("gridRowPosition" , IO.gridRowPosition.toString());
         SmartDashboard.putString("gridArmPosition: " , IO.gridArmPosition.toString());
-        SmartDashboard.putBoolean("clawDropPiece()", IO.clawDropPiece());
-        SmartDashboard.putNumber("IO.keyInputSubstationPosition X", IO.keyInputSubstationPosition.getX());
+        SmartDashboard.putString("IO.keyInputOdometryPosition", IO.keyInputOdometryPosition.toString());
+        SmartDashboard.putString("IO.keyInputSubstationPosition", IO.keyInputSubstationPosition.toString());
+
+        // SmartDashboard.putNumber("IO.keyInputSubstationPosition X", IO.keyInputSubstationPosition.getX());
 
     }
 }
