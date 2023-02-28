@@ -103,6 +103,9 @@ public class Robot extends TimedRobot {
         }else{
           Claw.stopishMotor();
         }
+        // if(IO.resetOdometryAngle()){
+
+        // }
         GamepieceManager.manageExtension();
         Drivebase.drive();
     }

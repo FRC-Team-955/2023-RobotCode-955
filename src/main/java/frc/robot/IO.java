@@ -88,7 +88,7 @@ public final class IO {
 
             rotAxis = thrustEnabled() ? rotAxis : rotAxis*Constants.Drivebase.speed;
 
-            if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;\
+            if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;
             
             // return deadband * Math.signum(rotAxis) + ((rotAxis - deadband) / (1.0 - deadband));
 

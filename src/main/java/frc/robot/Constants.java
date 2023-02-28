@@ -14,6 +14,7 @@ public class Constants {
             public static int thrustAxis = 2;
             public static int autoAlignAxis = 3;
             public static int autoBalanceButton = 4;
+            public static int resetOdometryAngleButton =8;
         }
         public static class Joy1{
             public static final int joy1Id = 1;
@@ -37,8 +38,11 @@ public class Constants {
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
         public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
         public static Translation2d autoBalanceBackward = new Translation2d(0,-0.1);
+        //Aiden
+        // public static double turnRate = 2;
+        //Alex
+        public static double turnRate = 1;
 
-        public static double turnRate = 2;
 
         public static double speed = 0.7;
         public static double turnSpeed = 0.7;
@@ -165,9 +169,9 @@ public class Constants {
         public static int hybrid = -95;
 
         // public static int doubleSubstation = -5;
-        public static int doubleSubstation = 35;
+        public static int doubleSubstation = 36;
 
-        public static int up = 130;
+        public static int up = 125;
 
         // Arm Pid Values
         public static double kP = 0.3;
