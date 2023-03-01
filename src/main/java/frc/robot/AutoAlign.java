@@ -146,7 +146,7 @@ public class AutoAlign {
                 case InPosition:
                     // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
                     //             IO.keyInputOdometryPosition.getY()), -180);
-                    alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.5;
+                    alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.1;
                     // alignTranslation = new Translation2d(alignTranslation.getX() + (Constants.isBlue()?-IO.Drivebase.xBump() *0.1:IO.Drivebase.xBump() *0.1),
                     //                                         alignTranslation.getY());
                                         // +(Constants.isBlue()?-IO.Drivebase.getSwerveTranslation().getX() *0.5:IO.Drivebase.getSwerveTranslation().getX() *0.5)

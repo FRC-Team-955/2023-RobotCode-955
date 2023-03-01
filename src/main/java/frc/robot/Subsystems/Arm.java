@@ -162,6 +162,9 @@ public final class Arm {
         }
         return false;
     }
+    public static boolean atConePrepPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.conePrep) < Constants.Arm.tolerance;
+    }
     public static void displayInformation(){
         SmartDashboard.putBoolean("Set Arm",  Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance);
     }

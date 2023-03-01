@@ -38,7 +38,7 @@ public class Constants {
         public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
         public static Translation2d autoBalanceBackward = new Translation2d(0,-0.1);
 
-        public static double turnRate = 1;
+        public static double turnRate = 0.5;
 
         public static double speed = 0.7;
         public static double turnSpeed = 0.7;
@@ -148,7 +148,7 @@ public class Constants {
         public static double upperLimit = 87.5;
         public static double lowerLimit = -111.4;
         // Arm Setpoint Values
-        public static int retracted = -100;
+        public static int retracted = -110;
         
         // public static int kBottomLevel = 1000;
         // public static int kMiddleLevel = 2000;

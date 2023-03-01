@@ -44,7 +44,7 @@ public class GamepieceManager {
     public static void loadSequence(){
         if(IO.runIntakeIn()){
             Claw.intakeGamePiece();
-        }else if(IO.clawDropPiece() && GamepieceManager.runExtention() && IO.gridArmPosition == IO.GridArmPosition.ConePrep){
+        }else if(IO.clawDropPiece() && Arm.atConePrepPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrep){
           if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeReady)){
             Claw.outputGamePiece();
           }
@@ -108,8 +108,6 @@ public class GamepieceManager {
         // return elevatorInPosition && armInPosition;
 
     }
-
-
     public static void autoAlign(){
         if (AutoAlign.isInCommunity()){
             autoPlace();
@@ -214,6 +212,9 @@ public class GamepieceManager {
             // System.out.println("hello");
 
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+        }else if (IO.elevatorManualRetract()){
+            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+
         }
             // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
             // System.out.println("runetentions");

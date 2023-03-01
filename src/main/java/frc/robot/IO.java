@@ -56,6 +56,9 @@ public final class IO {
     public static boolean elevatorManualUp(){
         return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key2.getRawButtonPressed(2);
     }
+    public static boolean elevatorManualRetract(){
+        return key2.getRawButton(9);
+    }
     public static boolean clawDropPiece(){
         return key2.getRawButton(3) || joy0.getRawButton(1);
         //joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2 ||
