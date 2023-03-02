@@ -37,6 +37,54 @@ public class GamepieceManager {
         }
     }
 
+    private static enum loadStates{
+        Intake,
+        LoadPrep,
+        Load,
+        Loaded,
+        Finish,
+    }
+
+    private static loadStates loadState = loadStates.Intake;
+
+    public static void loadResetOverride(boolean reset) {
+        loadState = loadStates.Intake;
+    }
+
+    public static void loadGamepiece() {
+        Arm.setArm();
+        Elevator.setElevator();
+        switch(loadState) {
+            case Intake:
+                if(IntakeV2.extendNoPid()) {
+                    Arm.setArm(IO.GridArmPosition.Retract);
+                    Elevator.setElevator(IO.GridRowPosition.Retract);
+                    if(IntakeV2.intake()) {
+                        loadState = loadStates.LoadPrep;
+                    }
+                }
+                break;
+            case LoadPrep:
+                if(Arm.setArm() && Elevator.setElevator()) {
+                    loadState = loadStates.Load;
+                }
+                break;
+            case Load:
+                Claw.intakeGamePiece();
+                if(IntakeV2.handOffNoPid()) {
+                    loadState = loadStates.Loaded;
+                }
+                break;
+            case Loaded:
+                Claw.stopishMotor();
+                // IntakeV2.extendNoPid();
+                loadState = loadStates.Finish;
+                break;
+            case Finish:
+                break;
+        }
+    }
+
     private static Timer loadSequenceTimer = new Timer();
 
     //DO NOT USE UNTIL INTAKE IS MOUNTED
@@ -54,13 +102,9 @@ public class GamepieceManager {
         }else if(IO.clawDropPiece()){
             Claw.outputGamePiece();
         }
-        // else if(IO.intakeSequence()){
-        //     if(IntakeV2.extendNoPid()){
-        //         setExtention(GridRowPosition.Retract, GridArmPosition.Retract);
-        //     }
-        //     IntakeV2.intake();
-        //     loadSequenceTimer.reset();
-        // }
+        else if(IO.intakeSequence()){
+            loadGamepiece();
+        }
         else{
             // loadSequenceTimer.start();
             // if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
@@ -70,7 +114,9 @@ public class GamepieceManager {
             //         IntakeV2.retractNoPid();
             //     }
             // } else {
-                Claw.stopishMotor();
+            Claw.stopishMotor();
+            loadState = loadStates.Intake;
+
             // }
         }
     }
@@ -227,6 +273,6 @@ public class GamepieceManager {
     }
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());
-
+        SmartDashboard.putString("state", loadState.toString());
     }
 }

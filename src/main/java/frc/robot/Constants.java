@@ -101,9 +101,9 @@ public class Constants {
 
         public static double Ks = 0.4;
 
-        public static double intakeAmpThreshhold = 30;
+        public static double intakeAmpThreshhold = 10;
         public static double handOffMotorRun = 0.5;
-        public static double handoffMotorSlow = 0.2;
+        public static double handoffMotorSlow = 0.4;
         public static double handoffMotorReverse = -0.15;
 
         public static double ExtendPosition = 1.2;

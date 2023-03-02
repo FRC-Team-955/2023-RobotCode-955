@@ -263,37 +263,48 @@ public class Robot extends TimedRobot {
   }
   @Override
   public void teleopPeriodic() {
+    Drivebase.logData();
     IntakeV2.displayInformation();
-    //IntakeV2.slowIntake();
-    IntakeV2.reverseIntake();
+    SmartDashboard.putBoolean("amp limit hit", IntakeV2.intake());
+    GamepieceManager.displayInformation();
+    //IntakeV2.reverseIntake();
     // IntakeV2.moveMotor(IO.intakeOverride() * 0.5);
-    selectTeleopState();
-    teleopAllState();
-
-    switch(robotState){
-      case AUTO_ALIGN:
-        GamepieceManager.autoAlign();
-        // Intake.foldInIntake();
-        break;
-      case AUTO_BALANCE:
-        Drivebase.autoBalance();
-        // Drivebase.autoBalanceBangBang();
-        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-        // Intake.foldInIntake();
-        break;
-      default: // DRIVE
-        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-        AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
-        GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
-
-        GamepieceManager.loadSequence();
-        if(IO.resetGyroAngle()){
-          Gyro.set(90);
-          SwerveDrive.headingSetPoint = -180;
-        }
-        GamepieceManager.manageExtension();
-        Drivebase.drive();
+    // if (!IO.getTestingButton()) {
+    //   IntakeV2.extendNoPid();
+    // } else {
+    //   IntakeV2.retractNoPid();
+    // }
+    if (IO.getTestingTrigger() > 0.5) {
+      GamepieceManager.loadGamepiece();
     }
+    GamepieceManager.loadResetOverride(IO.getTestingButton());
+    // selectTeleopState();
+    // teleopAllState();
+
+    // switch(robotState){
+    //   case AUTO_ALIGN:
+    //     GamepieceManager.autoAlign();
+    //     // Intake.foldInIntake();
+    //     break;
+    //   case AUTO_BALANCE:
+    //     Drivebase.autoBalance();
+    //     // Drivebase.autoBalanceBangBang();
+    //     GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+    //     // Intake.foldInIntake();
+    //     break;
+    //   default: // DRIVE
+    //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+    //     AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
+    //     GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
+
+    //     GamepieceManager.loadSequence();
+    //     if(IO.resetGyroAngle()){
+    //       Gyro.set(90);
+    //       SwerveDrive.headingSetPoint = -180;
+    //     }
+    //     GamepieceManager.manageExtension();
+    //     Drivebase.drive();
+    // }
 
 
 
