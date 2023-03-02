@@ -165,6 +165,7 @@ public final class IO {
         Retract,
         ConePrep,
         ConeReady,
+        ConeAlmostReady,
         CubePrep,
         CubeReady,
         SingleSubstation,

@@ -118,6 +118,10 @@ public final class Arm {
                 setpoint = Constants.Arm.coneReady;
                 armRetract = false;
                 break;
+            case ConeAlmostReady:
+                setpoint = Constants.Arm.coneAlmostReady;
+                armRetract = false;
+
             case CubePrep:
                 setpoint = Constants.Arm.cubePrep;
                 armRetract = false;

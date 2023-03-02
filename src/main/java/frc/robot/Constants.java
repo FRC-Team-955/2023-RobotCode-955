@@ -157,6 +157,7 @@ public class Constants {
         public static int level = 0;
         public static int conePrep = 30;
         public static int coneReady = -10;
+        public static int coneAlmostReady = 10;
 
         public static int cubePrep = 10;
         public static int cubeReady = 10;
@@ -257,6 +258,11 @@ public class Constants {
 
         public static double atSubstationRedX = 1.17;
         public static double atSubstationBlueX =fieldX - atSubstationRedX;
+
+        public static double outSubstationShortBlue = 4;
+        public static double outSubstationShortRed = fieldX - outSubstationShortBlue;
+        public static double outSubstationLongBlue = 6;
+        public static double outSubstationLongRed = fieldX - outSubstationLongBlue;
 
         public static class AutoAlignPositions{
             public static Translation2d blue0 = new Translation2d(2.16,4.983099);
