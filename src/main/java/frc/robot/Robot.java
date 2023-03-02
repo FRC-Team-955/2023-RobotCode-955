@@ -62,33 +62,42 @@ public class Robot extends TimedRobot {
         Done
   }
   public static AutoState autoState = AutoState.Setup;
-
+  public static boolean isAutoConeNodePosition = false;
   public static Translation2d autoGridSelection(int position){
     if(position == 0){
+      isAutoConeNodePosition = true;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0:Constants.FieldPositions.AutoAlignPositions.red0;
     }
     else if(position == 1){
+      isAutoConeNodePosition = false;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue1:Constants.FieldPositions.AutoAlignPositions.red1;
     }
     else if(position == 2){
+      isAutoConeNodePosition = true;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue2:Constants.FieldPositions.AutoAlignPositions.red2;
     }
     else if(position == 3){
+      isAutoConeNodePosition = true;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue3:Constants.FieldPositions.AutoAlignPositions.red3;
     }
     else if(position == 4){
+      isAutoConeNodePosition = false;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue4:Constants.FieldPositions.AutoAlignPositions.red4;
     }
     else if(position == 5){
+      isAutoConeNodePosition = true;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue5:Constants.FieldPositions.AutoAlignPositions.red5;
     }
     else if(position == 6){
+      isAutoConeNodePosition = true;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue6:Constants.FieldPositions.AutoAlignPositions.red6;
     }
     else if(position == 7){
+      isAutoConeNodePosition = false;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue7:Constants.FieldPositions.AutoAlignPositions.red7;
     }
     else if(position == 8){
+      isAutoConeNodePosition = true;
       return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8:Constants.FieldPositions.AutoAlignPositions.red8;
     }else{
       return Drivebase.getPose().getTranslation();
@@ -133,7 +142,11 @@ public class Robot extends TimedRobot {
             GamepieceManager.runExtention();
             Claw.intakeGamePiece();
             if(AutoAlign.alignOdometry(autoGridSelection(autoGridSelection), -180)){
-              autoState = AutoState.AlignPosition;
+              if (isAutoConeNodePosition){
+                autoState = AutoState.AlignPosition;
+              }else{
+                autoState = AutoState.Place;
+              }
             }
             break;
           case AlignPosition:
