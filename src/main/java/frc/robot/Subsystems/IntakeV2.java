@@ -4,6 +4,7 @@ import frc.robot.Constants;
 import frc.robot.IO;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.math.MathUtil;
@@ -32,6 +33,7 @@ public class IntakeV2 {
     public static void setup() {
         handOffMotor.setIdleMode(IdleMode.kCoast);
         handOffMotor.setSmartCurrentLimit(20);
+        motorRight.overrideLimitSwitchesEnable(false);
         motorRight.set(ControlMode.Follower, Constants.IntakeV2.motorLeftID);
     }
 
@@ -73,7 +75,7 @@ public class IntakeV2 {
                 return true;
             }else{
                 motorLeft.set(ControlMode.PercentOutput, .2);
-                motorRight.set(ControlMode.PercentOutput, .2);
+                //motorRight.set(ControlMode.PercentOutput, .2);
             }
             handOffMotor.setVoltage(0);
         }
@@ -96,36 +98,37 @@ public class IntakeV2 {
 
     public static void slowIntake() {
         if(!IO.isOverrideEnabled()) {
-            //handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
+            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
         } else {
-            //handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            motorLeft.set(TalonSRXControlMode.PercentOutput, 0);
         }
     }
 
     public static void reverseIntake() {
         if (!IO.isOverrideEnabled()) {
-            //handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
+            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
         } else {
-            //handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
+            motorRight.set(TalonSRXControlMode.PercentOutput, 0);
         }
     }
 
     public static boolean intake() {
         if (!IO.isOverrideEnabled()) {
-            //handOffMotor.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorRun);
-            //if (handOffMotor.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold) {
-                //handOffMotor.set(TalonSRXControlMode.PercentOutput, 0);
-                //return true;
-            //}
-            //else {
+            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorRun);
+            if (motorLeft.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold) {
+                motorLeft.set(TalonSRXControlMode.PercentOutput, 0);
+                return true;
+            }
+            else {
                 return false;
-            //}
+            }
         }
         return true;
     }
 
     public static void displayInformation() {
-        //SmartDashboard.putNumber("Motor Amps", handOffMotor.getStatorCurrent());
+        SmartDashboard.putNumber("Left Motor Amps", motorLeft.getStatorCurrent());
+        SmartDashboard.putNumber("Right Motor Amps", motorRight.getStatorCurrent());
         SmartDashboard.putNumber("Encoder Postion", relativeEncoder.getPosition());
         SmartDashboard.putNumber("rotations", relativeEncoder.getPosition() / 63);
         SmartDashboard.putNumber("Angle", relativeEncoder.getPosition() / 63 * 360+90+42);

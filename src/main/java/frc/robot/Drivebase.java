@@ -65,7 +65,7 @@ public class Drivebase {
             diff = diff + 360;
         }
         //Positive is clockwise, negitive is counterclockwises
-        double headingOffset = -2;
+        double headingOffset = 0;
         heading = Drivebase.headingSetPointSave - diff + headingOffset;
 
         drive.drive(translation, 0, true, false, true, heading);

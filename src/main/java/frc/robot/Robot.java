@@ -1,7 +1,10 @@
 package frc.robot;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies.LowerCamelCaseStrategy;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,11 +39,16 @@ public class Robot extends TimedRobot {
     Drivebase.resetAnglesToAbsolute();
     // auto = new Auto();
     IntakeV2.setup();
+    PortForwarder.add(5800, "photonvision.local", 5800);
   }
 
   @Override
   public void robotPeriodic() {}
-
+  public static enum AutoSelection{
+    Upper,
+    Lower
+  }
+  public static AutoSelection autoSelection = AutoSelection.Upper;
   public static enum AutoState {
         Setup,
         Up,
@@ -61,50 +69,110 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Drivebase.updateSwerveOdometry();
-    switch(autoState){
-      case Setup:
-        Drivebase.setSwerveOdometry(new Pose2d(14,Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.getY():Constants.FieldPositions.AutoAlignPositions.red8.getY(),Gyro.getYawR2D()));
-        Claw.intakeGamePiece();
-        if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract)){
-          autoState = AutoState.Up;
+    switch(autoSelection){
+      case Upper:
+        switch(autoState){
+          case Setup:
+            IntakeV2.reverseIntake();
+            Drivebase.setSwerveOdometry(new Pose2d(14,Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.getY():Constants.FieldPositions.AutoAlignPositions.red8.getY(),Gyro.getYawR2D()));
+            Claw.intakeGamePiece();
+            if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract)){
+              autoState = AutoState.Up;
+            }
+            break;
+          case Up:
+            Claw.intakeGamePiece();
+            IntakeV2.reverseIntake(); 
+            if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up)){
+              autoState = AutoState.Align;
+            }
+            break;
+          case Align:
+            Claw.intakeGamePiece();
+            if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
+                                                        Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.getY():Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
+              autoState = AutoState.Extend;
+            }
+            break;
+          case Extend:
+            Claw.stopishMotor();
+            if (GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConePrep)){
+              autoState = AutoState.Place;
+            }
+            break;
+          case Place:
+            if(GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConeReady)){
+              Claw.outputGamePiece();
+              autoState = AutoState.Leave;
+            }else{
+              Claw.stopishMotor();
+            }
+            break;
+          case Leave:
+          
+            if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?4:12, Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
+              autoState = AutoState.Done;
+            }
+            break;
+          case Done:
+            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+            Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
+            break;
         }
         break;
-      case Up:
-        Claw.intakeGamePiece();
-        if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up)){
-          autoState = AutoState.Align;
-        }
-        break;
-      case Align:
-        Claw.intakeGamePiece();
-        if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
-                                                    Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.getY():Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
-          autoState = AutoState.Extend;
-        }
-        break;
-      case Extend:
-        Claw.stopishMotor();
-        if (GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConePrep)){
-          autoState = AutoState.Place;
-        }
-        break;
-      case Place:
-        if(GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConeReady)){
-          Claw.outputGamePiece();
-          autoState = AutoState.Leave;
-        }else{
-          Claw.stopishMotor();
-        }
-        break;
-      case Leave:
-        if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?4:12, Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
-          autoState = AutoState.Done;
-        }
-        break;
-      case Done:
-        Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
-        break;
+
+        case Lower:
+          switch(autoState){
+            case Setup:
+              IntakeV2.reverseIntake();
+              Drivebase.setSwerveOdometry(new Pose2d(14,Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8.getY():Constants.FieldPositions.AutoAlignPositions.red0.getY(),Gyro.getYawR2D()));
+              Claw.intakeGamePiece();
+              if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract)){
+                autoState = AutoState.Up;
+              }
+              break;
+            case Up:
+              Claw.intakeGamePiece();
+              IntakeV2.reverseIntake(); 
+              if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up)){
+                autoState = AutoState.Align;
+              }
+              break;
+            case Align:
+              Claw.intakeGamePiece();
+              if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
+                                                          Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8.getY():Constants.FieldPositions.AutoAlignPositions.red0.getY()), -180)){
+                autoState = AutoState.Extend;
+              }
+              break;
+            case Extend:
+              Claw.stopishMotor();
+              if (GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConePrep)){
+                autoState = AutoState.Place;
+              }
+              break;
+            case Place:
+              if(GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConeReady)){
+                Claw.outputGamePiece();
+                autoState = AutoState.Leave;
+              }else{
+                Claw.stopishMotor();
+              }
+              break;
+            case Leave:
+            
+              if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?4:12, Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
+                autoState = AutoState.Done;
+              }
+              break;
+            case Done:
+              GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+              Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
+              break;
+          }
+
     }
+
     
   }
   Field2d field2d = new Field2d();
@@ -112,7 +180,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     SmartDashboard.putData("Field", field2d);
-    // IntakeV2.setup();
+    IntakeV2.setup();
     Drivebase.resetAnglesToAbsolute();
     Arm.setOffset();    
     Arm.setArm(IO.GridArmPosition.Retract);
@@ -133,7 +201,9 @@ public class Robot extends TimedRobot {
   }
   @Override
   public void teleopPeriodic() {
-    // IntakeV2.displayInformation();
+    IntakeV2.displayInformation();
+    //IntakeV2.slowIntake();
+    IntakeV2.reverseIntake();
     // IntakeV2.moveMotor(IO.intakeOverride() * 0.5);
     selectTeleopState();
     teleopAllState();
@@ -165,44 +235,44 @@ public class Robot extends TimedRobot {
 
 
 
-    // if(IO.elevatorManualUp()){
-    //   Elevator.setElevator(IO.gridRowPosition);
-    //   Arm.setArm(IO.gridArmPosition);
-    //   if(Constants.isBlue()? Drivebase.getPose().getX() > Constants.FieldPositions.centerLine : Drivebase.getPose().getX() < Constants.FieldPositions.centerLine){
-    //     Elevator.setElevator(IO.GridRowPosition.DoubleSubstation);
-    //     Arm.setArm(IO.GridArmPosition.DoubleSubstation);
-    //   }
-    // }else if (IO.elevatorManualDown()){
-    //   Arm.setArm(IO.GridArmPosition.Retract);
-    //   Elevator.setElevator(IO.GridRowPosition.Retract);
-    // }
-    // Elevator.setElevator();
-    // // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
-    // Arm.setArm();
+    // // if(IO.elevatorManualUp()){
+    // //   Elevator.setElevator(IO.gridRowPosition);
+    // //   Arm.setArm(IO.gridArmPosition);
+    // //   if(Constants.isBlue()? Drivebase.getPose().getX() > Constants.FieldPositions.centerLine : Drivebase.getPose().getX() < Constants.FieldPositions.centerLine){
+    // //     Elevator.setElevator(IO.GridRowPosition.DoubleSubstation);
+    // //     Arm.setArm(IO.GridArmPosition.DoubleSubstation);
+    // //   }
+    // // }else if (IO.elevatorManualDown()){
+    // //   Arm.setArm(IO.GridArmPosition.Retract);
+    // //   Elevator.setElevator(IO.GridRowPosition.Retract);
+    // // }
+    // // Elevator.setElevator();
+    // // // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
+    // // Arm.setArm();
 
 
-    //Working??
-    // GamepieceManager.manageExtension();
+    // //Working??
+    // // GamepieceManager.manageExtension();
 
-    // if(IO.intakeSequence()){
-    //   Claw.intakeGamePiece();
-    // }
-    // else if(IO.clawDropPiece()){
-    //   Claw.outputGamePiece();
-    // }else{
-    //   Claw.stopishMotor();
-    // }
+    // // if(IO.intakeSequence()){
+    // //   Claw.intakeGamePiece();
+    // // }
+    // // else if(IO.clawDropPiece()){
+    // //   Claw.outputGamePiece();
+    // // }else{
+    // //   Claw.stopishMotor();
+    // // }
 
-    // if (IO.Drivebase.thrustEnabled()){
-    //   AutoAlign.moveToGridPositionOdometryTwoStep();
-    // }else if(IO.Drivebase.isAutoAlignActive()){
-    //   AutoAlign.moveToSubstationPosition();
-    // }
-    // else {
-    //   Drivebase.drive();
-    //   AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
-    //   AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-    // }
+    // // if (IO.Drivebase.thrustEnabled()){
+    // //   AutoAlign.moveToGridPositionOdometryTwoStep();
+    // // }else if(IO.Drivebase.isAutoAlignActive()){
+    // //   AutoAlign.moveToSubstationPosition();
+    // // }
+    // // else {
+    // //   Drivebase.drive();
+    // //   AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
+    // //   AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+    // // }
   }
 
   @Override
