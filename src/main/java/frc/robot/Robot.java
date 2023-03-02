@@ -44,10 +44,11 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {}
   public static enum AutoLeaveSelection{
     Left,
-    Right
+    Right,
+    None
   }
-  public static int autoGridSelection = 6; //zero is left most
-  public static AutoLeaveSelection autoLeaveSelection = AutoLeaveSelection.Right;
+  public static int autoGridSelection = 5; //zero is left most, eight is right most
+  public static AutoLeaveSelection autoLeaveSelection = AutoLeaveSelection.None;
   public static enum AutoState {
         Setup,
         Up,
@@ -101,7 +102,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Field", field2d);
     Drivebase.resetAnglesToAbsolute();
     Arm.setOffset();
-    Drivebase.setSwerveOdometry(new Pose2d(Constants.isBlue()?Constants.FieldPositions.fieldX-14:14, Constants.FieldPositions.fieldY/2,Gyro.getYawR2D()));
+    // Drivebase.setSwerveOdometry(new Pose2d(Constants.isBlue()?Constants.FieldPositions.fieldX-14:14, Constants.FieldPositions.fieldY/2,Gyro.getYawR2D()));
+    Drivebase.setSwerveOdometry(new Pose2d(autoGridSelection(autoGridSelection).getX(), autoGridSelection(autoGridSelection).getY(),Gyro.getYawR2D()));
   }
 
 
@@ -171,12 +173,17 @@ public class Robot extends TimedRobot {
                 if(AutoAlign.alignOdometry(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0:Constants.FieldPositions.AutoAlignPositions.red0, -180)){
                   autoState = AutoState.LeaveCommunity;
                 }
-              break;
+                break;
               case Right:
                 if(AutoAlign.alignOdometry(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8:Constants.FieldPositions.AutoAlignPositions.red8, -180)){
                   autoState = AutoState.LeaveCommunity;
                 }
-              break;
+
+                break;
+              case None:
+                autoState = AutoState.Done;
+                break;
+                
             }
             break;
           case LeaveCommunity:
@@ -184,17 +191,32 @@ public class Robot extends TimedRobot {
 
             switch(autoLeaveSelection){
               case Left:
-                if(AutoAlign.alignOdometry(Constants.isBlue()?new Translation2d(Constants.FieldPositions.outSubstationShortBlue ,Constants.FieldPositions.AutoAlignPositions.blue0.getY()):
-                                                              new Translation2d(Constants.FieldPositions.outSubstationLongRed ,Constants.FieldPositions.AutoAlignPositions.red0.getY()), -180)){
+                // if(AutoAlign.alignOdometry(Constants.isBlue()?new Translation2d(Constants.FieldPositions.outSubstationShortBlue ,Constants.FieldPositions.AutoAlignPositions.blue0.getY()):
+                //                                               new Translation2d(Constants.FieldPositions.outSubstationLongRed ,Constants.FieldPositions.AutoAlignPositions.red0.getY()), -180)){
+                //   autoState = AutoState.Done;
+                // }
+                if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.outSubstationShortBlue:
+                                      Drivebase.getPose().getX()<Constants.FieldPositions.outSubstationLongRed){
                   autoState = AutoState.Done;
+                }else{
+                  Drivebase.driveFieldRelativeHeading(new Translation2d(0,-1), -180);
                 }
-              break;
+                break;
               case Right:
-                if(AutoAlign.alignOdometry(Constants.isBlue()?new Translation2d(Constants.FieldPositions.outSubstationLongBlue ,Constants.FieldPositions.AutoAlignPositions.blue8.getY()):
-                                                              new Translation2d(Constants.FieldPositions.outSubstationShortRed ,Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
+                // if(AutoAlign.alignOdometry(Constants.isBlue()?new Translation2d(Constants.FieldPositions.outSubstationLongBlue ,Constants.FieldPositions.AutoAlignPositions.blue8.getY()):
+                //                                               new Translation2d(Constants.FieldPositions.outSubstationShortRed ,Constants.FieldPositions.AutoAlignPositions.red8.getY()), -180)){
+                //   autoState = AutoState.Done;
+                // }
+                if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.outSubstationLongBlue:
+                                      Drivebase.getPose().getX()<Constants.FieldPositions.outSubstationShortRed ){
                   autoState = AutoState.Done;
+                }else{
+                  Drivebase.driveFieldRelativeHeading(new Translation2d(0,-1), -180);
                 }
-              break;
+                break;
+              case None:
+                autoState = AutoState.Done;
+                break;
             }
             break;
           case Done:

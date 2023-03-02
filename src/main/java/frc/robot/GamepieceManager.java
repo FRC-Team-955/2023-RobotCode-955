@@ -45,7 +45,10 @@ public class GamepieceManager {
         if(IO.runIntakeIn()){
             Claw.intakeGamePiece();
         }else if(IO.clawDropPiece() && Arm.atConePrepPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrep){
-          if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeReady)){
+        //   if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeReady)){
+        //     Claw.outputGamePiece();
+        //   }
+          if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeAlmostReady)){
             Claw.outputGamePiece();
           }
         }else if(IO.clawDropPiece()){
@@ -182,7 +185,8 @@ public class GamepieceManager {
 
     public static void clawDrop(){
         if (IO.clawDropPiece()){
-            if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeReady:IO.gridArmPosition)){
+            // if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeReady:IO.gridArmPosition)){
+            if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeAlmostReady:IO.gridArmPosition)){
                 Claw.outputGamePiece();
                 placeState = PlaceState.Leave;
             }else{
