@@ -41,7 +41,7 @@ public class Constants {
         //Aiden
         // public static double turnRate = 2;
         //Alex
-        public static double turnRate = 1;
+        // public static double turnRate = 1;
 
         public static double turnRate = 0.5;
 
