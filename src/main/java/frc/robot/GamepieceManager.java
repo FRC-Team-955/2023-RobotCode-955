@@ -1,10 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;
+import frc.robot.Robot.AutoState;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
@@ -37,36 +37,89 @@ public class GamepieceManager {
         }
     }
 
-    private static boolean runClaw = false;
-    private static long startTime = System.currentTimeMillis();
+    private static enum loadStates{
+        Intake,
+        LoadPrep,
+        Load,
+        Loaded,
+        Finish,
+    }
+
+    private static loadStates loadState = loadStates.Intake;
+
+    public static void loadResetOverride(boolean reset) {
+        loadState = loadStates.Intake;
+    }
+
+    public static void loadGamepiece() {
+        Arm.setArm();
+        Elevator.setElevator();
+        switch(loadState) {
+            case Intake:
+                if(IntakeV2.extendNoPid()) {
+                    Arm.setArm(IO.GridArmPosition.Retract);
+                    Elevator.setElevator(IO.GridRowPosition.Retract);
+                    if(IntakeV2.intake()) {
+                        loadState = loadStates.LoadPrep;
+                    }
+                }
+                break;
+            case LoadPrep:
+                if(Arm.setArm() && Elevator.setElevator()) {
+                    loadState = loadStates.Load;
+                }
+                break;
+            case Load:
+                Claw.intakeGamePiece();
+                if(IntakeV2.handOffNoPid()) {
+                    loadState = loadStates.Loaded;
+                }
+                break;
+            case Loaded:
+                Claw.stopishMotor();
+                // IntakeV2.extendNoPid();
+                loadState = loadStates.Finish;
+                break;
+            case Finish:
+                break;
+        }
+    }
+
     private static Timer loadSequenceTimer = new Timer();
 
     //DO NOT USE UNTIL INTAKE IS MOUNTED
     //Assumes runExtension is constantly called
-    // public static void loadSequence(){
-    //     if(IO.intakeSequence()){
-    //         IntakeV2.extend();
-    //         IntakeV2.intake();
-    //         setExtention(GridRowPosition.Retract, GridArmPosition.Retract);
-    //         loadSequenceTimer.reset();
-    //         runClaw = true;
-    //     }
-    //     else{
-    //         loadSequenceTimer.start();
-    //         if(runClaw && runExtention() && IntakeV2.handOff()) {
-    //             Claw.intakeGamePiece();
-    //         } else {
-    //             Claw.stopishMotor();
-    //         }
-    //         if (loadSequenceTimer.hasElapsed(Constants.Claw.runTime)){
-    //             runClaw = false;
-    //             IntakeV2.extend();
-    //             IntakeV2.reverseIntake();
-    //         } else {
-    //             IntakeV2.slowIntake();
-    //         }
-    //     }
-    // }
+    public static void loadSequence(){
+        if(IO.runIntakeIn()){
+            Claw.intakeGamePiece();
+        }else if(IO.clawDropPiece() && Arm.atConePrepPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrep){
+        //   if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeReady)){
+        //     Claw.outputGamePiece();
+        //   }
+          if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeAlmostReady)){
+            Claw.outputGamePiece();
+          }
+        }else if(IO.clawDropPiece()){
+            Claw.outputGamePiece();
+        }
+        else if(IO.intakeSequence()){
+            loadGamepiece();
+        }
+        else{
+            // loadSequenceTimer.start();
+            // if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
+            //     // IntakeV2.slowIntake();
+            //     Claw.intakeGamePiece();
+            //     if(runExtention()){
+            //         IntakeV2.retractNoPid();
+            //     }
+            // } else {
+            Claw.stopishMotor();
+            loadState = loadStates.Intake;
+
+            // }
+        }
+    }
     private static boolean elevatorInPosition = false;
     private static boolean armInPosition = false;
     public static void setExtention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
@@ -95,8 +148,6 @@ public class GamepieceManager {
         //         Arm.setArm(armRowPosition);
         //     }
         // }
-        System.out.println("gridRowPosition"+gridRowPosition.toString());
-        System.out.println("armRowPosition" +armRowPosition.toString());
         Arm.setArm(armRowPosition);
         Elevator.setElevator(gridRowPosition);
         return runExtention();
@@ -106,8 +157,6 @@ public class GamepieceManager {
         // return elevatorInPosition && armInPosition;
 
     }
-
-
     public static void autoAlign(){
         if (AutoAlign.isInCommunity()){
             autoPlace();
@@ -134,6 +183,11 @@ public class GamepieceManager {
                 }
                 Claw.stopishMotor();
                 boolean robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
+
+                if(AutoAlign.gridAlignState == AutoAlign.GridAlignState.InPosition){
+                    extention(IO.gridRowPosition, IO.gridArmPosition);
+                }
+                
                 if (robotInPosition){
                     placeState = PlaceState.Place;
                 }
@@ -151,28 +205,23 @@ public class GamepieceManager {
                 break;
 
         }
-        // boolean robotInPosition  = AutoAlign.moveToGridPositionOdometryTwoStep();
-        // if (robotInPosition){
-        // // if (false){
-        //     clawDrop();
-        // }
-        // else{
-        //     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-        //     Claw.stopishMotor();
-        //     //uncomment when intake is mounted
-        //     //Intake.unholdItem();
-        // }
     }
 
     public static void autoGrab(){
         AutoAlign.moveToSubstationPosition();
-        extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
+        if (IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.blueSingleSubstation || 
+            IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.redSingleSubstation){
+            extention(IO.GridRowPosition.SingleSubstation, IO.GridArmPosition.SingleSubstation);
+        }else{
+            extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
+        }
         Claw.intakeGamePiece();
     }
 
     public static void clawDrop(){
         if (IO.clawDropPiece()){
-            if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeReady:IO.gridArmPosition)){
+            // if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeReady:IO.gridArmPosition)){
+            if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeAlmostReady:IO.gridArmPosition)){
                 Claw.outputGamePiece();
                 placeState = PlaceState.Leave;
             }else{
@@ -191,7 +240,6 @@ public class GamepieceManager {
         if(IO.elevatorManualUp()){
             extention(IO.gridRowPosition, IO.gridArmPosition);
             // if(Constants.isBlue()? Drivebase.getPose().getX() < Constants.FieldPositions.centerLine : Drivebase.getPose().getX() > Constants.FieldPositions.centerLine){
-                
             // }
             // else{
             //     extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
@@ -199,17 +247,15 @@ public class GamepieceManager {
 
         }else if (IO.elevatorManualDown()){
             // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-            // System.out.println("hello");
-
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+        }else if (IO.elevatorManualRetract()){
+            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
         }
-            // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
-            // System.out.println("runetentions");
         runExtention();
-        wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
+        // wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
     }
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());
-
+        SmartDashboard.putString("state", loadState.toString());
     }
 }

@@ -19,6 +19,9 @@ public class Drivebase {
     public static void updateSwerveOdometry(){
         drive.updateSwerveOdometry();
     }
+    public static void setSwerveOdometry(Pose2d pose){
+        drive.resetOdometry(pose);
+    }
 
     public static void resetAnglesToAbsolute() {
         drive.resetAnglesToAbsolute();
@@ -61,6 +64,7 @@ public class Drivebase {
         }else if (diff<-180){
             diff = diff + 360;
         }
+        //Positive is clockwise, negitive is counterclockwises
         double headingOffset = 0;
         heading = Drivebase.headingSetPointSave - diff + headingOffset;
 
@@ -133,14 +137,6 @@ public class Drivebase {
 
     public static Pose2d getPose() {
        return drive.getPose();
-    }
-
-    public static void updateSwerveOdometry(){
-        drive.updateSwerveOdometry();
-    }
-
-    public static void resetAnglesToAbsolute(){
-        drive.resetAnglesToAbsolute();
     }
 }
 

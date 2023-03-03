@@ -1,13 +1,10 @@
 package frc.robot.Subsystems;
 
-import frc.robot.Constants;
-import frc.robot.IO;
-
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -17,6 +14,8 @@ import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.IO;
 
 public final class Arm {
     //static CANSparkMax motor;
@@ -100,7 +99,7 @@ public final class Arm {
 
     public static void moveArmOverride(double joyPos) {
         // System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
-        motor.set(-joyPos*0.8);
+        motor.setVoltage(-joyPos*0.8 *12+ Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition())));
     }
     //0.5600
     public static double setpoint = 0;
@@ -119,6 +118,10 @@ public final class Arm {
                 setpoint = Constants.Arm.coneReady;
                 armRetract = false;
                 break;
+            case ConeAlmostReady:
+                setpoint = Constants.Arm.coneAlmostReady;
+                armRetract = false;
+
             case CubePrep:
                 setpoint = Constants.Arm.cubePrep;
                 armRetract = false;
@@ -127,6 +130,9 @@ public final class Arm {
                 setpoint = Constants.Arm.cubeReady;
                 armRetract = false;
                 break;
+            case SingleSubstation:
+                setpoint = Constants.Arm.singleSubstation;
+                armRetract = false;
             case DoubleSubstation:
                 setpoint = Constants.Arm.doubleSubstation;
                 armRetract = false;
@@ -137,6 +143,7 @@ public final class Arm {
                 break;
             case Up:
                 setpoint = Constants.Arm.up;
+                armRetract = true;
                 break;
         }
     }
@@ -158,6 +165,9 @@ public final class Arm {
             // return pid.atSetpoint();
         }
         return false;
+    }
+    public static boolean atConePrepPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.conePrep) < Constants.Arm.tolerance;
     }
     public static void displayInformation(){
         SmartDashboard.putBoolean("Set Arm",  Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance);

@@ -1,13 +1,11 @@
 package frc.robot.Subsystems;
 
-import frc.robot.Constants;
-import frc.robot.IO;
-
 // import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
@@ -16,6 +14,8 @@ import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.IO;
 
 public class Elevator {
     static CANSparkMax motor;
@@ -82,7 +82,6 @@ public class Elevator {
                 elevatorRetract = true; 
                 break;
             case Low:
-                // setpoint = Constants.Elevator.retracted;
                 setpoint = Constants.Elevator.low;
                 elevatorRetract = false;
                 break;
@@ -94,8 +93,12 @@ public class Elevator {
                 setpoint = Constants.Elevator.high;
                 elevatorRetract = false;
                 break;
+            case SingleSubstation:
+                setpoint= Constants.Elevator.singleSubstation;
+                elevatorRetract = true;
             case DoubleSubstation:
-                setpoint= Constants.Elevator.doubleSubstationPosition;
+                setpoint= Constants.Elevator.doubleSubstation;
+                elevatorRetract = true;
         }
     }
     // public static void setElevator(IO.SubstationArmPosition level){
