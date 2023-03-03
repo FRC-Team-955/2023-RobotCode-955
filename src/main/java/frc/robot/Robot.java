@@ -299,6 +299,9 @@ public class Robot extends TimedRobot {
           Gyro.set(90);
           SwerveDrive.headingSetPoint = -180;
         }
+        // if(IO.resetOdometryAngle()){
+
+        // }
         GamepieceManager.manageExtension();
         Drivebase.drive();
     }
