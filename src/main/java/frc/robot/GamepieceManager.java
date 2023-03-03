@@ -205,17 +205,6 @@ public class GamepieceManager {
                 break;
 
         }
-        // boolean robotInPosition  = AutoAlign.moveToGridPositionOdometryTwoStep();
-        // if (robotInPosition){
-        // // if (false){
-        //     clawDrop();
-        // }
-        // else{
-        //     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-        //     Claw.stopishMotor();
-        //     //uncomment when intake is mounted
-        //     //Intake.unholdItem();
-        // }
     }
 
     public static void autoGrab(){
@@ -251,7 +240,6 @@ public class GamepieceManager {
         if(IO.elevatorManualUp()){
             extention(IO.gridRowPosition, IO.gridArmPosition);
             // if(Constants.isBlue()? Drivebase.getPose().getX() < Constants.FieldPositions.centerLine : Drivebase.getPose().getX() > Constants.FieldPositions.centerLine){
-                
             // }
             // else{
             //     extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
@@ -259,17 +247,12 @@ public class GamepieceManager {
 
         }else if (IO.elevatorManualDown()){
             // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-            // System.out.println("hello");
-
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
         }else if (IO.elevatorManualRetract()){
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-
         }
-            // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
-            // System.out.println("runetentions");
         runExtention();
-        wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
+        // wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
     }
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());

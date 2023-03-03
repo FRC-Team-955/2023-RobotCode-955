@@ -31,12 +31,14 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     Arm.setup();
     Elevator.setup();
-    // Intake.setup();
+    IntakeV2.setup();
     Claw.setup();
     AprilTagCameraWrapper.setUp();
     Drivebase.resetAnglesToAbsolute();
     // auto = new Auto();
     IntakeV2.setup();
+    Arm.setArm(IO.GridArmPosition.Retract);
+    Elevator.setElevator(IO.GridRowPosition.Retract);
     PortForwarder.add(5800, "photonvision.local", 5800);
   }
 
@@ -111,7 +113,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Field", field2d);
     Drivebase.resetAnglesToAbsolute();
     Arm.setOffset();
-    // Drivebase.setSwerveOdometry(new Pose2d(Constants.isBlue()?Constants.FieldPositions.fieldX-14:14, Constants.FieldPositions.fieldY/2,Gyro.getYawR2D()));
     Drivebase.setSwerveOdometry(new Pose2d(autoGridSelection(autoGridSelection).getX(), autoGridSelection(autoGridSelection).getY(),Gyro.getYawR2D()));
   }
 
@@ -241,16 +242,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    SmartDashboard.putData("Field", field2d);
-    IntakeV2.setup();
+    // IntakeV2.setup();
+    // Arm.setOffset();    
+    // Arm.setArm(IO.GridArmPosition.Retract);
+    // Elevator.setElevator(IO.GridRowPosition.Retract);
     Drivebase.resetAnglesToAbsolute();
-    Arm.setOffset();    
-    Arm.setArm(IO.GridArmPosition.Retract);
-    Elevator.setElevator(IO.GridRowPosition.Retract);
   }
 
   public void teleopAllState(){
-    // Drivebase.logData();
+    Drivebase.logData();
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
     IO.keyInputSubstationPosition();
@@ -258,94 +258,50 @@ public class Robot extends TimedRobot {
     Drivebase.updateSwerveOdometry();
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
-    System.out.println(Drivebase.getPose());
     // GamepieceManager.displayInformation();
   }
   @Override
   public void teleopPeriodic() {
-    Drivebase.logData();
-    IntakeV2.displayInformation();
-    SmartDashboard.putBoolean("amp limit hit", IntakeV2.intake());
-    GamepieceManager.displayInformation();
-    //IntakeV2.reverseIntake();
+    // IntakeV2.displayInformation();
+    //IntakeV2.slowIntake();
+    // IntakeV2.reverseIntake();
     // IntakeV2.moveMotor(IO.intakeOverride() * 0.5);
     // if (!IO.getTestingButton()) {
     //   IntakeV2.extendNoPid();
     // } else {
     //   IntakeV2.retractNoPid();
     // }
-    if (IO.getTestingTrigger() > 0.5) {
-      GamepieceManager.loadGamepiece();
-    }
-    GamepieceManager.loadResetOverride(IO.getTestingButton());
-    // selectTeleopState();
-    // teleopAllState();
-
-    // switch(robotState){
-    //   case AUTO_ALIGN:
-    //     GamepieceManager.autoAlign();
-    //     // Intake.foldInIntake();
-    //     break;
-    //   case AUTO_BALANCE:
-    //     Drivebase.autoBalance();
-    //     // Drivebase.autoBalanceBangBang();
-    //     GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-    //     // Intake.foldInIntake();
-    //     break;
-    //   default: // DRIVE
-    //     AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-    //     AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
-    //     GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
-
-    //     GamepieceManager.loadSequence();
-    //     if(IO.resetGyroAngle()){
-    //       Gyro.set(90);
-    //       SwerveDrive.headingSetPoint = -180;
-    //     }
-    //     GamepieceManager.manageExtension();
-    //     Drivebase.drive();
+    // if (IO.getTestingTrigger() > 0.5) {
+    //   GamepieceManager.loadGamepiece();
     // }
+    // GamepieceManager.loadResetOverride(IO.getTestingButton());
+    selectTeleopState();
+    teleopAllState();
 
+    switch(robotState){
+      case AUTO_ALIGN:
+        GamepieceManager.autoAlign();
+        // IntakeV2.retractNoPid();
+        break;
+      case AUTO_BALANCE:
+        Drivebase.autoBalance();
+        // Drivebase.autoBalanceBangBang();
+        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+        //IntakeV2.retractNoPid();
+        break;
+      default:
+        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+        AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
+        GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
 
-
-    // // if(IO.elevatorManualUp()){
-    // //   Elevator.setElevator(IO.gridRowPosition);
-    // //   Arm.setArm(IO.gridArmPosition);
-    // //   if(Constants.isBlue()? Drivebase.getPose().getX() > Constants.FieldPositions.centerLine : Drivebase.getPose().getX() < Constants.FieldPositions.centerLine){
-    // //     Elevator.setElevator(IO.GridRowPosition.DoubleSubstation);
-    // //     Arm.setArm(IO.GridArmPosition.DoubleSubstation);
-    // //   }
-    // // }else if (IO.elevatorManualDown()){
-    // //   Arm.setArm(IO.GridArmPosition.Retract);
-    // //   Elevator.setElevator(IO.GridRowPosition.Retract);
-    // // }
-    // // Elevator.setElevator();
-    // // // Arm.setpoint = Arm.setpoint + IO.elevatorFineControl()*2;
-    // // Arm.setArm();
-
-
-    // //Working??
-    // // GamepieceManager.manageExtension();
-
-    // // if(IO.intakeSequence()){
-    // //   Claw.intakeGamePiece();
-    // // }
-    // // else if(IO.clawDropPiece()){
-    // //   Claw.outputGamePiece();
-    // // }else{
-    // //   Claw.stopishMotor();
-    // // }
-
-    // // if (IO.Drivebase.thrustEnabled()){
-    // //   AutoAlign.moveToGridPositionOdometryTwoStep();
-    // // }else if(IO.Drivebase.isAutoAlignActive()){
-    // //   AutoAlign.moveToSubstationPosition();
-    // // }
-    // // else {
-    // //   Drivebase.drive();
-    // //   AutoAlign.substationAlignStateSave = AutoAlign.SubstationAlignState.AlignedToOdometry;
-    // //   AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-    // // }
+        GamepieceManager.loadSequence();
+        if(IO.resetGyroAngle()){
+          Gyro.set(90);
+          SwerveDrive.headingSetPoint = -180;
+        }
+        GamepieceManager.manageExtension();
+        Drivebase.drive();
+    }
   }
 
   @Override
