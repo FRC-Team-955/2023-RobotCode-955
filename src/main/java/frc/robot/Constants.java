@@ -10,11 +10,12 @@ public class Constants {
             public static int forwardRawAxis = 0;
             public static int strafeRawAxis = 1;
             public static int rotAxis = 4;
-            public static int autoHeadingButton = 6;
+            public static int robotRelativeButton = 5;
+            public static int autoHeadingButton = 8;
             public static int thrustAxis = 2;
             public static int autoAlignAxis = 3;
             public static int autoBalanceButton = 4;
-            public static int resetOdometryAngleButton =8;
+            public static int resetAngleButton =6;
         }
         public static class Joy1{
             public static final int joy1Id = 1;
@@ -31,13 +32,13 @@ public class Constants {
     // Note from owen: we will have soooo many pids these need to be named better
     public static class Drivebase{
 
-        public static double autoBalancekP = 1;
+        public static double autoBalancekP = 0.3;
         public static double autoBalancekI = 0;
         public static double autoBalancekD = 0;
 
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
-        public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
-        public static Translation2d autoBalanceBackward = new Translation2d(0,-0.1);
+        public static Translation2d autoBalanceForward = new Translation2d(0,0.5);
+        public static Translation2d autoBalanceBackward = new Translation2d(0,-0.5);
         //Aiden
         // public static double turnRate = 2;
         //Alex
@@ -133,8 +134,8 @@ public class Constants {
         public static double alignTolerance= 0.1; // Faris: random number idk actual value
         
         public static class Filter{
-            public static double pitch = 2;
-            public static double roll = 2;
+            public static double pitch = 5;
+            public static double roll = 5;
             public static double distance = 2;
         }
     }
@@ -252,8 +253,9 @@ public class Constants {
         public static double inRedLoadingZoneX = 6.710363;
         public static double inBlueLoadingZoneX = fieldX - inRedLoadingZoneX;
         // public static double inLoadingZoneY = inCommunityY + (bumperLength/2);
+        
         public static double inLoadingZoneY = inCommunityY;
-
+        // public static double inLoadingZoneY = 6.6;
         // public static double atGridBlueX = 1.8;
         // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
         public static double atGridOffset =-0.05;
@@ -304,12 +306,11 @@ public class Constants {
             public static Translation2d redOutCommunityLower = new Translation2d(12.5, 8.02-7.5);
             public static Translation2d redInCommunityLower = new Translation2d(14, 8.02-7.5);
 
+            public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
+            public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
 
-
-            // public static Translation2d redLeftDoubleSubstation = new Translation2d(2.1, 6.028182);
-            // public static Translation2d redRightDoubleSubstation = new Translation2d(2.1, 7.471220);
-            public static Translation2d redLeftDoubleSubstation = new Translation2d(1.7, 6.028182);
-            public static Translation2d redRightDoubleSubstation = new Translation2d(1.7, 7.471220);
+            public static Translation2d redLeftDoubleSubstation = new Translation2d(1.9, 6.028182);
+            public static Translation2d redRightDoubleSubstation = new Translation2d(1.9, 7.471220);
             public static Translation2d redSingleSubstation = new Translation2d(2.315069, fieldY -1.17);
             public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-redLeftDoubleSubstation.getX(), redRightDoubleSubstation.getY());
             public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-redRightDoubleSubstation.getX(), redLeftDoubleSubstation.getY());

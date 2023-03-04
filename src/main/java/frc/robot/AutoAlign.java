@@ -18,10 +18,6 @@ public class AutoAlign {
     Drivebase drive = new Drivebase();
 
     public static boolean alignOdometry(Translation2d goalTranslation, double heading){
-
-        SmartDashboard.putNumber("goal transaltion X: ", goalTranslation.getX());
-        SmartDashboard.putNumber("goal transaltion Y: ", goalTranslation.getY());
-
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
@@ -190,8 +186,8 @@ public class AutoAlign {
         SmartDashboard.putBoolean("Is in Community?", isInCommunity());
         SmartDashboard.putBoolean("Is in Loading Zone?", isInLoadingZone());
 
-        SmartDashboard.putString("AutoAlign.gridAlignState:", gridAlignState.toString());
-        SmartDashboard.putString("AutoAlign.substationAlignStateSave", substationAlignState.toString());
+        SmartDashboard.putString("GridAlignState:", gridAlignState.toString());
+        SmartDashboard.putString("SubstationAlignState", substationAlignState.toString());
 
 
     }

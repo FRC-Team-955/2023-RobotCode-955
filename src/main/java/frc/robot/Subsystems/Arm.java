@@ -81,6 +81,9 @@ public final class Arm {
         
         encoderLog.append(getOffsetPosition());
     }
+    public static void disableArm(){
+        motor.setVoltage(0);
+    }
 
     public static void moveArm(double joyPos) {
         // System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
@@ -168,9 +171,6 @@ public final class Arm {
     }
     public static boolean atConePrepPosition(){
         return Math.abs(getOffsetPosition() - Constants.Arm.conePrep) < Constants.Arm.tolerance;
-    }
-    public static void displayInformation(){
-        SmartDashboard.putBoolean("Set Arm",  Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance);
     }
 }
 

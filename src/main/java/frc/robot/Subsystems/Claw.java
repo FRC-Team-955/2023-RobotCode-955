@@ -22,6 +22,10 @@ public class Claw {
         motor.configContinuousCurrentLimit(40, 10);
     }
 
+    public static void logData() {
+        motorLog.append(motor.getStatorCurrent());
+    }
+
     //sucks in the game piece and stops
     public static void intakeGamePiece(){
         motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.run);

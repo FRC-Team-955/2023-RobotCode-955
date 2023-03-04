@@ -103,7 +103,7 @@ public class GamepieceManager {
             Claw.outputGamePiece();
         }
         else if(IO.intakeSequence()){
-            loadGamepiece();
+            // loadGamepiece();
         }
         else{
             // loadSequenceTimer.start();
@@ -256,6 +256,6 @@ public class GamepieceManager {
     }
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());
-        SmartDashboard.putString("state", loadState.toString());
+        // SmartDashboard.putString("Intake Loading state", loadState.toString());
     }
 }

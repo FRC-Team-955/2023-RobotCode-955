@@ -122,11 +122,11 @@ public class IntakeV2 {
     }
 
     public static void displayInformation() {
-        SmartDashboard.putNumber("Left Motor Amps", motorLeft.getStatorCurrent());
-        SmartDashboard.putNumber("Right Motor Amps", motorRight.getStatorCurrent());
-        SmartDashboard.putNumber("Encoder Postion", relativeEncoder.getPosition());
-        SmartDashboard.putNumber("rotations", relativeEncoder.getPosition() / 63);
-        SmartDashboard.putNumber("Angle", relativeEncoder.getPosition() / 63 * 360+42+90);
+        // SmartDashboard.putNumber("Left Motor Amps", motorLeft.getStatorCurrent());
+        // SmartDashboard.putNumber("Right Motor Amps", motorRight.getStatorCurrent());
+        // SmartDashboard.putNumber("Encoder Postion", relativeEncoder.getPosition());
+        // SmartDashboard.putNumber("rotations", relativeEncoder.getPosition() / 63);
+        // SmartDashboard.putNumber("Angle", relativeEncoder.getPosition() / 63 * 360+42+90);
     }
 
 }

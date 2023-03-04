@@ -41,9 +41,11 @@ public class Drivebase {
     public static double headingSetPointSave = SwerveDrive.headingSetPoint;
 
     public static void drive() {
-        if (IO.Drivebase.autoHeadingEnabled()) {
+        if (IO.Drivebase.isAutoHeadingActive()) {
             Drivebase.driveFieldRelative();
-        } else {
+        } else if(IO.Drivebase.isRobotRelativeActive()){
+            Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
+        }else {
             headingSetPointSave = SwerveDrive.headingSetPoint;
             Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
         }
@@ -84,12 +86,15 @@ public class Drivebase {
 
     public static void autoBalance() {
 
-       double output = MathUtil.clamp(autoBalancePID.calculate(Gyro.getPitch(), 0), -1 ,1);
+       double output = MathUtil.clamp(autoBalancePID.calculate(Gyro.getRoll(), 0), -0.2 ,0.2);
 
-       driveFieldRelativeRotation(new Translation2d(output, 0), 0);
+        driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
+    //    driveFieldRelativeRotation(new Translation2d(0, -output), 0);
        
        if(isBalanced()){
-        driveFieldRelativeRotation(new Translation2d(0, 0), output);
+        // driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
+
+        driveFieldRelativeRotation(new Translation2d(0, 0), 0);
        }
     }
     
@@ -108,7 +113,7 @@ public class Drivebase {
         }
         
         if (Gyro.getPitch() > 2.5 || Gyro.getPitch() < 2.5) {
-            if (newPitch - lastPitch > 0) {
+            if (Math.abs(newPitch - lastPitch) > 0.5) {
                 driveFieldRelativeHeading(Constants.Drivebase.autoBalanceStop, heading);
             }
             else {
@@ -128,7 +133,7 @@ public class Drivebase {
     }
     
     public static boolean isBalanced() {
-        if (2.5 > Gyro.getPitch() && Gyro.getPitch() > -2.5) {
+        if (4 > Gyro.getRoll() && Gyro.getRoll() > -4) {
             return true;
         } else {
             return false;

@@ -18,13 +18,13 @@ public final class IO {
     private static Joystick key1 = new Joystick(3);
     private static Joystick key2 = new Joystick(4);
 
-    public static boolean getTestingButton() {
-        return joy0.getRawButton(2);
-    }
+    // public static boolean getTestingButton() {
+    //     return joy0.getRawButton(2);
+    // }
 
-    public static double getTestingTrigger() {
-        return joy0.getRawAxis(3);
-    }
+    // public static double getTestingTrigger() {
+    //     return joy0.getRawAxis(3);
+    // }
 
     public static double elevatorFineControl(){
         return -joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
@@ -33,8 +33,8 @@ public final class IO {
     public static double armFineControl(){
         return joy1.getRawAxis(Constants.IO.Joy1.armOverrideAxis);
     }
-    public static boolean resetGyroAngle(){
-        return joy0.getRawButtonPressed(8);
+    public static boolean resetAngle(){
+        return joy0.getRawButtonPressed(Constants.IO.Joy0.resetAngleButton);
     }
 
     private static boolean override = false;
@@ -84,13 +84,17 @@ public final class IO {
         public static boolean isAutoBalanceActive(){
             return joy0.getRawButtonPressed(Constants.IO.Joy0.autoBalanceButton);
         }
+
+        public static boolean isPowerSaving(){
+            return key2.getRawButton(10);
+        }
   
         public static double getSwerveRotation(){
             //What is axis number reffering too?
             double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis);
             double deadband = 0.15;
 
-            rotAxis = thrustEnabled() ? rotAxis : rotAxis*Constants.Drivebase.speed;
+            // rotAxis = isThrustActive() ? rotAxis : rotAxis*Constants.Drivebase.speed;
 
             if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;
             
@@ -124,7 +128,7 @@ public final class IO {
             // double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
             // // double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-            Translation2d tAxes = new Translation2d(thrustEnabled() ? forwardRawAxis : forwardRawAxis*Constants.Drivebase.speed, thrustEnabled() ? strafeRawAxis : strafeRawAxis*Constants.Drivebase.speed);
+            Translation2d tAxes = new Translation2d(isThrustActive() ? forwardRawAxis*1.2 : forwardRawAxis*Constants.Drivebase.speed, isThrustActive() ? strafeRawAxis : strafeRawAxis*Constants.Drivebase.speed);
 
 
             if (Math.abs(norm(tAxes)) < 0.15) {
@@ -139,10 +143,13 @@ public final class IO {
             }
         }
 
-        public static boolean autoHeadingEnabled(){
+        public static boolean isAutoHeadingActive(){
             return joy0.getRawButton(Constants.IO.Joy0.autoHeadingButton);
         }
-        public static boolean thrustEnabled(){
+        public static boolean isRobotRelativeActive(){
+            return joy0.getRawButton(Constants.IO.Joy0.robotRelativeButton);
+        }
+        public static boolean isThrustActive(){
             return joy0.getRawAxis(Constants.IO.Joy0.thrustAxis) > 0.2;
         }
     }
@@ -362,10 +369,10 @@ public final class IO {
         }
     }
     public static void displayInformation(){
-        SmartDashboard.putString("gridRowPosition" , IO.gridRowPosition.toString());
-        SmartDashboard.putString("gridArmPosition: " , IO.gridArmPosition.toString());
-        SmartDashboard.putString("IO.keyInputOdometryPosition", IO.keyInputOdometryPosition.toString());
-        SmartDashboard.putString("IO.keyInputSubstationPosition", IO.keyInputSubstationPosition.toString());
+        SmartDashboard.putString("RowPosition" , IO.gridRowPosition.toString());
+        SmartDashboard.putString("ArmPosition" , IO.gridArmPosition.toString());
+        // SmartDashboard.putString("IO.keyInputOdometryPosition", IO.keyInputOdometryPosition.toString());
+        // SmartDashboard.putString("IO.keyInputSubstationPosition", IO.keyInputSubstationPosition.toString());
 
         // SmartDashboard.putNumber("IO.keyInputSubstationPosition X", IO.keyInputSubstationPosition.getX());
 

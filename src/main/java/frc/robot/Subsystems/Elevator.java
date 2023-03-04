@@ -54,6 +54,9 @@ public class Elevator {
         motorlog = new DoubleLogEntry(log, "/elevator/motor");
         encoderlog = new DoubleLogEntry(log, "/elevator/encoder");
     }
+    public static void disableElevator(){
+        motor.setVoltage(0);
+    }
     public static void logData() {
         motorlog.append(motor.getOutputCurrent());
         encoderlog.append(encoder.getPosition());

@@ -186,13 +186,16 @@ public class SwerveDrive {
         }
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
         // && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll
-        SmartDashboard.putBoolean("result.isPresent()?",result.isPresent());
+        SmartDashboard.putBoolean("result.isPresent?",result.isPresent());
         if (result.isPresent()) {
             EstimatedRobotPose camPose = result.get();
             // System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
             // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
             // if(Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 20){
-                poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+                if(Math.abs(Gyro.getPitch()) < Constants.AprilTagCamera.Filter.pitch && Math.abs(Gyro.getRoll()) < Constants.AprilTagCamera.Filter.roll){
+                    SmartDashboard.putBoolean("resultAdd",Math.abs(Gyro.getPitch()) < Constants.AprilTagCamera.Filter.pitch && Math.abs(Gyro.getRoll()) < Constants.AprilTagCamera.Filter.roll);
+                    poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);    
+                }
             // }
             // }
         }
