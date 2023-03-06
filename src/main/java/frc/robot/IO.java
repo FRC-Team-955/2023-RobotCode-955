@@ -128,7 +128,7 @@ public final class IO {
             // double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
             // // double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-            Translation2d tAxes = new Translation2d(isThrustActive() ? forwardRawAxis*1.2 : forwardRawAxis*Constants.Drivebase.speed, isThrustActive() ? strafeRawAxis : strafeRawAxis*Constants.Drivebase.speed);
+            Translation2d tAxes = new Translation2d(isThrustActive() ? forwardRawAxis*Constants.Drivebase.slowSpeed : forwardRawAxis*1.2, isThrustActive() ? strafeRawAxis*Constants.Drivebase.turnSpeed : strafeRawAxis*Constants.Drivebase.turnSpeed);
 
 
             if (Math.abs(norm(tAxes)) < 0.15) {
@@ -189,6 +189,25 @@ public final class IO {
     private static int gridColumnPosition = 0;
     private static int newGridColumnPosition = 0;
     public static GridRowPosition gridRowPosition = GridRowPosition.Low;
+
+    // public static void joystickInputRowPosition(){
+    //     if(joy1.getPOV() == 0 ){
+    //         gridRowPosition = GridRowPosition.High;
+    //         gridArmPosition = GridArmPosition.ConePrep;
+    //     }
+    //     else if (joy1.getPOV() == 90){
+    //         gridRowPosition = GridRowPosition.Retract;
+    //         gridArmPosition = GridArmPosition.ConePrep;
+    //     }
+    //     else if (joy1.getPOV() == 180){
+    //         gridRowPosition = GridRowPosition.Retract;
+    //         gridArmPosition = GridArmPosition.Hybrid;
+    //     }
+    //     else if (joy1.getPOV() == 270){
+    //         gridRowPosition = GridRowPosition.DoubleSubstation;
+    //         gridArmPosition = GridArmPosition.DoubleSubstation;
+    //     }
+    // }
 
     public static void keyInputRowPosition(){
         if(key0.getRawButton(1) || key0.getRawButton(4)|| key0.getRawButton(7) || key0.getRawButton(10)|| key0.getRawButton(13)

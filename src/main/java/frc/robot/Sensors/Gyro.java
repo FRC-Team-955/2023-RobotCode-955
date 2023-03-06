@@ -2,6 +2,7 @@ package frc.robot.Sensors;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil; 
 
 public class Gyro {
@@ -77,5 +78,9 @@ public class Gyro {
 
     public static void set(double offset){
         pigeon.setYaw(offset);
+    }
+    public static void displayInformation(){
+        SmartDashboard.putNumber("roll", getRoll());
+        SmartDashboard.putNumber("pitch", getPitch());
     }
 };

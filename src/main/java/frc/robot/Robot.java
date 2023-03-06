@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
     Arm.setArm(IO.GridArmPosition.Retract);
     Elevator.setElevator(IO.GridRowPosition.Retract);
     PortForwarder.add(5800, "photonvision.local", 5800);
-    SmartDashboard.putString("Alliance Color: ",  DriverStation.getAlliance().toString());
+    SmartDashboard.putString("Alliance Color",  DriverStation.getAlliance().toString());
   }
 
   @Override
@@ -53,8 +53,8 @@ public class Robot extends TimedRobot {
     Charge,
     None
   }
-  public static int autoGridSelection = 3; //zero is left most, eight is right most
-  public static AutoLeaveSelection autoLeaveSelection = AutoLeaveSelection.Charge;
+  public static int autoGridSelection = 2; //zero is left most, eight is right most
+  public static AutoLeaveSelection autoLeaveSelection = AutoLeaveSelection.Left;
   public static enum AutoState {
         Setup,
         Up,
@@ -282,6 +282,7 @@ public class Robot extends TimedRobot {
     // Arm.setOffset();    
     // Arm.setArm(IO.GridArmPosition.Retract);
     // Elevator.setElevator(IO.GridRowPosition.Retract);
+    IntakeV2.stopIntake();
     Drivebase.resetAnglesToAbsolute();
   }
 
@@ -296,6 +297,7 @@ public class Robot extends TimedRobot {
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
     GamepieceManager.displayInformation();
+    // Gyro.displayInformation();
   }
 
   private static boolean resetAngle = true;
@@ -333,6 +335,7 @@ public class Robot extends TimedRobot {
         Claw.intakeFineControl(0);
         Arm.disableArm();
         Elevator.disableElevator();
+        IntakeV2.stopIntake();
         if(resetAngle){
           SwerveDrive.headingSetPoint = Gyro.getAngle()-90;
         }
@@ -382,9 +385,9 @@ public class Robot extends TimedRobot {
     // else if (IO.Drivebase.isAutoBalanceActive()){
     //   robotState = RobotState.AUTO_BALANCE;
     // } 
-    // else if (IO.Drivebase.isPowerSaving()){
-    //   robotState = RobotState.POWER_SAVING;
-    // }
+    else if (IO.Drivebase.isPowerSaving()){
+      robotState = RobotState.POWER_SAVING;
+    }
     else {
       resetAngle = true;
       robotState = RobotState.DRIVING;
