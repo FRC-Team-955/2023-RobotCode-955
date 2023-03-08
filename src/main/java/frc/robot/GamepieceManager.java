@@ -65,7 +65,7 @@ public class GamepieceManager {
                 }
                 break;
             case LoadPrep:
-                if(Arm.setArm() && Elevator.setElevator()) {
+                if(runExtention()) {
                     loadState = loadStates.Load;
                 }
                 break;
@@ -115,6 +115,7 @@ public class GamepieceManager {
             //     }
             // } else {
             Claw.stopishMotor();
+            IntakeV2.handOffNoPid();
             loadState = loadStates.Intake;
 
             // }
