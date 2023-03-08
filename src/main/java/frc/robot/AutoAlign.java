@@ -2,10 +2,11 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Sensors.AprilTagCameraWrapper;
+import frc.robot.Sensors.Gyro;
 import frc.robot.Sensors.LimelightCameraWrapper;
+import frc.robot.Swerve.SwerveDrive;
 
 public class AutoAlign {
     private static PIDController aprilTagAlignXPID = new PIDController(Constants.AutoAlign.aprilTagAlignXkP, Constants.AutoAlign.aprilTagAlignXkI, Constants.AutoAlign.aprilTagAlignXkD); 
@@ -88,6 +89,8 @@ public class AutoAlign {
     public static enum GridAlignState {
         AlignedToOdometry,
         AlignedToNode,
+        FixRotation,
+        FixRotationInProgress,
         InPosition
     }
     public static GridAlignState gridAlignState = GridAlignState.AlignedToOdometry;
@@ -107,12 +110,18 @@ public class AutoAlign {
                             gridAlignY = Drivebase.getPose().getY();
                             gridAlignState = GridAlignState.InPosition;
                         }
-                    } else {
+                    } else if (!checkRotation()) {
+                        gridAlignState = GridAlignState.FixRotation;
+                    }
+                    else {
                         if(alignAprilTag()) {
                             gridAlignY = Drivebase.getPose().getY();
                             gridAlignState = GridAlignState.InPosition;
                         }
                     }
+                    break;
+                case FixRotation:
+                    AutoAlign.fixRotation();
                     break;
                 case InPosition:
                     return moveIntoPosition();
@@ -194,5 +203,38 @@ public class AutoAlign {
         SmartDashboard.putString("AutoAlign.substationAlignStateSave", substationAlignState.toString());
 
 
+    }
+
+    public static void fixRotation() {
+        if (!checkRotation() & gridAlignState == gridAlignState.FixRotation) {
+            double offset = LimelightCameraWrapper.getHorizontalOffset() * 1; // change this number when testing
+            Gyro.set(90 - offset);
+            SwerveDrive.headingSetPoint = -180 - offset;
+            gridAlignState = GridAlignState.FixRotationInProgress;
+        } else if (!checkRotation() & gridAlignState == gridAlignState.FixRotationInProgress) {
+            if(IO.isConeNodePosition) {
+                if(alignTape()) {
+                    gridAlignY = Drivebase.getPose().getY();
+                    gridAlignState = GridAlignState.InPosition;
+                    }
+                } else if (!checkRotation()) {
+                    gridAlignState = GridAlignState.FixRotation;
+                }
+                else {
+                    if(alignAprilTag()) {
+                        gridAlignY = Drivebase.getPose().getY();
+                        gridAlignState = GridAlignState.InPosition;
+                    }
+            }
+            gridAlignState = gridAlignState.InPosition;
+        }
+    }
+
+    public static boolean checkRotation() {
+        if (LimelightCameraWrapper.isAlignedToConeNode()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
