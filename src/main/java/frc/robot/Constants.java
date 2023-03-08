@@ -14,6 +14,7 @@ public class Constants {
             public static int thrustAxis = 2;
             public static int autoAlignAxis = 3;
             public static int autoBalanceButton = 4;
+            public static int resetOdometryAngleButton =8;
         }
         public static class Joy1{
             public static final int joy1Id = 1;
@@ -37,6 +38,10 @@ public class Constants {
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
         public static Translation2d autoBalanceForward = new Translation2d(0,0.1);
         public static Translation2d autoBalanceBackward = new Translation2d(0,-0.1);
+        //Aiden
+        // public static double turnRate = 2;
+        //Alex
+        // public static double turnRate = 1;
 
         public static double turnRate = 0.5;
 
@@ -101,9 +106,9 @@ public class Constants {
 
         public static double Ks = 0.4;
 
-        public static double intakeAmpThreshhold = 30;
+        public static double intakeAmpThreshhold = 10;
         public static double handOffMotorRun = 0.5;
-        public static double handoffMotorSlow = 0.2;
+        public static double handoffMotorSlow = 0.4;
         public static double handoffMotorReverse = -0.15;
 
         public static double ExtendPosition = 1.2;
@@ -315,7 +320,7 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return false;
+        return true;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){

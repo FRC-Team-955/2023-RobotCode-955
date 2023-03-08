@@ -17,11 +17,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-// Notes on intakev2
-//positive joystick on handoff is 
-//positive joystick on intake is
-//moving intake outward is
-
 public class IntakeV2 {
     private static CANSparkMax handOffMotor = new CANSparkMax(Constants.IntakeV2.handOffMotorID, MotorType.kBrushless);
     private static TalonSRX motorLeft = new TalonSRX(Constants.IntakeV2.motorLeftID);
@@ -37,49 +32,49 @@ public class IntakeV2 {
         motorRight.set(ControlMode.Follower, Constants.IntakeV2.motorLeftID);
     }
 
-    // public static boolean extendNoPid(){
-    //     if (!IO.isOverrideEnabled()) {
-    //         theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
-    //         if(theta > Math.PI/2){
-    //             handOffMotor.setVoltage(-3);
-    //             return false;
-    //         }else{
-    //             handOffMotor.setVoltage(0);
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+    public static boolean extendNoPid(){
+        if (!IO.isOverrideEnabled()) {
+            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(42+90);
+            if(theta > Math.PI/3){
+                handOffMotor.setVoltage(-4);
+                return false;
+            }else{
+                handOffMotor.setVoltage(0);
+                return true;
+            }
+        }
+        return false;
+    }
 
-    // public static boolean retractNoPid(){
-    //     if (!IO.isOverrideEnabled()) {
-    //         theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
-    //         if(theta < Math.PI/2){
-    //             handOffMotor.setVoltage(3);
-    //         }else{
-    //             if (theta<2.2){
-    //                 IntakeV2.reverseIntake();
-    //             }
-    //             handOffMotor.setVoltage(0);
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+    public static boolean retractNoPid(){
+        if (!IO.isOverrideEnabled()) {
+            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(42+90);
+            if(theta < 2*Math.PI/3){
+                handOffMotor.setVoltage(4);
+            }else{
+                handOffMotor.setVoltage(0);
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static boolean handOffNoPid(){
         if (!IO.isOverrideEnabled()) {
-            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(90+42);
-            if(theta > Math.PI/2){
-                handOffMotor.setVoltage(-3);
+            theta = relativeEncoder.getPosition() * 2 * Math.PI / 63 + Math.toRadians(42+90);
+            if(theta < 2*Math.PI/3){
+                handOffMotor.setVoltage(4);
                 return true;
             }else{
-                motorLeft.set(ControlMode.PercentOutput, .2);
-                //motorRight.set(ControlMode.PercentOutput, .2);
+                motorLeft.set(ControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
+                handOffMotor.setVoltage(0);
             }
-            handOffMotor.setVoltage(0);
         }
         return false;
+    }
+
+    public static void stopIntake() {
+        motorLeft.set(ControlMode.PercentOutput, 0);
     }
 
     public static boolean moveIntake(double current) {
@@ -114,7 +109,7 @@ public class IntakeV2 {
 
     public static boolean intake() {
         if (!IO.isOverrideEnabled()) {
-            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorRun);
+            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
             if (motorLeft.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold) {
                 motorLeft.set(TalonSRXControlMode.PercentOutput, 0);
                 return true;
@@ -131,7 +126,7 @@ public class IntakeV2 {
         SmartDashboard.putNumber("Right Motor Amps", motorRight.getStatorCurrent());
         SmartDashboard.putNumber("Encoder Postion", relativeEncoder.getPosition());
         SmartDashboard.putNumber("rotations", relativeEncoder.getPosition() / 63);
-        SmartDashboard.putNumber("Angle", relativeEncoder.getPosition() / 63 * 360+90+42);
+        SmartDashboard.putNumber("Angle", relativeEncoder.getPosition() / 63 * 360+42+90);
     }
 
 }

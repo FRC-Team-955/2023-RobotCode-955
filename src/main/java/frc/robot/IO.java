@@ -18,17 +18,13 @@ public final class IO {
     private static Joystick key1 = new Joystick(3);
     private static Joystick key2 = new Joystick(4);
 
-    public static boolean getButton() {
+    public static boolean getTestingButton() {
         return joy0.getRawButton(2);
     }
 
-    // public static double handoffOverride() {
-    //     return joy0.getRawAxis(4);
-    // }
-
-    // public static double intakeOverride() {
-    //     return joy0.getRawAxis(0);
-    // }
+    public static double getTestingTrigger() {
+        return joy0.getRawAxis(3);
+    }
 
     public static double elevatorFineControl(){
         return -joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
