@@ -6,10 +6,12 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class TestAction extends AutoAction {
-    TalonSRX motor;
+    TalonSRX motor = new TalonSRX(21);
+
+    public double speed;
 
     public boolean Act() {
-        motor.set(TalonSRXControlMode.PercentOutput, 0.5);
+        motor.set(TalonSRXControlMode.PercentOutput, speed);
         System.out.println("Test");
         return false;
     }
@@ -30,5 +32,9 @@ public class TestAction extends AutoAction {
         }
 
         motor = new TalonSRX(motorId);
+    }
+
+    public TestAction() {
+
     }
 }

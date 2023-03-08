@@ -59,9 +59,18 @@ public class Auto implements Runnable {
     }
 
     public Auto(int controlPort) { //Use port 5810 maybe?
+        File store = new File("home/lvuser/auto/persistentAuto.json");
         try {
+            profile = new ObjectMapper().readValue(new File("/home/lvuser/auto/autoProfiles/" + new ObjectMapper().readValue(store, String.class) + ".auto"), AutoProfile.class);
+        }
+        catch (IOException e) {
+            System.out.println("WARNING: Failed to load persisten auto profile.");
+            System.out.println(e);
+        }
+        try {
+            System.out.println("test");
             autoControlServer = new ServerSocket(controlPort);
-            autoControlServer.setSoTimeout(2);
+            autoControlServer.setSoTimeout(200000);
         }
         catch (IOException e) {
             System.out.println("Failed to start auto control connection: ");
