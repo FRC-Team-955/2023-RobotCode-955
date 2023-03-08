@@ -8,11 +8,12 @@ public class WaypointAction extends AutoAction {
     public double x;
     public double y;
     public double heading;
+    public double speed;
     public boolean Act() {
-        return AutoAlign.alignOdometry(new Translation2d(x - Drivebase.getPose().getX(), y - Drivebase.getPose().getY()), heading);
+        return AutoAlign.alignOdometry(new Translation2d((x - Drivebase.getPose().getX()) * speed, (y - Drivebase.getPose().getY()) * speed), heading);
     }
     public void Finish() {
-
+        AutoAlign.alignOdometry(Drivebase.getPose().getTranslation(), heading);
     }
 
     public WaypointAction() {

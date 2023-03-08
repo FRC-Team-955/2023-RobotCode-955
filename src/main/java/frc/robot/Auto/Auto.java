@@ -44,7 +44,18 @@ public class Auto implements Runnable {
     Thread autoControlThread;
 
     public Auto() {
-
+        File store = new File("home/lvuser/auto/persistentAuto.json");
+        if (store.exists()) {
+            try {
+                profile = new ObjectMapper().readValue(new File("/home/lvuser/auto/autoProfiles/" + new ObjectMapper().readValue(store, String.class) + ".auto"), AutoProfile.class);
+            }
+            catch (IOException e) {
+                
+            }
+        }
+        else {
+            profile = new AutoProfile();
+        }
     }
 
     public Auto(int controlPort) { //Use port 5810 maybe?
@@ -72,6 +83,15 @@ public class Auto implements Runnable {
                         case Set:
                             try {
                                 profile = new ObjectMapper().readValue(new File("/home/lvuser/auto/autoProfiles/" + message.message + ".auto"), AutoProfile.class);
+                                File store = new File("home/lvuser/auto/persistentAuto.json");
+                                if (store.exists()) {
+                                    new ObjectMapper().writeValue(store, message.message);
+                                }
+                                else {
+                                    store.mkdirs();
+                                    store.createNewFile();
+                                    new ObjectMapper().writeValue(store, message.message);
+                                }
                                 controlOut.println(new ObjectMapper().writeValueAsString(Success.Message(true, MessageType.Set)));
                             }
                             catch (IOException e) {
