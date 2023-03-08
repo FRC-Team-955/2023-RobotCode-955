@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -28,6 +29,7 @@ public final class Arm {
     static double lastVelocity = 0;
     static DoubleLogEntry motorLog;
     static DoubleLogEntry encoderLog;
+    static TrapezoidProfile profile;
 
     public static void setup() {
         //motor = new CANSparkMax(Constants.Arm.motorID, af]atMotorType.kBrushless);
@@ -105,6 +107,7 @@ public final class Arm {
     }
     //0.5600
     public static double setpoint = 0;
+    public static double storedSetpoint = 0;
     public static boolean armRetract = true;
     public static void setArm(IO.GridArmPosition level) {
         switch(level) {
@@ -123,7 +126,7 @@ public final class Arm {
             case ConeAlmostReady:
                 setpoint = Constants.Arm.coneAlmostReady;
                 armRetract = false;
-
+                break;
             case CubePrep:
                 setpoint = Constants.Arm.cubePrep;
                 armRetract = false;
@@ -135,6 +138,7 @@ public final class Arm {
             case SingleSubstation:
                 setpoint = Constants.Arm.singleSubstation;
                 armRetract = false;
+                break;
             case DoubleSubstation:
                 setpoint = Constants.Arm.doubleSubstation;
                 armRetract = false;
@@ -151,6 +155,13 @@ public final class Arm {
     }
     public static boolean setArm(){
         if (!IO.isOverrideEnabled()) {
+            if(setpoint != storedSetpoint) {
+                profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(1.75, 0.75), new TrapezoidProfile.State(setpoint, 0));
+                timer.reset();
+                timer.start();
+                storedSetpoint = setpoint;
+            }
+        TrapezoidProfile.State profileOutput = profile.calculate(timer.get());
             // timer.stop(); 
             // double accelRadPerSecond = (lastVelocity - encoder.getVelocity()) / timer.get(); 
             // timer.reset();
@@ -160,7 +171,7 @@ public final class Arm {
             //                                         accelRadPerSecond);
             double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
 
-            double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), setpoint) + feedForwardCalc, -12, 12);
+            double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), profileOutput.position) + feedForwardCalc, -12, 12);
             
             motor.setVoltage(output); 
             return Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance;
