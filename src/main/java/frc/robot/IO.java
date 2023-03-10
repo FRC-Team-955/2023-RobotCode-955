@@ -18,9 +18,12 @@ public final class IO {
     private static Joystick key1 = new Joystick(3);
     private static Joystick key2 = new Joystick(4);
 
-    // public static boolean getTestingButton() {
-    //     return joy0.getRawButton(2);
-    // }
+    public static boolean getTestingButton() {
+        return joy0.getRawButton(7);
+    }
+    public static boolean getTestingButtonTwo() {
+        return joy0.getRawButton(8);
+    }
 
     // public static double getTestingTrigger() {
     //     return joy0.getRawAxis(3);
@@ -60,7 +63,7 @@ public final class IO {
         //joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2 ||
         // return joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2;
     }
-
+    
     public static double armOverride() {
         return joy1.getRawAxis(Constants.IO.Joy1.armOverrideAxis);
     }

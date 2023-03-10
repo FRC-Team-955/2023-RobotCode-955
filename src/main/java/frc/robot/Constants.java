@@ -107,9 +107,9 @@ public class Constants {
 
         public static double Ks = 0.4;
 
-        public static double intakeAmpThreshhold = 10;
+        public static double intakeAmpThreshhold = 17;
         public static double handOffMotorRun = 0.5;
-        public static double handoffMotorSlow = 0.4;
+        public static double handoffMotorSlow = 0.2;
         public static double handoffMotorReverse = -0.15;
 
         public static double ExtendPosition = 1.2;
@@ -154,7 +154,7 @@ public class Constants {
         public static double upperLimit = 87.5;
         public static double lowerLimit = -111.4;
         // Arm Setpoint Values
-        public static int retracted = -110;
+        public static int retracted = -130;
         
         // public static int kBottomLevel = 1000;
         // public static int kMiddleLevel = 2000;
@@ -196,7 +196,7 @@ public class Constants {
         public static double tolerance = 2;
         // Extension Level Values
         public static double retracted = 4;
-        public static double low = 10;
+        public static double low = 15;
         public static double mid = 25;
         public static double high = 30;
         // public static double doubleSubstationPosition = 30;

@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;
@@ -50,37 +51,49 @@ public class GamepieceManager {
     public static void loadResetOverride(boolean reset) {
         loadState = loadStates.Intake;
     }
+    private static Timer clawTimer = new Timer();
 
     public static void loadGamepiece() {
-        Arm.setArm();
-        Elevator.setElevator();
+        // Arm.setArm();
+        // Elevator.setElevator();
         switch(loadState) {
             case Intake:
                 if(IntakeV2.extendNoPid()) {
-                    Arm.setArm(IO.GridArmPosition.Retract);
-                    Elevator.setElevator(IO.GridRowPosition.Retract);
+                    // Arm.setArm(IO.GridArmPosition.Retract);
+                    // Elevator.setElevator(IO.GridRowPosition.Low);
                     if(IntakeV2.intake()) {
                         loadState = loadStates.LoadPrep;
                     }
                 }
                 break;
             case LoadPrep:
-                if(runExtention()) {
+                IntakeV2.slowIntake();
+                // if(runExtention()) {
                     loadState = loadStates.Load;
-                }
+                // }
                 break;
             case Load:
                 Claw.intakeGamePiece();
                 if(IntakeV2.handOffNoPid()) {
                     loadState = loadStates.Loaded;
+                    clawTimer.reset();
+                    clawTimer.start();
                 }
                 break;
             case Loaded:
-                Claw.stopishMotor();
-                // IntakeV2.extendNoPid();
+                if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
+                    Claw.intakeGamePiece();
+                }else{
+                    Claw.stopishMotor();
+                }
                 loadState = loadStates.Finish;
                 break;
             case Finish:
+                if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
+                    Claw.intakeGamePiece();
+                }else{
+                    Claw.stopishMotor();
+                }
                 break;
         }
     }
@@ -103,22 +116,19 @@ public class GamepieceManager {
             Claw.outputGamePiece();
         }
         else if(IO.intakeSequence()){
-            // loadGamepiece();
+            loadGamepiece();
+            loadSequenceTimer.start();
+            loadSequenceTimer.reset();
+
         }
         else{
-            // loadSequenceTimer.start();
-            // if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
-            //     // IntakeV2.slowIntake();
-            //     Claw.intakeGamePiece();
-            //     if(runExtention()){
-            //         IntakeV2.retractNoPid();
-            //     }
-            // } else {
+            loadSequenceTimer.start();
+            if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
+                Claw.intakeGamePiece();
+            }
             Claw.stopishMotor();
             IntakeV2.handOffNoPid();
             loadState = loadStates.Intake;
-
-            // }
         }
     }
     private static boolean elevatorInPosition = false;
@@ -257,6 +267,7 @@ public class GamepieceManager {
     }
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());
+        SmartDashboard.putString("loadState", loadState.toString());
         // SmartDashboard.putString("Intake Loading state", loadState.toString());
     }
 }

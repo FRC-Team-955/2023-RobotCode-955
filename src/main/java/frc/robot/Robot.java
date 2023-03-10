@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
         Done,
         AutoBalance
   }
-  public static AutoState autoState = AutoState.Setup;
+  public static AutoState autoState = AutoState.Done;
   public static boolean isAutoConeNodePosition = false;
   public static Translation2d autoGridSelection(int position){
     if(position == 0){
@@ -118,6 +118,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Field", field2d);
     Drivebase.resetAnglesToAbsolute();
     Arm.setOffset();
+    IntakeV2.setOffset();
     Drivebase.setSwerveOdometry(new Pose2d(autoGridSelection(autoGridSelection).getX(), autoGridSelection(autoGridSelection).getY(),Gyro.getYawR2D()));
     SmartDashboard.putString("Alliance Color",  DriverStation.getAlliance().toString());
   }
@@ -262,9 +263,9 @@ public class Robot extends TimedRobot {
         }
         break;
       case Done:
-        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-        Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
-        System.out.println("Odometry X: "+ Drivebase.getPose().getX());
+        // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+        // Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
+        // System.out.println("Odometry X: "+ Drivebase.getPose().getX());
         break;
       case AutoBalance:
         SmartDashboard.putNumber("pitch", Gyro.getPitch());
@@ -297,6 +298,7 @@ public class Robot extends TimedRobot {
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
     GamepieceManager.displayInformation();
+    IntakeV2.displayInformation();
     // Gyro.displayInformation();
   }
 
@@ -348,15 +350,23 @@ public class Robot extends TimedRobot {
         GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
 
         GamepieceManager.loadSequence();
-        if(IO.resetAngle()){
-          Gyro.set(90);
-          SwerveDrive.headingSetPoint = -180;
-        }
+        // if (IO.getTestingButton()){
+        //   IntakeV2.extendNoPid();
+        // }
+        // else if (IO.getTestingButtonTwo()){
+        //   IntakeV2.handOffNoPid();
+        // }else{
+        //   IntakeV2.stopHandoff();
+        // }
+        // if(IO.resetAngle()){
+        //   Gyro.set(90);
+        //   SwerveDrive.headingSetPoint = -180;
+        // }
         // if(IO.resetOdometryAngle()){
 
         // }
-        GamepieceManager.manageExtension();
-        Drivebase.drive();
+        // GamepieceManager.manageExtension();
+        // Drivebase.drive();
     }
   }
 
