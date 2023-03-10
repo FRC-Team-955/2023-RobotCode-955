@@ -285,6 +285,7 @@ public class Constants {
             public static Translation2d blueAvoidChargerLower = new Translation2d(5.5,8.02-7.5);
             public static Translation2d blueOutCommunityLower = new Translation2d(4.0, 8.02-7.5);
             public static Translation2d blueInCommunityLower = new Translation2d(2.0, 8.02-7.5);
+            public static Translation2d blueFieldChargePrep = new Translation2d(5.16,2.747899);
 
             public static Translation2d red0 = new Translation2d(fieldX - 2.16, blue8.getY());
             public static Translation2d red1 = new Translation2d(fieldX - 2.16, blue7.getY());
@@ -303,8 +304,10 @@ public class Constants {
             public static Translation2d redAvoidChargerLower = new Translation2d(11,8.02-7.5);
             public static Translation2d redOutCommunityLower = new Translation2d(12.5, 8.02-7.5);
             public static Translation2d redInCommunityLower = new Translation2d(14, 8.02-7.5);
+            public static Translation2d redFieldChargePrep = new Translation2d(fieldX - 5.16, blue4.getY());
 
-
+            public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
+            public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
 
             // public static Translation2d redLeftDoubleSubstation = new Translation2d(2.1, 6.028182);
             // public static Translation2d redRightDoubleSubstation = new Translation2d(2.1, 7.471220);

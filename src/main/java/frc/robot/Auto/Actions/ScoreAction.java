@@ -2,108 +2,130 @@ package frc.robot.Auto.Actions;
 
 import java.util.ArrayList;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.IO;
+import frc.robot.IO.GridArmPosition;
+import frc.robot.IO.GridRowPosition;
 import frc.robot.AutoAlign;
 import frc.robot.Constants;
 import frc.robot.Drivebase;
 import frc.robot.GamepieceManager;
-import frc.robot.IO;
-import frc.robot.Auto.AutoProfile.Team;
-import frc.robot.IO.GridArmPosition;
-import frc.robot.IO.GridRowPosition;
 import frc.robot.Subsystems.Claw;
 
 public class ScoreAction extends AutoAction {
-    public int position;
-    public int level;
 
-    Translation2d target;
+    public int nodePosition;
+    public int nodeLevel;
+
+    public AutoState autoState = AutoState.AlignNode;
 
     @Override
-    public void Start() {
-        if (profile.team == Team.Red) {
-            switch (position) {
-                case 0: target = Constants.FieldPositions.AutoAlignPositions.red0; break;
-                case 1: target = Constants.FieldPositions.AutoAlignPositions.red1; break;
-                case 2: target = Constants.FieldPositions.AutoAlignPositions.red2; break;
-                case 3: target = Constants.FieldPositions.AutoAlignPositions.red3; break;
-                case 4: target = Constants.FieldPositions.AutoAlignPositions.red4; break;
-                case 5: target = Constants.FieldPositions.AutoAlignPositions.red5; break;
-                case 6: target = Constants.FieldPositions.AutoAlignPositions.red6; break;
-                case 7: target = Constants.FieldPositions.AutoAlignPositions.red7; break;
-                case 8: target = Constants.FieldPositions.AutoAlignPositions.red8; break;
-            }
-        }
-        else {
-            switch (position) {
-                case 0: target = Constants.FieldPositions.AutoAlignPositions.blue0; break;
-                case 1: target = Constants.FieldPositions.AutoAlignPositions.blue1; break;
-                case 2: target = Constants.FieldPositions.AutoAlignPositions.blue2; break;
-                case 3: target = Constants.FieldPositions.AutoAlignPositions.blue3; break;
-                case 4: target = Constants.FieldPositions.AutoAlignPositions.blue4; break;
-                case 5: target = Constants.FieldPositions.AutoAlignPositions.blue5; break;
-                case 6: target = Constants.FieldPositions.AutoAlignPositions.blue6; break;
-                case 7: target = Constants.FieldPositions.AutoAlignPositions.blue7; break;
-                case 8: target = Constants.FieldPositions.AutoAlignPositions.blue8; break;
-            }
-        }
-    }
-
-    boolean aligned = false;
-    boolean extended = false;
-    boolean placed = false;
-    boolean retreated = false;
-    Pose2d scorePosition;
-
     public boolean Act() {
-        if (!aligned) {
-            aligned = AutoAlign.moveToGridPositionOdometryTwoStep();
-            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-            Claw.stopishMotor();
-        }
-        else {
-            if (!extended)
-                extended = GamepieceManager.extention((level == 0) ? GridRowPosition.Low : (level == 1) ? GridRowPosition.Mid : GridRowPosition.High, (position == 1 || position == 4 || position == 7) ? GridArmPosition.CubePrep : GridArmPosition.ConePrep);
-            else {
-                if (!placed) {
-                    placed = GamepieceManager.extention((level == 0) ? GridRowPosition.Low : (level == 1) ? GridRowPosition.Mid : GridRowPosition.High, (position == 1 || position == 4 || position == 7) ? GridArmPosition.CubeReady : GridArmPosition.ConeReady);
-                    scorePosition = Drivebase.getPose();
-                }
-                else {
-                    if (!retreated) {
-                        Claw.outputGamePiece();
-                        Drivebase.drive.drive(new Translation2d(-0.3, 0), 0, false, false, false, 0);
-                        retreated = (profile.team == Team.Red) ? (Drivebase.getPose().getX() < scorePosition.getX() - 0.5) : (Drivebase.getPose().getX() > scorePosition.getX() + 0.5);
+        switch (autoState) {
+            case AlignNode:
+                GamepieceManager.runExtention();
+                Claw.intakeGamePiece();
+                if(AutoAlign.alignOdometry(autoGridSelection(nodePosition), -180)){
+                    if (isConePosition(nodePosition)) {
+                        autoState = AutoState.AlignPosition;
+                    } else {
+                        autoState = AutoState.Place;
                     }
-                    else
-                        return GamepieceManager.extention(GridRowPosition.Retract, GridArmPosition.Retract);
                 }
-            }
+                break;
+            case AlignPosition:
+                GamepieceManager.runExtention();
+                Claw.intakeGamePiece();
+                if (AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
+                    autoGridSelection(nodePosition).getY()), -180.0)) {
+                    autoState = AutoState.Extend;
+                }
+                break;
+            case Extend:
+                Claw.stopishMotor();
+                if (GamepieceManager.extention(autoRowSelection(nodeLevel), (nodeLevel == 0) ? GridArmPosition.Hybrid : IO.GridArmPosition.ConePrep)){
+                    autoState = AutoState.Place;
+                }
+                break;
+            case Place:
+                if(GamepieceManager.extention(autoRowSelection(nodeLevel), (nodeLevel == 0) ? GridArmPosition.Hybrid : IO.GridArmPosition.ConePrep)){
+                    Claw.outputGamePiece();
+                    autoState = AutoState.LeaveNode;
+                }else{
+                    Claw.stopishMotor();
+                }
+                break;
+            case LeaveNode:
+                GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+                Claw.outputGamePiece();
+
+                return AutoAlign.alignOdometry(autoGridSelection(nodePosition), -180);
         }
         return false;
     }
 
+    @Override
     public void Finish() {
-        Drivebase.drive.drive(new Translation2d(0, 0), 0, false, false, false, 0);
-        Claw.stopishMotor();
-        GamepieceManager.extention(GridRowPosition.Retract, GridArmPosition.Retract);
+        Claw.stopishMotor();        
     }
 
+    public static Translation2d autoGridSelection(int position){
+        switch (position) {
+            case 0: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0:Constants.FieldPositions.AutoAlignPositions.red0;
+            case 1: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue1:Constants.FieldPositions.AutoAlignPositions.red1;
+            case 2: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue2:Constants.FieldPositions.AutoAlignPositions.red2;
+            case 3: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue3:Constants.FieldPositions.AutoAlignPositions.red3;
+            case 4: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue4:Constants.FieldPositions.AutoAlignPositions.red4;
+            case 5: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue5:Constants.FieldPositions.AutoAlignPositions.red5;
+            case 6: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue6:Constants.FieldPositions.AutoAlignPositions.red6;
+            case 7: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue7:Constants.FieldPositions.AutoAlignPositions.red7;
+            case 8: return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8:Constants.FieldPositions.AutoAlignPositions.red8;
+            default: return Drivebase.getPose().getTranslation();
+        }
+    }
+
+    public static boolean isConePosition(int position) {
+        switch (position) {
+            case 0: return true;
+            case 2: return true;
+            case 3: return true;
+            case 5: return true;
+            case 6: return true;
+            case 8: return true;
+            default: return false;
+        }
+    }
+
+    public static GridRowPosition autoRowSelection(int position) {
+        switch (position) {
+            case 0: return GridRowPosition.Retract;
+            case 1: return GridRowPosition.Retract;
+            case 2: return GridRowPosition.High;
+            default: return GridRowPosition.Retract;
+        }
+    }
+
+    public static enum AutoState {
+        AlignNode,
+        AlignPosition,
+        Extend,
+        Place,
+        LeaveNode
+    }
+
+    public ScoreAction() {
+
+    }
     public ScoreAction(double _startTime, double _endTime, EarlyEndMode earlyEndMode, LateEndMode lateEndMode, int gridLevel, int gridPosition, AutoAction[] _endActions) {
         startTime = _startTime;
         endTime = _endTime;
         earlyMode = earlyEndMode;
         lateMode = lateEndMode;
-        level = gridLevel;
-        position = gridPosition;
+        nodeLevel = gridLevel;
+        nodePosition = gridPosition;
         endActions = new ArrayList<AutoAction>();
         for (AutoAction action : _endActions) {
             endActions.add(action);
         }
-    }
-
-    public ScoreAction() {
-
     }
 }
