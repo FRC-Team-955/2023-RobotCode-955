@@ -1,5 +1,7 @@
 package frc.robot.Auto.Actions;
 
+import java.util.ArrayList;
+
 import org.opencv.core.Core;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -52,4 +54,17 @@ public class BalanceAction extends AutoAction {
     }
 
     public BalanceAction() {}
+
+    public BalanceAction(double _startTime, double _endTime, EarlyEndMode earlyEndMode, LateEndMode lateEndMode, boolean startInField, boolean willFinish, AutoAction[] _endActions) {
+        startTime = _startTime;
+        endTime = _endTime;
+        earlyMode = earlyEndMode;
+        lateMode = lateEndMode;
+        startOutOfCommunity = startInField;
+        finishes = willFinish;
+        endActions = new ArrayList<AutoAction>();
+        for (AutoAction action : _endActions) {
+            endActions.add(action);
+        }
+    }
 }

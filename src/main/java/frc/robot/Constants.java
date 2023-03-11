@@ -317,6 +317,15 @@ public class Constants {
             public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-redLeftDoubleSubstation.getX(), redRightDoubleSubstation.getY());
             public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-redRightDoubleSubstation.getX(), redLeftDoubleSubstation.getY());
             public static Translation2d blueSingleSubstation = new Translation2d(fieldX-redSingleSubstation.getX(),redSingleSubstation.getY());
+
+            public static double mobilityX = 5.25;
+            public static double mobilityUpper = 4.983099;
+            public static double mobilityLower = 0.512699;
+
+            public static Translation2d redMobilityLeft = new Translation2d(fieldX - mobilityX, mobilityLower);
+            public static Translation2d redMobilityRight = new Translation2d(fieldX - mobilityX, mobilityUpper);
+            public static Translation2d blueMobilityLeft = new Translation2d(mobilityX, mobilityUpper);
+            public static Translation2d blueMobilityRight = new Translation2d(mobilityX, mobilityLower);
         }   
     }
 
