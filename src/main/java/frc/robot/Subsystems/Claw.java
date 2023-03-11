@@ -42,4 +42,7 @@ public class Claw {
     public static void stopishMotor() {
         motor.set(ControlMode.PercentOutput, Constants.Claw.stopish);
     }
+    public static void stopMotor(){
+        motor.set(ControlMode.PercentOutput, 0);
+    }
 }

@@ -60,7 +60,7 @@ public class IntakeV2 {
 
     public static boolean retractNoPid(){
         if (!IO.isOverrideEnabled()) {
-            if(getPosition() < 7){
+            if(getPosition() > 10){
                 handOffMotor.setVoltage(4);
             }else{
                 handOffMotor.setVoltage(0);

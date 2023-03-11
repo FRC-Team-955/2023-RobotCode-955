@@ -27,6 +27,15 @@ public class Constants {
             public static int deployRunIntakeAxis = 2;
             public static int clawDropPieceAxis = 3;
         }
+        public static class Key2{
+            public static int clawDropPieceButton = 3;
+            public static int intakeSequenceConeButton = 4;
+            public static int runIntakeInButton = 7;
+            public static int elevatorManualRetractButton = 9;
+            public static int isPowerSavingButton = 10;
+            public static int intakeSequenceCubeButton = 11;
+
+        }
     }
     // Auto Balance PID
     // Note from owen: we will have soooo many pids these need to be named better
@@ -51,6 +60,10 @@ public class Constants {
     }
     public static double forwardRateLimiter = 0;
     public static double strafeRateLimiter = 0;
+
+    public static class Auto{
+        public static double intakeRunTime = 500;
+    }
 
     public static class AutoAlign{
         //final for 1.16 meters out (from center of robot)
@@ -202,6 +215,8 @@ public class Constants {
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
         public static double doubleSubstation = 4;
+        
+        public static double cubeIntakePosition = 1;
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;
@@ -258,6 +273,7 @@ public class Constants {
         // public static double inLoadingZoneY = 6.6;
         // public static double atGridBlueX = 1.8;
         // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
+        public static double notHitGridOffset = 0.1;
         public static double atGridOffset =-0.05;
         //offset
         public static double atGridBlueX =1.377950 + atGridOffset +(bumperWidth/2);
@@ -298,6 +314,17 @@ public class Constants {
             // public static Translation2d red7 = new Translation2d(fieldX - 2.16, blue1.getY());
             public static Translation2d red7 = new Translation2d(fieldX - 2.16, blue1.getY());
             public static Translation2d red8 = new Translation2d(fieldX - 2.16, blue0.getY());
+
+            public static Translation2d blueGamePiece0 = new Translation2d(7,4.983099);
+            public static Translation2d blueGamePiece1 = new Translation2d(7,4.983099);
+            public static Translation2d blueGamePiece2 = new Translation2d(7,4.983099);
+            public static Translation2d blueGamePiece3 = new Translation2d(7,4.983099);
+            public static Translation2d redGamePiece0 = new Translation2d(9,blueGamePiece3.getY());
+            public static Translation2d redGamePiece1 = new Translation2d(9,blueGamePiece2.getY());
+            public static Translation2d redGamePiece2 = new Translation2d(9,blueGamePiece1.getY());
+            public static Translation2d redGamePiece3 = new Translation2d(9,blueGamePiece0.getY());
+
+
             //6.9375
             public static Translation2d redAvoidChargerUppper = new Translation2d(11,8.02-3);
             public static Translation2d redOutCommunityUppper = new Translation2d(12.5, 8.02-3);

@@ -56,10 +56,10 @@ public final class IO {
         return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key2.getRawButtonPressed(2);
     }
     public static boolean elevatorManualRetract(){
-        return key2.getRawButton(9);
+        return key2.getRawButton(Constants.IO.Key2.elevatorManualRetractButton);
     }
     public static boolean clawDropPiece(){
-        return key2.getRawButton(3) || joy0.getRawButton(1);
+        return key2.getRawButton(Constants.IO.Key2.clawDropPieceButton) || joy0.getRawButton(1);
         //joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2 ||
         // return joy1.getRawAxis(Constants.IO.Joy1.clawDropPieceAxis)>0.2;
     }
@@ -72,12 +72,15 @@ public final class IO {
         return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
     }
 
-    public static boolean intakeSequence(){
-        return key2.getRawButton(4);
+    public static boolean intakeSequenceCone(){
+        return key2.getRawButton(Constants.IO.Key2.intakeSequenceConeButton);
         // return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) < 0.2 || key2.getRawButtonPressed(4);
     }
+    public static boolean intakeSequenceCube(){
+        return key2.getRawButton(Constants.IO.Key2.intakeSequenceCubeButton);
+    }
     public static boolean runIntakeIn(){
-        return key2.getRawButton(7);
+        return key2.getRawButton(Constants.IO.Key2.runIntakeInButton);
     }
     public static class Drivebase{
         public static boolean isAutoAlignActive() {
@@ -89,7 +92,7 @@ public final class IO {
         }
 
         public static boolean isPowerSaving(){
-            return key2.getRawButton(10);
+            return key2.getRawButton(Constants.IO.Key2.isPowerSavingButton);
         }
   
         public static double getSwerveRotation(){

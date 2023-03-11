@@ -53,7 +53,7 @@ public class GamepieceManager {
     }
     private static Timer clawTimer = new Timer();
 
-    public static void loadGamepiece() {
+    public static void loadGamepieceCone() {
         // Arm.setArm();
         // Elevator.setElevator();
         switch(loadState) {
@@ -115,11 +115,15 @@ public class GamepieceManager {
         }else if(IO.clawDropPiece()){
             Claw.outputGamePiece();
         }
-        else if(IO.intakeSequence()){
-            loadGamepiece();
+        else if(IO.intakeSequenceCone()){
+            loadGamepieceCone();
             loadSequenceTimer.start();
             loadSequenceTimer.reset();
-
+        }
+        else if(IO.intakeSequenceCube()){
+            
+            loadSequenceTimer.start();
+            loadSequenceTimer.reset();
         }
         else{
             loadSequenceTimer.start();

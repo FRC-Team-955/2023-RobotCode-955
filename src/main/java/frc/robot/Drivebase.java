@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Sensors.Gyro;
 import frc.robot.Swerve.SwerveDrive;
 
@@ -142,6 +143,9 @@ public class Drivebase {
 
     public static Pose2d getPose() {
        return drive.getPose();
+    }
+    public static void displayInformation(){
+        SmartDashboard.putBoolean("Is balanced", Drivebase.isBalanced());
     }
 }
 
