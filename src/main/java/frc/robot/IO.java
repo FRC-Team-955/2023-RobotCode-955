@@ -18,12 +18,12 @@ public final class IO {
     private static Joystick key1 = new Joystick(3);
     private static Joystick key2 = new Joystick(4);
 
-    public static boolean getTestingButton() {
-        return joy0.getRawButton(7);
-    }
-    public static boolean getTestingButtonTwo() {
-        return joy0.getRawButton(8);
-    }
+    // public static boolean getTestingButton() {
+    //     return joy0.getRawButton(7);
+    // }
+    // public static boolean getTestingButtonTwo() {
+    //     return joy0.getRawButton(8);
+    // }
 
     // public static double getTestingTrigger() {
     //     return joy0.getRawAxis(3);
@@ -55,8 +55,8 @@ public final class IO {
     public static boolean elevatorManualUp(){
         return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key2.getRawButtonPressed(2);
     }
-    public static boolean elevatorManualRetract(){
-        return key2.getRawButton(Constants.IO.Key2.elevatorManualRetractButton);
+    public static boolean manualFullRetract(){
+        return key2.getRawButton(Constants.IO.Key2.manualFullRetractButton);
     }
     public static boolean clawDropPiece(){
         return key2.getRawButton(Constants.IO.Key2.clawDropPieceButton) || joy0.getRawButton(1);
@@ -180,6 +180,7 @@ public final class IO {
         SingleSubstation,
         DoubleSubstation,
         Hybrid,
+        CubeIntake,
         Up
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
@@ -190,7 +191,8 @@ public final class IO {
         Mid,
         High,
         SingleSubstation,
-        DoubleSubstation
+        DoubleSubstation,
+        CubeIntake
     }
     private static int gridColumnPosition = 0;
     private static int newGridColumnPosition = 0;

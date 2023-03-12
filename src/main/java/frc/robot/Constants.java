@@ -31,7 +31,7 @@ public class Constants {
             public static int clawDropPieceButton = 3;
             public static int intakeSequenceConeButton = 4;
             public static int runIntakeInButton = 7;
-            public static int elevatorManualRetractButton = 9;
+            public static int manualFullRetractButton = 9;
             public static int isPowerSavingButton = 10;
             public static int intakeSequenceCubeButton = 11;
 
@@ -41,9 +41,9 @@ public class Constants {
     // Note from owen: we will have soooo many pids these need to be named better
     public static class Drivebase{
 
-        public static double autoBalancekP = 0.3;
+        public static double autoBalancekP = 0.6;
         public static double autoBalancekI = 0;
-        public static double autoBalancekD = 0;
+        public static double autoBalancekD = 0.6;
 
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
         public static Translation2d autoBalanceForward = new Translation2d(0,0.5);
@@ -120,7 +120,7 @@ public class Constants {
 
         public static double Ks = 0.4;
 
-        public static double intakeAmpThreshhold = 17;
+        public static double intakeAmpThreshhold = 14;
         public static double handOffMotorRun = 0.5;
         public static double handoffMotorSlow = 0.2;
         public static double handoffMotorReverse = -0.15;
@@ -167,26 +167,29 @@ public class Constants {
         public static double upperLimit = 87.5;
         public static double lowerLimit = -111.4;
         // Arm Setpoint Values
-        public static int retracted = -130;
+        public static int retracted = -125;
         
         // public static int kBottomLevel = 1000;
         // public static int kMiddleLevel = 2000;
         // public static int kTopLevel = 3000;
 
         public static int level = 0;
-        public static int conePrep = 30;
-        public static int coneReady = -10;
-        public static int coneAlmostReady = 10;
+        public static int conePrep = 40;
+        public static int coneReady = 0;
+        public static int coneAlmostReady = 20;
 
-        public static int cubePrep = 10;
-        public static int cubeReady = 10;
+        public static int cubePrep = 20;
+        public static int cubeReady = 20;
 
-        public static int hybrid = -95;
+        public static int hybrid = -85;
 
-        public static int singleSubstation = 20;
-        public static int doubleSubstation = 35;
+        public static int singleSubstation = 30;
+        public static int doubleSubstation = 45;
 
         public static int up = 125;
+
+        public static int cubeIntake = -95;
+
 
         // Arm Pid Values
         public static double kP = 0.3;
@@ -209,14 +212,14 @@ public class Constants {
         public static double tolerance = 2;
         // Extension Level Values
         public static double retracted = 4;
-        public static double low = 15;
+        public static double low = 10.4;
         public static double mid = 25;
         public static double high = 30;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
         public static double doubleSubstation = 4;
         
-        public static double cubeIntakePosition = 1;
+        public static double cubeIntake = 0.5;
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;
@@ -315,14 +318,14 @@ public class Constants {
             public static Translation2d red7 = new Translation2d(fieldX - 2.16, blue1.getY());
             public static Translation2d red8 = new Translation2d(fieldX - 2.16, blue0.getY());
 
-            public static Translation2d blueGamePiece0 = new Translation2d(7,4.983099);
-            public static Translation2d blueGamePiece1 = new Translation2d(7,4.983099);
-            public static Translation2d blueGamePiece2 = new Translation2d(7,4.983099);
-            public static Translation2d blueGamePiece3 = new Translation2d(7,4.983099);
-            public static Translation2d redGamePiece0 = new Translation2d(9,blueGamePiece3.getY());
-            public static Translation2d redGamePiece1 = new Translation2d(9,blueGamePiece2.getY());
-            public static Translation2d redGamePiece2 = new Translation2d(9,blueGamePiece1.getY());
-            public static Translation2d redGamePiece3 = new Translation2d(9,blueGamePiece0.getY());
+            public static Translation2d blueGamePiece0 = new Translation2d(7.056,4.521);
+            public static Translation2d blueGamePiece1 = new Translation2d(7.056,3.328);
+            public static Translation2d blueGamePiece2 = new Translation2d(7.056,2.135);
+            public static Translation2d blueGamePiece3 = new Translation2d(7.056,0.92075);
+            public static Translation2d redGamePiece0 = new Translation2d(fieldX-blueGamePiece0.getX(),blueGamePiece3.getY());
+            public static Translation2d redGamePiece1 = new Translation2d(fieldX-blueGamePiece0.getX(),blueGamePiece2.getY());
+            public static Translation2d redGamePiece2 = new Translation2d(fieldX-blueGamePiece0.getX(),blueGamePiece1.getY());
+            public static Translation2d redGamePiece3 = new Translation2d(fieldX-blueGamePiece0.getX(),blueGamePiece0.getY());
 
 
             //6.9375

@@ -99,9 +99,15 @@ public class Elevator {
             case SingleSubstation:
                 setpoint= Constants.Elevator.singleSubstation;
                 elevatorRetract = true;
+                break;
             case DoubleSubstation:
                 setpoint= Constants.Elevator.doubleSubstation;
                 elevatorRetract = true;
+                break;
+            case CubeIntake:
+                setpoint= Constants.Elevator.cubeIntake;
+                elevatorRetract = true;
+                break;
         }
     }
     // public static void setElevator(IO.SubstationArmPosition level){
@@ -124,5 +130,6 @@ public class Elevator {
     }
     public static void displayInformation(){
         SmartDashboard.putBoolean("Set Elevator", Math.abs(encoder.getPosition() - setpoint) < Constants.Elevator.tolerance);
+        SmartDashboard.putNumber("elevatorpostion", encoder.getPosition());
     }
 }

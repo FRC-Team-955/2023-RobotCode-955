@@ -87,15 +87,18 @@ public class Drivebase {
 
     public static void autoBalance() {
 
-       double output = MathUtil.clamp(autoBalancePID.calculate(Gyro.getRoll(), 0), -0.2 ,0.2);
+       double output = MathUtil.clamp(autoBalancePID.calculate(Gyro.getRoll(), 0), -0.5,0.5);
+       SmartDashboard.putNumber("Autobal output", output);
 
-        driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
     //    driveFieldRelativeRotation(new Translation2d(0, -output), 0);
        
        if(isBalanced()){
         // driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
 
         driveFieldRelativeRotation(new Translation2d(0, 0), 0);
+       }else{
+            driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
+
        }
     }
     
@@ -134,7 +137,7 @@ public class Drivebase {
     }
     
     public static boolean isBalanced() {
-        if (4 > Gyro.getRoll() && Gyro.getRoll() > -4) {
+        if (7 > Gyro.getRoll() && Gyro.getRoll() > -7) {
             return true;
         } else {
             return false;

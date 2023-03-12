@@ -54,13 +54,15 @@ public class GamepieceManager {
     private static Timer clawTimer = new Timer();
 
     public static void loadGamepieceCone() {
-        // Arm.setArm();
-        // Elevator.setElevator();
+        Arm.setArm();
+        Elevator.setElevator();
         switch(loadState) {
             case Intake:
+                Arm.setArm(IO.GridArmPosition.Retract);
+                Elevator.setElevator(IO.GridRowPosition.Low);
+                IntakeV2.slowIntake();
+                SmartDashboard.putBoolean("intake extended", IntakeV2.extendNoPid());
                 if(IntakeV2.extendNoPid()) {
-                    // Arm.setArm(IO.GridArmPosition.Retract);
-                    // Elevator.setElevator(IO.GridRowPosition.Low);
                     if(IntakeV2.intake()) {
                         loadState = loadStates.LoadPrep;
                     }
@@ -97,6 +99,11 @@ public class GamepieceManager {
                 break;
         }
     }
+    public static void loadGamepieceCube() {
+        Claw.intakeGamePiece();
+        extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
+    }
+
 
     private static Timer loadSequenceTimer = new Timer();
 
@@ -121,7 +128,7 @@ public class GamepieceManager {
             loadSequenceTimer.reset();
         }
         else if(IO.intakeSequenceCube()){
-            
+            loadGamepieceCube();
             loadSequenceTimer.start();
             loadSequenceTimer.reset();
         }
@@ -263,7 +270,7 @@ public class GamepieceManager {
         }else if (IO.elevatorManualDown()){
             // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-        }else if (IO.elevatorManualRetract()){
+        }else if (IO.manualFullRetract()){
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
         }
         runExtention();
@@ -272,6 +279,8 @@ public class GamepieceManager {
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());
         SmartDashboard.putString("loadState", loadState.toString());
+        SmartDashboard.putNumber("loadSequenceTimer", loadSequenceTimer.get());
+        SmartDashboard.putBoolean("advanceIfElapsed", loadSequenceTimer.advanceIfElapsed(Constants.GamepieceManager.intakeRunTime));
         // SmartDashboard.putString("Intake Loading state", loadState.toString());
     }
 }

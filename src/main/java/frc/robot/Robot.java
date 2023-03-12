@@ -260,6 +260,7 @@ public class Robot extends TimedRobot {
     AutoAlign.displayInformation();
     Drivebase.displayInformation();
     Drivebase.updateSwerveOdometry();
+    Arm.displayInformation();
   }
 
   @Override
@@ -392,16 +393,17 @@ public class Robot extends TimedRobot {
             }
             break;
           case Done:
-            // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-            // Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
+            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+            Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
             // System.out.println("Odometry X: "+ Drivebase.getPose().getX());
             break;
           case AutoBalance:
             Drivebase.autoBalance();
             break;
             
-        }    
-        case New:
+        }
+        break;
+      case New:
         switch(newAutoState){
           //Get actual staging marking positions!!!
           //Also get the actual driver relative headings!
@@ -572,9 +574,8 @@ public class Robot extends TimedRobot {
           case AutoBalance:
             Drivebase.autoBalance();
             break;
-            
         } 
-
+        break;
       }
 
   }
@@ -597,11 +598,14 @@ public class Robot extends TimedRobot {
     IO.keyInputSubstationPosition();
     IO.displayInformation();
     Drivebase.updateSwerveOdometry();
-    Drivebase.displayInformation();
-    AutoAlign.displayInformation();
+    // Drivebase.displayInformation();
+    // AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
-    GamepieceManager.displayInformation();
-    IntakeV2.displayInformation();
+    // GamepieceManager.displayInformation();
+    // IntakeV2.displayInformation();
+    // Elevator.displayInformation();
+    // Arm.displayInformation();
+    // Gyro.displayInformation();
     // Gyro.displayInformation();
   }
 
@@ -628,7 +632,9 @@ public class Robot extends TimedRobot {
     switch(robotState){
       case AUTO_ALIGN:
         GamepieceManager.autoAlign();
-        // IntakeV2.retractNoPid();
+        // GamepieceManager.manageExtension();
+        // Drivebase.autoBalance();
+        IntakeV2.retractNoPid();
         break;
       case AUTO_BALANCE:
         Drivebase.autoBalance();
@@ -653,6 +659,9 @@ public class Robot extends TimedRobot {
         GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
 
         GamepieceManager.loadSequence();
+        // IntakeV2.slowIntake();
+        // IntakeV2.retractNoPid();
+
         // if (IO.getTestingButton()){
         //   IntakeV2.extendNoPid();
         // }
@@ -661,15 +670,17 @@ public class Robot extends TimedRobot {
         // }else{
         //   IntakeV2.stopHandoff();
         // }
-        // if(IO.resetAngle()){
-        //   Gyro.set(90);
-        //   SwerveDrive.headingSetPoint = -180;
-        // }
+        if(IO.resetAngle()){
+          Gyro.set(90);
+          SwerveDrive.headingSetPoint = -180;
+        }
         // if(IO.resetOdometryAngle()){
 
         // }
-        // GamepieceManager.manageExtension();
-        // Drivebase.drive();
+        GamepieceManager.manageExtension();
+        // Arm.setArm();
+        // Elevator.setElevator();
+        Drivebase.drive();
     }
   }
 

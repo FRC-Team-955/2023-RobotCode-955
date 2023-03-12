@@ -13,6 +13,7 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.IO;
 
@@ -143,6 +144,10 @@ public final class Arm {
                 setpoint = Constants.Arm.hybrid;
                 armRetract = true;
                 break;
+            case CubeIntake:
+                setpoint = Constants.Arm.cubeIntake;
+                armRetract = true;
+                break;
             case Up:
                 setpoint = Constants.Arm.up;
                 armRetract = true;
@@ -170,6 +175,9 @@ public final class Arm {
     }
     public static boolean atConePrepPosition(){
         return Math.abs(getOffsetPosition() - Constants.Arm.conePrep) < Constants.Arm.tolerance;
+    }
+    public static void displayInformation(){
+        SmartDashboard.putNumber("Arm getOffsetPosition", getOffsetPosition());
     }
 }
 
