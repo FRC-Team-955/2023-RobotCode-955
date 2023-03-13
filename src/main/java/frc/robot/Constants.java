@@ -63,10 +63,12 @@ public class Constants {
     public static double strafeRateLimiter = 0;
 
     public static class Auto{
+        public static double communitySide = 1;
         public static double intakeRunTime = .01;
         public static double notHitGridOffset = 0.1;
         public static double gamepieceOffset =0;
         public static double notHitSideWall = 0.25;
+        public static double stopBeforeGamepieceOffset = 0.6;
     }
 
     public static class AutoAlign{
