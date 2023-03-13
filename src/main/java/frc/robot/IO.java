@@ -168,7 +168,13 @@ public final class IO {
 
     public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
     public static Translation2d keyInputSubstationPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation: Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
-    public static boolean isConeNodePosition = true;
+    // public static boolean isConeNodePosition = true;
+    public static enum NodePositionType{
+        Cone,
+        Cube,
+        Hybrid
+    }
+    public static NodePositionType nodePositionType = NodePositionType.Cone;
 
     public static enum GridArmPosition{
         Retract,
@@ -238,27 +244,27 @@ public final class IO {
         //1
         if (key0.getRawButton(1)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 0;
         }
         if (key0.getRawButton(2) || key0.getRawButton(3)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Cone;
             gridArmPosition = GridArmPosition.ConePrep;
             newGridColumnPosition = 0;
         }
         //2
         if(key0.getRawButton(4)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue1: Constants.FieldPositions.AutoAlignPositions.red1;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 1;     
         }
 
         if (key0.getRawButton(5) || key0.getRawButton(6)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue1: Constants.FieldPositions.AutoAlignPositions.red1;
-            isConeNodePosition = false;
+            nodePositionType = NodePositionType.Cube;
             gridArmPosition = GridArmPosition.CubePrep;
             newGridColumnPosition = 1;
         }
@@ -266,91 +272,91 @@ public final class IO {
         //3
         if(key0.getRawButton(7)){ 
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue2: Constants.FieldPositions.AutoAlignPositions.red2;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 2;   
         } 
         if (key0.getRawButton(8) || key0.getRawButton(9)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue2: Constants.FieldPositions.AutoAlignPositions.red2;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Cone;
             gridArmPosition = GridArmPosition.ConePrep;
             newGridColumnPosition = 2;
         }
         //4
         if(key0.getRawButton(10)){ 
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue3: Constants.FieldPositions.AutoAlignPositions.red3;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 3;    
         } 
         if (key0.getRawButton(11) || key0.getRawButton(12)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue3: Constants.FieldPositions.AutoAlignPositions.red3;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Cone;
             gridArmPosition = GridArmPosition.ConePrep;
             newGridColumnPosition = 3;
         }
         //5
         if(key0.getRawButton(13)){ 
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue4: Constants.FieldPositions.AutoAlignPositions.red4;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 4;    
         } 
         if (key0.getRawButton(14) || key0.getRawButton(15)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue4: Constants.FieldPositions.AutoAlignPositions.red4;
-            isConeNodePosition = false;
+            nodePositionType = NodePositionType.Cube;
             gridArmPosition = GridArmPosition.CubePrep;
             newGridColumnPosition = 4;
         }
         //6
         if(key1.getRawButton(1)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue5: Constants.FieldPositions.AutoAlignPositions.red5;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 5;   
         }
         if (key1.getRawButton(2) || key1.getRawButton(3)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue5: Constants.FieldPositions.AutoAlignPositions.red5;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Cone;
             gridArmPosition = GridArmPosition.ConePrep;
             newGridColumnPosition = 5;
         }
         //7
         if(key1.getRawButton(4)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue6: Constants.FieldPositions.AutoAlignPositions.red6;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 6;
         }
         if (key1.getRawButton(5) || key1.getRawButton(6)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue6: Constants.FieldPositions.AutoAlignPositions.red6;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Cone;
             gridArmPosition = GridArmPosition.ConePrep;
             newGridColumnPosition = 6;
         }
         //8
         if (key1.getRawButton(7)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue7: Constants.FieldPositions.AutoAlignPositions.red7;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 7;   
         }
         if (key1.getRawButton(8) || key1.getRawButton(9)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue7: Constants.FieldPositions.AutoAlignPositions.red7;
-            isConeNodePosition = false;
+            nodePositionType = NodePositionType.Cube;
             gridArmPosition = GridArmPosition.CubePrep;
             newGridColumnPosition = 7;
         }
         //9
         if(key1.getRawButton(10)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue8: Constants.FieldPositions.AutoAlignPositions.red8;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Hybrid;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 8;    
         }
         if (key1.getRawButton(11) || key1.getRawButton(12)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue8: Constants.FieldPositions.AutoAlignPositions.red8;
-            isConeNodePosition = true;
+            nodePositionType = NodePositionType.Cone;
             gridArmPosition = GridArmPosition.ConePrep;
             newGridColumnPosition = 8;
         }

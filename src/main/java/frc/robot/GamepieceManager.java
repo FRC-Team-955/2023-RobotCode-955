@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -205,17 +206,23 @@ public class GamepieceManager {
             case Align:
                 Claw.stopishMotor();
                 boolean robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
-                //If your left right is correct but not your forward back yet, move arm into position
+                //If your left right is correct but not your forward back yet, move elevator and arm into position
                 if(AutoAlign.gridAlignState == AutoAlign.GridAlignState.InPosition){
                     extention(IO.gridRowPosition, IO.gridArmPosition);
                 }
                 //If Hybrid than Hybrid, however must do this before entering anyways
                 else if(IO.gridArmPosition == IO.GridArmPosition.Hybrid){
                     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Hybrid);
-                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep &&
-                        Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.alignCubePreemptiveDown){
-                            extention(IO.gridRowPosition, IO.GridArmPosition.CubePrep);
-                } else{
+                //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
+                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
+                    if(Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.alignCubePreemptiveExtension){
+                        extention(IO.gridRowPosition, IO.GridArmPosition.CubePrep);
+                    }else if(Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.alignCubePreemptiveDrop){
+                        placeState = PlaceState.Place;
+                    }
+                }
+                //else just move arm into position
+                else{
                     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
                 }
                 if (robotInPosition){
@@ -231,8 +238,10 @@ public class GamepieceManager {
             case Leave:
                 Claw.outputGamePiece();
                 runExtention();
-                if (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid)){
+                if(IO.nodePositionType == IO.NodePositionType.Cone){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition, -180);
+                }else if(IO.nodePositionType == IO.NodePositionType.Cube){
+                    AutoAlign.alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.notHitGridOffset:-Constants.Auto.notHitGridOffset,0)), -180);
                 }
                 break;
 
@@ -252,8 +261,8 @@ public class GamepieceManager {
 
     public static boolean clawDrop(){
         if (IO.clawDropPiece()){
-            // okay this is dumb code but if its cone node then move down else don't
-            if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeAlmostReady:IO.gridArmPosition)){
+            //If its cone node then move down, else don't, then output the game piece
+            if (extention(IO.gridRowPosition, (IO.nodePositionType == IO.NodePositionType.Cone)?IO.GridArmPosition.ConeAlmostReady:IO.gridArmPosition)){
                 Claw.outputGamePiece();
                 return true;
             }else{

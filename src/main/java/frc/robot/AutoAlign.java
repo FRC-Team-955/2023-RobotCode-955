@@ -98,7 +98,7 @@ public class AutoAlign {
                     }
                     break;
                 case AlignedToNode:
-                    if(IO.isConeNodePosition) {
+                    if(IO.nodePositionType == IO.NodePositionType.Cone) {
                         if(alignTape()) {
                             gridAlignY = Drivebase.getPose().getY();
                             gridAlignState = GridAlignState.InPosition;
@@ -139,7 +139,7 @@ public class AutoAlign {
                     return false;
                 case InPosition:
                     alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.1;
-                    if (!IO.isConeNodePosition){
+                    if (IO.nodePositionType == IO.NodePositionType.Cube){
                         alignOdometry(IO.keyInputOdometryPosition, alignRotation);
                         return true;
                     }

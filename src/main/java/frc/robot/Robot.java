@@ -1,8 +1,5 @@
 package frc.robot;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.net.PortForwarder;
@@ -137,39 +134,39 @@ public class Robot extends TimedRobot {
   public static Translation2d autoGridSelectionTranslation2d(int position){
     if(position == 0){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0:Constants.FieldPositions.AutoAlignPositions.red0;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red0.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }
     else if(position == 1){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue1:Constants.FieldPositions.AutoAlignPositions.red1;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue1.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red1.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }
     else if(position == 2){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue2:Constants.FieldPositions.AutoAlignPositions.red2;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue2.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red2.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }
     else if(position == 3){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue3:Constants.FieldPositions.AutoAlignPositions.red3;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue3.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red3.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }
     else if(position == 4){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue4:Constants.FieldPositions.AutoAlignPositions.red4;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue4.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red4.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }
     else if(position == 5){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue5:Constants.FieldPositions.AutoAlignPositions.red5;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue5.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red5.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }
     else if(position == 6){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue6:Constants.FieldPositions.AutoAlignPositions.red6;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue6.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red6.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }
     else if(position == 7){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue7:Constants.FieldPositions.AutoAlignPositions.red7;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue7.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red7.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }
     else if(position == 8){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8:Constants.FieldPositions.AutoAlignPositions.red8;
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red8.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
     }else{
       return Drivebase.getPose().getTranslation();
     }
@@ -550,8 +547,7 @@ public class Robot extends TimedRobot {
             // else{
             //   newAutoState = NewAutoState.OutCommunity;
             // }
-            if(AutoAlign.alignOdometry(new Translation2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition).getX() + (Constants.isBlue()?Constants.Auto.notHitGridOffset:
-                                                                                                                                        -Constants.Auto.notHitGridOffset),
+            if(AutoAlign.alignOdometry(new Translation2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition).getX(),
                                                         autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition).getY()), 
                                       -180)){
               //if we have placed all pieces and we want to charge, then go charge

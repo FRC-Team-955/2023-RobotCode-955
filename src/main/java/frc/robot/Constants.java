@@ -112,7 +112,8 @@ public class Constants {
         public static double odometryAlignYkD = 0;
         //not sure was one 0.1 before
         public static double alignTolerance = 0.05;
-        public static double alignCubePreemptiveDown = 0.45;
+        public static double alignCubePreemptiveExtension = 0.45;
+        public static double alignCubePreemptiveDrop = 0.3;
     }
     public static class Intake{
 
@@ -164,7 +165,7 @@ public class Constants {
         public static int motorID = 21;
         public static double run = -1;
         public static double stopish = -0.3;
-        public static double drop = 0.5;
+        public static double drop = 0.7;
     }
 
     public static class AprilTagCamera{
