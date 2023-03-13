@@ -241,9 +241,9 @@ public class GamepieceManager {
             case Leave:
                 Claw.outputGamePiece();
                 runExtention();
-                if(IO.nodePositionType == IO.NodePositionType.Cone){
+                if(IO.gridArmPosition == IO.GridArmPosition.ConePrep){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition, -180);
-                }else if(IO.nodePositionType == IO.NodePositionType.Cube){
+                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.notHitGridOffset:-Constants.Auto.notHitGridOffset,0)), -180);
                 }
                 break;
@@ -265,7 +265,7 @@ public class GamepieceManager {
     public static boolean clawDrop(){
         if (IO.clawDropPiece()){
             //If its cone node then move down, else don't, then output the game piece
-            if (extention(IO.gridRowPosition, (IO.nodePositionType == IO.NodePositionType.Cone)?IO.GridArmPosition.ConeAlmostReady:IO.gridArmPosition)){
+            if (extention(IO.gridRowPosition, (IO.gridArmPosition == IO.GridArmPosition.ConePrep)?IO.GridArmPosition.ConeAlmostReady:IO.gridArmPosition)){
                 Claw.outputGamePiece();
                 return true;
             }else{
