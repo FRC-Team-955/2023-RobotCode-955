@@ -55,8 +55,8 @@ public final class IO {
     public static boolean elevatorManualUp(){
         return joy1.getRawButtonPressed(Constants.IO.Joy1.elevatorUpButton) || key2.getRawButtonPressed(2);
     }
-    public static boolean manualFullRetract(){
-        return key2.getRawButton(Constants.IO.Key2.manualFullRetractButton);
+    public static boolean manualCubeRetract(){
+        return key2.getRawButton(Constants.IO.Key2.manualCubeRetractButton);
     }
     public static boolean clawDropPiece(){
         return key2.getRawButton(Constants.IO.Key2.clawDropPieceButton) || joy0.getRawButton(1);
@@ -187,6 +187,7 @@ public final class IO {
         DoubleSubstation,
         Hybrid,
         CubeIntake,
+        CubeRetract,
         Up
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
@@ -198,7 +199,8 @@ public final class IO {
         High,
         SingleSubstation,
         DoubleSubstation,
-        CubeIntake
+        CubeIntake, 
+        CubeRetract
     }
     private static int gridColumnPosition = 0;
     private static int newGridColumnPosition = 0;

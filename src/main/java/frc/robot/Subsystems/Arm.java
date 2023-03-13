@@ -148,6 +148,9 @@ public final class Arm {
                 setpoint = Constants.Arm.cubeIntake;
                 armRetract = true;
                 break;
+            case CubeRetract:
+                setpoint = Constants.Arm.cubeRetract;
+                armRetract = true;
             case Up:
                 setpoint = Constants.Arm.up;
                 armRetract = true;

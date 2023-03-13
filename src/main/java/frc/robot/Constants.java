@@ -32,16 +32,13 @@ public class Constants {
             public static int clawDropPieceButton = 3;
             public static int intakeSequenceConeButton = 4;
             public static int runIntakeInButton = 7;
-            public static int manualFullRetractButton = 9;
+            public static int manualCubeRetractButton = 9;
             public static int isPowerSavingButton = 10;
             public static int intakeSequenceCubeButton = 11;
 
         }
     }
-    // Auto Balance PID
-    // Note from owen: we will have soooo many pids these need to be named better
     public static class Drivebase{
-
         public static double autoBalancekP = 0.6;
         public static double autoBalancekI = 0;
         public static double autoBalancekD = 0.6;
@@ -89,8 +86,6 @@ public class Constants {
         public static double redGamePieceOffset2Y =0;
         public static double redGamePieceOffset3X =0;
         public static double redGamePieceOffset3Y =0.3;
-
-
     }
 
     public static class AutoAlign{
@@ -112,8 +107,9 @@ public class Constants {
         public static double odometryAlignYkD = 0;
         //not sure was one 0.1 before
         public static double alignTolerance = 0.05;
-        public static double alignCubePreemptiveExtension = 0.45;
-        public static double alignCubePreemptiveDrop = 0.3;
+        public static double cubePreemptiveExtension = 0.45;
+        public static double cubePreemptiveDrop = 0.3;
+        public static double conePreemptiveExtension = 0.2;
     }
     public static class Intake{
 
@@ -220,7 +216,7 @@ public class Constants {
         public static int up = 125;
 
         public static int cubeIntake = -100;
-
+        public static double cubeRetract = -130;
 
         // Arm Pid Values
         public static double kP = 0.3;
@@ -251,6 +247,8 @@ public class Constants {
         public static double doubleSubstation = 4;
         
         public static double cubeIntake = 1;
+
+        public static double cubeRetract = 6;
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;

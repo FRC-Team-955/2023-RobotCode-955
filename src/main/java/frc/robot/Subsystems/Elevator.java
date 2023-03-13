@@ -97,17 +97,20 @@ public class Elevator {
                 elevatorRetract = false;
                 break;
             case SingleSubstation:
-                setpoint= Constants.Elevator.singleSubstation;
+                setpoint = Constants.Elevator.singleSubstation;
                 elevatorRetract = true;
                 break;
             case DoubleSubstation:
-                setpoint= Constants.Elevator.doubleSubstation;
+                setpoint = Constants.Elevator.doubleSubstation;
                 elevatorRetract = true;
                 break;
             case CubeIntake:
-                setpoint= Constants.Elevator.cubeIntake;
+                setpoint = Constants.Elevator.cubeIntake;
                 elevatorRetract = true;
                 break;
+            case CubeRetract:
+                setpoint  = Constants.Elevator.cubeRetract;
+                elevatorRetract = true;
         }
     }
     // public static void setElevator(IO.SubstationArmPosition level){

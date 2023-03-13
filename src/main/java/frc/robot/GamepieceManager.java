@@ -215,11 +215,14 @@ public class GamepieceManager {
                     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Hybrid);
                 //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
                 }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
-                    if(Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.alignCubePreemptiveExtension){
+                    if(Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.cubePreemptiveExtension){
                         extention(IO.gridRowPosition, IO.GridArmPosition.CubePrep);
-                    }else if(Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.alignCubePreemptiveDrop){
+                    }else if(Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.cubePreemptiveDrop){
                         placeState = PlaceState.Place;
                     }
+                }else if(IO.gridArmPosition == IO.GridArmPosition.ConePrep && 
+                        Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.conePreemptiveExtension){
+                        extention(IO.gridRowPosition, IO.GridArmPosition.ConePrep);
                 }
                 //else just move arm into position
                 else{
@@ -290,8 +293,8 @@ public class GamepieceManager {
         }else if (IO.elevatorManualDown()){
             // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-        }else if (IO.manualFullRetract()){
-            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+        }else if (IO.manualCubeRetract()){
+            extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
         }
         runExtention();
         // wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
