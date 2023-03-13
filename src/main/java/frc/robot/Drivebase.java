@@ -20,6 +20,9 @@ public class Drivebase {
     public static void updateSwerveOdometry(){
         drive.updateSwerveOdometry();
     }
+    public static void updateSwerveOdometryNoVision(){
+        drive.updateSwerveOdometryNoVision();
+    }
     public static void setSwerveOdometry(Pose2d pose){
         drive.resetOdometry(pose);
     }
@@ -98,7 +101,6 @@ public class Drivebase {
         driveFieldRelativeRotation(new Translation2d(0, 0), 0);
        }else{
             driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
-
        }
     }
     
@@ -149,6 +151,7 @@ public class Drivebase {
     }
     public static void displayInformation(){
         SmartDashboard.putBoolean("Is balanced", Drivebase.isBalanced());
+        SmartDashboard.putBoolean("Adding data",drive.displayInformation());
     }
 }
 

@@ -30,7 +30,7 @@ public class IntakeV2 {
         // motorRight.overrideLimitSwitchesEnable(false);
         motorRight.overrideLimitSwitchesEnable(false);
         motorLeft.overrideLimitSwitchesEnable(false);
-        //motorRight.set(ControlMode.Follower, Constants.IntakeV2.motorLeftID);
+        // motorRight.set(ControlMode.Follower, Constants.IntakeV2.motorLeftID);
         relativeEncoder = handOffMotor.getEncoder(); 
     }
 
@@ -62,8 +62,9 @@ public class IntakeV2 {
 
     public static boolean retractNoPid(){
         if (!IO.isOverrideEnabled()) {
-            if(getPosition() > 10){
+            if(getPosition() > 12){
                 handOffMotor.setVoltage(5);
+                return false;
             }else{
                 handOffMotor.setVoltage(0);
                 return true;
@@ -113,24 +114,32 @@ public class IntakeV2 {
     public static void slowIntake() {
         if(!IO.isOverrideEnabled()) {
             motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
+            motorRight.set(TalonSRXControlMode.PercentOutput, 0.5*Constants.IntakeV2.handoffMotorSlow);
         } else {
             motorLeft.set(TalonSRXControlMode.PercentOutput, 0);
+            motorRight.set(TalonSRXControlMode.PercentOutput, 0);
+
         }
     }
 
     public static void reverseIntake() {
         if (!IO.isOverrideEnabled()) {
             motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
+            motorRight.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
+
         } else {
             motorLeft.set(TalonSRXControlMode.PercentOutput, 0);
+            motorRight.set(TalonSRXControlMode.PercentOutput, 0);
         }
     }
 
     public static boolean intake() {
         // if (!IO.isOverrideEnabled()) {
             motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
+            motorRight.set(TalonSRXControlMode.PercentOutput, 0.5*Constants.IntakeV2.handoffMotorSlow);
             if (motorLeft.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold) {
                 motorLeft.set(TalonSRXControlMode.PercentOutput, 0);
+                motorRight.set(TalonSRXControlMode.PercentOutput, 0);
                 return true;
             }
             else {

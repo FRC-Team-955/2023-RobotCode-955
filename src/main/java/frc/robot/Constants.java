@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Swerve.SwerveSettings.SwerveConstants;
 
 public class Constants {
     public static class IO{
@@ -62,7 +63,10 @@ public class Constants {
     public static double strafeRateLimiter = 0;
 
     public static class Auto{
-        public static double intakeRunTime = 500;
+        public static double intakeRunTime = .01;
+        public static double notHitGridOffset = 0.1;
+        public static double gamepieceOffset =0;
+        public static double notHitSideWall = 0.25;
     }
 
     public static class AutoAlign{
@@ -120,10 +124,10 @@ public class Constants {
 
         public static double Ks = 0.4;
 
-        public static double intakeAmpThreshhold = 14;
-        public static double handOffMotorRun = 0.5;
-        public static double handoffMotorSlow = 0.2;
-        public static double handoffMotorReverse = -0.15;
+        public static double intakeAmpThreshhold = 30;
+        public static double handOffMotorRun = 0;//.5
+        public static double handoffMotorSlow = 0;//.4
+        public static double handoffMotorReverse = -0.15; //-.15
 
         public static double ExtendPosition = 1.2;
         public static double RetractPosition = 2.1;
@@ -135,7 +139,7 @@ public class Constants {
         public static int motorID = 21;
         public static double run = -1;
         public static double stopish = -0.3;
-        public static double drop = 0.3;
+        public static double drop = 0.5;
     }
 
     public static class AprilTagCamera{
@@ -168,6 +172,7 @@ public class Constants {
         public static double lowerLimit = -111.4;
         // Arm Setpoint Values
         public static int retracted = -125;
+        // public static int fullRetract = -125;
         
         // public static int kBottomLevel = 1000;
         // public static int kMiddleLevel = 2000;
@@ -188,7 +193,7 @@ public class Constants {
 
         public static int up = 125;
 
-        public static int cubeIntake = -95;
+        public static int cubeIntake = -100;
 
 
         // Arm Pid Values
@@ -219,7 +224,7 @@ public class Constants {
         public static double singleSubstation = 1;
         public static double doubleSubstation = 4;
         
-        public static double cubeIntake = 0.5;
+        public static double cubeIntake = 1;
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;
@@ -250,7 +255,7 @@ public class Constants {
     }
 
     public static class GamepieceManager{
-        public static double intakeRunTime = 3000;
+        public static double intakeRunTime = 2;
     }
     public static final double bumperWidth = 0.93;
     public static final double bumperLength = 0.81;
@@ -276,8 +281,8 @@ public class Constants {
         // public static double inLoadingZoneY = 6.6;
         // public static double atGridBlueX = 1.8;
         // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
-        public static double notHitGridOffset = 0.1;
         public static double atGridOffset =-0.05;
+        // public static double atGridOffset =-0.08;
         //offset
         public static double atGridBlueX =1.377950 + atGridOffset +(bumperWidth/2);
         public static double atGridRedX = fieldX-atGridBlueX;
@@ -285,7 +290,8 @@ public class Constants {
         public static double atSubstationRedX = 1.17;
         public static double atSubstationBlueX =fieldX - atSubstationRedX;
 
-        public static double outSubstationShortBlue = 4;
+        // public static double outSubstationShortBlue = 4;
+        public static double outSubstationShortBlue = 8;
         public static double outSubstationShortRed = fieldX - outSubstationShortBlue;
         public static double outSubstationLongBlue = 6;
         public static double outSubstationLongRed = fieldX - outSubstationLongBlue;
@@ -318,10 +324,14 @@ public class Constants {
             public static Translation2d red7 = new Translation2d(fieldX - 2.16, blue1.getY());
             public static Translation2d red8 = new Translation2d(fieldX - 2.16, blue0.getY());
 
-            public static Translation2d blueGamePiece0 = new Translation2d(7.056,4.521);
-            public static Translation2d blueGamePiece1 = new Translation2d(7.056,3.328);
-            public static Translation2d blueGamePiece2 = new Translation2d(7.056,2.135);
-            public static Translation2d blueGamePiece3 = new Translation2d(7.056,0.92075);
+            // public static Translation2d blueGamePiece0 = new Translation2d(7.056,4.521+1.22);
+            public static Translation2d blueGamePiece0 = new Translation2d(7.05837,4.583049+0.3);
+            // public static Translation2d blueGamePiece1 = new Translation2d(7.056,3.328);
+            public static Translation2d blueGamePiece1 = new Translation2d(7.05837,3.363849);
+            public static Translation2d blueGamePiece2 = new Translation2d(7.058374,2.144649);
+            // public static Translation2d blueGamePiece2 = new Translation2d(7.056,2.135);
+            // public static Translation2d blueGamePiece3 = new Translation2d(7.056,0.92075);
+            public static Translation2d blueGamePiece3 = new Translation2d(7.058374,0.925449);
             public static Translation2d redGamePiece0 = new Translation2d(fieldX-blueGamePiece0.getX(),blueGamePiece3.getY());
             public static Translation2d redGamePiece1 = new Translation2d(fieldX-blueGamePiece0.getX(),blueGamePiece2.getY());
             public static Translation2d redGamePiece2 = new Translation2d(fieldX-blueGamePiece0.getX(),blueGamePiece1.getY());

@@ -5,8 +5,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.opencv.core.Mat;
 import org.photonvision.EstimatedRobotPose;
 
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -21,6 +23,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -171,35 +174,30 @@ public class SwerveDrive {
     }
 
     public void updateSwerveOdometry(){
-        // swerveOdometry.update(Rotation2d.fromDegrees(-Gyro.getHeading()), getPoses()); //maybe 0-360
-        // chassisVelocity = SwerveSettings.SwerveConstants.swerveKinematics.toChassisSpeeds(
-        //     SwerveMods[0].getState(),
-        //     SwerveMods[1].getState(),
-        //     SwerveMods[2].getState(),
-        //     SwerveMods[3].getState()
-        // );
-        // System.out.println(Constants.isBlue());
         if (Constants.isBlue()){
             poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()+90), getPoses());
         }else{
             poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()-90), getPoses());
         }
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
-        // && Gyro.getPitch() < Constants.AprilTagCamera.Filter.pitch && Gyro.getRoll() < Constants.AprilTagCamera.Filter.roll
-        SmartDashboard.putBoolean("result.isPresent?",result.isPresent());
-        SmartDashboard.putBoolean("Balanced?",Math.abs(Gyro.getPitch()) < Constants.AprilTagCamera.Filter.pitch && Math.abs(Gyro.getRoll()) < Constants.AprilTagCamera.Filter.roll);
         if (result.isPresent()) {
             EstimatedRobotPose camPose = result.get();
             // System.out.println("X: " + camPose.estimatedPose.toPose2d().getX() + " Y: "+camPose.estimatedPose.toPose2d().getY());
             // if (camPose.estimatedPose.toPose2d().getTranslation().getDistance(getPose().getTranslation()) <  Constants.AprilTagCamera.Filter.distance){
-            // if(Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 20){
+            // if(Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 12){
                 if(Math.abs(Gyro.getPitch()) < Constants.AprilTagCamera.Filter.pitch && Math.abs(Gyro.getRoll()) < Constants.AprilTagCamera.Filter.roll){
                     poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);    
                 }
             // }
             // }
         }
-
+    }
+    public void updateSwerveOdometryNoVision(){
+        if (Constants.isBlue()){
+            poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()+90), getPoses());
+        }else{
+            poseEstimator.update(Rotation2d.fromDegrees(-Gyro.getHeading()-90), getPoses());
+        }
     }
 
     public void logSwerve() {
@@ -314,5 +312,9 @@ public class SwerveDrive {
             return true;
         }
         return false;
+    }
+    public boolean displayInformation(){
+        Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
+        return result.isPresent() && (Math.abs(Gyro.getPitch()) < Constants.AprilTagCamera.Filter.pitch && Math.abs(Gyro.getRoll()) < Constants.AprilTagCamera.Filter.roll) && (Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 10);
     }
 }

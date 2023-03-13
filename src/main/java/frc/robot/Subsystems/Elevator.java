@@ -124,6 +124,7 @@ public class Elevator {
             
             motor.setVoltage(amount);
             return Math.abs(encoder.getPosition() - setpoint) < Constants.Elevator.tolerance;
+            // return true;
             // return pid.atSetpoint();
         }
         return false;

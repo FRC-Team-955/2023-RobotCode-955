@@ -69,6 +69,7 @@ public class GamepieceManager {
                 }
                 break;
             case LoadPrep:
+                IntakeV2.extendNoPid();
                 IntakeV2.slowIntake();
                 // if(runExtention()) {
                     loadState = loadStates.Load;
@@ -83,6 +84,7 @@ public class GamepieceManager {
                 }
                 break;
             case Loaded:
+                IntakeV2.handOffNoPid();
                 if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
                     Claw.intakeGamePiece();
                 }else{
@@ -91,6 +93,7 @@ public class GamepieceManager {
                 loadState = loadStates.Finish;
                 break;
             case Finish:
+                IntakeV2.handOffNoPid();
                 if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
                     Claw.intakeGamePiece();
                 }else{
@@ -101,6 +104,7 @@ public class GamepieceManager {
     }
     public static void loadGamepieceCube() {
         Claw.intakeGamePiece();
+        IntakeV2.retractNoPid();
         extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
     }
 
@@ -136,8 +140,9 @@ public class GamepieceManager {
             loadSequenceTimer.start();
             if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
                 Claw.intakeGamePiece();
+            }else{
+                Claw.stopishMotor();
             }
-            Claw.stopishMotor();
             IntakeV2.handOffNoPid();
             loadState = loadStates.Intake;
         }
