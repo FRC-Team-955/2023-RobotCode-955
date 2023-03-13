@@ -63,12 +63,34 @@ public class Constants {
     public static double strafeRateLimiter = 0;
 
     public static class Auto{
-        public static double communitySide = 1;
+        public static double prepLeaveOffset = 1;
+        public static double communitySideOut = 2;
         public static double intakeRunTime = .01;
+        public static double visionWaitTime = 0.5;
         public static double notHitGridOffset = 0.1;
-        public static double gamepieceOffset =0;
         public static double notHitSideWall = 0.25;
         public static double stopBeforeGamepieceOffset = 0.6;
+
+        //are driver relative changes
+        public static double blueGamePieceOffset0X =0;
+        public static double blueGamePieceOffset0Y =0;
+        public static double blueGamePieceOffset1X =0;
+        public static double blueGamePieceOffset1Y =0;
+        public static double blueGamePieceOffset2X =0;
+        public static double blueGamePieceOffset2Y =0;
+        public static double blueGamePieceOffset3X =0;
+        public static double blueGamePieceOffset3Y =0;
+
+        public static double redGamePieceOffset0X =0;
+        public static double redGamePieceOffset0Y =0;
+        public static double redGamePieceOffset1X =0;
+        public static double redGamePieceOffset1Y =0;
+        public static double redGamePieceOffset2X =0;
+        public static double redGamePieceOffset2Y =0;
+        public static double redGamePieceOffset3X =0;
+        public static double redGamePieceOffset3Y =0.3;
+
+
     }
 
     public static class AutoAlign{
@@ -327,7 +349,7 @@ public class Constants {
             public static Translation2d red8 = new Translation2d(fieldX - 2.16, blue0.getY());
 
             // public static Translation2d blueGamePiece0 = new Translation2d(7.056,4.521+1.22);
-            public static Translation2d blueGamePiece0 = new Translation2d(7.05837,4.583049+0.3);
+            public static Translation2d blueGamePiece0 = new Translation2d(7.05837,4.583049);
             // public static Translation2d blueGamePiece1 = new Translation2d(7.056,3.328);
             public static Translation2d blueGamePiece1 = new Translation2d(7.05837,3.363849);
             public static Translation2d blueGamePiece2 = new Translation2d(7.058374,2.144649);
