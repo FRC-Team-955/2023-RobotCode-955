@@ -279,7 +279,7 @@ public class Constants {
     }
 
     public static class GamepieceManager{
-        public static double intakeRunTime = 2;
+        public static double clawExtraRunTime = 2;
     }
     public static final double bumperWidth = 0.93;
     public static final double bumperLength = 0.81;

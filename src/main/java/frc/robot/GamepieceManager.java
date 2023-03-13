@@ -86,7 +86,7 @@ public class GamepieceManager {
                 break;
             case Loaded:
                 IntakeV2.handOffNoPid();
-                if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
+                if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
                     Claw.intakeGamePiece();
                 }else{
                     Claw.stopishMotor();
@@ -95,7 +95,7 @@ public class GamepieceManager {
                 break;
             case Finish:
                 IntakeV2.handOffNoPid();
-                if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
+                if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
                     Claw.intakeGamePiece();
                 }else{
                     Claw.stopishMotor();
@@ -109,37 +109,36 @@ public class GamepieceManager {
         extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
     }
 
-
-    private static Timer loadSequenceTimer = new Timer();
-
     //DO NOT USE UNTIL INTAKE IS MOUNTED
     //Assumes runExtension is constantly called
     public static void loadSequence(){
+        // If runIntake is pressed (home), then run claw in fast
         if(IO.runIntakeIn()){
             Claw.intakeGamePiece();
-        }else if(IO.clawDropPiece() && Arm.atConePrepPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrep){
-        //   if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeReady)){
-        //     Claw.outputGamePiece();
-        //   }
+        }
+        // if clawDropPiece is pressed (Page Down) and the Arm is in position of ConePrep, then drop down the arm into ready and output
+        else if(IO.clawDropPiece() && Arm.atConePrepPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrep){
           if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeAlmostReady)){
             Claw.outputGamePiece();
           }
-        }else if(IO.clawDropPiece()){
+        }
+        // if clawDropPiece is pressed (Page Down), then output
+        else if(IO.clawDropPiece()){
             Claw.outputGamePiece();
         }
         else if(IO.intakeSequenceCone()){
             loadGamepieceCone();
-            loadSequenceTimer.start();
-            loadSequenceTimer.reset();
+            clawTimer.start();
+            clawTimer.reset();
         }
         else if(IO.intakeSequenceCube()){
             loadGamepieceCube();
-            loadSequenceTimer.start();
-            loadSequenceTimer.reset();
+            clawTimer.start();
+            clawTimer.reset();
         }
         else{
-            loadSequenceTimer.start();
-            if (!loadSequenceTimer.hasElapsed(Constants.GamepieceManager.intakeRunTime) ){
+            clawTimer.start();
+            if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
                 Claw.intakeGamePiece();
             }else{
                 Claw.stopishMotor();
@@ -210,7 +209,7 @@ public class GamepieceManager {
                 if(AutoAlign.gridAlignState == AutoAlign.GridAlignState.InPosition){
                     extention(IO.gridRowPosition, IO.gridArmPosition);
                 }
-                //If Hybrid than Hybrid, however must do this before entering anyways
+                //if Hybrid than Hybrid, however must do this before entering anyways
                 else if(IO.gridArmPosition == IO.GridArmPosition.Hybrid){
                     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Hybrid);
                 //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
@@ -260,6 +259,8 @@ public class GamepieceManager {
             extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
         }
         Claw.intakeGamePiece();
+        clawTimer.reset();
+        clawTimer.start();
     }
 
     public static boolean clawDrop(){
@@ -302,8 +303,8 @@ public class GamepieceManager {
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());
         SmartDashboard.putString("loadState", loadState.toString());
-        SmartDashboard.putNumber("loadSequenceTimer", loadSequenceTimer.get());
-        SmartDashboard.putBoolean("advanceIfElapsed", loadSequenceTimer.advanceIfElapsed(Constants.GamepieceManager.intakeRunTime));
+        SmartDashboard.putNumber("clawTimer", clawTimer.get());
+        SmartDashboard.putBoolean("advanceIfElapsed", clawTimer.advanceIfElapsed(Constants.GamepieceManager.clawExtraRunTime));
         // SmartDashboard.putString("Intake Loading state", loadState.toString());
     }
 }

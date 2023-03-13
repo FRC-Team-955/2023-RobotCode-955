@@ -347,25 +347,11 @@ public final class IO {
 
     public static void keyInputSubstationPosition(){
         if (key2.getRawButton(5)){
-            // if (Constants.isBlue()){
-            //     keyInputSubstationPosition = Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation;
-            // } else if (Constants.isRed()){
-            //     keyInputSubstationPosition = Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
-            // }
             AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
-            // gridArmPosition = GridArmPosition.DoubleSubstation;
-            // gridRowPosition = GridRowPosition.DoubleSubstation;
             keyInputSubstationPosition = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation:
                                                             Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
         }else if (key2.getRawButton(6)){
-            // if (Constants.isBlue()){
-            //     keyInputSubstationPosition = Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation;
-            // } else if (Constants.isRed()){
-            //     keyInputSubstationPosition = Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
-            // }
             AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
-            // gridArmPosition = GridArmPosition.DoubleSubstation;
-            // gridRowPosition = GridRowPosition.DoubleSubstation;
             keyInputSubstationPosition = Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation:
                                                             Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation;
         }else if (key2.getRawButton(8)){
@@ -377,10 +363,6 @@ public final class IO {
     public static void displayInformation(){
         SmartDashboard.putString("RowPosition" , IO.gridRowPosition.toString());
         SmartDashboard.putString("ArmPosition" , IO.gridArmPosition.toString());
-        // SmartDashboard.putString("IO.keyInputOdometryPosition", IO.keyInputOdometryPosition.toString());
-        // SmartDashboard.putString("IO.keyInputSubstationPosition", IO.keyInputSubstationPosition.toString());
-
-        // SmartDashboard.putNumber("IO.keyInputSubstationPosition X", IO.keyInputSubstationPosition.getX());
 
     }
 }

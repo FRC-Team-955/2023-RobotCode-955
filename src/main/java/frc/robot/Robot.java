@@ -697,10 +697,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // IntakeV2.setup();
-    // Arm.setOffset();    
-    // Arm.setArm(IO.GridArmPosition.Retract);
-    // Elevator.setElevator(IO.GridRowPosition.Retract);
+    // Arm.setOffset();
     IntakeV2.stopIntake();
     Drivebase.resetAnglesToAbsolute();
   }
@@ -728,34 +725,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // IntakeV2.displayInformation();
-    //IntakeV2.slowIntake();
-    // IntakeV2.reverseIntake();
-    // IntakeV2.moveMotor(IO.intakeOverride() * 0.5);
-    // if (!IO.getTestingButton()) {
-    //   IntakeV2.extendNoPid();
-    // } else {
-    //   IntakeV2.retractNoPid();
-    // }
-    // if (IO.getTestingTrigger() > 0.5) {
-    //   GamepieceManager.loadGamepiece();
-    // }
-    // GamepieceManager.loadResetOverride(IO.getTestingButton());
     selectTeleopState();
     teleopAllState();
 
     switch(robotState){
       case AUTO_ALIGN:
         GamepieceManager.autoAlign();
-        // GamepieceManager.manageExtension();
-        // Drivebase.autoBalance();
         IntakeV2.retractNoPid();
         break;
       case AUTO_BALANCE:
         Drivebase.autoBalance();
-        // Drivebase.autoBalanceBangBang();
         GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-        //IntakeV2.retractNoPid();
+        IntakeV2.retractNoPid();
         break;
       case POWER_SAVING:
         Claw.intakeFineControl(0);
@@ -773,28 +754,12 @@ public class Robot extends TimedRobot {
         AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
         GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
 
-        GamepieceManager.loadSequence();
-        // IntakeV2.slowIntake();
-        // IntakeV2.retractNoPid();
-
-        // if (IO.getTestingButton()){
-        //   IntakeV2.extendNoPid();
-        // }
-        // else if (IO.getTestingButtonTwo()){
-        //   IntakeV2.handOffNoPid();
-        // }else{
-        //   IntakeV2.stopHandoff();
-        // }
         if(IO.resetAngle()){
           Gyro.set(90);
           SwerveDrive.headingSetPoint = -180;
         }
-        // if(IO.resetOdometryAngle()){
-
-        // }
+        GamepieceManager.loadSequence();
         GamepieceManager.manageExtension();
-        // Arm.setArm();
-        // Elevator.setElevator();
         Drivebase.drive();
     }
   }
