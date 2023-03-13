@@ -129,28 +129,21 @@ public class AutoAlign {
         if(isInCommunity()){
             switch(gridAlignState) {
                 case AlignedToOdometry:
-                    // if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.red6, -180)) {
                     if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
-                        // gridAlignY = Drivebase.getPose().getY();
                         gridAlignState = GridAlignState.InPosition;
+                        //Set rotation to -180 here so that you can adjust it manunally later if needed
                         alignRotation = -180;
-                        alignTranslation = new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY());
                     }
                 break;
                 case AlignedToNode:
                     return false;
                 case InPosition:
-                    // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
-                    //             IO.keyInputOdometryPosition.getY()), -180);
                     alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.1;
-                    // alignTranslation = new Translation2d(alignTranslation.getX() + (Constants.isBlue()?-IO.Drivebase.xBump() *0.1:IO.Drivebase.xBump() *0.1),
-                    //                                         alignTranslation.getY());
-                                        // +(Constants.isBlue()?-IO.Drivebase.getSwerveTranslation().getX() *0.5:IO.Drivebase.getSwerveTranslation().getX() *0.5)
                     if (!IO.isConeNodePosition){
                         alignOdometry(IO.keyInputOdometryPosition, alignRotation);
                         return true;
                     }
-                    return alignOdometry(alignTranslation, alignRotation);
+                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
             }
         }
         return false;

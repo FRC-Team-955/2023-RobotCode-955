@@ -112,6 +112,7 @@ public class Constants {
         public static double odometryAlignYkD = 0;
         //not sure was one 0.1 before
         public static double alignTolerance = 0.05;
+        public static double alignCubePreemptiveDown = 0.45;
     }
     public static class Intake{
 

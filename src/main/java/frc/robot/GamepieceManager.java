@@ -203,25 +203,30 @@ public class GamepieceManager {
     public static void autoPlace(){
         switch(placeState){
             case Align:
-                if(IO.gridArmPosition == IO.GridArmPosition.Hybrid){
-                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Hybrid);
-                }else{
-                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-                }
                 Claw.stopishMotor();
                 boolean robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
-
+                //If your left right is correct but not your forward back yet, move arm into position
                 if(AutoAlign.gridAlignState == AutoAlign.GridAlignState.InPosition){
                     extention(IO.gridRowPosition, IO.gridArmPosition);
                 }
-                
+                //If Hybrid than Hybrid, however must do this before entering anyways
+                else if(IO.gridArmPosition == IO.GridArmPosition.Hybrid){
+                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Hybrid);
+                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep &&
+                        Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.alignCubePreemptiveDown){
+                            extention(IO.gridRowPosition, IO.GridArmPosition.CubePrep);
+                } else{
+                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
+                }
                 if (robotInPosition){
                     placeState = PlaceState.Place;
                 }
                 break;
             case Place:
                 AutoAlign.moveToGridPositionOdometryTwoStep();
-                clawDrop();
+                if(clawDrop()){
+                    placeState = PlaceState.Leave;
+                }
                 break;
             case Leave:
                 Claw.outputGamePiece();
@@ -245,12 +250,12 @@ public class GamepieceManager {
         Claw.intakeGamePiece();
     }
 
-    public static void clawDrop(){
+    public static boolean clawDrop(){
         if (IO.clawDropPiece()){
-            // if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeReady:IO.gridArmPosition)){
+            // okay this is dumb code but if its cone node then move down else don't
             if (extention(IO.gridRowPosition, (IO.isConeNodePosition && (IO.gridArmPosition != IO.GridArmPosition.Hybrid))?IO.GridArmPosition.ConeAlmostReady:IO.gridArmPosition)){
                 Claw.outputGamePiece();
-                placeState = PlaceState.Leave;
+                return true;
             }else{
                 Claw.stopishMotor();
             }
@@ -258,6 +263,7 @@ public class GamepieceManager {
             extention(IO.gridRowPosition, IO.gridArmPosition);
             Claw.stopishMotor();
         }
+        return false;
     }
     public static boolean wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
     public static void manageExtension(){
