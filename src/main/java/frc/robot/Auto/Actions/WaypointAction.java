@@ -4,18 +4,16 @@ import java.util.ArrayList;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.AutoAlign;
-import frc.robot.Drivebase;
 
 public class WaypointAction extends AutoAction {
+
     public double x;
     public double y;
     public double heading;
     public double speed;
+
     public boolean Act() {
         return AutoAlign.alignOdometry(new Translation2d(x * speed, y * speed), heading);
-    }
-    public void Finish() {
-        // AutoAlign.alignOdometry(Drivebase.getPose().getTranslation(), heading);
     }
 
     public WaypointAction() {

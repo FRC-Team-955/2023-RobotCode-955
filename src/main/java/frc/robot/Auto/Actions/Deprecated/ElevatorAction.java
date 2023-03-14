@@ -1,7 +1,8 @@
-package frc.robot.Auto.Actions;
+package frc.robot.Auto.Actions.Deprecated;
 
 import frc.robot.GamepieceManager;
 import frc.robot.IO;
+import frc.robot.Auto.Actions.AutoAction;
 
 public class ElevatorAction extends AutoAction{
     IO.GridRowPosition elevatorPos;

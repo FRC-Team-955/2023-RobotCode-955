@@ -1,3 +1,4 @@
+package frc.robot.Auto.Actions.Deprecated;
 // package frc.robot.Auto.Actions;
 
 // import edu.wpi.first.wpilibj.Timer;

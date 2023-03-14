@@ -1,6 +1,7 @@
-package frc.robot.Auto.Actions;
+package frc.robot.Auto.Actions.Deprecated;
 
 import frc.robot.Auto.Auto;
+import frc.robot.Auto.Actions.AutoAction;
 
 public class CurveAction extends AutoAction {
     double holonomicRotation;

@@ -48,10 +48,6 @@ public class BalanceAction extends AutoAction {
 
         return false;
     }
-    
-    public void Finish() {
-        
-    }
 
     public BalanceAction() {}
 

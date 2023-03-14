@@ -16,6 +16,7 @@ public class TestAction extends AutoAction {
         return false;
     }
     
+    @Override
     public void Finish() {
         motor.set(TalonSRXControlMode.PercentOutput, 0);
         System.out.println("Finished");

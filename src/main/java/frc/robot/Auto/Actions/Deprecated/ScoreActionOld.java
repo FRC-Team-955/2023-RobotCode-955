@@ -1,4 +1,4 @@
-package frc.robot.Auto.Actions;
+package frc.robot.Auto.Actions.Deprecated;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,9 @@ import frc.robot.Constants;
 import frc.robot.Drivebase;
 import frc.robot.GamepieceManager;
 import frc.robot.IO;
+import frc.robot.Auto.Actions.AutoAction;
+import frc.robot.Auto.Actions.AutoAction.EarlyEndMode;
+import frc.robot.Auto.Actions.AutoAction.LateEndMode;
 import frc.robot.Auto.AutoProfile.Team;
 import frc.robot.IO.GridArmPosition;
 import frc.robot.IO.GridRowPosition;

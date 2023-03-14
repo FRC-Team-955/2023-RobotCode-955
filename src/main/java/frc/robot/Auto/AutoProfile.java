@@ -6,10 +6,10 @@ import frc.robot.Constants;
 import frc.robot.Auto.Actions.AutoAction;
 import frc.robot.Auto.Actions.BalanceAction;
 import frc.robot.Auto.Actions.ScoreAction;
-import frc.robot.Auto.Actions.ScoreActionOld;
 import frc.robot.Auto.Actions.WaypointAction;
 import frc.robot.Auto.Actions.AutoAction.EarlyEndMode;
 import frc.robot.Auto.Actions.AutoAction.LateEndMode;
+import frc.robot.Auto.Actions.Deprecated.ScoreActionOld;
 
 public class AutoProfile {
     public String name;

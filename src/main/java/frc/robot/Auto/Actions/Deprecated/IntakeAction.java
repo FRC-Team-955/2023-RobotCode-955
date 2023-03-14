@@ -1,26 +1,25 @@
-package frc.robot.Auto.Actions;
+package frc.robot.Auto.Actions.Deprecated;
 
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.GamepieceManager;
+import frc.robot.Auto.Actions.AutoAction;
 
-public class ClawAction extends AutoAction {
-    int speed;
+public class IntakeAction extends AutoAction{
+    double time;
     Timer timer;
-    Double time;
+    int speed;
 
-    public ClawAction(int speed, Double time) {
-        this.speed = speed;
+    public IntakeAction(double time, int speed) {
         this.time = time;
+        this.speed = speed;
         timer = new Timer();
-        timer.reset();
     }
 
     public boolean Act() {
         timer.start();
         if (timer.hasElapsed(time)) {
+            GamepieceManager.runFlapsAuto(speed);
             return true;
-        } else {
-            GamepieceManager.moveClawAuto(speed);
         }
         return false;
     }
