@@ -171,9 +171,10 @@ public final class IO {
 
     public static enum GridArmPosition{
         Retract,
-        ConePrep,
-        ConeReady,
-        ConeAlmostReady,
+        ConePrepHigh,
+        ConeReadyHigh,
+        ConePrepMid,
+        ConeReadyMid,
         CubePrep,
         CubeReady,
         SingleSubstation,
@@ -181,6 +182,7 @@ public final class IO {
         Hybrid,
         CubeIntake,
         CubeRetract,
+        ConeIntake,
         Up
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
@@ -188,16 +190,17 @@ public final class IO {
     public static enum GridRowPosition{
         Retract,
         Low,
-        Mid,
+        MidCone,
         High,
         SingleSubstation,
         DoubleSubstation,
         CubeIntake, 
-        CubeRetract
+        CubeRetract,
+        ConeIntake
     }
     private static int gridColumnPosition = 0;
     private static int newGridColumnPosition = 0;
-    public static GridRowPosition gridRowPosition = GridRowPosition.Low;
+    public static GridRowPosition gridRowPosition = GridRowPosition.Retract;
 
     // public static void joystickInputRowPosition(){
     //     if(joy1.getPOV() == 0 ){
@@ -240,7 +243,7 @@ public final class IO {
         }
         if (key0.getRawButton(2) || key0.getRawButton(3)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
-            gridArmPosition = GridArmPosition.ConePrep;
+            gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 0;
         }
         //2
@@ -264,7 +267,7 @@ public final class IO {
         } 
         if (key0.getRawButton(8) || key0.getRawButton(9)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue2: Constants.FieldPositions.AutoAlignPositions.red2;
-            gridArmPosition = GridArmPosition.ConePrep;
+            gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 2;
         }
         //4
@@ -275,7 +278,7 @@ public final class IO {
         } 
         if (key0.getRawButton(11) || key0.getRawButton(12)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue3: Constants.FieldPositions.AutoAlignPositions.red3;
-            gridArmPosition = GridArmPosition.ConePrep;
+            gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 3;
         }
         //5
@@ -297,7 +300,7 @@ public final class IO {
         }
         if (key1.getRawButton(2) || key1.getRawButton(3)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue5: Constants.FieldPositions.AutoAlignPositions.red5;
-            gridArmPosition = GridArmPosition.ConePrep;
+            gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 5;
         }
         //7
@@ -308,7 +311,7 @@ public final class IO {
         }
         if (key1.getRawButton(5) || key1.getRawButton(6)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue6: Constants.FieldPositions.AutoAlignPositions.red6;
-            gridArmPosition = GridArmPosition.ConePrep;
+            gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 6;
         }
         //8
@@ -330,7 +333,7 @@ public final class IO {
         }
         if (key1.getRawButton(11) || key1.getRawButton(12)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue8: Constants.FieldPositions.AutoAlignPositions.red8;
-            gridArmPosition = GridArmPosition.ConePrep;
+            gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 8;
         }
 

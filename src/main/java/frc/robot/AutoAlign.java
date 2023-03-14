@@ -98,7 +98,7 @@ public class AutoAlign {
                     }
                     break;
                 case AlignedToNode:
-                    if(IO.gridArmPosition == IO.GridArmPosition.ConePrep) {
+                    if(IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh) {
                         if(alignTape()) {
                             gridAlignY = Drivebase.getPose().getY();
                             gridAlignState = GridAlignState.InPosition;

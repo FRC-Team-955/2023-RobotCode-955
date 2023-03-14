@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import org.apache.commons.lang3.time.FastDateFormat;
+
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -113,18 +115,21 @@ public final class Arm {
                 setpoint = Constants.Arm.retracted;
                 armRetract = true;
                 break;
-            case ConePrep:
-                setpoint = Constants.Arm.conePrep;
+            case ConePrepHigh:
+                setpoint = Constants.Arm.conePrepHigh;
                 armRetract = false;
                 break;
-            case ConeReady:
-                setpoint = Constants.Arm.coneReady;
+            case ConeReadyHigh:
+                setpoint = Constants.Arm.coneReadyHigh;
                 armRetract = false;
                 break;
-            case ConeAlmostReady:
-                setpoint = Constants.Arm.coneAlmostReady;
+            case ConePrepMid:
+                setpoint = Constants.Arm.conePrepMid;
                 armRetract = false;
-
+                break;
+            case ConeReadyMid:
+                setpoint = Constants.Arm.coneReadyMid;
+                armRetract = false;
             case CubePrep:
                 setpoint = Constants.Arm.cubePrep;
                 armRetract = false;
@@ -144,6 +149,9 @@ public final class Arm {
                 setpoint = Constants.Arm.hybrid;
                 armRetract = true;
                 break;
+            case NewHybrid:
+                setpoint = Constants.Arm.newHybrid;
+                armRetract = false;
             case CubeIntake:
                 setpoint = Constants.Arm.cubeIntake;
                 armRetract = true;
@@ -151,6 +159,8 @@ public final class Arm {
             case CubeRetract:
                 setpoint = Constants.Arm.cubeRetract;
                 armRetract = true;
+            case ConeIntake:
+                setpoint = Constants.Arm.coneIntake;
             case Up:
                 setpoint = Constants.Arm.up;
                 armRetract = true;
@@ -177,7 +187,7 @@ public final class Arm {
         return false;
     }
     public static boolean atConePrepPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.conePrep) < Constants.Arm.tolerance;
+        return Math.abs(getOffsetPosition() - Constants.Arm.conePrepHigh) < Constants.Arm.tolerance;
     }
     public static void displayInformation(){
         SmartDashboard.putNumber("Arm getOffsetPosition", getOffsetPosition());

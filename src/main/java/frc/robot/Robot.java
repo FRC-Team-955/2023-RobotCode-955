@@ -358,12 +358,12 @@ public class Robot extends TimedRobot {
             break;
           case Extend:
             Claw.stopishMotor();
-            if (GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConePrep)){
+            if (GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConePrepHigh)){
               autoState = AutoState.Place;
             }
             break;
           case Place:
-            if(GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConeAlmostReady)){
+            if(GamepieceManager.extention(IO.GridRowPosition.High, IO.GridArmPosition.ConeReadyHigh)){
               Claw.outputGamePiece();
               autoState = AutoState.LeaveNode;
             }else{
@@ -477,9 +477,9 @@ public class Robot extends TimedRobot {
             Claw.intakeGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.reverseIntake();
-            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
+            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrepHigh);
             if(AutoAlign.alignOdometry(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition),
-                                      -180) && GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep)){
+                                      -180) && GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrepHigh)){
               if (isAutoConeNodePosition){
                 newAutoState = NewAutoState.AlignPosition;
               }else{
@@ -498,7 +498,7 @@ public class Robot extends TimedRobot {
             Claw.intakeGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConePrep);
+            GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConePrepHigh);
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             if(AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:
@@ -506,7 +506,7 @@ public class Robot extends TimedRobot {
                                                                             autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY()):
                                                               autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.notHitGridOffset,0):new Translation2d(Constants.Auto.notHitGridOffset,0)), 
                                       -180) &&
-              GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConePrep)){
+              GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConePrepHigh)){
               // newAutoState = NewAutoState.Extend;
               newAutoState = NewAutoState.Place;
             }
@@ -517,7 +517,7 @@ public class Robot extends TimedRobot {
             Claw.stopishMotor();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            if (GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConePrep)){
+            if (GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConePrepHigh)){
               newAutoState = NewAutoState.Place;
             }
             break;
@@ -525,7 +525,7 @@ public class Robot extends TimedRobot {
             Drivebase.updateSwerveOdometry();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            if(GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConeAlmostReady)){
+            if(GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConeReadyHigh)){
               Claw.outputGamePiece();
               numberOfGamepiecesPlaced++;
               newAutoState = NewAutoState.LeaveNode;
@@ -536,7 +536,7 @@ public class Robot extends TimedRobot {
           case LeaveNode:
             Drivebase.updateSwerveOdometry();
             Claw.outputGamePiece();
-            GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridRowPosition, IO.GridArmPosition.ConeAlmostReady);
+            GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridRowPosition, IO.GridArmPosition.ConeReadyHigh);
             // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
@@ -669,7 +669,7 @@ public class Robot extends TimedRobot {
             //to update the isAutoConeNodePosition
             autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition);
             // GamepieceManager.extention(IO.GridRowPosition.Retract, isAutoConeNodePosition?IO.GridArmPosition.ConePrep:IO.GridArmPosition.CubePrep);
-            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
+            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrepHigh);
             IntakeV2.retractNoPid();
             Claw.stopishMotor();
             if(AutoAlign.alignOdometry(autoCommunityOutTranslation2d(), -180)){
@@ -684,7 +684,7 @@ public class Robot extends TimedRobot {
             //to update the isAutoConeNodePosition
             autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition);
             // GamepieceManager.extention(IO.GridRowPosition.Retract, isAutoConeNodePosition?IO.GridArmPosition.ConePrep:IO.GridArmPosition.CubePrep);
-            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
+            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrepHigh);
             IntakeV2.retractNoPid();
             Claw.stopishMotor();
             AutoAlign.alignOdometry(autoCommunityOutTranslation2d(), -180);

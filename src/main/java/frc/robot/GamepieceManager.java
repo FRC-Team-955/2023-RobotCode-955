@@ -59,8 +59,8 @@ public class GamepieceManager {
         Elevator.setElevator();
         switch(loadState) {
             case Intake:
-                Arm.setArm(IO.GridArmPosition.Retract);
-                Elevator.setElevator(IO.GridRowPosition.Low);
+                Arm.setArm(IO.GridArmPosition.ConeIntake);
+                Elevator.setElevator(IO.GridRowPosition.ConeIntake);
                 IntakeV2.slowIntake();
                 SmartDashboard.putBoolean("intake extended", IntakeV2.extendNoPid());
                 if(IntakeV2.extendNoPid()) {
@@ -117,8 +117,8 @@ public class GamepieceManager {
             Claw.intakeGamePiece();
         }
         // if clawDropPiece is pressed (Page Down) and the Arm is in position of ConePrep, then drop down the arm into ready and output
-        else if(IO.clawDropPiece() && Arm.atConePrepPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrep){
-          if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeAlmostReady)){
+        else if(IO.clawDropPiece() && Arm.atConePrepPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh){
+          if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeReadyHigh)){
             Claw.outputGamePiece();
           }
         }
@@ -182,7 +182,14 @@ public class GamepieceManager {
         // armInPosition = Arm.setArm();
 
         // return elevatorInPosition && armInPosition;
-
+    }
+    public static boolean extentionElevatorFirst(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
+        Elevator.setElevator(gridRowPosition);
+        elevatorInPosition = Elevator.setElevator();
+        if (elevatorInPosition){
+            Arm.setArm(armRowPosition);
+        }
+        return runExtention();
     }
     public static void autoAlign(){
         if (AutoAlign.isInCommunity()){
@@ -220,13 +227,13 @@ public class GamepieceManager {
                     if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveDrop){
                         placeState = PlaceState.Place;
                     }
-                }else if(IO.gridArmPosition == IO.GridArmPosition.ConePrep && 
+                }else if(IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh && 
                         Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.conePreemptiveExtension){
-                        extention(IO.gridRowPosition, IO.GridArmPosition.ConePrep);
+                        extention(IO.gridRowPosition, IO.GridArmPosition.ConePrepHigh);
                 }
                 //else just move arm into position
                 else{
-                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
+                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrepHigh);
                 }
                 if (robotInPosition){
                     placeState = PlaceState.Place;
@@ -241,7 +248,7 @@ public class GamepieceManager {
             case Leave:
                 Claw.outputGamePiece();
                 runExtention();
-                if(IO.gridArmPosition == IO.GridArmPosition.ConePrep){
+                if(IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition, -180);
                 }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.notHitGridOffset:-Constants.Auto.notHitGridOffset,0)), -180);
@@ -267,7 +274,7 @@ public class GamepieceManager {
     public static boolean clawDrop(){
         if (IO.clawDropPiece()){
             //If its cone node then move down, else don't, then output the game piece
-            if (extention(IO.gridRowPosition, (IO.gridArmPosition == IO.GridArmPosition.ConePrep)?IO.GridArmPosition.ConeAlmostReady:IO.gridArmPosition)){
+            if (extention(IO.gridRowPosition, (IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh)?IO.GridArmPosition.ConeReadyHigh:IO.gridArmPosition)){
                 Claw.outputGamePiece();
                 return true;
             }else{

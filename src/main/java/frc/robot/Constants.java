@@ -202,14 +202,17 @@ public class Constants {
         // public static int kTopLevel = 3000;
 
         public static int level = 0;
-        public static int conePrep = 45;
-        public static int coneReady = 5;
-        public static int coneAlmostReady = 25;
+        public static int conePrepHigh = 45;
+        public static int coneReadyHigh = 25;
+
+        public static int conePrepMid = 10;
+        public static int coneReadyMid = -10;
 
         public static int cubePrep = 20;
         public static int cubeReady = 20;
 
         public static int hybrid = -85;
+        public static double newHybrid = -60;
 
         public static int singleSubstation = 30;
         public static int doubleSubstation = 45;
@@ -218,6 +221,8 @@ public class Constants {
 
         public static int cubeIntake = -100;
         public static double cubeRetract = -130;
+
+        public static double coneIntake = -125;
 
         // Arm Pid Values
         public static double kP = 0.3;
@@ -241,15 +246,18 @@ public class Constants {
         // Extension Level Values
         public static double retracted = 4;
         public static double low = 10.4;
-        public static double mid = 25;
+        // For Mid Cone
+        public static double mid = 14;
         public static double high = 30;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
         public static double doubleSubstation = 4;
         
         public static double cubeIntake = 1;
-
         public static double cubeRetract = 6;
+
+        public static double coneIntake = 10.4;
+
         // Elevator PID Values
         public static double kP = 0.8;
         public static double kI = 0;
