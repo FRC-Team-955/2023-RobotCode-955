@@ -63,9 +63,9 @@ public class Constants {
         public static double prepLeaveOffset = 1;
         public static double communitySideOut = 2;
         public static double intakeRunTime = .01;
-        public static double visionWaitTime = 0.5;
-        public static double notHitGridOffset = 0.1;
-        public static double notHitSideWall = 0.25;
+        public static double visionWaitTime = 0.25;
+        public static double notHitGridOffset = 0.5;
+        public static double notHitSideWall = 0.4;
         public static double stopBeforeGamepieceOffset = 0.6;
 
         //are driver relative changes
@@ -84,8 +84,8 @@ public class Constants {
         public static double redGamePieceOffset1Y =0;
         public static double redGamePieceOffset2X =0;
         public static double redGamePieceOffset2Y =0;
-        public static double redGamePieceOffset3X =0;
-        public static double redGamePieceOffset3Y =0.3;
+        public static double redGamePieceOffset3X =0.5;
+        public static double redGamePieceOffset3Y =-0.2;
     }
 
     public static class AutoAlign{
@@ -149,7 +149,8 @@ public class Constants {
         public static double intakeAmpThreshhold = 30;
         public static double handOffMotorRun = 0;//.5
         public static double handoffMotorSlow = 0;//.4
-        public static double handoffMotorReverse = -0.15; //-.15
+        // public static double handoffMotorReverse = -0.15; //-.15
+        public static double handoffMotorReverse = -0.2; //-.15
 
         public static double ExtendPosition = 1.2;
         public static double RetractPosition = 2.1;
@@ -201,9 +202,9 @@ public class Constants {
         // public static int kTopLevel = 3000;
 
         public static int level = 0;
-        public static int conePrep = 40;
-        public static int coneReady = 0;
-        public static int coneAlmostReady = 20;
+        public static int conePrep = 45;
+        public static int coneReady = 5;
+        public static int coneAlmostReady = 25;
 
         public static int cubePrep = 20;
         public static int cubeReady = 20;
@@ -279,7 +280,7 @@ public class Constants {
     }
 
     public static class GamepieceManager{
-        public static double clawExtraRunTime = 2;
+        public static double clawExtraRunTime = 1;
     }
     public static final double bumperWidth = 0.93;
     public static final double bumperLength = 0.81;
@@ -305,7 +306,8 @@ public class Constants {
         // public static double inLoadingZoneY = 6.6;
         // public static double atGridBlueX = 1.8;
         // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
-        public static double atGridOffset =-0.05;
+        // public static double atGridOffset =0;
+        public static double atGridOffset =0.05;
         // public static double atGridOffset =-0.08;
         //offset
         public static double atGridBlueX =1.377950 + atGridOffset +(bumperWidth/2);

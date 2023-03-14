@@ -315,6 +315,6 @@ public class SwerveDrive {
     }
     public boolean displayInformation(){
         Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
-        return result.isPresent() && (Math.abs(Gyro.getPitch()) < Constants.AprilTagCamera.Filter.pitch && Math.abs(Gyro.getRoll()) < Constants.AprilTagCamera.Filter.roll) && (Math.abs(AprilTagCameraWrapper.getHorizontalOffset()) < 10);
+        return result.isPresent() && (Math.abs(Gyro.getPitch()) < Constants.AprilTagCamera.Filter.pitch && Math.abs(Gyro.getRoll()) < Constants.AprilTagCamera.Filter.roll);
     }
 }

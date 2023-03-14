@@ -214,13 +214,14 @@ public class GamepieceManager {
                     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Hybrid);
                 //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
                 }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
-                    if(Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.cubePreemptiveExtension){
+                    if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveExtension){
                         extention(IO.gridRowPosition, IO.GridArmPosition.CubePrep);
-                    }else if(Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.cubePreemptiveDrop){
+                    }
+                    if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveDrop){
                         placeState = PlaceState.Place;
                     }
                 }else if(IO.gridArmPosition == IO.GridArmPosition.ConePrep && 
-                        Math.abs(IO.keyInputOdometryPosition.getX() - Drivebase.getPose().getX()) < Constants.AutoAlign.conePreemptiveExtension){
+                        Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.conePreemptiveExtension){
                         extention(IO.gridRowPosition, IO.GridArmPosition.ConePrep);
                 }
                 //else just move arm into position
