@@ -174,6 +174,8 @@ public class Constants {
 
         public static int up = 125;
 
+        public static int cubeIntake = -100;
+
         // Arm Pid Values
         public static double kP = 0.3;
         public static double kI = 0;

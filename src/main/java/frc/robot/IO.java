@@ -167,6 +167,8 @@ public final class IO {
         SingleSubstation,
         DoubleSubstation,
         Hybrid,
+        CubeIntake,
+        CubeRetract,
         Up
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
@@ -177,7 +179,9 @@ public final class IO {
         Mid,
         High,
         SingleSubstation,
-        DoubleSubstation
+        DoubleSubstation,
+        CubeIntake, 
+        CubeRetract
     }
     private static int gridColumnPosition = 0;
     private static int newGridColumnPosition = 0;
