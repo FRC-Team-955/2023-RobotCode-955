@@ -166,7 +166,7 @@ public final class IO {
         joy1.setRumble(RumbleType.kBothRumble, 0.5);
     }
 
-    public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
+    public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid0: Constants.FieldPositions.AutoAlignPositions.redGrid0;
     public static Translation2d keyInputSubstationPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation: Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation;
 
     public static enum GridArmPosition{
@@ -183,7 +183,7 @@ public final class IO {
         CubeIntake,
         CubeRetract,
         ConeIntake,
-        Up
+        Up, NewHybrid
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
     
@@ -237,102 +237,102 @@ public final class IO {
     public static void keyInputOdometryMapping() {
         //1
         if (key0.getRawButton(1)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid0: Constants.FieldPositions.AutoAlignPositions.redGrid0;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 0;
         }
         if (key0.getRawButton(2) || key0.getRawButton(3)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue0: Constants.FieldPositions.AutoAlignPositions.red0;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid0: Constants.FieldPositions.AutoAlignPositions.redGrid0;
             gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 0;
         }
         //2
         if(key0.getRawButton(4)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue1: Constants.FieldPositions.AutoAlignPositions.red1;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid1: Constants.FieldPositions.AutoAlignPositions.redGrid1;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 1;     
         }
 
         if (key0.getRawButton(5) || key0.getRawButton(6)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue1: Constants.FieldPositions.AutoAlignPositions.red1;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid1: Constants.FieldPositions.AutoAlignPositions.redGrid1;
             gridArmPosition = GridArmPosition.CubePrep;
             newGridColumnPosition = 1;
         }
 
         //3
         if(key0.getRawButton(7)){ 
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue2: Constants.FieldPositions.AutoAlignPositions.red2;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid2: Constants.FieldPositions.AutoAlignPositions.redGrid2;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 2;   
         } 
         if (key0.getRawButton(8) || key0.getRawButton(9)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue2: Constants.FieldPositions.AutoAlignPositions.red2;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid2: Constants.FieldPositions.AutoAlignPositions.redGrid2;
             gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 2;
         }
         //4
         if(key0.getRawButton(10)){ 
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue3: Constants.FieldPositions.AutoAlignPositions.red3;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid3: Constants.FieldPositions.AutoAlignPositions.redGrid3;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 3;    
         } 
         if (key0.getRawButton(11) || key0.getRawButton(12)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue3: Constants.FieldPositions.AutoAlignPositions.red3;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid3: Constants.FieldPositions.AutoAlignPositions.redGrid3;
             gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 3;
         }
         //5
         if(key0.getRawButton(13)){ 
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue4: Constants.FieldPositions.AutoAlignPositions.red4;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid4: Constants.FieldPositions.AutoAlignPositions.redGrid4;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 4;    
         } 
         if (key0.getRawButton(14) || key0.getRawButton(15)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue4: Constants.FieldPositions.AutoAlignPositions.red4;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid4: Constants.FieldPositions.AutoAlignPositions.redGrid4;
             gridArmPosition = GridArmPosition.CubePrep;
             newGridColumnPosition = 4;
         }
         //6
         if(key1.getRawButton(1)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue5: Constants.FieldPositions.AutoAlignPositions.red5;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid5: Constants.FieldPositions.AutoAlignPositions.redGrid5;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 5;   
         }
         if (key1.getRawButton(2) || key1.getRawButton(3)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue5: Constants.FieldPositions.AutoAlignPositions.red5;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid5: Constants.FieldPositions.AutoAlignPositions.redGrid5;
             gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 5;
         }
         //7
         if(key1.getRawButton(4)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue6: Constants.FieldPositions.AutoAlignPositions.red6;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid6: Constants.FieldPositions.AutoAlignPositions.redGrid6;
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 6;
         }
         if (key1.getRawButton(5) || key1.getRawButton(6)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue6: Constants.FieldPositions.AutoAlignPositions.red6;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid6: Constants.FieldPositions.AutoAlignPositions.redGrid6;
             gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 6;
         }
         //8
         if (key1.getRawButton(7)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue7: Constants.FieldPositions.AutoAlignPositions.red7;   
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid7: Constants.FieldPositions.AutoAlignPositions.redGrid7;   
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 7;   
         }
         if (key1.getRawButton(8) || key1.getRawButton(9)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue7: Constants.FieldPositions.AutoAlignPositions.red7; 
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid7: Constants.FieldPositions.AutoAlignPositions.redGrid7; 
             gridArmPosition = GridArmPosition.CubePrep;
             newGridColumnPosition = 7;
         }
         //9
         if(key1.getRawButton(10)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue8: Constants.FieldPositions.AutoAlignPositions.red8; 
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid8: Constants.FieldPositions.AutoAlignPositions.redGrid8; 
             gridArmPosition = GridArmPosition.Hybrid;
             newGridColumnPosition = 8;    
         }
         if (key1.getRawButton(11) || key1.getRawButton(12)){
-            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blue8: Constants.FieldPositions.AutoAlignPositions.red8;
+            keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid8: Constants.FieldPositions.AutoAlignPositions.redGrid8;
             gridArmPosition = GridArmPosition.ConePrepHigh;
             newGridColumnPosition = 8;
         }

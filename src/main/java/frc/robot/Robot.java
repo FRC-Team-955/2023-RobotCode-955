@@ -135,39 +135,39 @@ public class Robot extends TimedRobot {
   public static Translation2d autoGridSelectionTranslation2d(int position){
     if(position == 0){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red0.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid0.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid0.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }
     else if(position == 1){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue1.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red1.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid1.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid1.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }
     else if(position == 2){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue2.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red2.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid2.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid2.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }
     else if(position == 3){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue3.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red3.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid3.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid3.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }
     else if(position == 4){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue4.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red4.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid4.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid4.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }
     else if(position == 5){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue5.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red5.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid5.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid5.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }
     else if(position == 6){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue6.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red6.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid6.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid6.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }
     else if(position == 7){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue7.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red7.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid7.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid7.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }
     else if(position == 8){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8.plus(new Translation2d(Constants.Auto.notHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.red8.minus(new Translation2d(Constants.Auto.notHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid8.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid8.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
     }else{
       return Drivebase.getPose().getTranslation();
     }
@@ -237,12 +237,12 @@ public class Robot extends TimedRobot {
   public static Translation2d autoCommunityOutTranslation2d(){
     switch(newAutoLeaveSelection){
       case Left:
-        return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blue0.getX() + Constants.Auto.communitySideOut ,Constants.FieldPositions.AutoAlignPositions.blue0.getY() - Constants.Auto.notHitSideWall):
-                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.red0.getX() - Constants.Auto.communitySideOut ,Constants.FieldPositions.AutoAlignPositions.red0.getY() + Constants.Auto.notHitSideWall);
+        return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blueGrid0.getX() + Constants.Auto.communitySideOut ,Constants.FieldPositions.AutoAlignPositions.blueGrid0.getY() - Constants.Auto.notHitSideWall):
+                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.redGrid0.getX() - Constants.Auto.communitySideOut ,Constants.FieldPositions.AutoAlignPositions.redGrid0.getY() + Constants.Auto.notHitSideWall);
       case Right:
-        return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blue8.getX()  + Constants.Auto.communitySideOut,Constants.FieldPositions.AutoAlignPositions.blue8.getY() + Constants.Auto.notHitSideWall):
+        return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blueGrid8.getX()  + Constants.Auto.communitySideOut,Constants.FieldPositions.AutoAlignPositions.blueGrid8.getY() + Constants.Auto.notHitSideWall):
                                   // new Translation2d(Constants.FieldPositions.AutoAlignPositions.red8.getX() - Constants.Auto.communitySideOut,4.583049);
-                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.red8.getX() - Constants.Auto.communitySideOut,Constants.FieldPositions.AutoAlignPositions.red8.getY() - Constants.Auto.notHitSideWall);
+                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.redGrid8.getX() - Constants.Auto.communitySideOut,Constants.FieldPositions.AutoAlignPositions.redGrid8.getY() - Constants.Auto.notHitSideWall);
       default:
         return Drivebase.getPose().getTranslation();
     }
@@ -250,12 +250,12 @@ public class Robot extends TimedRobot {
   public static Translation2d autoCommunityPrepLeaveTranslation2d(){
     switch(newAutoLeaveSelection){
       case Left:
-        return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blue0.getX() + Constants.Auto.prepLeaveOffset ,Constants.FieldPositions.AutoAlignPositions.blue0.getY() - Constants.Auto.notHitSideWall):
-                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.red0.getX() - Constants.Auto.prepLeaveOffset ,Constants.FieldPositions.AutoAlignPositions.red0.getY() + Constants.Auto.notHitSideWall);
+        return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blueGrid0.getX() + Constants.Auto.prepLeaveOffset ,Constants.FieldPositions.AutoAlignPositions.blueGrid0.getY() - Constants.Auto.notHitSideWall):
+                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.redGrid0.getX() - Constants.Auto.prepLeaveOffset ,Constants.FieldPositions.AutoAlignPositions.redGrid0.getY() + Constants.Auto.notHitSideWall);
       case Right:
-        return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blue8.getX()  + Constants.Auto.prepLeaveOffset,Constants.FieldPositions.AutoAlignPositions.blue8.getY() + Constants.Auto.notHitSideWall):
+        return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blueGrid8.getX()  + Constants.Auto.prepLeaveOffset,Constants.FieldPositions.AutoAlignPositions.blueGrid8.getY() + Constants.Auto.notHitSideWall):
                                   // new Translation2d(Constants.FieldPositions.AutoAlignPositions.red8.getX() - Constants.Auto.prepLeaveOffset,4.583049);
-                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.red8.getX() - Constants.Auto.prepLeaveOffset,Constants.FieldPositions.AutoAlignPositions.red8.getY() - Constants.Auto.notHitSideWall);
+                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.redGrid8.getX() - Constants.Auto.prepLeaveOffset,Constants.FieldPositions.AutoAlignPositions.redGrid8.getY() - Constants.Auto.notHitSideWall);
       default:
         return Drivebase.getPose().getTranslation();
     }
@@ -276,11 +276,11 @@ public class Robot extends TimedRobot {
   public static Translation2d autoChargePrepTranslation2d(){
     switch(newAutoLeaveSelection){
       case Left:
-        return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue3:Constants.FieldPositions.AutoAlignPositions.red3;
+        return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid3:Constants.FieldPositions.AutoAlignPositions.redGrid3;
       case Right:
-        return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue5:Constants.FieldPositions.AutoAlignPositions.red5;
+        return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid5:Constants.FieldPositions.AutoAlignPositions.redGrid5;
       default:
-        return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue4:Constants.FieldPositions.AutoAlignPositions.red4;
+        return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid4:Constants.FieldPositions.AutoAlignPositions.redGrid4;
     }
   }
   Field2d field2d = new Field2d();
@@ -382,17 +382,17 @@ public class Robot extends TimedRobot {
             GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             switch(autoLeaveSelection){
               case Left:
-                if(AutoAlign.alignOdometry(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue0:Constants.FieldPositions.AutoAlignPositions.red0, -180)){
+                if(AutoAlign.alignOdometry(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid0:Constants.FieldPositions.AutoAlignPositions.redGrid0, -180)){
                   autoState = AutoState.LeaveCommunity;
                 }
                 break;
               case Right:
-              if(AutoAlign.alignOdometry(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue8:Constants.FieldPositions.AutoAlignPositions.red8, -180)){
+              if(AutoAlign.alignOdometry(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid8:Constants.FieldPositions.AutoAlignPositions.redGrid8, -180)){
                   autoState = AutoState.LeaveCommunity;
                 }
                 break;
               case Charge:
-                if(AutoAlign.alignOdometry(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blue4:Constants.FieldPositions.AutoAlignPositions.red4, -180)){
+                if(AutoAlign.alignOdometry(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid4:Constants.FieldPositions.AutoAlignPositions.redGrid4, -180)){
                   autoState = AutoState.LeaveCommunity;
                 }
                 break;
@@ -504,7 +504,7 @@ public class Robot extends TimedRobot {
             if(AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:
                                                                             Constants.FieldPositions.atGridRedX, 
                                                                             autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY()):
-                                                              autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.notHitGridOffset,0):new Translation2d(Constants.Auto.notHitGridOffset,0)), 
+                                                              autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.noHitGridOffset,0):new Translation2d(Constants.Auto.noHitGridOffset,0)), 
                                       -180) &&
               GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConePrepHigh)){
               // newAutoState = NewAutoState.Extend;

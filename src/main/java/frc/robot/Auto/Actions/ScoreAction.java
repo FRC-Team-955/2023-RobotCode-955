@@ -24,28 +24,28 @@ public class ScoreAction extends AutoAction {
     public void Start() {
         if (profile.team == Team.Red) {
             switch (position) {
-                case 0: target = Constants.FieldPositions.AutoAlignPositions.red0; break;
-                case 1: target = Constants.FieldPositions.AutoAlignPositions.red1; break;
-                case 2: target = Constants.FieldPositions.AutoAlignPositions.red2; break;
-                case 3: target = Constants.FieldPositions.AutoAlignPositions.red3; break;
-                case 4: target = Constants.FieldPositions.AutoAlignPositions.red4; break;
-                case 5: target = Constants.FieldPositions.AutoAlignPositions.red5; break;
-                case 6: target = Constants.FieldPositions.AutoAlignPositions.red6; break;
-                case 7: target = Constants.FieldPositions.AutoAlignPositions.red7; break;
-                case 8: target = Constants.FieldPositions.AutoAlignPositions.red8; break;
+                case 0: target = Constants.FieldPositions.AutoAlignPositions.redGrid0; break;
+                case 1: target = Constants.FieldPositions.AutoAlignPositions.redGrid1; break;
+                case 2: target = Constants.FieldPositions.AutoAlignPositions.redGrid2; break;
+                case 3: target = Constants.FieldPositions.AutoAlignPositions.redGrid3; break;
+                case 4: target = Constants.FieldPositions.AutoAlignPositions.redGrid4; break;
+                case 5: target = Constants.FieldPositions.AutoAlignPositions.redGrid5; break;
+                case 6: target = Constants.FieldPositions.AutoAlignPositions.redGrid6; break;
+                case 7: target = Constants.FieldPositions.AutoAlignPositions.redGrid7; break;
+                case 8: target = Constants.FieldPositions.AutoAlignPositions.redGrid8; break;
             }
         }
         else {
             switch (position) {
-                case 0: target = Constants.FieldPositions.AutoAlignPositions.blue0; break;
-                case 1: target = Constants.FieldPositions.AutoAlignPositions.blue1; break;
-                case 2: target = Constants.FieldPositions.AutoAlignPositions.blue2; break;
-                case 3: target = Constants.FieldPositions.AutoAlignPositions.blue3; break;
-                case 4: target = Constants.FieldPositions.AutoAlignPositions.blue4; break;
-                case 5: target = Constants.FieldPositions.AutoAlignPositions.blue5; break;
-                case 6: target = Constants.FieldPositions.AutoAlignPositions.blue6; break;
-                case 7: target = Constants.FieldPositions.AutoAlignPositions.blue7; break;
-                case 8: target = Constants.FieldPositions.AutoAlignPositions.blue8; break;
+                case 0: target = Constants.FieldPositions.AutoAlignPositions.blueGrid0; break;
+                case 1: target = Constants.FieldPositions.AutoAlignPositions.blueGrid1; break;
+                case 2: target = Constants.FieldPositions.AutoAlignPositions.blueGrid2; break;
+                case 3: target = Constants.FieldPositions.AutoAlignPositions.blueGrid3; break;
+                case 4: target = Constants.FieldPositions.AutoAlignPositions.blueGrid4; break;
+                case 5: target = Constants.FieldPositions.AutoAlignPositions.blueGrid5; break;
+                case 6: target = Constants.FieldPositions.AutoAlignPositions.blueGrid6; break;
+                case 7: target = Constants.FieldPositions.AutoAlignPositions.blueGrid7; break;
+                case 8: target = Constants.FieldPositions.AutoAlignPositions.blueGrid8; break;
             }
         }
     }

@@ -251,7 +251,7 @@ public class GamepieceManager {
                 if(IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition, -180);
                 }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
-                    AutoAlign.alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.notHitGridOffset:-Constants.Auto.notHitGridOffset,0)), -180);
+                    AutoAlign.alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), -180);
                 }
                 break;
 

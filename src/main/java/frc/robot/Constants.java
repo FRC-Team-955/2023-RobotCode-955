@@ -64,7 +64,7 @@ public class Constants {
         public static double communitySideOut = 2;
         public static double intakeRunTime = .01;
         public static double visionWaitTime = 0.25;
-        public static double notHitGridOffset = 0.5;
+        public static double noHitGridOffset = 0.5;
         public static double notHitSideWall = 0.4;
         public static double stopBeforeGamepieceOffset = 0.6;
 
@@ -300,7 +300,6 @@ public class Constants {
 
         public static final double centerLine = 8.272113;
 
-        // public static double inBlueCommunityX = 3-(bumperWidth/2);
         //The edge of the charge station - the width of the robot
         public static double inBlueCommunityX = 2.919396-(bumperWidth/2);
         public static final double inRedCommunityX = fieldX-inBlueCommunityX;
@@ -308,17 +307,12 @@ public class Constants {
 
         public static double inRedLoadingZoneX = 6.710363;
         public static double inBlueLoadingZoneX = fieldX - inRedLoadingZoneX;
-        // public static double inLoadingZoneY = inCommunityY + (bumperLength/2);
         
         public static double inLoadingZoneY = inCommunityY;
-        // public static double inLoadingZoneY = 6.6;
-        // public static double atGridBlueX = 1.8;
-        // public static double atGridBlueX = 1.377950 + (bumperWidth/2);
-        // public static double atGridOffset =0;
         public static double atGridOffset =0.05;
         // public static double atGridOffset =-0.08;
         //offset
-        public static double atGridBlueX =1.377950 + atGridOffset +(bumperWidth/2);
+        public static double atGridBlueX =1.377950 +(bumperWidth/2) + atGridOffset;
         public static double atGridRedX = fieldX-atGridBlueX;
 
         public static double atSubstationRedX = 1.17;
@@ -331,15 +325,15 @@ public class Constants {
         public static double outSubstationLongRed = fieldX - outSubstationLongBlue;
 
         public static class AutoAlignPositions{
-            public static Translation2d blue0 = new Translation2d(2.16,4.983099);
-            public static Translation2d blue1 = new Translation2d(2.16,4.424426);
-            public static Translation2d blue2 = new Translation2d(2.16,3.865499);
-            public static Translation2d blue3 = new Translation2d(2.16,3.306699);
-            public static Translation2d blue4 = new Translation2d(2.16,2.747899);
-            public static Translation2d blue5 = new Translation2d(2.16,2.189099);
-            public static Translation2d blue6 = new Translation2d(2.16,1.630299);
-            public static Translation2d blue7 = new Translation2d(2.16,1.071499);
-            public static Translation2d blue8 = new Translation2d(2.16,0.512699);
+            public static Translation2d blueGrid0 = new Translation2d(2.16,4.983099);
+            public static Translation2d blueGrid1 = new Translation2d(2.16,4.424426);
+            public static Translation2d blueGrid2 = new Translation2d(2.16,3.865499);
+            public static Translation2d blueGrid3 = new Translation2d(2.16,3.306699);
+            public static Translation2d blueGrid4 = new Translation2d(2.16,2.747899);
+            public static Translation2d blueGrid5 = new Translation2d(2.16,2.189099);
+            public static Translation2d blueGrid6 = new Translation2d(2.16,1.630299);
+            public static Translation2d blueGrid7 = new Translation2d(2.16,1.071499);
+            public static Translation2d blueGrid8 = new Translation2d(2.16,0.512699);
             public static Translation2d blueAvoidChargerUppper = new Translation2d(5.5,8.02-3);
             public static Translation2d blueOutCommunityUppper = new Translation2d(4.0, 8.02-3);
             public static Translation2d blueInCommunityUppper = new Translation2d(2.0, 8.02-3);
@@ -347,16 +341,15 @@ public class Constants {
             public static Translation2d blueOutCommunityLower = new Translation2d(4.0, 8.02-7.5);
             public static Translation2d blueInCommunityLower = new Translation2d(2.0, 8.02-7.5);
 
-            public static Translation2d red0 = new Translation2d(fieldX - 2.16, blue8.getY());
-            public static Translation2d red1 = new Translation2d(fieldX - 2.16, blue7.getY());
-            public static Translation2d red2 = new Translation2d(fieldX - 2.16, blue6.getY());
-            public static Translation2d red3 = new Translation2d(fieldX - 2.16, blue5.getY());
-            public static Translation2d red4 = new Translation2d(fieldX - 2.16, blue4.getY());
-            public static Translation2d red5 = new Translation2d(fieldX - 2.16, blue3.getY());
-            public static Translation2d red6 = new Translation2d(fieldX - 2.16, blue2.getY());
-            // public static Translation2d red7 = new Translation2d(fieldX - 2.16, blue1.getY());
-            public static Translation2d red7 = new Translation2d(fieldX - 2.16, blue1.getY());
-            public static Translation2d red8 = new Translation2d(fieldX - 2.16, blue0.getY());
+            public static Translation2d redGrid0 = new Translation2d(fieldX - 2.16, blueGrid8.getY());
+            public static Translation2d redGrid1 = new Translation2d(fieldX - 2.16, blueGrid7.getY());
+            public static Translation2d redGrid2 = new Translation2d(fieldX - 2.16, blueGrid6.getY());
+            public static Translation2d redGrid3 = new Translation2d(fieldX - 2.16, blueGrid5.getY());
+            public static Translation2d redGrid4 = new Translation2d(fieldX - 2.16, blueGrid4.getY());
+            public static Translation2d redGrid5 = new Translation2d(fieldX - 2.16, blueGrid3.getY());
+            public static Translation2d redGrid6 = new Translation2d(fieldX - 2.16, blueGrid2.getY());
+            public static Translation2d redGrid7 = new Translation2d(fieldX - 2.16, blueGrid1.getY());
+            public static Translation2d redGrid8 = new Translation2d(fieldX - 2.16, blueGrid0.getY());
 
             // public static Translation2d blueGamePiece0 = new Translation2d(7.056,4.521+1.22);
             public static Translation2d blueGamePiece0 = new Translation2d(7.05837,4.583049);
