@@ -1,7 +1,5 @@
 package frc.robot.Subsystems;
 
-import org.apache.commons.lang3.time.FastDateFormat;
-
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;

@@ -59,12 +59,6 @@ public class AutoAlign {
         // double heading = (GamepieceCamera.getHorizontaloffset() * Constants.AutoAlign.kHorizontalOffsetToPidgeonFactor) + Gyro.getHeading();
         // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), heading);
     }
-
-    //the move forward function
-    public static boolean moveIntoPosition() {
-        return alignOdometry(new Translation2d(Constants.isBlue()? Constants.FieldPositions.atGridBlueX: Constants.FieldPositions.atGridRedX, 
-                            gridAlignY), -180);
-    }
     public static boolean isInCommunity(){
         if (((Constants.isBlue() && (Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX)) ||
             (Constants.isRed() && (Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX))) &&
@@ -99,46 +93,11 @@ public class AutoAlign {
     }
     public static enum GridAlignState {
         AlignedToOdometry,
-        AlignedToNode,
         InPosition
     }
     public static GridAlignState gridAlignState = GridAlignState.AlignedToOdometry;
     public static double gridAlignY;
-    public static boolean moveToGridPosition(){
-        if(isInCommunity()){
-            switch(gridAlignState) {
-                case AlignedToOdometry:
-                    // if(alignOdometry(Constants.FieldPositions.AutoAlignPositions.blue1, -180)) {
-                    if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
-                        gridAlignState = GridAlignState.AlignedToNode;
-                    }
-                    break;
-                case AlignedToNode:
-                    if(IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh) {
-                        if(alignTape()) {
-                            gridAlignY = Drivebase.getPose().getY();
-                            gridAlignState = GridAlignState.InPosition;
-                        }
-                    } else {
-                        if(alignAprilTag()) {
-                            gridAlignY = Drivebase.getPose().getY();
-                            gridAlignState = GridAlignState.InPosition;
-                        }
-                    }
-                    break;
-                case InPosition:
-                    return moveIntoPosition();
-            }
-        }
-        return false;
-    }
-    public static boolean moveToGridPositionOdometry(){
-        if(isInCommunity()){
-            return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
-                                IO.keyInputOdometryPosition.getY()), -180);
-        }
-        return false;
-    }
+    
     public static double alignRotation = -180;
     public static Translation2d alignTranslation = new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY());
     public static boolean moveToGridPositionOdometryTwoStep(){
@@ -146,7 +105,7 @@ public class AutoAlign {
             switch(gridAlignState) {
                 case AlignedToOdometry:
                     //if hybrid node then noHitGridOffset
-                    if(IO.gridArmPosition == IO.GridArmPosition.NewHybrid){
+                    if(IO.gridNodeType == IO.GridNodeType.Hybrid){
                         if(alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), -180)){
                             gridAlignState = GridAlignState.InPosition;
                             //Set rotation to -180 here so that you can adjust it manunally later if needed
@@ -162,27 +121,32 @@ public class AutoAlign {
                         }
                     }
                 break;
-                case AlignedToNode:
-                    return false;
                 case InPosition:
                     alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.1;
-                    //If Hybrid, don't move from noHit position
-                    if(IO.gridArmPosition == IO.GridArmPosition.NewHybrid){
-                        alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), alignRotation);
-                        return true;
+                    switch(IO.gridNodeType){
+                        //If Hybrid, don't move from noHit position
+                        case Hybrid:
+                            alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), alignRotation);
+                            return true;
+                        //If Cube, don't move from normal position
+                        case Cube:
+                            alignOdometry(IO.keyInputOdometryPosition, alignRotation);
+                            return true;
+                        case Cone:
+                            switch(IO.gridRow){
+                                //Not possible
+                                case Hybrid:
+                                    break;
+                                //If Cone at Mid, don't move from normal position
+                                case Mid:
+                                    alignOdometry(IO.keyInputOdometryPosition, alignRotation);
+                                    return true;
+                                //If Cone at High, move forward
+                                case High:
+                                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
+                            }
+                            break;
                     }
-                    //If Cube, don't move from normal position
-                    else if (IO.gridArmPosition == IO.GridArmPosition.CubePrep){
-                        alignOdometry(IO.keyInputOdometryPosition, alignRotation);
-                        return true;
-                    }
-                    //If Cone at Mid, don't move from normal position
-                    else if(IO.gridArmPosition == IO.GridArmPosition.ConePrepMid){
-                        alignOdometry(IO.keyInputOdometryPosition, alignRotation);
-                        return true;
-                    }
-                    //If Cone at High, then move forward
-                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
             }
         }
         return false;
