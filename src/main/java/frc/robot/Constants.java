@@ -382,7 +382,8 @@ public class Constants {
             public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-redLeftDoubleSubstation.getX(), redRightDoubleSubstation.getY());
             public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-redRightDoubleSubstation.getX(), redLeftDoubleSubstation.getY());
             public static Translation2d blueSingleSubstation = new Translation2d(fieldX-redSingleSubstation.getX(),redSingleSubstation.getY());
-            public static double midLineDoubleSubstation = (redLeftDoubleSubstation.getY()-redRightDoubleSubstation.getY())/2;
+
+            public static double oneStepDoubleSubstationSlope = 0.557851739352;
         }
     }
 
