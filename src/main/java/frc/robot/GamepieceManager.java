@@ -103,6 +103,12 @@ public class GamepieceManager {
                 break;
         }
     }
+    public static void loadCone(){
+        if(Arm.setpoint == Constants.Arm.cubeIntake){
+        }else{
+            IntakeV2.extendNoPidDrop();
+        }
+    }
     public static void loadGamepieceCube() {
         Claw.intakeGamePiece();
         IntakeV2.retractNoPid();
@@ -122,14 +128,19 @@ public class GamepieceManager {
             Claw.outputGamePiece();
           }
         }
+        // if clawDropPiece is pressed (Page Down) and the Arm is in position of up, then drop the cone in the intake
+        else if (IO.clawDropPiece() && Arm.setpoint == Constants.Arm.up){
+            IntakeV2.reverseIntake();
+        }
         // if clawDropPiece is pressed (Page Down), then output
         else if(IO.clawDropPiece()){
             Claw.outputGamePiece();
         }
         else if(IO.intakeSequenceCone()){
-            loadGamepieceCone();
-            clawTimer.start();
-            clawTimer.reset();
+            // loadGamepieceCone();
+            loadCone();
+            // clawTimer.start();
+            // clawTimer.reset();
         }
         else if(IO.intakeSequenceCube()){
             loadGamepieceCube();
@@ -143,7 +154,7 @@ public class GamepieceManager {
             }else{
                 Claw.stopishMotor();
             }
-            IntakeV2.handOffNoPid();
+            IntakeV2.retractNoPid();
             loadState = loadStates.Intake;
         }
     }
@@ -216,9 +227,9 @@ public class GamepieceManager {
                 if(AutoAlign.gridAlignState == AutoAlign.GridAlignState.InPosition){
                     extention(IO.gridRowPosition, IO.gridArmPosition);
                 }
-                //if Hybrid than Hybrid, however must do this before entering anyways
-                else if(IO.gridArmPosition == IO.GridArmPosition.Hybrid){
-                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Hybrid);
+                //if Hybrid than Hybrid, however must do this before entering anyways(tho maybe it work now)
+                else if(IO.gridArmPosition == IO.GridArmPosition.NewHybrid){
+                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.NewHybrid);
                 //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
                 }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
                     if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveExtension){
@@ -227,11 +238,15 @@ public class GamepieceManager {
                     if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveDrop){
                         placeState = PlaceState.Place;
                     }
-                }else if(IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh && 
+                }else if((IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh) && 
                         Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.conePreemptiveExtension){
                         extention(IO.gridRowPosition, IO.GridArmPosition.ConePrepHigh);
                 }
-                //else just move arm into position
+                // if ConePrepMid pre move arm into position
+                else if(IO.gridArmPosition == IO.GridArmPosition.ConePrepMid){
+                    extentionElevatorFirst(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid);
+                }
+                //else(ConePrepHigh) pre move arm into position
                 else{
                     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrepHigh);
                 }
@@ -250,7 +265,7 @@ public class GamepieceManager {
                 runExtention();
                 if(IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition, -180);
-                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
+                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep || IO.gridArmPosition == IO.GridArmPosition.ConePrepMid){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), -180);
                 }
                 break;
@@ -274,10 +289,23 @@ public class GamepieceManager {
     public static boolean clawDrop(){
         if (IO.clawDropPiece()){
             //If its cone node then move down, else don't, then output the game piece
-            if (extention(IO.gridRowPosition, (IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh)?IO.GridArmPosition.ConeReadyHigh:IO.gridArmPosition)){
+            if(IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh){
+                if(extention(IO.gridRowPosition, IO.GridArmPosition.ConeReadyHigh)){
+                    Claw.outputGamePiece();
+                    return true;
+                }
+            }
+            else if (IO.gridArmPosition == IO.GridArmPosition.ConePrepMid){
+                if(extention(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid)){
+                    Claw.outputGamePiece();
+                    return true;
+                }
+            }else if(extention(IO.gridRowPosition, IO.gridArmPosition)){
                 Claw.outputGamePiece();
                 return true;
-            }else{
+            }
+            else{
+                extention(IO.gridRowPosition, IO.gridArmPosition);
                 Claw.stopishMotor();
             }
         }else{

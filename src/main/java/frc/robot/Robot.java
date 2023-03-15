@@ -737,6 +737,7 @@ public class Robot extends TimedRobot {
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
     IO.keyInputSubstationPosition();
+    IO.keyGridPosition();
     IO.displayInformation();
     Drivebase.updateSwerveOdometry();
     // Drivebase.displayInformation();

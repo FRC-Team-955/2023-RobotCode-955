@@ -205,14 +205,14 @@ public class Constants {
         public static int conePrepHigh = 45;
         public static int coneReadyHigh = 25;
 
-        public static int conePrepMid = 10;
-        public static int coneReadyMid = -10;
+        public static int conePrepMid = 30;
+        public static int coneReadyMid = 10;
 
         public static int cubePrep = 20;
         public static int cubeReady = 20;
 
         public static int hybrid = -85;
-        public static double newHybrid = -60;
+        public static double newHybrid = -70;
 
         public static int singleSubstation = 30;
         public static int doubleSubstation = 45;
@@ -382,7 +382,8 @@ public class Constants {
             public static Translation2d blueLeftDoubleSubstation = new Translation2d(fieldX-redLeftDoubleSubstation.getX(), redRightDoubleSubstation.getY());
             public static Translation2d blueRightDoubleSubstation = new Translation2d(fieldX-redRightDoubleSubstation.getX(), redLeftDoubleSubstation.getY());
             public static Translation2d blueSingleSubstation = new Translation2d(fieldX-redSingleSubstation.getX(),redSingleSubstation.getY());
-        }   
+            public static double midLineDoubleSubstation = (redLeftDoubleSubstation.getY()-redRightDoubleSubstation.getY())/2;
+        }
     }
 
     // public static DriverStation.Alliance color = DriverStation.getAlliance();

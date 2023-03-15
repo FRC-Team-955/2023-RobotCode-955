@@ -59,6 +59,16 @@ public class IntakeV2 {
         }
         return false;
     }
+    public static boolean extendNoPidDrop(){
+        if(getPosition() < 15){
+            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
+            motorRight.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
+        }else{
+            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
+            motorRight.set(TalonSRXControlMode.PercentOutput, 0.5*Constants.IntakeV2.handoffMotorSlow);
+        }
+        return extendNoPid();
+    }
 
     public static boolean retractNoPid(){
         if (!IO.isOverrideEnabled()) {
