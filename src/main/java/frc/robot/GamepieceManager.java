@@ -3,6 +3,10 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.Intake;
+import frc.robot.IO.GridArmPosition;
+import frc.robot.IO.GridRowPosition;
+import frc.robot.Robot.AutoState;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
@@ -146,7 +150,9 @@ public class GamepieceManager {
         else{
             clawTimer.start();
             if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
-                Claw.intakeGamePiece();
+                // Claw.intakeGamePiece();
+                Claw.stopishMotor();
+
             }else{
                 Claw.stopishMotor();
             }
