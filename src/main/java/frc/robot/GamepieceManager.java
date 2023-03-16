@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.Intake;
 import frc.robot.IO.GridArmPosition;
@@ -226,32 +225,46 @@ public class GamepieceManager {
             case Align:
                 Claw.stopishMotor();
                 boolean robotInPosition = AutoAlign.moveToGridPositionOdometryTwoStep();
+                
                 //If your left right is correct but not your forward back yet, move elevator and arm into position
                 if(AutoAlign.gridAlignState == AutoAlign.GridAlignState.InPosition){
                     extention(IO.gridRowPosition, IO.gridArmPosition);
-                }
-                //if Hybrid than Hybrid, however must do this before entering anyways(tho maybe it work now)
-                else if(IO.gridArmPosition == IO.GridArmPosition.NewHybrid){
-                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.NewHybrid);
-                //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
-                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
-                    if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveExtension){
-                        extention(IO.gridRowPosition, IO.GridArmPosition.CubePrep);
+                }else{
+                    switch(IO.gridNodeType){
+                        //if Hybrid than Hybrid, however must do this before entering anyways(tho maybe it work now)
+                        case Hybrid:
+                            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.NewHybrid);
+                            break;
+                        //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
+                        case Cube:
+                            if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveExtension){
+                                extention(IO.gridRowPosition, IO.GridArmPosition.CubePrep);
+                            }else{
+                                extention(IO.GridRowPosition.Retract, IO.GridArmPosition.CubePrep);
+                            }
+                            if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveDrop){
+                                placeState = PlaceState.Place;
+                            }
+                            break;
+                        case Cone:
+                            switch(IO.gridRow){
+                                //Not possible
+                                case Hybrid:
+                                    break;
+                                // if ConePrepMid pre move arm into position
+                                case Mid:
+                                    extentionElevatorFirst(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid);
+                                    break;
+                                case High:
+                                    if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.conePreemptiveExtension){
+                                        extention(IO.gridRowPosition, IO.GridArmPosition.ConePrepHigh);
+                                    }else{
+                                        extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrepHigh);
+                                    }
+                                    break;
+                            }
+                            break;
                     }
-                    if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.cubePreemptiveDrop){
-                        placeState = PlaceState.Place;
-                    }
-                }else if((IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh) && 
-                        Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.conePreemptiveExtension){
-                        extention(IO.gridRowPosition, IO.GridArmPosition.ConePrepHigh);
-                }
-                // if ConePrepMid pre move arm into position
-                else if(IO.gridArmPosition == IO.GridArmPosition.ConePrepMid){
-                    extentionElevatorFirst(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid);
-                }
-                //else(ConePrepHigh) pre move arm into position
-                else{
-                    extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrepHigh);
                 }
                 if (robotInPosition){
                     placeState = PlaceState.Place;

@@ -217,21 +217,6 @@ public final class IO {
     private static int newGridColumnPosition = 0;
     public static GridRowPosition gridRowPosition = GridRowPosition.Retract;
 
-    // public static void joystickInputRowPosition(){
-    //     if(joy1.getPOV() == 0 ){
-    //         gridRowPosition = GridRowPosition.High;
-    //         gridArmPosition = GridArmPosition.ConePrep;
-    //     }
-    //     else if (joy1.getPOV() == 90){
-    //         gridRowPosition = GridRowPosition.Retract;
-    //         gridArmPosition = GridArmPosition.ConePrep;
-    //     }
-    //     else if (joy1.getPOV() == 180){
-    //         gridRowPosition = GridRowPosition.Retract;
-    //         gridArmPosition = GridArmPosition.Hybrid;
-    //     }
-    // }
-
     public static void keyInputRowPosition(){
         if(key0.getRawButton(1) || key0.getRawButton(4)|| key0.getRawButton(7) || key0.getRawButton(10)|| key0.getRawButton(13)
         || key1.getRawButton(1) || key1.getRawButton(4) || key1.getRawButton(7) || key1.getRawButton(10)){
@@ -265,13 +250,11 @@ public final class IO {
             gridNodeType = GridNodeType.Hybrid;
             newGridColumnPosition = 1;     
         }
-
         if (key0.getRawButton(5) || key0.getRawButton(6)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid1: Constants.FieldPositions.AutoAlignPositions.redGrid1;
             gridNodeType = GridNodeType.Cube;
             newGridColumnPosition = 1;
         }
-
         //3
         if(key0.getRawButton(7)){ 
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid2: Constants.FieldPositions.AutoAlignPositions.redGrid2;
@@ -363,21 +346,37 @@ public final class IO {
                 gridRowPosition = GridRowPosition.Retract;
                 break;
             case Cube:
-                if (gridRow == GridRow.Mid){
-                    gridArmPosition = GridArmPosition.CubePrep;
-                    gridRowPosition = GridRowPosition.Retract;
-                }else if (gridRow == GridRow.High){
-                    gridArmPosition = GridArmPosition.CubePrep;
-                    gridRowPosition = GridRowPosition.High;
+                switch(gridRow){
+                    //Not possible
+                    case Hybrid:
+                        gridArmPosition = GridArmPosition.NewHybrid;
+                        gridRowPosition = GridRowPosition.Retract;
+                        break;
+                    case Mid:
+                        gridArmPosition = GridArmPosition.CubePrep;
+                        gridRowPosition = GridRowPosition.Retract;
+                        break;
+                    case High:
+                        gridArmPosition = GridArmPosition.CubePrep;
+                        gridRowPosition = GridRowPosition.High;
+                        break;
                 }
                 break;
             case Cone:
-                if (gridRow == GridRow.Mid){
-                    gridArmPosition = GridArmPosition.ConePrepMid;
-                    gridRowPosition = GridRowPosition.MidCone;
-                }else if (gridRow == GridRow.High){
-                    gridArmPosition = GridArmPosition.ConePrepHigh;
-                    gridRowPosition = GridRowPosition.High;
+                switch(gridRow){
+                    //Not possible
+                    case Hybrid:
+                        gridArmPosition = GridArmPosition.NewHybrid;
+                        gridRowPosition = GridRowPosition.Retract;
+                        break;
+                    case Mid:
+                        gridArmPosition = GridArmPosition.ConePrepMid;
+                        gridRowPosition = GridRowPosition.MidCone;
+                        break;
+                    case High:
+                        gridArmPosition = GridArmPosition.ConePrepHigh;
+                        gridRowPosition = GridRowPosition.High;
+                        break;
                 }
                 break;
         }

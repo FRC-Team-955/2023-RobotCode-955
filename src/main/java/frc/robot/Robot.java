@@ -294,9 +294,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Field", field2d);
     Drivebase.resetAnglesToAbsolute();
     IntakeV2.setOffset();
-    // Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(autoGridSelection).getX(), autoGridSelectionTranslation2d(autoGridSelection).getY(),Gyro.getYawR2D()));
-    Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getX(), autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY(),Gyro.getYawR2D()));
-    // Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(gamePiecePositionArray[0].gridSelectionPosition).getX(), autoGridSelectionTranslation2d(gamePiecePositionArray[0].gridSelectionPosition).getY(),Gyro.getYawR2D()));
+    //For old Auto
+    // Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(autoGridSelection),Gyro.getYawR2D()));
+    Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition),Gyro.getYawR2D()));
     SmartDashboard.putString("Alliance Color",  DriverStation.getAlliance().toString());
 
   }
@@ -324,7 +324,6 @@ public class Robot extends TimedRobot {
         switch(autoState){
           case Setup:
             IntakeV2.reverseIntake();
-            // Drivebase.setSwerveOdometry(new Pose2d(Constants.isBlue()?Constants.FieldPositions.fieldX-14:14, autoGridSelection(autoGridSelection).getY(),Gyro.getYawR2D()));
             Claw.intakeGamePiece();
             if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract)){
               autoState = AutoState.Up;
