@@ -64,7 +64,7 @@ public class Constants {
         public static double communitySideOut = 2;
         public static double intakeRunTime = .01;
         public static double visionWaitTime = 0.25;
-        public static double noHitGridOffset = 0.5;
+        public static double noHitGridOffset = 0.35;
         public static double notHitSideWall = 0.4;
         public static double stopBeforeGamepieceOffset = 0.6;
 
@@ -147,8 +147,8 @@ public class Constants {
         public static double Ks = 0.4;
 
         public static double intakeAmpThreshhold = 30;
-        public static double handOffMotorRun = 0;//.5
-        public static double handoffMotorSlow = 0;//.4
+        public static double handOffMotorRun = 0.5;//.5
+        public static double handoffMotorSlow = 0.4;//.4
         // public static double handoffMotorReverse = -0.15; //-.15
         public static double handoffMotorReverse = -0.2; //-.15
 
@@ -212,7 +212,7 @@ public class Constants {
         public static int cubeReady = 20;
 
         public static int hybrid = -85;
-        public static double newHybrid = -70;
+        public static double newHybrid = -30;
 
         public static int singleSubstation = 30;
         public static int doubleSubstation = 45;
@@ -247,7 +247,7 @@ public class Constants {
         public static double retracted = 4;
         public static double low = 10.4;
         // For Mid Cone
-        public static double mid = 14;
+        public static double mid = 20;
         public static double high = 30;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
@@ -309,7 +309,7 @@ public class Constants {
         public static double inBlueLoadingZoneX = fieldX - inRedLoadingZoneX;
         
         public static double inLoadingZoneY = inCommunityY;
-        public static double atGridOffset =0.05;
+        public static double atGridOffset =-0.05;
         // public static double atGridOffset =-0.08;
         //offset
         public static double atGridBlueX =1.377950 +(bumperWidth/2) + atGridOffset;

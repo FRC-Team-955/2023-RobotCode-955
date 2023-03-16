@@ -146,7 +146,9 @@ public class GamepieceManager {
         else{
             clawTimer.start();
             if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
-                Claw.intakeGamePiece();
+                // Claw.intakeGamePiece();
+                Claw.stopishMotor();
+
             }else{
                 Claw.stopishMotor();
             }
