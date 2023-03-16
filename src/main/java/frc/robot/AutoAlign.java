@@ -76,18 +76,20 @@ public class AutoAlign {
         return false;
     }
     public static boolean isInCorrectLoadingZone(){
-        if(IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.blueRightDoubleSubstation || IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.redLeftDoubleSubstation){
-            if((Drivebase.getPose().getY() < Constants.FieldPositions.AutoAlignPositions.midLineDoubleSubstation) && 
-                (Drivebase.getPose().getY() > Constants.FieldPositions.inLoadingZoneY) && 
-                (Constants.isBlue()?(Drivebase.getPose().getX() > Constants.FieldPositions.inBlueLoadingZoneX):(Drivebase.getPose().getX() < Constants.FieldPositions.inRedLoadingZoneX))){
-                return true;
+        if(Constants.isBlue()){
+            if (IO.keyInputSubstationPosition.getY() + IO.keyInputSubstationPosition.getX()*Constants.FieldPositions.AutoAlignPositions.oneStepDoubleSubstationSlope - Constants.FieldPositions.AutoAlignPositions.oneStepDoubleSubstationSlope * Drivebase.getPose().getX() > Drivebase.getPose().getY() && 
+                IO.keyInputSubstationPosition.getY() - IO.keyInputSubstationPosition.getX()*Constants.FieldPositions.AutoAlignPositions.oneStepDoubleSubstationSlope + Constants.FieldPositions.AutoAlignPositions.oneStepDoubleSubstationSlope * Drivebase.getPose().getX() < Drivebase.getPose().getY() &&
+                Drivebase.getPose().getX() > Constants.FieldPositions.inBlueLoadingZoneX){
+                    return true;
             }
-        }else if(IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.blueLeftDoubleSubstation || IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.redRightDoubleSubstation){
-            if((Drivebase.getPose().getY() > Constants.FieldPositions.AutoAlignPositions.midLineDoubleSubstation) && 
-                (Drivebase.getPose().getY() < Constants.FieldPositions.fieldY) && 
-                (Constants.isBlue()?(Drivebase.getPose().getX() > Constants.FieldPositions.inBlueLoadingZoneX):(Drivebase.getPose().getX() < Constants.FieldPositions.inRedLoadingZoneX))){
-                return true;
+
+        }else{
+            if (IO.keyInputSubstationPosition.getY() + IO.keyInputSubstationPosition.getX()*Constants.FieldPositions.AutoAlignPositions.oneStepDoubleSubstationSlope - Constants.FieldPositions.AutoAlignPositions.oneStepDoubleSubstationSlope * Drivebase.getPose().getX() < Drivebase.getPose().getY() && 
+                IO.keyInputSubstationPosition.getY() - IO.keyInputSubstationPosition.getX()*Constants.FieldPositions.AutoAlignPositions.oneStepDoubleSubstationSlope + Constants.FieldPositions.AutoAlignPositions.oneStepDoubleSubstationSlope * Drivebase.getPose().getX() > Drivebase.getPose().getY() &&
+                Drivebase.getPose().getX() < Constants.FieldPositions.inRedLoadingZoneX){
+                    return true;
             }
+
         }
         return false;
     }
