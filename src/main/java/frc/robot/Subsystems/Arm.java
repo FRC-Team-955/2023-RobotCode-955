@@ -1,5 +1,4 @@
 package frc.robot.Subsystems;
-
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
