@@ -124,7 +124,7 @@ public class AutoAlign {
                     }
                 break;
                 case InPosition:
-                    alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.1;
+                    alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.05;
                     switch(IO.gridNodeType){
                         //If Hybrid, don't move from noHit position
                         case Hybrid:
@@ -168,9 +168,9 @@ public class AutoAlign {
                             return true;
                         }
                     }
-                    else if(isInCorrectLoadingZone()){
-                        substationAlignState = SubstationAlignState.InPosition;
-                    }
+                    // else if(isInCorrectLoadingZone()){
+                    //     substationAlignState = SubstationAlignState.InPosition;
+                    // }
                     else if(alignOdometry(IO.keyInputSubstationPosition, 0) && GamepieceManager.runExtention()) {
                         substationAlignState = SubstationAlignState.InPosition;
                     }

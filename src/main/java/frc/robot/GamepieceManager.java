@@ -119,8 +119,14 @@ public class GamepieceManager {
             Claw.intakeGamePiece();
         }
         // if clawDropPiece is pressed (Page Down) and the Arm is in position of ConePrep, then drop down the arm into ready and output
-        else if(IO.clawDropPiece() && Arm.atConePrepPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh){
+        else if(IO.clawDropPiece() && Arm.atConePrepHighPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrepHigh){
           if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeReadyHigh)){
+            Claw.outputGamePiece();
+          }
+        }
+        // if clawDropPiece is pressed (Page Down) and the Arm is in position of ConePrepMid, then drop down the arm into ready and output
+        else if(IO.clawDropPiece() && Arm.atConePrepMidPosition() && IO.gridArmPosition == IO.GridArmPosition.ConePrepMid){
+          if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeReadyMid)){
             Claw.outputGamePiece();
           }
         }
@@ -153,6 +159,7 @@ public class GamepieceManager {
                 Claw.stopishMotor();
             }
             IntakeV2.retractNoPid();
+            IntakeV2.stopIntake();
             loadState = loadStates.Intake;
         }
     }
@@ -249,7 +256,8 @@ public class GamepieceManager {
                                     break;
                                 // if ConePrepMid pre move arm into position
                                 case Mid:
-                                    extentionElevatorFirst(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid);
+                                    // extentionElevatorFirst(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid);
+                                    extention(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid);
                                     break;
                                 case High:
                                     if(Math.abs(IO.keyInputOdometryPosition.getY() - Drivebase.getPose().getY()) < Constants.AutoAlign.conePreemptiveExtension){
@@ -308,10 +316,14 @@ public class GamepieceManager {
                 }
             }
             else if (IO.gridArmPosition == IO.GridArmPosition.ConePrepMid){
-                if(extention(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid)){
+                if(extention(IO.gridRowPosition, IO.GridArmPosition.ConeReadyMid)){
                     Claw.outputGamePiece();
                     return true;
                 }
+                // if(extention(IO.gridRowPosition, IO.GridArmPosition.Up)){
+                //     Claw.outputGamePiece();
+                //     return true;
+                // }
             }else if(extention(IO.gridRowPosition, IO.gridArmPosition)){
                 Claw.outputGamePiece();
                 return true;
@@ -341,14 +353,18 @@ public class GamepieceManager {
 
         }else if (IO.elevatorManualDown()){
             // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
+            // extention(IO.GridRowPosition.MidCone, IO.GridArmPosition.ConeReadyMid);
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
         }else if (IO.manualCubeRetract()){
             extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
+        }else if(IO.doubleSubstationExtention()){
+            extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
         }
         runExtention();
         // wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
     }
     public static void displayInformation(){
+        SmartDashboard.putBoolean("atConeMid", IO.gridArmPosition == IO.GridArmPosition.ConePrepMid);
         SmartDashboard.putString("PlaceState", placeState.toString());
         SmartDashboard.putString("loadState", loadState.toString());
         SmartDashboard.putNumber("clawTimer", clawTimer.get());

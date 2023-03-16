@@ -128,6 +128,7 @@ public final class Arm {
             case ConeReadyMid:
                 setpoint = Constants.Arm.coneReadyMid;
                 armRetract = false;
+                break;
             case CubePrep:
                 setpoint = Constants.Arm.cubePrep;
                 armRetract = false;
@@ -150,6 +151,7 @@ public final class Arm {
             case NewHybrid:
                 setpoint = Constants.Arm.newHybrid;
                 armRetract = false;
+                break;
             case CubeIntake:
                 setpoint = Constants.Arm.cubeIntake;
                 armRetract = true;
@@ -157,6 +159,7 @@ public final class Arm {
             case CubeRetract:
                 setpoint = Constants.Arm.cubeRetract;
                 armRetract = true;
+                break;
             case ConeIntake:
                 setpoint = Constants.Arm.coneIntake;
             case Up:
@@ -184,8 +187,11 @@ public final class Arm {
         }
         return false;
     }
-    public static boolean atConePrepPosition(){
+    public static boolean atConePrepHighPosition(){
         return Math.abs(getOffsetPosition() - Constants.Arm.conePrepHigh) < Constants.Arm.tolerance;
+    }
+    public static boolean atConePrepMidPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.conePrepMid) < Constants.Arm.tolerance;
     }
     public static void displayInformation(){
         SmartDashboard.putNumber("Arm getOffsetPosition", getOffsetPosition());

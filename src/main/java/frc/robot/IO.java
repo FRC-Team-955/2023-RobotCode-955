@@ -79,6 +79,9 @@ public final class IO {
     public static boolean intakeSequenceCube(){
         return key2.getRawButton(Constants.IO.Key2.intakeSequenceCubeButton);
     }
+    public static boolean doubleSubstationExtention(){
+        return key2.getRawButton(Constants.IO.Key2.doubleSubstationExtention);
+    }
     public static boolean runIntakeIn(){
         return key2.getRawButton(Constants.IO.Key2.runIntakeInButton);
     }

@@ -287,7 +287,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    newAutoState = NewAutoState.Done;
+    newAutoState = NewAutoState.Setup;
     numberOfGamepieces = gamePiecePositionArray.length;
     numberOfGamepiecesPlaced = 0;
     isAutoConeNodePosition = false;

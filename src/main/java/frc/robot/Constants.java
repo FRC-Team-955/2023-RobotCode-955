@@ -35,6 +35,7 @@ public class Constants {
             public static int manualCubeRetractButton = 9;
             public static int isPowerSavingButton = 10;
             public static int intakeSequenceCubeButton = 11;
+            public static int doubleSubstationExtention = 12;
 
         }
     }
@@ -64,7 +65,7 @@ public class Constants {
         public static double communitySideOut = 2;
         public static double intakeRunTime = .01;
         public static double visionWaitTime = 0.25;
-        public static double noHitGridOffset = 0.35;
+        public static double noHitGridOffset = 0.32;
         public static double notHitSideWall = 0.4;
         public static double stopBeforeGamepieceOffset = 0.6;
 
@@ -107,9 +108,11 @@ public class Constants {
         public static double odometryAlignYkD = 0;
         //not sure was one 0.1 before
         public static double alignTolerance = 0.05;
-        public static double cubePreemptiveExtension = 0.45;
-        public static double cubePreemptiveDrop = 0.3;
-        public static double conePreemptiveExtension = 0.2;
+        public static double cubePreemptiveExtension = 0.6;
+        public static double cubePreemptiveDrop = 0.4;
+        public static double conePreemptiveExtension = 0.3;
+
+        public static double alignedPitch = 6.32;
     }
     public static class Intake{
 
@@ -187,7 +190,7 @@ public class Constants {
         // Arm Motor Id's
         public static int motorID = 19;
         //
-        public static int tolerance = 8;
+        public static int tolerance = 6;
         // Arm Encoder Values
         public static double angleOffset = 124.2786;
         // public static double angleOffset = 0;
@@ -202,11 +205,11 @@ public class Constants {
         // public static int kTopLevel = 3000;
 
         public static int level = 0;
-        public static int conePrepHigh = 45;
-        public static int coneReadyHigh = 25;
+        public static int conePrepHigh = 40;
+        public static int coneReadyHigh = 20;
 
-        public static int conePrepMid = 30;
-        public static int coneReadyMid = 10;
+        public static int conePrepMid = 15;
+        public static int coneReadyMid = -5;
 
         public static int cubePrep = 20;
         public static int cubeReady = 20;
@@ -215,7 +218,7 @@ public class Constants {
         public static double newHybrid = -30;
 
         public static int singleSubstation = 30;
-        public static int doubleSubstation = 45;
+        public static int doubleSubstation = 53;
 
         public static int up = 125;
 
@@ -247,7 +250,7 @@ public class Constants {
         public static double retracted = 4;
         public static double low = 10.4;
         // For Mid Cone
-        public static double mid = 20;
+        public static double mid = 22;
         public static double high = 30;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
