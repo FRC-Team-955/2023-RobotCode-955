@@ -550,8 +550,7 @@ public class Robot extends TimedRobot {
             // else{
             //   newAutoState = NewAutoState.OutCommunity;
             // }
-            if(AutoAlign.alignOdometry(new Translation2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition).getX(),
-                                                        autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition).getY()), 
+            if(AutoAlign.alignOdometry(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition), 
                                       -180)){
               //if we have placed all pieces and we want to charge, then go charge
               if(numberOfGamepiecesPlaced == numberOfGamepieces && isCharge){
@@ -572,8 +571,9 @@ public class Robot extends TimedRobot {
             Claw.outputGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            if(AutoAlign.alignOdometry(autoCommunityPrepLeaveTranslation2d(), -180)){
+            if(AutoAlign.alignOdometry(autoCommunityPrepLeaveTranslation2d(), (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?-179:-181)){
               // Drivebase.headingSetPointSave = -180;
+              Drivebase.headingSetPointSave = (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?-179:-181;
               if (numberOfGamepiecesPlaced == 1){
                 // newAutoState = NewAutoState.InFrontOfGamePiece;
                 newAutoState = NewAutoState.Turn;
@@ -761,6 +761,13 @@ public class Robot extends TimedRobot {
       case AUTO_ALIGN:
         GamepieceManager.autoAlign();
         IntakeV2.retractNoPid();
+        // if(IO.resetAngle()){
+        //   Gyro.set(90);
+        //   SwerveDrive.headingSetPoint = -180;
+          // AutoAlign.alignRotation = -180;
+        //   Drivebase.headingSetPointSave = 0;
+        // }
+
         break;
       case AUTO_BALANCE:
         Drivebase.autoBalance();
@@ -787,6 +794,7 @@ public class Robot extends TimedRobot {
           Gyro.set(90);
           SwerveDrive.headingSetPoint = -180;
         }
+        
         GamepieceManager.loadSequence();
         GamepieceManager.manageExtension();
         Drivebase.drive();

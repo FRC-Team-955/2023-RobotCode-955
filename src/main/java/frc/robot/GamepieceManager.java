@@ -356,8 +356,6 @@ public class GamepieceManager {
             // }
 
         }else if (IO.elevatorManualDown()){
-            // extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Retract);
-            // extention(IO.GridRowPosition.MidCone, IO.GridArmPosition.ConeReadyMid);
             extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
         }else if (IO.manualCubeRetract()){
             extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
