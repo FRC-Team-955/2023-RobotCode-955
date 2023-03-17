@@ -257,7 +257,7 @@ public class Constants {
         public static double doubleSubstation = 4;
         
         public static double cubeIntake = 1;
-        public static double cubeRetract = 6;
+        public static double cubeRetract = 4;
 
         public static double coneIntake = 10.4;
 
@@ -291,7 +291,7 @@ public class Constants {
     }
 
     public static class GamepieceManager{
-        public static double clawExtraRunTime = 1;
+        public static double clawExtraRunTime = 2;
     }
     public static final double bumperWidth = 0.93;
     public static final double bumperLength = 0.81;

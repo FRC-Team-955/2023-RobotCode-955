@@ -140,7 +140,7 @@ public class SwerveDrive {
                                         rotation * 0.2)
                                     );
         }
-        // SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);
 
         for (SwerveMod mod : SwerveMods) {
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber]);

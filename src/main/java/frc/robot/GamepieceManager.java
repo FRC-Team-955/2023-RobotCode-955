@@ -52,57 +52,57 @@ public class GamepieceManager {
     public static void loadResetOverride(boolean reset) {
         loadState = loadStates.Intake;
     }
-    private static Timer clawTimer = new Timer();
+    public static Timer clawTimer = new Timer();
 
-    public static void loadGamepieceCone() {
-        Arm.setArm();
-        Elevator.setElevator();
-        switch(loadState) {
-            case Intake:
-                Arm.setArm(IO.GridArmPosition.ConeIntake);
-                Elevator.setElevator(IO.GridRowPosition.ConeIntake);
-                IntakeV2.slowIntake();
-                SmartDashboard.putBoolean("intake extended", IntakeV2.extendNoPid());
-                if(IntakeV2.extendNoPid()) {
-                    if(IntakeV2.intake()) {
-                        loadState = loadStates.LoadPrep;
-                    }
-                }
-                break;
-            case LoadPrep:
-                IntakeV2.extendNoPid();
-                IntakeV2.slowIntake();
-                // if(runExtention()) {
-                    loadState = loadStates.Load;
-                // }
-                break;
-            case Load:
-                Claw.intakeGamePiece();
-                if(IntakeV2.handOffNoPid()) {
-                    loadState = loadStates.Loaded;
-                    clawTimer.reset();
-                    clawTimer.start();
-                }
-                break;
-            case Loaded:
-                IntakeV2.handOffNoPid();
-                if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
-                    Claw.intakeGamePiece();
-                }else{
-                    Claw.stopishMotor();
-                }
-                loadState = loadStates.Finish;
-                break;
-            case Finish:
-                IntakeV2.handOffNoPid();
-                if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
-                    Claw.intakeGamePiece();
-                }else{
-                    Claw.stopishMotor();
-                }
-                break;
-        }
-    }
+    // public static void loadGamepieceCone() {
+    //     Arm.setArm();
+    //     Elevator.setElevator();
+    //     switch(loadState) {
+    //         case Intake:
+    //             Arm.setArm(IO.GridArmPosition.ConeIntake);
+    //             Elevator.setElevator(IO.GridRowPosition.ConeIntake);
+    //             IntakeV2.slowIntake();
+    //             SmartDashboard.putBoolean("intake extended", IntakeV2.extendNoPid());
+    //             if(IntakeV2.extendNoPid()) {
+    //                 if(IntakeV2.intake()) {
+    //                     loadState = loadStates.LoadPrep;
+    //                 }
+    //             }
+    //             break;
+    //         case LoadPrep:
+    //             IntakeV2.extendNoPid();
+    //             IntakeV2.slowIntake();
+    //             // if(runExtention()) {
+    //                 loadState = loadStates.Load;
+    //             // }
+    //             break;
+    //         case Load:
+    //             Claw.intakeGamePiece();
+    //             if(IntakeV2.handOffNoPid()) {
+    //                 loadState = loadStates.Loaded;
+    //                 clawTimer.reset();
+    //                 clawTimer.start();
+    //             }
+    //             break;
+    //         case Loaded:
+    //             IntakeV2.handOffNoPid();
+    //             if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
+    //                 Claw.intakeGamePiece();
+    //             }else{
+    //                 Claw.stopishMotor();
+    //             }
+    //             loadState = loadStates.Finish;
+    //             break;
+    //         case Finish:
+    //             IntakeV2.handOffNoPid();
+    //             if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
+    //                 Claw.intakeGamePiece();
+    //             }else{
+    //                 Claw.stopishMotor();
+    //             }
+    //             break;
+    //     }
+    // }
     public static void loadCone(){
         if(Arm.setpoint == Constants.Arm.cubeIntake){
         }else{
@@ -112,7 +112,12 @@ public class GamepieceManager {
     public static void loadGamepieceCube() {
         Claw.intakeGamePiece();
         IntakeV2.retractNoPid();
-        extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
+        if (Arm.atRetractedPosition() || Arm.atCubeRetractPosition()){
+            extentionArmFirst(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
+        }else{
+            extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
+
+        }
     }
 
     //DO NOT USE UNTIL INTAKE IS MOUNTED
@@ -154,11 +159,10 @@ public class GamepieceManager {
             clawTimer.reset();
         }
         else{
-            clawTimer.start();
-            if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
-                // Claw.intakeGamePiece();
-                Claw.stopishMotor();
-
+            if (clawTimer.get() < Constants.GamepieceManager.clawExtraRunTime){
+                Claw.intakeGamePiece();
+                // Claw.stopishMotor();
+                
             }else{
                 Claw.stopishMotor();
             }
@@ -208,6 +212,14 @@ public class GamepieceManager {
         elevatorInPosition = Elevator.setElevator();
         if (elevatorInPosition){
             Arm.setArm(armRowPosition);
+        }
+        return runExtention();
+    }
+    public static boolean extentionArmFirst(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
+        Arm.setArm(armRowPosition);
+        armInPosition = Arm.setArm();
+        if (armInPosition){
+            Elevator.setElevator(gridRowPosition);
         }
         return runExtention();
     }
@@ -366,11 +378,8 @@ public class GamepieceManager {
         // wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
     }
     public static void displayInformation(){
-        SmartDashboard.putBoolean("atConeMid", IO.gridArmPosition == IO.GridArmPosition.ConePrepMid);
         SmartDashboard.putString("PlaceState", placeState.toString());
         SmartDashboard.putString("loadState", loadState.toString());
         SmartDashboard.putNumber("clawTimer", clawTimer.get());
-        SmartDashboard.putBoolean("advanceIfElapsed", clawTimer.advanceIfElapsed(Constants.GamepieceManager.clawExtraRunTime));
-        // SmartDashboard.putString("Intake Loading state", loadState.toString());
     }
 }

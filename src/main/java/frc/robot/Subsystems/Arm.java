@@ -192,6 +192,12 @@ public final class Arm {
     public static boolean atConePrepMidPosition(){
         return Math.abs(getOffsetPosition() - Constants.Arm.conePrepMid) < Constants.Arm.tolerance;
     }
+    public static boolean atRetractedPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.retracted) < Constants.Arm.tolerance;
+    }
+    public static boolean atCubeRetractPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.cubeRetract) < Constants.Arm.tolerance;
+    }
     public static void displayInformation(){
         SmartDashboard.putNumber("Arm getOffsetPosition", getOffsetPosition());
     }

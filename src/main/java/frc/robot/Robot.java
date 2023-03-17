@@ -81,11 +81,7 @@ public class Robot extends TimedRobot {
       this.gridRowPosition = gridRowPosition;
     }
   }
-  public static GamePiecePosition[] gamePiecePositionArray = new GamePiecePosition[]{
-    new GamePiecePosition(8,IO.GridRowPosition.High),
-    new GamePiecePosition(7,IO.GridRowPosition.High)
-    // new GamePiecePosition(7,IO.GridRowPosition.Retract)
-  };
+  public static GamePiecePosition[] gamePiecePositionArray;
 
   public static enum AutoState {
         Setup,
@@ -287,7 +283,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    newAutoState = NewAutoState.Setup;
+    gamePiecePositionArray = new GamePiecePosition[]{
+      new GamePiecePosition(8,IO.GridRowPosition.High),
+      new GamePiecePosition(7,IO.GridRowPosition.High)
+      // new GamePiecePosition(7,IO.GridRowPosition.Retract)
+    };
+    newAutoState = NewAutoState.Done;
     numberOfGamepieces = gamePiecePositionArray.length;
     numberOfGamepiecesPlaced = 0;
     isAutoConeNodePosition = false;
@@ -695,6 +696,8 @@ public class Robot extends TimedRobot {
           case Done:
             Drivebase.updateSwerveOdometry();
             GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+            IntakeV2.retractNoPid();
+            Claw.stopishMotor();
             Drivebase.driveFieldRelativeRotation(new Translation2d(0, 0), 0);
             // AutoAlign.alignOdometry(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition), -180);
             break;
@@ -728,6 +731,7 @@ public class Robot extends TimedRobot {
     // Arm.setOffset();
     IntakeV2.stopIntake();
     Drivebase.resetAnglesToAbsolute();
+    GamepieceManager.clawTimer.start();
   }
 
   public void teleopAllState(){
