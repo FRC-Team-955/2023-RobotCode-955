@@ -11,8 +11,6 @@ import frc.robot.Swerve.SwerveSettings;
 public final class IO {
     private static Joystick joy0 = new Joystick(Constants.IO.Joy0.joy0Id);
     private static Joystick joy1 = new Joystick(Constants.IO.Joy1.joy1Id);
-    // private static SlewRateLimiter forwardAxisSlewRateLimiter = new SlewRateLimiter(Constants.forwardRateLimiter);
-    // private static SlewRateLimiter strafeAxisSlewRateLimiter = new SlewRateLimiter(Constants.strafeRateLimiter);
     
     private static Joystick key0 = new Joystick(2);
     private static Joystick key1 = new Joystick(3);
@@ -127,17 +125,12 @@ public final class IO {
         private static Translation2d fromPolar(Rotation2d direction, double magnitude){
             return new Translation2d(direction.getCos() * magnitude, direction.getSin() * magnitude);
         }
-        public static double xBump(){
-            return joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
-        }
         public static Translation2d getSwerveTranslation(){
 
             double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
             double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
-            // double forwardAxis = forwardAxisSlewRateLimiter.calculate(forwardRawAxis);
-            // // double strafeAxis = strafeAxisSlewRateLimiter.calculate(strafeRawAxis);
 
-            Translation2d tAxes = new Translation2d(isThrustActive() ? forwardRawAxis*Constants.Drivebase.slowSpeed : forwardRawAxis*1.2, isThrustActive() ? strafeRawAxis*Constants.Drivebase.turnSpeed : strafeRawAxis*Constants.Drivebase.turnSpeed);
+            Translation2d tAxes = new Translation2d(isThrustActive() ? forwardRawAxis*Constants.Drivebase.slowSpeed : forwardRawAxis, isThrustActive() ? strafeRawAxis*Constants.Drivebase.slowSpeed : strafeRawAxis);
 
 
             if (Math.abs(norm(tAxes)) < 0.15) {

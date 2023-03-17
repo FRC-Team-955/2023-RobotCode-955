@@ -55,7 +55,6 @@ public class Constants {
         public static double turnRate = 0.5;
 
         public static double slowSpeed = 0.7;
-        public static double turnSpeed = 0.7;
     }
     public static double forwardRateLimiter = 0;
     public static double strafeRateLimiter = 0;

@@ -101,7 +101,7 @@ public class AutoAlign {
     public static double gridAlignY;
     
     public static double alignRotation = -180;
-    public static Translation2d alignTranslation = new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY());
+    public static double alignTranslationY = 0;
     public static boolean moveToGridPositionOdometryTwoStep(){
         if(isInCommunity()){
             switch(gridAlignState) {
@@ -112,6 +112,7 @@ public class AutoAlign {
                             gridAlignState = GridAlignState.InPosition;
                             //Set rotation to -180 here so that you can adjust it manunally later if needed
                             alignRotation = -180;
+                            alignTranslationY = 0;
                         }
                     }
                     //cone and cube nodes should go to normal offset
@@ -120,11 +121,13 @@ public class AutoAlign {
                             gridAlignState = GridAlignState.InPosition;
                             //Set rotation to -180 here so that you can adjust it manunally later if needed
                             alignRotation = -180;
+                            alignTranslationY = 0;
                         }
                     }
                 break;
                 case InPosition:
                     alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.05;
+                    alignTranslationY = alignTranslationY + IO.Drivebase.getSwerveTranslation().getX() * (Constants.isBlue()?0.5:-0.5);
                     switch(IO.gridNodeType){
                         //If Hybrid, don't move from noHit position
                         case Hybrid:

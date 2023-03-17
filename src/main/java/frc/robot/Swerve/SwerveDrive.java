@@ -60,8 +60,7 @@ public class SwerveDrive {
     public Trajectory trajectory = new Trajectory();
     public Trajectory turningTrajectory = new Trajectory();
     public Timer timer = new Timer();
-    public String File = "pathplanner/generatedJSON/CorrectPath.path"; 
-    public double turnRate = 1.5;
+    public String File = "pathplanner/generatedJSON/CorrectPath.path";
 
     // chassis velocity status
     ChassisSpeeds chassisVelocity = new ChassisSpeeds(); // not used, commented out in updateSwerveOdometry()
@@ -79,10 +78,6 @@ public class SwerveDrive {
             new SwerveMod(1, 2, 1, 11, 123.886, "mod1"),
             new SwerveMod(2, 4, 3, 10, 309.223, "mod2"),
             new SwerveMod(3, 6, 5, 12, 250.524-24.52, "mod3"),
-            // new SwerveMod(0, 4, 8, 9, 253.775, "mod0"),
-            // new SwerveMod(1, 3, 2, 11, 123.886, "mod1"),
-            // new SwerveMod(2, 6, 7, 10, 309.223, "mod2"),
-            // new SwerveMod(3, 1, 5, 12, 250.524, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];
