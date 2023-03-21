@@ -108,6 +108,9 @@ public class Constants {
         public static double odometryAlignYkD = 0;
         //not sure was one 0.1 before
         public static double alignTolerance = 0.05;
+        public static double alignTranslationY = 0.05;
+        public static double alignTranslationX = 0.08;
+
         public static double cubePreemptiveExtension = 0.7;
         public static double cubePreemptiveDrop = 0.25;
         public static double conePreemptiveExtension = 0.4;
@@ -207,6 +210,8 @@ public class Constants {
         public static int level = 0;
         public static int conePrepHigh = 40;
         public static int coneReadyHigh = 20;
+        // public static int conePrepHigh = 42;
+        // public static int coneReadyHigh = 22;
 
         public static int conePrepMid = 15;
         public static int coneReadyMid = -5;
@@ -215,7 +220,7 @@ public class Constants {
         public static int cubeReady = 20;
 
         public static int hybrid = -85;
-        public static double newHybrid = -25;
+        public static double newHybrid = -30;
 
         public static int singleSubstation = 30;
         public static double doubleSubstation = 50.5;
@@ -253,6 +258,7 @@ public class Constants {
         // For Mid Cone
         public static double mid = 22;
         public static double high = 30;
+        // public static double high = 28;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
         public static double doubleSubstation = 4;
@@ -313,11 +319,16 @@ public class Constants {
         public static double inBlueLoadingZoneX = fieldX - inRedLoadingZoneX;
         
         public static double inLoadingZoneY = inCommunityY;
-        public static double atGridOffset =-0.05;
+        public static double nearGridOffset =-0.05;
+        public static double atGridOffset =-0.02;
         // public static double atGridOffset =-0.08;
         //offset
-        public static double atGridBlueX =1.377950 +(bumperWidth/2) + atGridOffset;
+        public static double nearGridBlueX =1.377950 +(bumperWidth/2) + nearGridOffset;
+        public static double nearGridRedX = fieldX-nearGridBlueX;
+
+        public static double atGridBlueX =nearGridBlueX + atGridOffset;
         public static double atGridRedX = fieldX-atGridBlueX;
+
 
         public static double atSubstationRedX = 1.17;
         public static double atSubstationBlueX =fieldX - atSubstationRedX;

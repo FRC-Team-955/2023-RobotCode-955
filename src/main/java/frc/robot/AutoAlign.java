@@ -30,12 +30,23 @@ public class AutoAlign {
 
         Drivebase.driveFieldRelativeHeading(translation, heading);
 
-        if (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTolerance && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTolerance) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTolerance && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTolerance);
+     
+    }
+    public static boolean alignTranslation(Translation2d goalTranslation){
+        Pose2d pose = Drivebase.getPose();
+        double poseX = pose.getX();
+        double poseY = pose.getY();
+        double goalPoseX = goalTranslation.getX();
+        double goalPoseY = goalTranslation.getY();
+        Double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
+        Double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
+
+        Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
+
+        Drivebase.driveFieldRelativeRotation(translation, IO.Drivebase.getSwerveRotation() *0.05, true);
+
+        return (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTranslationX && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTranslationX);
     }
 
     public static boolean alignAprilTag(){
@@ -127,7 +138,7 @@ public class AutoAlign {
                 break;
                 case InPosition:
                     alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.05;
-                    alignTranslationY = alignTranslationY + IO.Drivebase.getSwerveTranslation().getX() * (Constants.isBlue()?0.5:-0.5);
+                    alignTranslationY = alignTranslationY + IO.Drivebase.getSwerveTranslation().getX() * (Constants.isBlue()?Constants.Drivebase.turnRate:-Constants.Drivebase.turnRate);
                     switch(IO.gridNodeType){
                         //If Hybrid, don't move from noHit position
                         case Hybrid:
@@ -148,7 +159,8 @@ public class AutoAlign {
                                     return true;
                                 //If Cone at High, move forward
                                 case High:
-                                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
+                                    // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
+                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()));
                             }
                             break;
                     }

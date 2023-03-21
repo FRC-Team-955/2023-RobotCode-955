@@ -123,13 +123,13 @@ public class SwerveDrive {
                     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                         translation.getX(), 
                                         translation.getY(), 
-                                        controller.calculate(Gyro.getAngle()-90, headingSetPoint), 
+                                        isOpenLoop?rotation * Constants.Drivebase.turnRate:controller.calculate(Gyro.getAngle()-90, headingSetPoint), 
                                         Gyro.getHeadingR2D()
                                     )
                                     : new ChassisSpeeds(
                                         translation.getX(), 
                                         translation.getY(),
-                                        rotation * 0.2)
+                                        rotation * Constants.Drivebase.turnRate)
                                     );
         }
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);

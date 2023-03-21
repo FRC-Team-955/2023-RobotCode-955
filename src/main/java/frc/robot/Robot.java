@@ -361,7 +361,7 @@ public class Robot extends TimedRobot {
           case AlignPosition:
             GamepieceManager.runExtention();
             Claw.intakeGamePiece();
-            if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, 
+            if(AutoAlign.alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:Constants.FieldPositions.nearGridRedX, 
               autoGridSelectionTranslation2d(autoGridSelection).getY()), -180)){
               autoState = AutoState.Extend;
             }
@@ -512,8 +512,8 @@ public class Robot extends TimedRobot {
             GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConePrepHigh);
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            if(AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:
-                                                                            Constants.FieldPositions.atGridRedX, 
+            if(AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:
+                                                                            Constants.FieldPositions.nearGridRedX, 
                                                                             autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY()):
                                                               autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.noHitGridOffset,0):new Translation2d(Constants.Auto.noHitGridOffset,0)), 
                                       -180) &&
@@ -533,8 +533,8 @@ public class Robot extends TimedRobot {
             }
             break;
           case Place:
-            AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:
-                                                                            Constants.FieldPositions.atGridRedX, 
+            AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:
+                                                                            Constants.FieldPositions.nearGridRedX, 
                                                                             autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY()):
                                                               autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.noHitGridOffset,0):new Translation2d(Constants.Auto.noHitGridOffset,0)), 
                                       -180);
@@ -723,7 +723,7 @@ public class Robot extends TimedRobot {
             GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             IntakeV2.retractNoPid();
             Claw.stopishMotor();
-            Drivebase.driveFieldRelativeRotation(new Translation2d(0, 0), 0);
+            Drivebase.driveFieldRelativeRotation(new Translation2d(0, 0), 0 ,false);
             // AutoAlign.alignOdometry(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition), -180);
             break;
           case PrepCharge:
@@ -812,7 +812,7 @@ public class Robot extends TimedRobot {
           SwerveDrive.headingSetPoint = Gyro.getAngle()-90;
         }
         resetAngle = false;
-        Drivebase.driveFieldRelativeRotation(new Translation2d(IO.Drivebase.getSwerveTranslation().getX()*0.25,IO.Drivebase.getSwerveTranslation().getY()*0.25), IO.Drivebase.getSwerveRotation()*0.25);
+        Drivebase.driveFieldRelativeRotation(new Translation2d(IO.Drivebase.getSwerveTranslation().getX()*0.25,IO.Drivebase.getSwerveTranslation().getY()*0.25), IO.Drivebase.getSwerveRotation()*0.25 ,true);
         break;
       default:
         AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
