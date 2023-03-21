@@ -116,7 +116,7 @@ public class Gyro {
         //backup.setYaw(offset);
     }
     public static void displayInformation(){
-        SmartDashboard.putNumber("roll", getRoll());
-        SmartDashboard.putNumber("pitch", getPitch());
+        // SmartDashboard.putNumber("roll", getRoll());
+        // SmartDashboard.putNumber("pitch", getPitch());
     }
 };

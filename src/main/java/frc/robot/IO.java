@@ -78,7 +78,7 @@ public final class IO {
         return key2.getRawButton(Constants.IO.Key2.intakeSequenceCubeButton);
     }
     public static boolean doubleSubstationExtention(){
-        return key2.getRawButton(Constants.IO.Key2.doubleSubstationExtention);
+        return key2.getRawButton(Constants.IO.Key2.doubleSubstationExtension);
     }
     public static boolean runIntakeIn(){
         return key2.getRawButton(Constants.IO.Key2.runIntakeInButton);
@@ -185,6 +185,7 @@ public final class IO {
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
     
     public static enum GridRowPosition{
+        UpRetract,
         Retract,
         Low,
         MidCone,
@@ -396,6 +397,5 @@ public final class IO {
     public static void displayInformation(){
         SmartDashboard.putString("RowPosition" , IO.gridRowPosition.toString());
         SmartDashboard.putString("ArmPosition" , IO.gridArmPosition.toString());
-
     }
 }

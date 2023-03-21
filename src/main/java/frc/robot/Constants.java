@@ -35,7 +35,7 @@ public class Constants {
             public static int manualCubeRetractButton = 9;
             public static int isPowerSavingButton = 10;
             public static int intakeSequenceCubeButton = 11;
-            public static int doubleSubstationExtention = 12;
+            public static int doubleSubstationExtension = 12;
 
         }
     }
@@ -69,7 +69,7 @@ public class Constants {
         public static double stopBeforeGamepieceOffset = 0.6;
 
         //are driver relative changes
-        public static double blueGamePieceOffset0X =0;
+        public static double blueGamePieceOffset0X =0.45;
         public static double blueGamePieceOffset0Y =0;
         public static double blueGamePieceOffset1X =0;
         public static double blueGamePieceOffset1Y =0;
@@ -84,8 +84,9 @@ public class Constants {
         public static double redGamePieceOffset1Y =0;
         public static double redGamePieceOffset2X =0;
         public static double redGamePieceOffset2Y =0;
-        public static double redGamePieceOffset3X =0.5;
-        public static double redGamePieceOffset3Y =-0.2;
+        public static double redGamePieceOffset3X =0.2;
+        // public static double redGamePieceOffset3Y =1;
+        public static double redGamePieceOffset3Y =0.62;
     }
 
     public static class AutoAlign{
@@ -107,9 +108,9 @@ public class Constants {
         public static double odometryAlignYkD = 0;
         //not sure was one 0.1 before
         public static double alignTolerance = 0.05;
-        public static double cubePreemptiveExtension = 0.6;
-        public static double cubePreemptiveDrop = 0.4;
-        public static double conePreemptiveExtension = 0.3;
+        public static double cubePreemptiveExtension = 0.7;
+        public static double cubePreemptiveDrop = 0.25;
+        public static double conePreemptiveExtension = 0.4;
 
         public static double alignedPitch = 6.32;
     }
@@ -214,12 +215,12 @@ public class Constants {
         public static int cubeReady = 20;
 
         public static int hybrid = -85;
-        public static double newHybrid = -30;
+        public static double newHybrid = -25;
 
         public static int singleSubstation = 30;
-        public static int doubleSubstation = 53;
+        public static double doubleSubstation = 50.5;
 
-        public static int up = 125;
+        public static int up = 120;
 
         public static int cubeIntake = -100;
         public static double cubeRetract = -130;
@@ -245,6 +246,7 @@ public class Constants {
         public static double lowerLimit = 5;
         // Elevator Tolerance Values
         public static double tolerance = 2;
+        public static double upRetract = 3.5;
         // Extension Level Values
         public static double retracted = 4;
         public static double low = 10.4;
@@ -256,7 +258,7 @@ public class Constants {
         public static double doubleSubstation = 4;
         
         public static double cubeIntake = 1;
-        public static double cubeRetract = 4;
+        public static double cubeRetract = 3.5;
 
         public static double coneIntake = 10.4;
 
@@ -320,8 +322,8 @@ public class Constants {
         public static double atSubstationRedX = 1.17;
         public static double atSubstationBlueX =fieldX - atSubstationRedX;
 
-        // public static double outSubstationShortBlue = 4;
-        public static double outSubstationShortBlue = 8;
+        public static double outSubstationShortBlue = 4;
+        // public static double outSubstationShortBlue = 8;
         public static double outSubstationShortRed = fieldX - outSubstationShortBlue;
         public static double outSubstationLongBlue = 6;
         public static double outSubstationLongRed = fieldX - outSubstationLongBlue;
@@ -392,7 +394,7 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return false;
+        return  false;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){

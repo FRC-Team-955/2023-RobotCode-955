@@ -48,6 +48,8 @@ public class Drivebase {
         if (IO.Drivebase.isAutoHeadingActive()) {
             Drivebase.driveFieldRelative();
         } else if(IO.Drivebase.isRobotRelativeActive()){
+            Gyro.set(90);
+            SwerveDrive.headingSetPoint = -180;
             Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
         }else {
             headingSetPointSave = SwerveDrive.headingSetPoint;
@@ -78,7 +80,7 @@ public class Drivebase {
     }
 
     public static void driveRobotRelativeRotation(Translation2d translation, double rotation){
-        drive.drive(translation, rotation, false, false, false, 0);
+        drive.drive(new Translation2d(translation.getY(), -translation.getX()), rotation, false, false, false, 0);
     }
     public static void driveRobotRelativeHeading(Translation2d translation, double heading){
 

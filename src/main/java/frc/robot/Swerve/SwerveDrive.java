@@ -23,7 +23,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -77,15 +76,13 @@ public class SwerveDrive {
             new SwerveMod(0, 8, 7, 9, 253.775+2.373, "mod0"),
             new SwerveMod(1, 2, 1, 11, 123.886, "mod1"),
             new SwerveMod(2, 4, 3, 10, 309.223, "mod2"),
-            new SwerveMod(3, 6, 5, 12, 250.524-24.52, "mod3"),
+            new SwerveMod(3, 6, 5, 12, 250.524-24.52-17.92, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];
         for(SwerveMod mod : SwerveMods){
             initPoses[mod.moduleNumber] = mod.getState();
         }
-        
-        // swerveOdometry = new SwerveDriveOdometry(SwerveSettings.SwerveConstants.swerveKinematics, Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
         poseEstimator = new SwerveDrivePoseEstimator(SwerveSettings.SwerveConstants.swerveKinematics,Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
     }
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
@@ -113,10 +110,10 @@ public class SwerveDrive {
         SwerveModuleState[] swerveModuleStates = null;
         if (false) {
             swerveModuleStates = new SwerveModuleState[]{
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0))
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0))
             };
         } else {
             double extentiondistance = 2*Math.cos(Math.toRadians(Arm.getOffsetPosition())+ 2* Math.cos(Math.toRadians(42))*Elevator.encoder.getPosition()/30);
@@ -144,12 +141,10 @@ public class SwerveDrive {
 
         
     public Pose2d getPose() {
-        // return swerveOdometry.getPoseMeters();
         return poseEstimator.getEstimatedPosition();
     }
 
     public void resetOdometry(Pose2d pose) {
-        // swerveOdometry.resetPosition(Gyro.getYawR2D(), getPoses(), pose);
         poseEstimator.resetPosition(Gyro.getYawR2D(), getPoses(), pose);
     }
 
