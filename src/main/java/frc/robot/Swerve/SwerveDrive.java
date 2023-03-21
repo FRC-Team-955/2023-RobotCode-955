@@ -77,7 +77,7 @@ public class SwerveDrive {
             new SwerveMod(0, 8, 7, 9, 253.775+2.373, "mod0"),
             new SwerveMod(1, 2, 1, 11, 123.886, "mod1"),
             new SwerveMod(2, 4, 3, 10, 309.223, "mod2"),
-            new SwerveMod(3, 6, 5, 12, 250.524-24.52, "mod3"),
+            new SwerveMod(3, 6, 5, 12, 250.524-24.52-17.92, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];
@@ -113,10 +113,10 @@ public class SwerveDrive {
         SwerveModuleState[] swerveModuleStates = null;
         if (false) {
             swerveModuleStates = new SwerveModuleState[]{
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)),
-                new SwerveModuleState(0.1, Rotation2d.fromDegrees(0))
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
+                new SwerveModuleState(0.0, Rotation2d.fromDegrees(0))
             };
         } else {
             double extentiondistance = 2*Math.cos(Math.toRadians(Arm.getOffsetPosition())+ 2* Math.cos(Math.toRadians(42))*Elevator.encoder.getPosition()/30);

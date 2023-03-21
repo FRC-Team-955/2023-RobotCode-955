@@ -190,8 +190,8 @@ public class AutoAlign {
         SmartDashboard.putBoolean("Is in Community?", isInCommunity());
         SmartDashboard.putBoolean("Is in Loading Zone?", isInLoadingZone());
 
-        SmartDashboard.putString("GridAlignState", gridAlignState.toString());
-        SmartDashboard.putString("SubstationAlignState", substationAlignState.toString());
+        // SmartDashboard.putString("GridAlignState", gridAlignState.toString());
+        // SmartDashboard.putString("SubstationAlignState", substationAlignState.toString());
 
 
     }

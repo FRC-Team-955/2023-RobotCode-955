@@ -35,6 +35,8 @@ public class Elevator {
     public static void setup() {
         motor = new CANSparkMax(Constants.Elevator.motorID, MotorType.kBrushless);
         motor.setIdleMode(IdleMode.kBrake);
+        motor.setSmartCurrentLimit(60);
+
         dutyCycleEncoder1 = new DutyCycleEncoder(Constants.Elevator.coder1ID);
         dutyCycleEncoder2 = new DutyCycleEncoder(Constants.Elevator.coder2ID);
         pid = new PIDController(Constants.Elevator.kP,
@@ -82,6 +84,10 @@ public class Elevator {
     public static boolean elevatorRetract = true; 
     public static void setElevator(IO.GridRowPosition level) { // level = desired elevator level
         switch(level) {
+            case UpRetract:
+                setpoint = Constants.Elevator.upRetract;
+                elevatorRetract = true;
+                break;
             case Retract:
                 setpoint = Constants.Elevator.retracted;
                 elevatorRetract = true; 

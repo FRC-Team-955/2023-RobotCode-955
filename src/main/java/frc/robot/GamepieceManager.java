@@ -368,7 +368,7 @@ public class GamepieceManager {
             // }
 
         }else if (IO.elevatorManualDown()){
-            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+            extention(IO.GridRowPosition.UpRetract, IO.GridArmPosition.Up);
         }else if (IO.manualCubeRetract()){
             extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
         }else if(IO.doubleSubstationExtention()){
@@ -380,6 +380,6 @@ public class GamepieceManager {
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());
         SmartDashboard.putString("loadState", loadState.toString());
-        SmartDashboard.putNumber("clawTimer", clawTimer.get());
+        // SmartDashboard.putNumber("clawTimer", clawTimer.get());
     }
 }
