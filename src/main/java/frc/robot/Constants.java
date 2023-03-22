@@ -391,6 +391,9 @@ public class Constants {
             public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
 
+            public static Translation2d chargeMobilityBlue = new Translation2d(6.9, 2.747899);
+            public static Translation2d chargeMobilityRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
+
             public static Translation2d redLeftDoubleSubstation = new Translation2d(1.9, 6.028182);
             public static Translation2d redRightDoubleSubstation = new Translation2d(1.9, 7.471220);
             public static Translation2d redSingleSubstation = new Translation2d(2.315069, fieldY -1.17);

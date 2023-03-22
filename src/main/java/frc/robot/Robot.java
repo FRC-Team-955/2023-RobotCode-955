@@ -280,6 +280,7 @@ public class Robot extends TimedRobot {
     }
   }
   Field2d field2d = new Field2d();
+  boolean mobility = false;
 
   @Override
   public void autonomousInit() {
@@ -441,13 +442,25 @@ public class Robot extends TimedRobot {
                 }
                 break;
               case Charge:
-                if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.chargeStationBlue.getX():
-                  Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.chargeStationRed.getX() ){
-                  // autoState = AutoState.Done;
-                  autoState = AutoState.AutoBalance;
-                }else{
-                  // Drivebase.driveFieldRelativeHeading(new Translation2d(0,-2), -180);
-                  Drivebase.driveRobotRelativeRotation(new Translation2d(2,0), 0);
+                if (!mobility) {
+                  if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.chargeMobilityBlue.getX():
+                    Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.chargeMobilityRed.getX() ){
+                    // autoState = AutoState.Done;
+                    mobility = true;
+                  }else{
+                    // Drivebase.driveFieldRelativeHeading(new Translation2d(0,-2), -180);
+                    Drivebase.driveRobotRelativeRotation(new Translation2d(2,0), 0);
+                  }
+                }
+                else {
+                  if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.chargeStationBlue.getX():
+                    Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.chargeStationRed.getX() ){
+                    // autoState = AutoState.Done;
+                    autoState = AutoState.AutoBalance;
+                  }else{
+                    // Drivebase.driveFieldRelativeHeading(new Translation2d(0,-2), -180);
+                    Drivebase.driveRobotRelativeRotation(new Translation2d(-2,0), 0);
+                  }
                 }
                 break;
               case None:
