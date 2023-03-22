@@ -135,7 +135,7 @@ public class SwerveDrive {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);
 
         for (SwerveMod mod : SwerveMods) {
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber]);
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     }
 
@@ -295,7 +295,7 @@ public class SwerveDrive {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);
 
         for (SwerveMod mod : SwerveMods) {
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber]);
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], false);
         }
         // System.out.println("Time: " +timer.get());
         if (timer.get() > trajectory.getTotalTimeSeconds()){

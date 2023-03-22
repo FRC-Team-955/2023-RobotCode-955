@@ -26,6 +26,13 @@ public class LimelightCameraWrapper {
         }
         return 42069;
     }
+    public static double getVerticalOffset(){
+        result = limelight.getLatestResult();
+        if (hasTargets()){
+            return result.getBestTarget().getPitch();
+        }
+        return 42069;
+    }
 
     public static boolean isAlignedToConeNode(){
         return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.alignTolerance;

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Auto.Auto;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.Gyro;
+import frc.robot.Sensors.LimelightCameraWrapper;
 // import frc.robot.Sensors.ColorSensor;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
@@ -108,6 +109,7 @@ public class Robot extends TimedRobot {
     OutCommunity,
     InFrontOfGamePiece,
     MoveToGamePiece,
+    LimelightTranslation,
     GetGamePiece,
     PrepEnterCommunity,
     EnterCommunity,
@@ -671,6 +673,9 @@ public class Robot extends TimedRobot {
               intakeTimer.start();
               newAutoState = NewAutoState.GetGamePiece;
             }
+            break;
+          case LimelightTranslation:
+            LimelightCameraWrapper.getHorizontalOffset();
             break;
           case GetGamePiece:
             Drivebase.updateSwerveOdometryNoVision();

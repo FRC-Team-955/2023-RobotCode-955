@@ -115,7 +115,7 @@ public class Constants {
         public static double cubePreemptiveDrop = 0.25;
         public static double conePreemptiveExtension = 0.4;
 
-        public static double alignedPitch = 6.32;
+        public static double alignedGamePiecePitch = 6.32;
     }
     public static class Intake{
 

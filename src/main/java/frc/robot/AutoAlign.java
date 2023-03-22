@@ -10,6 +10,7 @@ import frc.robot.Sensors.LimelightCameraWrapper;
 public class AutoAlign {
     private static PIDController aprilTagAlignXPID = new PIDController(Constants.AutoAlign.aprilTagAlignXkP, Constants.AutoAlign.aprilTagAlignXkI, Constants.AutoAlign.aprilTagAlignXkD); 
     private static PIDController limelightAlignXPID = new PIDController(Constants.AutoAlign.limelightAlignXkP, Constants.AutoAlign.limelightAlignXkI, Constants.AutoAlign.limelightAlignXkD);
+    private static PIDController gamePieceAlignXPID = new PIDController(Constants.AutoAlign.limelightAlignXkP, Constants.AutoAlign.limelightAlignXkI, Constants.AutoAlign.limelightAlignXkD);
 
     private static PIDController odometryAlignXPID = new PIDController(Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignXkI, Constants.AutoAlign.odometryAlignXkD);
     private static PIDController odometryAlignYPID = new PIDController(Constants.AutoAlign.odometryAlignYkP, Constants.AutoAlign.odometryAlignYkI, Constants.AutoAlign.odometryAlignYkD);
@@ -66,10 +67,14 @@ public class AutoAlign {
 
         return LimelightCameraWrapper.isAlignedToConeNode();
     }
-    public static void alignToPiece(){
-        // double heading = (GamepieceCamera.getHorizontaloffset() * Constants.AutoAlign.kHorizontalOffsetToPidgeonFactor) + Gyro.getHeading();
-        // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), heading);
-    }
+    // public static void alignToPiece(){
+    //     if(LimelightCameraWrapper.hasTargets()){
+    //         double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(), Constants);
+    //         Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), -180);
+    //     }
+    //     // double heading = (GamepieceCamera.getHorizontaloffset() * Constants.AutoAlign.kHorizontalOffsetToPidgeonFactor) + Gyro.getHeading();
+    //     // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), heading);
+    // }
     public static boolean isInCommunity(){
         if (((Constants.isBlue() && (Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX)) ||
             (Constants.isRed() && (Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX))) &&

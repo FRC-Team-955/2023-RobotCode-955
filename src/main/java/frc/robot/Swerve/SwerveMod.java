@@ -17,6 +17,7 @@ import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
 import frc.robot.Constants;
+import frc.robot.Swerve.SwerveSettings.SwerveConstants;
 
 
 
@@ -35,9 +36,9 @@ public class SwerveMod{
     private RelativeEncoder driveEncoder;
     private RelativeEncoder turningEncoder;     
 
-    private double drivekP;
-    private double drivekI;
-    private double drivekD;
+    private double drivekP = SwerveSettings.SwerveConstants.driveKP;
+    private double drivekI = SwerveSettings.SwerveConstants.driveKI;
+    private double drivekD = SwerveSettings.SwerveConstants.driveKD;
 
     private DoubleLogEntry driveMotorLog;
     private DoubleLogEntry driveEncoderLog;
@@ -81,6 +82,11 @@ public class SwerveMod{
 
         // driveEncoder returns RPM by default. Use setVelocityConversionFactor() to
         // convert that to meters per second.
+        // Revolution   1 Min    1 (gear ratio) wheel Rev      wheelDiameter * Math.PI;
+        // __________ * ______ * ___________________________* _____________
+        // Min          60 Sec   6.75 Rev                        1 Wheel Rev
+        // driveEncoder.setVelocityConversionFactor(((SwerveSettings.SwerveConstants.wheelDiameter * Math.PI)*(1/6.75))/ 60.0);
+        // driveEncoder.setPositionConversionFactor((SwerveSettings.SwerveConstants.wheelDiameter * Math.PI)*(1/6.75)); //(0.098 * Math.PI) / 6.75
         driveEncoder.setVelocityConversionFactor((1.0217 * 0.04284 * 1.098*(7.9544/7.29234))/ 60.0);
         driveEncoder.setPositionConversionFactor(0.04284 * 1.0217 * 1.098*(7.9544/7.29234)); //(0.098 * Math.PI) / 6.75
         driveEncoder.setPosition(0);
@@ -123,17 +129,17 @@ public class SwerveMod{
         turningEncoderLog.append(turningEncoder.getPosition());
     }
 
-    public void setDesiredState(SwerveModuleState state) {
+    public void setDesiredState(SwerveModuleState state, boolean isOpenLoop) {
         Rotation2d curAngle = Rotation2d.fromDegrees(turningEncoder.getPosition());
         double delta = deltaAdjustedAngle(state.angle.getDegrees(), curAngle.getDegrees());
         //To figure out offset for absolute encoders
         // System.out.println(moduleNumber + ": " + angleEncoder.getAbsolutePosition());
 
         // Calculate the drive motor output from the drive PID controller.
-        double driveOutput = state.speedMetersPerSecond;
+        double speedMetersPerSecond = state.speedMetersPerSecond;
 
         if (Math.abs(delta) > 90) {
-            driveOutput *= -1;
+            speedMetersPerSecond *= -1;
             delta -= Math.signum(delta) * 180;
         }
 
@@ -143,8 +149,14 @@ public class SwerveMod{
             adjustedAngle.getDegrees(),
             ControlType.kPosition
         );        
-
-        drivePID.setReference(driveOutput, ControlType.kVelocity, 0, 2.96 * driveOutput);
+        if(isOpenLoop){
+            // double percentOutput = speedMetersPerSecond / SwerveSettings.SwerveConstants.maxSpeed;
+            // driveMotor.set(percentOutput);
+            drivePID.setReference(driveOutput, ControlType.kVelocity, 0, SwerveSettings.SwerveConstants.driveKF * driveOutput);
+        }else{
+            // double velocity = SwerveConversions.MPSToNeo(speedMetersPerSecond, SwerveSettings.SwerveConstants.wheelCircumference, SwerveSettings.SwerveConstants.driveGearRatio);
+            drivePID.setReference(speedMetersPerSecond, ControlType.kVelocity, 0, SwerveSettings.SwerveConstants.driveKF * speedMetersPerSecond);
+        }
     }
     
     // public void setOpenLoopState(SwerveModuleState state) {
@@ -167,7 +179,7 @@ public class SwerveMod{
     //     //     ControlType.kPosition
     //     // );        
 
-    //     driveMotor.setVoltage(2.96 * driveOutput);
+    //     driveMotor.setVoltage(SwerveSettings.SwerveConstants.driveKF * driveOutput);
     // }
 
 

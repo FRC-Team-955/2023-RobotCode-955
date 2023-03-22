@@ -7,7 +7,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 public class SwerveSettings {
     public static final class SwerveConstants {
         /* Angle Motor PID Values */
-        public static final double angleKP = 0.025;
+        // public static final double angleKP = 0.025;
+        public static final double angleKP = 0.01;
         public static final double angleKI = 0.0;
         public static final double angleKD = 0.005;
         public static final double angleKF = 0.0;
@@ -24,8 +25,7 @@ public class SwerveSettings {
         public static final double driveKA = (0.27 / 12);
 
         public static  boolean canCoderInvert = true;
-        // public static double maxSpeed = 4.5;
-        public static double maxSpeed = 5;
+        public static double maxSpeed = 4.4196;
         public static double maxAngularVelocity = 10.0;
         public static double maxAcceleration = 1;
 
@@ -35,13 +35,12 @@ public class SwerveSettings {
         public static boolean driveMotorInvert = false;
         public static IdleMode driveIdleMode = IdleMode.kBrake;
 
-        public static double wheelCircumference = 0.31919;
+        // public static double wheelCircumference = 0.31919;
+        public static double wheelDiameter = 0.1016;
         public static double driveGearRatio = 6.75;
 
         public static double angleGearRatio = 150/7;
 
-
-        public static double driveVelocityConversion = driveGearRatio * wheelCircumference;
         
         public static double trackWidth = 0.685;
         public static double trackLength = 0.545;
