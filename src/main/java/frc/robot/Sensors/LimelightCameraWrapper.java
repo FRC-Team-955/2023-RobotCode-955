@@ -22,19 +22,26 @@ public class LimelightCameraWrapper {
     public static double getHorizontalOffset(){
         result = limelight.getLatestResult();
         if (hasTargets()){
-            return result.getBestTarget().getYaw();
+            return result.getBestTarget().getPitch();
         }
         return 42069;
     }
     public static double getVerticalOffset(){
         result = limelight.getLatestResult();
         if (hasTargets()){
-            return result.getBestTarget().getPitch();
+            return result.getBestTarget().getYaw();
         }
         return 42069;
     }
 
     public static boolean isAlignedToConeNode(){
-        return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.alignTolerance;
+        return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.coneAlignTolerance;
+    }
+    public static boolean isAlignedToGamePiece(){
+        return Math.abs(getHorizontalOffset() - getVerticalOffset() * Constants.LimelightCamera.gamePieceVerticalToHorizontalSlope) < Constants.LimelightCamera.gamePieceTolerance;
+    }
+
+    public static void setPipeline(int pipelineIndex){
+        limelight.setPipelineIndex(pipelineIndex);
     }
 }

@@ -80,7 +80,7 @@ public class AprilTagCameraWrapper {
         return 42069;
     }
     public static boolean isAlignedToCubeNode(){
-        return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.alignTolerance;
+        return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.coneAlignTolerance;
     }
 
 }

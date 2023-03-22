@@ -60,21 +60,24 @@ public class AutoAlign {
         return AprilTagCameraWrapper.isAlignedToCubeNode();
     }
     public static boolean alignTape(){
+        LimelightCameraWrapper.setPipeline(0);
+        
         if (LimelightCameraWrapper.hasTargets()){
-            double movementY = limelightAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(), 0);
+            double movementY = limelightAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(), Constants.AutoAlign.alignedGamePiecePitch);
             Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), -180);
         }
 
         return LimelightCameraWrapper.isAlignedToConeNode();
     }
-    // public static void alignToPiece(){
-    //     if(LimelightCameraWrapper.hasTargets()){
-    //         double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(), Constants);
-    //         Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), -180);
-    //     }
-    //     // double heading = (GamepieceCamera.getHorizontaloffset() * Constants.AutoAlign.kHorizontalOffsetToPidgeonFactor) + Gyro.getHeading();
-    //     // Drivebase.driveFieldRelativeHeading(new Translation2d(0, 0), heading);
-    // }
+    public static boolean alignToPiece(){
+        LimelightCameraWrapper.setPipeline(1);
+
+        if(LimelightCameraWrapper.hasTargets()){
+            double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),LimelightCameraWrapper.getVerticalOffset() * Constants.LimelightCamera.gamePieceVerticalToHorizontalSlope);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), -180);
+        }
+        return LimelightCameraWrapper.isAlignedToGamePiece();
+    }
     public static boolean isInCommunity(){
         if (((Constants.isBlue() && (Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX)) ||
             (Constants.isRed() && (Drivebase.getPose().getX() > Constants.FieldPositions.inRedCommunityX))) &&

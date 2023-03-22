@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.Swerve.SwerveSettings.SwerveConstants;
 
 public class Constants {
     public static class IO{
@@ -115,7 +114,7 @@ public class Constants {
         public static double cubePreemptiveDrop = 0.25;
         public static double conePreemptiveExtension = 0.4;
 
-        public static double alignedGamePiecePitch = 6.32;
+        public static double alignedGamePiecePitch = 6.32; //fake value need to make a xy plane
     }
     public static class Intake{
 
@@ -186,7 +185,10 @@ public class Constants {
         }
     }
     public static class LimelightCamera {
-        public static double alignTolerance= 0.1; // Faris: random number idk actual value
+        public static double coneAlignTolerance= 0.1; // Faris: random number idk actual value
+        public static double gamePieceTolerance = 0.5;
+
+        public static double gamePieceVerticalToHorizontalSlope = 0.5;
     }
     
     public static final class Arm {
