@@ -258,6 +258,16 @@ public class SwerveDrive {
         // trajectory = TrajectoryGenerator.generateTrajectory(getPose(), interiorWaypoints, new Pose2d(IO.keyInputOdometryPosition, new Rotation2d()), config);
 
     }  
+
+    public void generateAutoAlignTrajectory(){
+        ArrayList<Translation2d> interiorWaypoints = new ArrayList<Translation2d>();
+          if(Constants.isBlue()? getPose().getX() > 5.2 : getPose().getX() < 11){
+                
+          }
+          TrajectoryConfig config = new TrajectoryConfig(SwerveSettings.SwerveConstants.maxSpeed, SwerveSettings.SwerveConstants.maxAcceleration);
+          trajectory = TrajectoryGenerator.generateTrajectory(getPose(), interiorWaypoints, new Pose2d(interiorWaypoints.get(interiorWaypoints.size()-1) , new Rotation2d()), config);
+          
+    }
     
     public void loadTrajectory(String name){
         String trajectoryJSON = "pathplanner/generatedJSON/" + name;
