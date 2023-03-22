@@ -152,7 +152,7 @@ public class SwerveMod{
         if(isOpenLoop){
             // double percentOutput = speedMetersPerSecond / SwerveSettings.SwerveConstants.maxSpeed;
             // driveMotor.set(percentOutput);
-            drivePID.setReference(driveOutput, ControlType.kVelocity, 0, SwerveSettings.SwerveConstants.driveKF * driveOutput);
+            drivePID.setReference(speedMetersPerSecond, ControlType.kVelocity, 0, SwerveSettings.SwerveConstants.driveKF * speedMetersPerSecond);
         }else{
             // double velocity = SwerveConversions.MPSToNeo(speedMetersPerSecond, SwerveSettings.SwerveConstants.wheelCircumference, SwerveSettings.SwerveConstants.driveGearRatio);
             drivePID.setReference(speedMetersPerSecond, ControlType.kVelocity, 0, SwerveSettings.SwerveConstants.driveKF * speedMetersPerSecond);
