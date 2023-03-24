@@ -189,6 +189,7 @@ public class Constants {
         public static double gamePieceTolerance = 0.5;
 
         public static double gamePieceVerticalToHorizontalSlope = 0.5;
+        public static double verticalOffsetToDistance = -0.5;
     }
     
     public static final class Arm {

@@ -170,13 +170,13 @@ public class Robot extends TimedRobot {
       return Drivebase.getPose().getTranslation();
     }
   }
-  public static Translation2d autoGamePieceTranslation2d(){
+  public static Translation2d autoGamePieceTranslation2d(boolean useOffset){
     if(Constants.isBlue()){
       if(numberOfGamepiecesPlaced == 1){
-        return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.plus(new Translation2d(Constants.Auto.blueGamePieceOffset0X,Constants.Auto.blueGamePieceOffset0Y)):Constants.FieldPositions.AutoAlignPositions.blueGamePiece3.plus(new Translation2d(Constants.Auto.blueGamePieceOffset3X,Constants.Auto.blueGamePieceOffset3Y));
+        return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.plus(new Translation2d(useOffset?Constants.Auto.blueGamePieceOffset0X:0,useOffset?Constants.Auto.blueGamePieceOffset0Y:0)):Constants.FieldPositions.AutoAlignPositions.blueGamePiece3.plus(new Translation2d(useOffset?Constants.Auto.blueGamePieceOffset3X:0,useOffset?Constants.Auto.blueGamePieceOffset3Y:0));
       }
       else if(numberOfGamepiecesPlaced == 2){
-        return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.blueGamePiece1.plus(new Translation2d(Constants.Auto.blueGamePieceOffset1X,Constants.Auto.blueGamePieceOffset1Y)):Constants.FieldPositions.AutoAlignPositions.blueGamePiece2.plus(new Translation2d(Constants.Auto.blueGamePieceOffset2X,Constants.Auto.blueGamePieceOffset2Y));
+        return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.blueGamePiece1.plus(new Translation2d(useOffset?Constants.Auto.blueGamePieceOffset1X:0,useOffset?Constants.Auto.blueGamePieceOffset1Y:0)):Constants.FieldPositions.AutoAlignPositions.blueGamePiece2.plus(new Translation2d(useOffset?Constants.Auto.blueGamePieceOffset2X:0,useOffset?Constants.Auto.blueGamePieceOffset2Y:0));
       }
       else{
         return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.blueGamePiece0:Constants.FieldPositions.AutoAlignPositions.blueGamePiece3;
@@ -184,10 +184,10 @@ public class Robot extends TimedRobot {
     }
     else{
       if(numberOfGamepiecesPlaced == 1){
-        return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.redGamePiece0.minus(new Translation2d(Constants.Auto.redGamePieceOffset0X,-Constants.Auto.redGamePieceOffset0Y)):Constants.FieldPositions.AutoAlignPositions.redGamePiece3.minus(new Translation2d(Constants.Auto.redGamePieceOffset3X,-Constants.Auto.redGamePieceOffset3Y));
+        return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.redGamePiece0.minus(new Translation2d(useOffset?Constants.Auto.redGamePieceOffset0X:0,useOffset?-Constants.Auto.redGamePieceOffset0Y:0)):Constants.FieldPositions.AutoAlignPositions.redGamePiece3.minus(new Translation2d(useOffset?Constants.Auto.redGamePieceOffset3X:0,useOffset?-Constants.Auto.redGamePieceOffset3Y:0));
       }
       else if(numberOfGamepiecesPlaced == 2){
-        return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.redGamePiece1.minus(new Translation2d(Constants.Auto.redGamePieceOffset1X,-Constants.Auto.redGamePieceOffset1Y)):Constants.FieldPositions.AutoAlignPositions.redGamePiece2.minus(new Translation2d(Constants.Auto.redGamePieceOffset2X,-Constants.Auto.redGamePieceOffset2Y));
+        return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.redGamePiece1.minus(new Translation2d(useOffset?Constants.Auto.redGamePieceOffset1X:0,useOffset?-Constants.Auto.redGamePieceOffset1Y:0)):Constants.FieldPositions.AutoAlignPositions.redGamePiece2.minus(new Translation2d(useOffset?Constants.Auto.redGamePieceOffset2X:0,useOffset?-Constants.Auto.redGamePieceOffset2Y:0));
       }
       else{
         return (newAutoLeaveSelection == NewAutoLeaveSelection.Left)?Constants.FieldPositions.AutoAlignPositions.redGamePiece0:Constants.FieldPositions.AutoAlignPositions.redGamePiece3;
@@ -652,9 +652,9 @@ public class Robot extends TimedRobot {
             // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             IntakeV2.retractNoPid();
             IntakeV2.slowIntake();
-            if(AutoAlign.alignOdometry(Constants.isBlue()?autoGamePieceTranslation2d().minus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
+            if(AutoAlign.alignOdometry(Constants.isBlue()?autoGamePieceTranslation2d(true).minus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
                                                                                                               Math.sin(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset)):
-                                                          autoGamePieceTranslation2d().plus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
+                                                          autoGamePieceTranslation2d(true).plus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
                                                                                                               Math.sin(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset)), 
                                       autoGamePieceHeading())){
                   newAutoState = NewAutoState.MoveToGamePiece;
@@ -668,14 +668,18 @@ public class Robot extends TimedRobot {
             IntakeV2.retractNoPid();
             IntakeV2.slowIntake();
             // if(AutoAlign.alignOdometry(autoGamePieceTranslation2d(),-180)){
-            if(AutoAlign.alignOdometry(autoGamePieceTranslation2d(), autoGamePieceHeading())){
+            if(AutoAlign.alignOdometry(autoGamePieceTranslation2d(true), autoGamePieceHeading())){
               intakeTimer.reset();
               intakeTimer.start();
-              newAutoState = NewAutoState.GetGamePiece;
+              newAutoState = NewAutoState.LimelightTranslation;
+              // newAutoState = NewAutoState.GetGamePiece;
             }
             break;
           case LimelightTranslation:
-            LimelightCameraWrapper.getHorizontalOffset();
+            if(AutoAlign.alignToPiece()){
+              Drivebase.setSwerveOdometry(new Pose2d(LimelightCameraWrapper.getOdometryPosition(autoGamePieceTranslation2d(false)),Gyro.getYawR2D()));
+              newAutoState = NewAutoState.GetGamePiece;
+            }
             break;
           case GetGamePiece:
             Drivebase.updateSwerveOdometryNoVision();
@@ -684,11 +688,11 @@ public class Robot extends TimedRobot {
             // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             IntakeV2.retractNoPid();
             IntakeV2.slowIntake();
-            AutoAlign.alignOdometry(autoGamePieceTranslation2d(), autoGamePieceHeading());
+            AutoAlign.alignOdometry(autoGamePieceTranslation2d(false), autoGamePieceHeading());
             // AutoAlign.alignOdometry(autoGamePieceTranslation2d(), -180);
             if (intakeTimer.hasElapsed(Constants.Auto.intakeRunTime) ){
               Drivebase.headingSetPointSave = SwerveDrive.headingSetPoint;
-              Drivebase.setSwerveOdometry(new Pose2d(autoGamePieceTranslation2d(),Gyro.getYawR2D()));
+              Drivebase.setSwerveOdometry(new Pose2d(autoGamePieceTranslation2d(false),Gyro.getYawR2D()));
               newAutoState = NewAutoState.Done;
               // newAutoState = NewAutoState.PrepEnterCommunity;
 

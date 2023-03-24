@@ -4,6 +4,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants;
 
 //import edu.wpi.first.math.geometry.Translation2d;
@@ -40,7 +41,9 @@ public class LimelightCameraWrapper {
     public static boolean isAlignedToGamePiece(){
         return Math.abs(getHorizontalOffset() - getVerticalOffset() * Constants.LimelightCamera.gamePieceVerticalToHorizontalSlope) < Constants.LimelightCamera.gamePieceTolerance;
     }
-
+    public static Translation2d getOdometryPosition(Translation2d gamePiece){
+        return new Translation2d(gamePiece.getX() + (Constants.isBlue()?-getVerticalOffset()*Constants.LimelightCamera.verticalOffsetToDistance:getVerticalOffset()*Constants.LimelightCamera.verticalOffsetToDistance),gamePiece.getY());
+    }
     public static void setPipeline(int pipelineIndex){
         limelight.setPipelineIndex(pipelineIndex);
     }
