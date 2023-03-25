@@ -405,7 +405,7 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return true;
+        return false;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){
