@@ -167,10 +167,10 @@ public final class IO {
 
     public static enum GridArmPosition{
         Retract,
-        ConePrepHigh,
-        ConeReadyHigh,
-        ConePrepMid,
-        ConeReadyMid,
+        ConeFarPrepHigh,
+        ConeFarReadyHigh,
+        ConeFarPrepMid,
+        ConeFarReadyMid,
         CubePrep,
         CubeReady,
         SingleSubstation,
@@ -180,7 +180,7 @@ public final class IO {
         CubeRetract,
         ConeIntake,
         Up, 
-        NewHybrid
+        NewHybrid, ConeClosePrepMid, ConeClosePrepHigh, ConeCloseReadyMid, ConeCloseReadyHigh
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
     
@@ -188,20 +188,21 @@ public final class IO {
         UpRetract,
         Retract,
         Low,
-        MidCone,
-        High,
+        ConeFarMid,
+        HighFarConeAndCube,
         SingleSubstation,
         DoubleSubstation,
         CubeIntake, 
         CubeRetract,
-        ConeIntake
+        ConeIntake, ConeCloseHigh, ConeCloseMid
     }
     public static enum GridNodeType{
-        Cone,
+        ConeFar,
+        ConeClose,
         Cube,
         Hybrid
     }
-    public static GridNodeType gridNodeType = GridNodeType.Cone;
+    public static GridNodeType gridNodeType = GridNodeType.ConeFar;
 
     public static enum GridRow{
         Hybrid,
@@ -238,7 +239,8 @@ public final class IO {
         }
         if (key0.getRawButton(2) || key0.getRawButton(3)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid0: Constants.FieldPositions.AutoAlignPositions.redGrid0;
-            gridNodeType = GridNodeType.Cone;
+            // gridNodeType = GridNodeType.Cone;
+            gridNodeType = GridNodeType.ConeFar;
             newGridColumnPosition = 0;
         }
         //2
@@ -260,7 +262,7 @@ public final class IO {
         } 
         if (key0.getRawButton(8) || key0.getRawButton(9)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid2: Constants.FieldPositions.AutoAlignPositions.redGrid2;
-            gridNodeType = GridNodeType.Cone;
+            gridNodeType = GridNodeType.ConeClose;
             newGridColumnPosition = 2;
         }
         //4
@@ -271,7 +273,7 @@ public final class IO {
         } 
         if (key0.getRawButton(11) || key0.getRawButton(12)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid3: Constants.FieldPositions.AutoAlignPositions.redGrid3;
-            gridNodeType = GridNodeType.Cone;
+            gridNodeType = GridNodeType.ConeClose;
             newGridColumnPosition = 3;
         }
         //5
@@ -293,7 +295,7 @@ public final class IO {
         }
         if (key1.getRawButton(2) || key1.getRawButton(3)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid5: Constants.FieldPositions.AutoAlignPositions.redGrid5;
-            gridNodeType = GridNodeType.Cone;
+            gridNodeType = GridNodeType.ConeClose;
             newGridColumnPosition = 5;
         }
         //7
@@ -304,7 +306,7 @@ public final class IO {
         }
         if (key1.getRawButton(5) || key1.getRawButton(6)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid6: Constants.FieldPositions.AutoAlignPositions.redGrid6;
-            gridNodeType = GridNodeType.Cone;
+            gridNodeType = GridNodeType.ConeClose;
             newGridColumnPosition = 6;
         }
         //8
@@ -326,7 +328,8 @@ public final class IO {
         }
         if (key1.getRawButton(11) || key1.getRawButton(12)){
             keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid8: Constants.FieldPositions.AutoAlignPositions.redGrid8;
-            gridNodeType = GridNodeType.Cone;
+            // gridNodeType = GridNodeType.Cone;
+            gridNodeType = GridNodeType.ConeFar;
             newGridColumnPosition = 8;
         }
         // gridArmPosition = isConeNodePosition?GridArmPosition.ConeReady:GridArmPosition.CubeReady;
@@ -355,11 +358,11 @@ public final class IO {
                         break;
                     case High:
                         gridArmPosition = GridArmPosition.CubePrep;
-                        gridRowPosition = GridRowPosition.High;
+                        gridRowPosition = GridRowPosition.HighFarConeAndCube;
                         break;
                 }
                 break;
-            case Cone:
+            case ConeFar:
                 switch(gridRow){
                     //Not possible
                     case Hybrid:
@@ -367,13 +370,31 @@ public final class IO {
                         gridRowPosition = GridRowPosition.Retract;
                         break;
                     case Mid:
-                        gridArmPosition = GridArmPosition.ConePrepMid;
-                        gridRowPosition = GridRowPosition.MidCone;
+                        gridArmPosition = GridArmPosition.ConeFarPrepMid;
+                        gridRowPosition = GridRowPosition.ConeFarMid;
                         break;
                     case High:
-                        gridArmPosition = GridArmPosition.ConePrepHigh;
-                        gridRowPosition = GridRowPosition.High;
+                        gridArmPosition = GridArmPosition.ConeFarPrepHigh;
+                        gridRowPosition = GridRowPosition.HighFarConeAndCube;
                         break;
+                }
+                break;
+            case ConeClose:
+                switch(gridRow){
+                    //not possible
+                    case Hybrid:
+                        gridArmPosition = GridArmPosition.NewHybrid;
+                        gridRowPosition = GridRowPosition.Retract;
+                        break;
+                    case Mid:
+                        gridArmPosition = GridArmPosition.ConeClosePrepMid;
+                        gridRowPosition = GridRowPosition.ConeCloseMid;
+                        break;
+                    case High:
+                        gridArmPosition = GridArmPosition.ConeFarPrepHigh;
+                        gridRowPosition = GridRowPosition.ConeCloseHigh;
+                        break;
+
                 }
                 break;
         }

@@ -185,7 +185,7 @@ public class Constants {
         }
     }
     public static class LimelightCamera {
-        public static double coneAlignTolerance= 0.1; // Faris: random number idk actual value
+        public static double coneAlignTolerance= 1; // Faris: random number idk actual value
         public static double gamePieceTolerance = 0.5;
 
         public static double gamePieceVerticalToHorizontalSlope = 0.5;
@@ -210,13 +210,19 @@ public class Constants {
         // public static int kTopLevel = 3000;
 
         public static int level = 0;
-        public static int conePrepHigh = 40;
-        public static int coneReadyHigh = 20;
+        
+        public static int coneClosePrepMid = 45; //Guess
+        public static int coneCloseReadyMid = 25; //Guess
+        public static int coneFarPrepMid = 15;
+        public static int coneFarReadyMid = -5;
+
+        public static int coneClosePrepHigh = 45; //Guess
+        public static int coneCloseReadyHigh = 25; //Guess
+        public static int coneFarPrepHigh = 40;
+        public static int coneFarReadyHigh = 20;
         // public static int conePrepHigh = 42;
         // public static int coneReadyHigh = 22;
 
-        public static int conePrepMid = 15;
-        public static int coneReadyMid = -5;
 
         public static int cubePrep = 20;
         public static int cubeReady = 20;
@@ -258,8 +264,10 @@ public class Constants {
         public static double retracted = 4;
         public static double low = 10.4;
         // For Mid Cone
-        public static double mid = 22;
-        public static double high = 30;
+        public static double coneCloseMid = 4;
+        public static double coneFarMid = 22;
+        public static double coneCloseHigh = 28;
+        public static double highFarConeAndCube = 30;
         // public static double high = 28;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
@@ -322,7 +330,7 @@ public class Constants {
         
         public static double inLoadingZoneY = inCommunityY;
         public static double nearGridOffset =-0.05;
-        public static double atGridOffset =-0.02;
+        public static double atGridOffset = 0;
         // public static double atGridOffset =-0.08;
         //offset
         public static double nearGridBlueX =1.377950 +(bumperWidth/2) + nearGridOffset;
@@ -407,7 +415,7 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return  false;
+        return  true;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){

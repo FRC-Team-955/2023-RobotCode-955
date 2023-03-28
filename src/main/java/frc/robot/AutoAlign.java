@@ -2,7 +2,6 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.LimelightCameraWrapper;
@@ -53,24 +52,24 @@ public class AutoAlign {
     public static boolean alignAprilTag(){
         if(AprilTagCameraWrapper.hasTargets()){
             double movementY = aprilTagAlignXPID.calculate(AprilTagCameraWrapper.getHorizontalOffset(), 0);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), -180);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), -180);
         }
         gridAlignY = Drivebase.getPose().getY();
 
         return AprilTagCameraWrapper.isAlignedToCubeNode();
     }
     public static boolean alignTape(){
-        LimelightCameraWrapper.setPipeline(0);
+        // LimelightCameraWrapper.setPipeline(0);
         
         if (LimelightCameraWrapper.hasTargets()){
             double movementY = limelightAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(), Constants.AutoAlign.alignedGamePiecePitch);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), -180);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), -180);
         }
 
         return LimelightCameraWrapper.isAlignedToConeNode();
     }
     public static boolean alignToPiece(){
-        LimelightCameraWrapper.setPipeline(1);
+        // LimelightCameraWrapper.setPipeline(1);
 
         if(LimelightCameraWrapper.hasTargets()){
             double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),LimelightCameraWrapper.getVerticalOffset() * Constants.LimelightCamera.gamePieceVerticalToHorizontalSlope);
@@ -156,7 +155,7 @@ public class AutoAlign {
                         case Cube:
                             alignOdometry(IO.keyInputOdometryPosition, alignRotation);
                             return true;
-                        case Cone:
+                        case ConeFar:
                             switch(IO.gridRow){
                                 //Not possible
                                 case Hybrid:
@@ -168,9 +167,24 @@ public class AutoAlign {
                                 //If Cone at High, move forward
                                 case High:
                                     // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
+                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:Constants.FieldPositions.nearGridRedX, IO.keyInputOdometryPosition.getY()));
+                            }
+                            break;
+                        case ConeClose:
+                            switch(IO.gridRow){
+                                //Not possible
+                                case Hybrid:
+                                    break;
+                                //If Cone at Mid, don't move from normal position
+                                case Mid:
+                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()));
+                                //If Cone at High, move forward
+                                case High:
+                                    // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
                                     return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()));
                             }
                             break;
+
                     }
             }
         }

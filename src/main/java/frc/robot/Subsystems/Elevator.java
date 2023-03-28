@@ -1,7 +1,5 @@
 package frc.robot.Subsystems;
 
-import java.lang.invoke.ConstantCallSite;
-
 // import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -96,12 +94,20 @@ public class Elevator {
                 setpoint = Constants.Elevator.low;
                 elevatorRetract = false;
                 break;
-            case MidCone:
-                setpoint = Constants.Elevator.mid;
+            case ConeCloseMid:
+                setpoint = Constants.Elevator.coneCloseMid;
                 elevatorRetract = false;
                 break;
-            case High:
-                setpoint = Constants.Elevator.high;
+            case ConeFarMid:
+                setpoint = Constants.Elevator.coneFarMid;
+                elevatorRetract = false;
+                break;
+            case ConeCloseHigh:
+                setpoint = Constants.Elevator.coneCloseHigh;
+                elevatorRetract = false;
+                break;
+            case HighFarConeAndCube:
+                setpoint = Constants.Elevator.highFarConeAndCube;
                 elevatorRetract = false;
                 break;
             case SingleSubstation:
@@ -119,8 +125,10 @@ public class Elevator {
             case CubeRetract:
                 setpoint  = Constants.Elevator.cubeRetract;
                 elevatorRetract = true;
+                break;
             case ConeIntake:
                 setpoint = Constants.Elevator.coneIntake;
+                break;
         }
     }
     public static boolean setElevator(){

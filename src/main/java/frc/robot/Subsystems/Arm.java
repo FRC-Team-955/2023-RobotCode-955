@@ -112,20 +112,36 @@ public final class Arm {
                 setpoint = Constants.Arm.retracted;
                 armRetract = true;
                 break;
-            case ConePrepHigh:
-                setpoint = Constants.Arm.conePrepHigh;
+            case ConeClosePrepMid:
+                setpoint = Constants.Arm.coneClosePrepMid;
                 armRetract = false;
                 break;
-            case ConeReadyHigh:
-                setpoint = Constants.Arm.coneReadyHigh;
+            case ConeCloseReadyMid:
+                setpoint = Constants.Arm.coneCloseReadyMid;
                 armRetract = false;
                 break;
-            case ConePrepMid:
-                setpoint = Constants.Arm.conePrepMid;
+            case ConeClosePrepHigh:
+                setpoint = Constants.Arm.coneClosePrepHigh;
                 armRetract = false;
                 break;
-            case ConeReadyMid:
-                setpoint = Constants.Arm.coneReadyMid;
+            case ConeCloseReadyHigh:
+                setpoint = Constants.Arm.coneCloseReadyHigh;
+                armRetract = false;
+                break;
+            case ConeFarPrepMid:
+                setpoint = Constants.Arm.coneFarPrepMid;
+                armRetract = false;
+                break;
+            case ConeFarReadyMid:
+                setpoint = Constants.Arm.coneFarReadyMid;
+                armRetract = false;
+                break;
+            case ConeFarPrepHigh:
+                setpoint = Constants.Arm.coneFarPrepHigh;
+                armRetract = false;
+                break;
+            case ConeFarReadyHigh:
+                setpoint = Constants.Arm.coneFarReadyHigh;
                 armRetract = false;
                 break;
             case CubePrep:
@@ -139,6 +155,7 @@ public final class Arm {
             case SingleSubstation:
                 setpoint = Constants.Arm.singleSubstation;
                 armRetract = false;
+                break;
             case DoubleSubstation:
                 setpoint = Constants.Arm.doubleSubstation;
                 armRetract = false;
@@ -186,12 +203,20 @@ public final class Arm {
         }
         return false;
     }
-    public static boolean atConePrepHighPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.conePrepHigh) < Constants.Arm.tolerance;
+    public static boolean atConeFarPrepHighPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.coneFarPrepHigh) < Constants.Arm.tolerance;
     }
-    public static boolean atConePrepMidPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.conePrepMid) < Constants.Arm.tolerance;
+    public static boolean atConeFarPrepMidPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.coneFarPrepMid) < Constants.Arm.tolerance;
     }
+
+    public static boolean atConeClosePrepHighPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.coneClosePrepHigh) < Constants.Arm.tolerance;
+    }
+    public static boolean atConeClosePrepMidPosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.coneClosePrepMid) < Constants.Arm.tolerance;
+    }
+
     public static boolean atRetractedPosition(){
         return Math.abs(getOffsetPosition() - Constants.Arm.retracted) < Constants.Arm.tolerance;
     }
