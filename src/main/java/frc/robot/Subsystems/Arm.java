@@ -178,6 +178,7 @@ public final class Arm {
                 break;
             case ConeIntake:
                 setpoint = Constants.Arm.coneIntake;
+                break;
             case Up:
                 setpoint = Constants.Arm.up;
                 armRetract = true;

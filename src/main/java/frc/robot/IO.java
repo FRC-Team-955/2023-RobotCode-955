@@ -391,7 +391,7 @@ public final class IO {
                         gridRowPosition = GridRowPosition.ConeCloseMid;
                         break;
                     case High:
-                        gridArmPosition = GridArmPosition.ConeFarPrepHigh;
+                        gridArmPosition = GridArmPosition.ConeClosePrepHigh;
                         gridRowPosition = GridRowPosition.ConeCloseHigh;
                         break;
 
@@ -418,5 +418,7 @@ public final class IO {
     public static void displayInformation(){
         SmartDashboard.putString("RowPosition" , IO.gridRowPosition.toString());
         SmartDashboard.putString("ArmPosition" , IO.gridArmPosition.toString());
+        SmartDashboard.putString("gridNodeType" , IO.gridNodeType.toString());
+        SmartDashboard.putString("gridRow" , IO.gridRow.toString());
     }
 }

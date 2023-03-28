@@ -280,7 +280,6 @@ public class GamepieceManager {
                                     break;
                                 // if ConePrepMid pre move arm into position
                                 case Mid:
-                                    // extentionElevatorFirst(IO.gridRowPosition, IO.GridArmPosition.ConePrepMid);
                                     extention(IO.gridRowPosition, IO.GridArmPosition.ConeFarPrepMid);
                                     break;
                                 case High:

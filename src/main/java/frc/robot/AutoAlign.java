@@ -128,24 +128,22 @@ public class AutoAlign {
                     if(IO.gridNodeType == IO.GridNodeType.Hybrid){
                         if(alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), -180)){
                             gridAlignState = GridAlignState.InPosition;
-                            //Set rotation to -180 here so that you can adjust it manunally later if needed
-                            alignRotation = -180;
-                            alignTranslationY = 0;
                         }
                     }
                     //cone and cube nodes should go to normal offset
                     else{
                         if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
                             gridAlignState = GridAlignState.InPosition;
-                            //Set rotation to -180 here so that you can adjust it manunally later if needed
-                            alignRotation = -180;
-                            alignTranslationY = 0;
+
                         }
                     }
+                    //Set rotation to -180 here so that you can adjust it manunally later if needed
+                    alignRotation = -180;
+                    alignTranslationY = 0;
                 break;
                 case InPosition:
                     alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.05;
-                    alignTranslationY = alignTranslationY + IO.Drivebase.getSwerveTranslation().getX() * (Constants.isBlue()?Constants.Drivebase.turnRate:-Constants.Drivebase.turnRate);
+                    alignTranslationY = alignTranslationY + IO.Drivebase.getSwerveTranslation().getX() * (Constants.isBlue()?-0.003:0.003);
                     switch(IO.gridNodeType){
                         //If Hybrid, don't move from noHit position
                         case Hybrid:
@@ -167,7 +165,7 @@ public class AutoAlign {
                                 //If Cone at High, move forward
                                 case High:
                                     // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
-                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:Constants.FieldPositions.nearGridRedX, IO.keyInputOdometryPosition.getY()));
+                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:Constants.FieldPositions.nearGridRedX, IO.keyInputOdometryPosition.getY() + alignTranslationY));
                             }
                             break;
                         case ConeClose:
@@ -177,11 +175,11 @@ public class AutoAlign {
                                     break;
                                 //If Cone at Mid, don't move from normal position
                                 case Mid:
-                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()));
+                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()  + alignTranslationY));
                                 //If Cone at High, move forward
                                 case High:
                                     // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
-                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()));
+                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()  + alignTranslationY));
                             }
                             break;
 
