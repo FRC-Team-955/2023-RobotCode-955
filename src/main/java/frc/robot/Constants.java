@@ -108,7 +108,7 @@ public class Constants {
         //not sure was one 0.1 before
         public static double alignTolerance = 0.05;
         public static double alignTranslationY = 0.05;
-        public static double alignTranslationX = 0.08;
+        public static double alignTranslationX = 1.9;
 
         public static double cubePreemptiveExtension = 0.7;
         public static double cubePreemptiveDrop = 0.25;
@@ -188,7 +188,8 @@ public class Constants {
         public static double coneAlignTolerance= 1; // Faris: random number idk actual value
         public static double gamePieceTolerance = 0.5;
 
-        public static double gamePieceVerticalToHorizontalSlope = 0.5;
+        public static double gamePieceVerticalToHorizontalA = 2.5677;
+        public static double gamePieceVerticalToHorizontalB = 1.0672;
     }
     
     public static final class Arm {
@@ -213,8 +214,8 @@ public class Constants {
         
         public static int coneClosePrepMid = 50; //Guess
         public static int coneCloseReadyMid = 30; //Guess
-        public static int coneFarPrepMid = 45;
-        public static int coneFarReadyMid = 25;
+        public static int coneFarPrepMid = 40;
+        public static int coneFarReadyMid = 20;
 
         public static int coneClosePrepHigh = 45; //Guess
         public static int coneCloseReadyHigh = 25; //Guess
@@ -314,7 +315,7 @@ public class Constants {
     public static final double bumperLength = 0.81;
 
     public static class FieldPositions{;
-        public static final double fieldX = 16.537877 - 0.065 + 0.1778;
+        public static final double fieldX = 16.537877 - 0.065 + 0.1778 + 0.05;
         public static final double fieldY = 8.016177;
         // public static double fieldY = 8.02;
 
@@ -330,8 +331,9 @@ public class Constants {
         
         public static double inLoadingZoneY = inCommunityY;
         public static double nearGridOffset =-0.07;
-        // public static double atGridOffset =-0.065;
-        public static double atAtGridOffset = -0.115;
+        // public static double atGridOffset =-0.065;getPose
+        // public static double atAtGridOffset = -0.115;
+        public static double atAtGridOffset = -0.2;
         // public static double atGridOffset =-0.08;
         //offset
         public static double nearGridBlueX =1.377950 +(bumperWidth/2) + nearGridOffset;
@@ -351,15 +353,15 @@ public class Constants {
         public static double outSubstationLongRed = fieldX - outSubstationLongBlue;
 
         public static class AutoAlignPositions{
-            public static Translation2d blueGrid0 = new Translation2d(2.16 - 0.1778,4.983099);
-            public static Translation2d blueGrid1 = new Translation2d(2.16 - 0.1778,4.424426);
-            public static Translation2d blueGrid2 = new Translation2d(2.16- 0.1778,3.865499);
-            public static Translation2d blueGrid3 = new Translation2d(2.16- 0.1778,3.306699);
-            public static Translation2d blueGrid4 = new Translation2d(2.16- 0.1778,2.747899);
-            public static Translation2d blueGrid5 = new Translation2d(2.16- 0.1778,2.189099);
-            public static Translation2d blueGrid6 = new Translation2d(2.16- 0.1778,1.630299);
-            public static Translation2d blueGrid7 = new Translation2d(2.16- 0.1778,1.071499);
-            public static Translation2d blueGrid8 = new Translation2d(2.16- 0.1778,0.512699);
+            public static Translation2d blueGrid0 = new Translation2d(2.16 - 0.1778 + 0.05,4.983099);
+            public static Translation2d blueGrid1 = new Translation2d(2.16 - 0.1778+ 0.05,4.424426);
+            public static Translation2d blueGrid2 = new Translation2d(2.16- 0.1778+ 0.05,3.865499);
+            public static Translation2d blueGrid3 = new Translation2d(2.16- 0.1778+ 0.05,3.306699);
+            public static Translation2d blueGrid4 = new Translation2d(2.16- 0.1778+ 0.05,2.747899);
+            public static Translation2d blueGrid5 = new Translation2d(2.16- 0.1778+ 0.05,2.189099);
+            public static Translation2d blueGrid6 = new Translation2d(2.16- 0.1778+ 0.05,1.630299);
+            public static Translation2d blueGrid7 = new Translation2d(2.16- 0.1778+ 0.05,1.071499);
+            public static Translation2d blueGrid8 = new Translation2d(2.16- 0.1778+ 0.05,0.512699);
             public static Translation2d blueAvoidChargerUppper = new Translation2d(5.5,8.02-3);
             public static Translation2d blueOutCommunityUppper = new Translation2d(4.0, 8.02-3);
             public static Translation2d blueInCommunityUppper = new Translation2d(2.0, 8.02-3);
@@ -367,15 +369,15 @@ public class Constants {
             public static Translation2d blueOutCommunityLower = new Translation2d(4.0, 8.02-7.5);
             public static Translation2d blueInCommunityLower = new Translation2d(2.0, 8.02-7.5);
 
-            public static Translation2d redGrid0 = new Translation2d(fieldX - 2.16, blueGrid8.getY());
-            public static Translation2d redGrid1 = new Translation2d(fieldX - 2.16, blueGrid7.getY());
-            public static Translation2d redGrid2 = new Translation2d(fieldX - 2.16, blueGrid6.getY());
-            public static Translation2d redGrid3 = new Translation2d(fieldX - 2.16, blueGrid5.getY());
-            public static Translation2d redGrid4 = new Translation2d(fieldX - 2.16, blueGrid4.getY());
-            public static Translation2d redGrid5 = new Translation2d(fieldX - 2.16, blueGrid3.getY());
-            public static Translation2d redGrid6 = new Translation2d(fieldX - 2.16, blueGrid2.getY());
-            public static Translation2d redGrid7 = new Translation2d(fieldX - 2.16, blueGrid1.getY());
-            public static Translation2d redGrid8 = new Translation2d(fieldX - 2.16, blueGrid0.getY());
+            public static Translation2d redGrid0 = new Translation2d(fieldX - blueGrid8.getX(), blueGrid8.getY());
+            public static Translation2d redGrid1 = new Translation2d(fieldX - blueGrid7.getX(), blueGrid7.getY());
+            public static Translation2d redGrid2 = new Translation2d(fieldX - blueGrid6.getX(), blueGrid6.getY());
+            public static Translation2d redGrid3 = new Translation2d(fieldX - blueGrid5.getX(), blueGrid5.getY());
+            public static Translation2d redGrid4 = new Translation2d(fieldX - blueGrid4.getX(), blueGrid4.getY());
+            public static Translation2d redGrid5 = new Translation2d(fieldX - blueGrid3.getX(), blueGrid3.getY());
+            public static Translation2d redGrid6 = new Translation2d(fieldX - blueGrid2.getX(), blueGrid2.getY());
+            public static Translation2d redGrid7 = new Translation2d(fieldX - blueGrid1.getX(), blueGrid1.getY());
+            public static Translation2d redGrid8 = new Translation2d(fieldX - blueGrid0.getX(), blueGrid0.getY());
 
             // public static Translation2d blueGamePiece0 = new Translation2d(7.056,4.521+1.22);
             public static Translation2d blueGamePiece0 = new Translation2d(7.05837,4.583049);

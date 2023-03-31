@@ -143,6 +143,17 @@ public class SwerveDrive {
     public Pose2d getPose() {
         return poseEstimator.getEstimatedPosition();
     }
+    
+    public Pose2d lastEstimatedVisionPose = new Pose2d();
+    public Pose2d getEstimatedVisionPose(){
+        Optional<EstimatedRobotPose> result = AprilTagCameraWrapper.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
+        if (result.isPresent()) {
+            EstimatedRobotPose camPose = result.get();
+            lastEstimatedVisionPose = camPose.estimatedPose.toPose2d();
+            return camPose.estimatedPose.toPose2d();
+        }
+        return lastEstimatedVisionPose;
+    }
 
     public void resetOdometry(Pose2d pose) {
         poseEstimator.resetPosition(Gyro.getYawR2D(), getPoses(), pose);

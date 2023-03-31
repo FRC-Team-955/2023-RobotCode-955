@@ -148,6 +148,9 @@ public class Drivebase {
     public static Pose2d getPose() {
        return drive.getPose();
     }
+    public static Pose2d getEstimatedVisionPose(){
+        return drive.getEstimatedVisionPose();
+    }
     public static void displayInformation(){
         SmartDashboard.putBoolean("Is balanced", Drivebase.isBalanced());
         SmartDashboard.putBoolean("Adding data",drive.displayInformation());

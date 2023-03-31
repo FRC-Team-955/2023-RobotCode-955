@@ -72,8 +72,10 @@ public class AutoAlign {
         // LimelightCameraWrapper.setPipeline(1);
 
         if(LimelightCameraWrapper.hasTargets()){
-            double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),LimelightCameraWrapper.getVerticalOffset() * Constants.LimelightCamera.gamePieceVerticalToHorizontalSlope);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(-movementY, 0), -180);
+            double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
+            SmartDashboard.putNumber("PIDOutput", movementY);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), 0); //TODO: might need to change for 2nd cube
+            // Drivebase.driveFieldRelativeHeading(new Translation2d(0.1, 0), -180);
         }
         return LimelightCameraWrapper.isAlignedToGamePiece();
     }

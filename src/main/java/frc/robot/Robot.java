@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -282,6 +283,7 @@ public class Robot extends TimedRobot {
     }
   }
   Field2d field2d = new Field2d();
+  Field2d field2dVision = new Field2d();
 
   @Override
   public void autonomousInit() {
@@ -303,12 +305,13 @@ public class Robot extends TimedRobot {
     Drivebase.resetAnglesToAbsolute();
     IntakeV2.setOffset();
     Arm.setOffset();
-    if(autoTypeSelection == AutoType.Old){
-      Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(autoGridSelection),Gyro.getYawR2D()));
-    }else if(autoTypeSelection == AutoType.New){
-      Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition),Gyro.getYawR2D()));
-    }else{
-
+    switch(autoTypeSelection){
+      case Old:
+        Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(autoGridSelection),Gyro.getYawR2D()));
+        break;
+      case New:
+        Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition),Gyro.getYawR2D()));
+        break;
     }
     SmartDashboard.putString("Alliance Color",  DriverStation.getAlliance().toString());
 
@@ -318,8 +321,7 @@ public class Robot extends TimedRobot {
     Drivebase.logData();
     Claw.logData();
     field2d.setRobotPose(Drivebase.getPose());
-    SmartDashboard.putString("New Auto State", newAutoState.toString());
-    SmartDashboard.putString("Auto State", autoState.toString());
+    SmartDashboard.putString("Auto State New or Old", autoTypeSelection == AutoType.New?newAutoState.toString():autoState.toString());
     // SmartDashboard.putBoolean("isAutoConeNode", isAutoConeNodePosition);
     AutoAlign.displayInformation();
     Drivebase.displayInformation();
@@ -657,7 +659,17 @@ public class Robot extends TimedRobot {
                                                           autoGamePieceTranslation2d().plus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
                                                                                                               Math.sin(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset)), 
                                       autoGamePieceHeading())){
-                  newAutoState = NewAutoState.MoveToGamePiece;
+                  newAutoState = NewAutoState.LimelightTranslation;
+            }
+            break;
+          case LimelightTranslation:
+            if(AutoAlign.alignToPiece()){
+              Drivebase.setSwerveOdometry(new Pose2d(Constants.isBlue()?autoGamePieceTranslation2d().minus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
+                                                                                                                            Math.sin(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset)):
+                                                                        autoGamePieceTranslation2d().plus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
+                                                                                                                            Math.sin(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset)), 
+                                                    new Rotation2d(-Gyro.getHeading() + (Constants.isBlue()?90:-90))));
+              newAutoState = NewAutoState.MoveToGamePiece;
             }
             break;
           case MoveToGamePiece:
@@ -673,9 +685,6 @@ public class Robot extends TimedRobot {
               intakeTimer.start();
               newAutoState = NewAutoState.GetGamePiece;
             }
-            break;
-          case LimelightTranslation:
-            LimelightCameraWrapper.getHorizontalOffset();
             break;
           case GetGamePiece:
             Drivebase.updateSwerveOdometryNoVision();
@@ -776,10 +785,13 @@ public class Robot extends TimedRobot {
     Drivebase.displayInformation();
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
+    field2dVision.setRobotPose(Drivebase.getEstimatedVisionPose());
+
     GamepieceManager.displayInformation();
     // IntakeV2.displayInformation();
     // Elevator.displayInformation();
-    // Arm.displayInformation();
+    Arm.displayInformation();
+    SmartDashboard.putNumber("getHorizontalOffset()", LimelightCameraWrapper.getHorizontalOffset());
     // Gyro.displayInformation();
     // Gyro.displayInformation();
   }
@@ -794,15 +806,16 @@ public class Robot extends TimedRobot {
     switch(robotState){
       case AUTO_ALIGN:
         GamepieceManager.autoAlign();
-        SmartDashboard.putBoolean("isAlignedToConeNode", LimelightCameraWrapper.isAlignedToConeNode());
-        SmartDashboard.putNumber("getHorizontalOffset", LimelightCameraWrapper.getHorizontalOffset());
+        // SmartDashboard.putBoolean("isAlignedToConeNode", LimelightCameraWrapper.isAlignedToConeNode());
+
+        // SmartDashboard.putBoolean("alignToPiece()", AutoAlign.alignToPiece());
         IntakeV2.retractNoPid();
-        // if(IO.resetAngle()){
-        //   Gyro.set(90);
-        //   SwerveDrive.headingSetPoint = -180;
+        if(IO.resetAngle()){
+          Gyro.set(90);
+          SwerveDrive.headingSetPoint = -180;
           // AutoAlign.alignRotation = -180;
-        //   Drivebase.headingSetPointSave = 0;
-        // }
+          // Drivebase.headingSetPointSave = -180;
+        }
 
         break;
       case AUTO_BALANCE:

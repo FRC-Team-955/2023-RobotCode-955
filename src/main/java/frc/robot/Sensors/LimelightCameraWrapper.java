@@ -38,7 +38,7 @@ public class LimelightCameraWrapper {
         return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.coneAlignTolerance;
     }
     public static boolean isAlignedToGamePiece(){
-        return Math.abs(getHorizontalOffset() - getVerticalOffset() * Constants.LimelightCamera.gamePieceVerticalToHorizontalSlope) < Constants.LimelightCamera.gamePieceTolerance;
+        return Math.abs(getHorizontalOffset() - getVerticalOffset() * Constants.LimelightCamera.gamePieceVerticalToHorizontalA) < Constants.LimelightCamera.gamePieceTolerance;
     }
 
     public static void setPipeline(int pipelineIndex){
