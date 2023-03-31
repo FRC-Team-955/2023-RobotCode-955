@@ -8,6 +8,9 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
+import frc.robot.Robot.AutoState;
+import frc.robot.Robot.NewAutoState;
 import edu.wpi.first.math.MathUtil; 
 
 public class Gyro {
@@ -70,6 +73,8 @@ public class Gyro {
         }
         else if (backup.isConnected()) {
             gyroStatus = GyroStatus.BACKUP;
+            Robot.autoState = AutoState.Done;
+            Robot.newAutoState = NewAutoState.Done;
             return (double) backup.getRoll();
         }
         else {
