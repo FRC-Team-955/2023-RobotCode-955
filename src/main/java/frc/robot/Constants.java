@@ -88,6 +88,9 @@ public class Constants {
         public static double redGamePieceOffset3X =0.2;
         // public static double redGamePieceOffset3Y =1;
         public static double redGamePieceOffset3Y =0.62;
+        public static double autoXkP = 2;
+        public static double autoYkP = 2;
+
     }
 
     public static class AutoAlign{
@@ -100,13 +103,13 @@ public class Constants {
         public static double limelightAlignXkI = 0;
         public static double limelightAlignXkD = 0;
 
-        public static double odometryAlignXkP = 5;
-        public static double odometryAlignXkI = 0;
-        public static double odometryAlignXkD = 0;
+        public static final double odometryAlignXkP = 5;
+        public static final double odometryAlignXkI = 0;
+        public static final double odometryAlignXkD = 0;
         
-        public static double odometryAlignYkP = 5;
-        public static double odometryAlignYkI = 0;
-        public static double odometryAlignYkD = 0;
+        public static final double odometryAlignYkP = 5;
+        public static final double odometryAlignYkI = 0;
+        public static final double odometryAlignYkD = 0;
 
         public static double translationAlignXkP = 2;
         public static double translationAlignXkI = 0;
@@ -201,6 +204,8 @@ public class Constants {
 
         public static double gamePieceVerticalToHorizontalA = 2.5677;
         public static double gamePieceVerticalToHorizontalB = 1.0672;
+        public static double gamePieceVerticalToDistanceA = 2.5677;
+        public static double gamePieceVerticalToDistanceB = 1.0672;
     }
     
     public static final class Arm {

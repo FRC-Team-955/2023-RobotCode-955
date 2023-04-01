@@ -41,6 +41,14 @@ public class LimelightCameraWrapper {
         return Math.abs(getHorizontalOffset() - Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, getVerticalOffset())) < Constants.LimelightCamera.gamePieceTolerance;
     }
 
+    public static double getDistanceToGamePiece(){
+        // if doesn't see target
+        if(!hasTargets()){
+            return Constants.Auto.stopBeforeGamepieceOffset;
+        }
+        return Constants.LimelightCamera.gamePieceVerticalToDistanceA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToDistanceB, getVerticalOffset());
+    }
+
     public static void setPipeline(int pipelineIndex){
         limelight.setPipelineIndex(pipelineIndex);
     }

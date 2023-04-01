@@ -19,14 +19,16 @@ public class AutoAlign {
 
     Drivebase drive = new Drivebase();
 
-    public static boolean alignOdometry(Translation2d goalTranslation, double heading){
+    public static boolean alignOdometrykP(Translation2d goalTranslation, double heading, double XkP, double YkP){
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
         double goalPoseX = goalTranslation.getX();
         double goalPoseY = goalTranslation.getY();
-        Double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
-        Double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
+        odometryAlignXPID.setP(XkP);
+        odometryAlignYPID.setP(YkP);
+        double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
+        double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
 
@@ -35,14 +37,19 @@ public class AutoAlign {
         return (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTolerance && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTolerance);
      
     }
+    public static boolean alignOdometry(Translation2d goalTranslation, double heading){
+        return alignOdometrykP(goalTranslation, heading, Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignYkP);
+    }
     public static boolean alignTranslation(Translation2d goalTranslation){
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
         double goalPoseX = goalTranslation.getX();
         double goalPoseY = goalTranslation.getY();
-        Double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
-        Double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
+        double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
+        double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
+        // double movementX = translationAlignXPID.calculate(poseX, goalPoseX);
+        // double movementY = translationAlignYPID.calculate(poseY, goalPoseY);
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
 
@@ -72,7 +79,6 @@ public class AutoAlign {
     }
     public static boolean alignToPiece(){
         LimelightCameraWrapper.setPipeline(0);
-
         if(LimelightCameraWrapper.hasTargets()){
             double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
             SmartDashboard.putNumber("PIDOutput", -movementY);
