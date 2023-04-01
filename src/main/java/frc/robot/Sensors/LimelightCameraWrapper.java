@@ -11,7 +11,7 @@ import frc.robot.Constants;
 
 
 public class LimelightCameraWrapper {
-    public static PhotonCamera limelight =  new PhotonCamera("gloworm"); 
+    public static PhotonCamera limelight =  new PhotonCamera("OV5647"); 
     public static PhotonPipelineResult result = new PhotonPipelineResult();
     public static PhotonTrackedTarget target = new PhotonTrackedTarget(); 
 
@@ -21,14 +21,14 @@ public class LimelightCameraWrapper {
     
     public static double getHorizontalOffset(){
         result = limelight.getLatestResult();
-        if (hasTargets()){
+        if (result.hasTargets()){
             return result.getBestTarget().getPitch();
         }
         return 42069;
     }
     public static double getVerticalOffset(){
         result = limelight.getLatestResult();
-        if (hasTargets()){
+        if (result.hasTargets()){
             return result.getBestTarget().getYaw();
         }
         return 42069;
@@ -38,7 +38,7 @@ public class LimelightCameraWrapper {
         return Math.abs(getHorizontalOffset()) < Constants.LimelightCamera.coneAlignTolerance;
     }
     public static boolean isAlignedToGamePiece(){
-        return Math.abs(getHorizontalOffset() - getVerticalOffset() * Constants.LimelightCamera.gamePieceVerticalToHorizontalA) < Constants.LimelightCamera.gamePieceTolerance;
+        return Math.abs(getHorizontalOffset() - Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, getVerticalOffset())) < Constants.LimelightCamera.gamePieceTolerance;
     }
 
     public static void setPipeline(int pipelineIndex){

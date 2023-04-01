@@ -33,10 +33,10 @@ public final class Arm {
         //motor = new CANSparkMax(Constants.Arm.motorID, af]atMotorType.kBrushless);
         motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
         motor.setIdleMode(IdleMode.kCoast);
-        // motor.setSmartCurrentLimit(80);
+        motor.setSmartCurrentLimit(80);
     
         pid = new PIDController(Constants.Arm.kP, 
-                                Constants.Arm.kI, 
+                                Constants.Arm.kI,
                                 Constants.Arm.kD);   
         pid.setTolerance(Constants.Arm.tolerance);
 

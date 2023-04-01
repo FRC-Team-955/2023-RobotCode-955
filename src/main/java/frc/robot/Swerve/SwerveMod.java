@@ -55,14 +55,14 @@ public class SwerveMod{
         angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
         angleMotor.setInverted(SwerveSettings.SwerveConstants.angleMotorInvert);
         angleMotor.setIdleMode(SwerveSettings.SwerveConstants.angleIdleMode);
-        angleMotor.setSmartCurrentLimit(60);
+        angleMotor.setSmartCurrentLimit(40);
         angleMotor.burnFlash();
 
         // Drive Motor
         driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
         driveMotor.setInverted(SwerveSettings.SwerveConstants.driveMotorInvert);
         driveMotor.setIdleMode(SwerveSettings.SwerveConstants.driveIdleMode);   
-        driveMotor.setSmartCurrentLimit(60);
+        driveMotor.setSmartCurrentLimit(50);
         driveMotor.burnFlash();
         
         // Absolute Encoders

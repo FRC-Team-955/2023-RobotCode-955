@@ -95,7 +95,10 @@ public final class IO {
         public static boolean isPowerSaving(){
             return key2.getRawButton(Constants.IO.Key2.isPowerSavingButton);
         }
-  
+        public static boolean robotForwardMove(){
+            return joy0.getRawButton(Constants.IO.Joy0.robotForwardMoveButton);
+        }
+
         public static double getSwerveRotation(){
             //What is axis number reffering too?
             double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis);

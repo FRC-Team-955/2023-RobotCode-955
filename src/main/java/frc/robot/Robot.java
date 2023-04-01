@@ -328,7 +328,7 @@ public class Robot extends TimedRobot {
     if(autoTypeSelection == AutoType.Old){
       Drivebase.updateSwerveOdometry();
     }
-    // Arm.displayInformation();
+    Arm.displayInformation();
   }
 
   @Override
@@ -791,7 +791,6 @@ public class Robot extends TimedRobot {
     // IntakeV2.displayInformation();
     // Elevator.displayInformation();
     Arm.displayInformation();
-    SmartDashboard.putNumber("getHorizontalOffset()", LimelightCameraWrapper.getHorizontalOffset());
     // Gyro.displayInformation();
     // Gyro.displayInformation();
   }
@@ -802,13 +801,20 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     selectTeleopState();
     teleopAllState();
+    SmartDashboard.putNumber("getHorizontalOffset()", LimelightCameraWrapper.getHorizontalOffset());
+    SmartDashboard.putNumber("getVerticalOffset()", LimelightCameraWrapper.getVerticalOffset());
+    SmartDashboard.putBoolean("isAlignedToGamePiece()", LimelightCameraWrapper.isAlignedToGamePiece());
+    SmartDashboard.putBoolean("hasTargets", LimelightCameraWrapper.hasTargets());
+    SmartDashboard.putNumber("offset",  LimelightCameraWrapper.getHorizontalOffset() - Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
+
 
     switch(robotState){
       case AUTO_ALIGN:
-        GamepieceManager.autoAlign();
-        // SmartDashboard.putBoolean("isAlignedToConeNode", LimelightCameraWrapper.isAlignedToConeNode());
+        // GamepieceManager.manageExtension();
 
-        // SmartDashboard.putBoolean("alignToPiece()", AutoAlign.alignToPiece());
+        // GamepieceManager.autoAlign();
+        AutoAlign.alignToPiece();
+
         IntakeV2.retractNoPid();
         if(IO.resetAngle()){
           Gyro.set(90);

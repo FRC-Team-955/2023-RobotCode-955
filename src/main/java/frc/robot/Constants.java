@@ -16,6 +16,7 @@ public class Constants {
             public static int autoAlignAxis = 3;
             public static int autoBalanceButton = 4;
             public static int resetAngleButton =6;
+            public static int robotForwardMoveButton = 2;
         }
         public static class Joy1{
             public static final int joy1Id = 1;
@@ -94,21 +95,30 @@ public class Constants {
         public static final double aprilTagAlignXkI = 0;
         public static final double aprilTagAlignXkD = 0;
         //need to test
-        public static double limelightAlignXkP = 0.045;
+        public static double limelightAlignXkP = 0.1;
         public static double limelightAlignXkI = 0;
         public static double limelightAlignXkD = 0;
 
-        public static double odometryAlignXkP = 3;
+        public static double odometryAlignXkP = 5;
         public static double odometryAlignXkI = 0;
         public static double odometryAlignXkD = 0;
         
-        public static double odometryAlignYkP = 3;
+        public static double odometryAlignYkP = 5;
         public static double odometryAlignYkI = 0;
         public static double odometryAlignYkD = 0;
+
+        public static double translationAlignXkP = 2;
+        public static double translationAlignXkI = 0;
+        public static double translationAlignXkD = 0;
+        
+        public static double translationAlignYkP = 2;
+        public static double translationAlignYkI = 0;
+        public static double translationAlignYkD = 0;
+
         //not sure was one 0.1 before
-        public static double alignTolerance = 0.05;
-        public static double alignTranslationY = 0.05;
-        public static double alignTranslationX = 1.9;
+        public static double alignTolerance = 0.025;
+        public static double alignTranslationY = 0.025;
+        public static double alignTranslationX = 0.12;
 
         public static double cubePreemptiveExtension = 0.7;
         public static double cubePreemptiveDrop = 0.25;
@@ -186,7 +196,7 @@ public class Constants {
     }
     public static class LimelightCamera {
         public static double coneAlignTolerance= 1; // Faris: random number idk actual value
-        public static double gamePieceTolerance = 0.5;
+        public static double gamePieceTolerance = 2.5;
 
         public static double gamePieceVerticalToHorizontalA = 2.5677;
         public static double gamePieceVerticalToHorizontalB = 1.0672;
@@ -196,7 +206,7 @@ public class Constants {
         // Arm Motor Id's
         public static int motorID = 19;
         //
-        public static int tolerance = 6;
+        public static int tolerance = 4;
         // Arm Encoder Values
         public static double angleOffset = 124.2786;
         // public static double angleOffset = 0;
@@ -212,34 +222,34 @@ public class Constants {
 
         public static int level = 0;
         
-        public static int coneClosePrepMid = 50; //Guess
-        public static int coneCloseReadyMid = 30; //Guess
-        public static int coneFarPrepMid = 40;
-        public static int coneFarReadyMid = 20;
+        public static int coneClosePrepMid = 50;
+        public static int coneCloseReadyMid = 25;
+        public static int coneFarPrepMid = 23;
+        public static int coneFarReadyMid = 0;
 
-        public static int coneClosePrepHigh = 45; //Guess
-        public static int coneCloseReadyHigh = 25; //Guess
-        public static int coneFarPrepHigh = 45;
-        public static int coneFarReadyHigh = 25;
+        public static final int coneClosePrepHigh = 45;
+        public static final int coneCloseReadyHigh = 25;
+        public static final int coneFarPrepHigh = 42;
+        public static final int coneFarReadyHigh = 22;
         // public static int conePrepHigh = 42;
         // public static int coneReadyHigh = 22;
 
 
-        public static int cubePrep = 20;
-        public static int cubeReady = 20;
+        public static final int cubePrep = 25;
+        public static final int cubeReady = 25;
 
         public static int hybrid = -85;
         public static double newHybrid = -30;
 
         public static int singleSubstation = 30;
-        public static double doubleSubstation = 50.5;
+        public static final double doubleSubstation = 50.5;
 
         public static int up = 120;
 
-        public static int cubeIntake = -100;
+        public static int cubeIntake = -95;
         public static double cubeRetract = -130;
 
-        public static double coneIntake = -125;
+        public static double coneIntake = -120;
 
         // Arm Pid Values
         public static double kP = 0.3;
@@ -259,20 +269,20 @@ public class Constants {
         public static double upperLimit = 28;
         public static double lowerLimit = 5;
         // Elevator Tolerance Values
-        public static double tolerance = 2;
+        public static double tolerance = 1.5;
         public static double upRetract = 3.5;
         // Extension Level Values
         public static double retracted = 4;
         public static double low = 10.4;
         // For Mid Cone
-        public static double coneCloseMid = 3;
-        public static double coneFarMid = 8;
-        public static double coneCloseHigh = 29;
-        public static double highFarConeAndCube = 28;
+        public static double coneCloseMid = 0.5;
+        public static double coneFarMid =18;
+        public static final double coneCloseHigh = 27;
+        public static final double highFarConeAndCube = 29;
         // public static double high = 28;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
-        public static double doubleSubstation = 4;
+        public static final double doubleSubstation = 4;
         
         public static double cubeIntake = 1;
         public static double cubeRetract = 3.5;
@@ -315,7 +325,7 @@ public class Constants {
     public static final double bumperLength = 0.81;
 
     public static class FieldPositions{;
-        public static final double fieldX = 16.537877 - 0.065 + 0.1778 + 0.05;
+        public static final double fieldX = 16.537877 - 0.065 + 0.1778 + 0.05 - 0.17;
         public static final double fieldY = 8.016177;
         // public static double fieldY = 8.02;
 
@@ -331,7 +341,6 @@ public class Constants {
         
         public static double inLoadingZoneY = inCommunityY;
         public static double nearGridOffset =-0.07;
-        // public static double atGridOffset =-0.065;getPose
         // public static double atAtGridOffset = -0.115;
         public static double atAtGridOffset = -0.2;
         // public static double atGridOffset =-0.08;
@@ -418,7 +427,7 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return  true;
+        return false;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){

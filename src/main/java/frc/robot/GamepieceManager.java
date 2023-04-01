@@ -384,7 +384,9 @@ public class GamepieceManager {
             }
             else{
                 extention(IO.gridRowPosition, IO.gridArmPosition);
-                Claw.stopishMotor();
+                // Claw.stopishMotor();
+                Claw.outputGamePiece();
+
             }
         }else{
             extention(IO.gridRowPosition, IO.gridArmPosition);

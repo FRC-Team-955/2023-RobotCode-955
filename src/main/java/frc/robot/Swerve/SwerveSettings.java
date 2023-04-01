@@ -42,8 +42,10 @@ public class SwerveSettings {
         public static double angleGearRatio = 150/7;
 
         
-        public static double trackWidth = 0.685;
-        public static double trackLength = 0.545;
+        // public static double trackLength = 0.545;
+        public static final double trackLength = 0.57785;
+        // public static double trackWidth = 0.685;
+        public static final double trackWidth = 0.6778625;
         //From Cad
         // public static double trackWidth = 0.679450;
         // public static double trackLength = 0.552450;

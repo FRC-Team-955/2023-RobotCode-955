@@ -13,6 +13,8 @@ public class AutoAlign {
 
     private static PIDController odometryAlignXPID = new PIDController(Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignXkI, Constants.AutoAlign.odometryAlignXkD);
     private static PIDController odometryAlignYPID = new PIDController(Constants.AutoAlign.odometryAlignYkP, Constants.AutoAlign.odometryAlignYkI, Constants.AutoAlign.odometryAlignYkD);
+    private static PIDController translationAlignXPID = new PIDController(Constants.AutoAlign.translationAlignXkP, Constants.AutoAlign.translationAlignXkI, Constants.AutoAlign.translationAlignXkD);
+    private static PIDController translationAlignYPID = new PIDController(Constants.AutoAlign.translationAlignYkP, Constants.AutoAlign.translationAlignYkI, Constants.AutoAlign.translationAlignYkD);
 
 
     Drivebase drive = new Drivebase();
@@ -69,12 +71,13 @@ public class AutoAlign {
         return LimelightCameraWrapper.isAlignedToConeNode();
     }
     public static boolean alignToPiece(){
-        // LimelightCameraWrapper.setPipeline(1);
+        LimelightCameraWrapper.setPipeline(0);
 
         if(LimelightCameraWrapper.hasTargets()){
             double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
-            SmartDashboard.putNumber("PIDOutput", movementY);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), 0); //TODO: might need to change for 2nd cube
+            SmartDashboard.putNumber("PIDOutput", -movementY);
+            // Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), 0); //TODO: might need to change for 2nd cube
+            Drivebase.driveRobotRelativeRotation(new Translation2d(-movementY,0 ), 0); //TODO: might need to change for 2nd cube
             // Drivebase.driveFieldRelativeHeading(new Translation2d(0.1, 0), -180);
         }
         return LimelightCameraWrapper.isAlignedToGamePiece();
@@ -213,8 +216,8 @@ public class AutoAlign {
                     }
                     break;
                 case InPosition:
-                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
-                                            IO.keyInputSubstationPosition.getY()), 0);
+                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
+                                            IO.keyInputSubstationPosition.getY()));
             }
         }
         return false;

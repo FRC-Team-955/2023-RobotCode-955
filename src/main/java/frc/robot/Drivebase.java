@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Sensors.Gyro;
+import frc.robot.Subsystems.Claw;
 import frc.robot.Swerve.SwerveDrive;
 
 
@@ -51,7 +52,11 @@ public class Drivebase {
             Gyro.set(90);
             SwerveDrive.headingSetPoint = -180;
             Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
-        }else {
+        }else if (IO.Drivebase.robotForwardMove()){
+            Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
+            Claw.intakeGamePiece();
+        }
+        else {
             headingSetPointSave = SwerveDrive.headingSetPoint;
             Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation(), false);
         }
