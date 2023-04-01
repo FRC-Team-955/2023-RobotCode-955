@@ -7,6 +7,7 @@ public class Constants {
     public static class IO{
         public static class Joy0{
             public static final int joy0Id = 0;
+            public static final double swerveDeadband = 0.15;
             public static int forwardRawAxis = 0;
             public static int strafeRawAxis = 1;
             public static int rotAxis = 4;

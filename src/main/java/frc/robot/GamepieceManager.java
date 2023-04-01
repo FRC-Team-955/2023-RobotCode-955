@@ -188,32 +188,12 @@ public class GamepieceManager {
     public static boolean runExtention(){
         elevatorInPosition = Elevator.setElevator();
         armInPosition = Arm.setArm();
-        // return true;
         return elevatorInPosition && armInPosition;
     }
     public static boolean extention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
-        // //Elevator then arm for normal, arm then elevator for retract
-        // if(gridRowPosition == GridRowPosition.Retract && armRowPosition == GridArmPosition.Retract){
-        //     Arm.setArm(armRowPosition);
-        //     armInPosition = Arm.setArm();
-        //     if (armInPosition){
-        //         Elevator.setElevator(gridRowPosition);
-        //     }
-
-        // }else{
-        //     Elevator.setElevator(gridRowPosition);
-        //     elevatorInPosition = Elevator.setElevator();
-        //     if (elevatorInPosition){
-        //         Arm.setArm(armRowPosition);
-        //     }
-        // }
         Arm.setArm(armRowPosition);
         Elevator.setElevator(gridRowPosition);
         return runExtention();
-        // elevatorInPosition = Elevator.setElevator();
-        // armInPosition = Arm.setArm();
-
-        // return elevatorInPosition && armInPosition;
     }
     public static boolean extentionElevatorFirst(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
         Elevator.setElevator(gridRowPosition);

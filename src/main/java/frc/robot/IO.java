@@ -102,18 +102,17 @@ public final class IO {
         public static double getSwerveRotation(){
             //What is axis number reffering too?
             double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis);
-            double deadband = 0.15;
 
             // rotAxis = isThrustActive() ? rotAxis : rotAxis*Constants.Drivebase.speed;
 
-            if (Math.abs(rotAxis) < Math.abs(deadband)) return 0.0;
+            if (Math.abs(rotAxis) < Math.abs(Constants.IO.Joy0.swerveDeadband)) return 0.0;
             
             // return deadband * Math.signum(rotAxis) + ((rotAxis - deadband) / (1.0 - deadband));
 
-            if (Math.abs(rotAxis) < 0.15) {
+            if (Math.abs(rotAxis) < Constants.IO.Joy0.swerveDeadband) {
                 return 0.0;
             } else {
-                return SwerveSettings.SwerveConstants.maxAngularVelocity * (rotAxis - (Math.signum(rotAxis) * 0.15)) / (1 - 0.15);
+                return SwerveSettings.SwerveConstants.maxAngularVelocity * (rotAxis - (Math.signum(rotAxis) * Constants.IO.Joy0.swerveDeadband)) / (1 - Constants.IO.Joy0.swerveDeadband);
             }
         }
 
@@ -136,11 +135,11 @@ public final class IO {
             Translation2d tAxes = new Translation2d(isThrustActive() ? forwardRawAxis*Constants.Drivebase.slowSpeed : forwardRawAxis, isThrustActive() ? strafeRawAxis*Constants.Drivebase.slowSpeed : strafeRawAxis);
 
 
-            if (Math.abs(norm(tAxes)) < 0.15) {
+            if (Math.abs(norm(tAxes)) < Constants.IO.Joy0.swerveDeadband) {
                 return new Translation2d();
             } else {
                 Rotation2d deadband_direction = new Rotation2d(tAxes.getX(), tAxes.getY());
-                Translation2d deadband_vector = fromPolar(deadband_direction, 0.15);
+                Translation2d deadband_vector = fromPolar(deadband_direction, Constants.IO.Joy0.swerveDeadband);
 
                 double scaled_x = tAxes.getX() - (deadband_vector.getX()) / (1 - deadband_vector.getX());
                 double scaled_y = tAxes.getY() - (deadband_vector.getY()) / (1 - deadband_vector.getY());
