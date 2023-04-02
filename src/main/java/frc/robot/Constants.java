@@ -66,7 +66,7 @@ public class Constants {
         public static double intakeRunTime = 0;
         public static double visionWaitTime = 0;
         public static double noHitGridOffset = 0.32;
-        public static double notHitSideWall = 0.4;
+        public static double notHitSideWall = 0.3;
         public static double stopBeforeGamepieceOffset = 1;
 
         //are driver relative changes
@@ -85,8 +85,8 @@ public class Constants {
         public static double redGamePieceOffset1Y =0;
         public static double redGamePieceOffset2X =0;
         public static double redGamePieceOffset2Y =0;
-        public static double redGamePieceOffset3X =0.2;
-        public static double redGamePieceOffset3Y =0.2;
+        public static double redGamePieceOffset3X =0.4;
+        public static double redGamePieceOffset3Y =0.6;
         public static double autoXkP = 2;
         public static double autoYkP = 2;
 
@@ -181,6 +181,7 @@ public class Constants {
         public static double run = -1;
         public static double stopish = -0.3;
         public static double drop = 0.7;
+        public static double dropFast = 1;
     }
 
     public static class AprilTagCamera{
@@ -211,7 +212,7 @@ public class Constants {
         // Arm Motor Id's
         public static int motorID = 19;
         //
-        public static int tolerance = 4;
+        public static int tolerance = 5;
         // Arm Encoder Values
         public static double angleOffset = -124.2786;
         public static double upperAngleOffset = 138.803417;

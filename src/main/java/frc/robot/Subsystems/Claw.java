@@ -38,6 +38,9 @@ public class Claw {
     public static void outputGamePiece(){
         motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.drop);
     }
+    public static void outputGamePieceFast(){
+        motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.dropFast);
+    }
 
     public static void stopishMotor() {
         motor.set(ControlMode.PercentOutput, Constants.Claw.stopish);

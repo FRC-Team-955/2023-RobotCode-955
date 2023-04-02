@@ -130,43 +130,44 @@ public class Robot extends TimedRobot {
   private static Timer cubeAlignTimer = new Timer();
   private static Timer intakeTimer = new Timer();
   private static Timer visionTimer = new Timer();
+  private static Timer cubePlaceTimer = new Timer();
 
   public static Translation2d autoGridSelectionTranslation2d(int position){
     if(position == 0){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid0.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid0.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid0:Constants.FieldPositions.AutoAlignPositions.redGrid0;
     }
     else if(position == 1){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid1.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid1.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid1:Constants.FieldPositions.AutoAlignPositions.redGrid1;
     }
     else if(position == 2){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid2.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid2.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid2:Constants.FieldPositions.AutoAlignPositions.redGrid2;
     }
     else if(position == 3){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid3.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid3.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid3:Constants.FieldPositions.AutoAlignPositions.redGrid3;
     }
     else if(position == 4){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid4.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid4.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid4:Constants.FieldPositions.AutoAlignPositions.redGrid4;
     }
     else if(position == 5){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid5.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid5.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid5:Constants.FieldPositions.AutoAlignPositions.redGrid5;
     }
     else if(position == 6){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid6.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid6.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid6:Constants.FieldPositions.AutoAlignPositions.redGrid6;
     }
     else if(position == 7){
       isAutoConeNodePosition = false;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid7.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid7.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid7:Constants.FieldPositions.AutoAlignPositions.redGrid7;
     }
     else if(position == 8){
       isAutoConeNodePosition = true;
-      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid8.plus(new Translation2d(Constants.Auto.noHitGridOffset,0)):Constants.FieldPositions.AutoAlignPositions.redGrid8.minus(new Translation2d(Constants.Auto.noHitGridOffset,0));
+      return Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGrid8:Constants.FieldPositions.AutoAlignPositions.redGrid8;
     }else{
       return Drivebase.getPose().getTranslation();
     }
@@ -535,19 +536,22 @@ public class Robot extends TimedRobot {
             break;
           case Place:
             if (numberOfGamepiecesPlaced !=0){
-              AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:
+              AutoAlign.alignOdometrykP(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:
                                                                               Constants.FieldPositions.nearGridRedX, 
                                                                               autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY()):
                                                             autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.noHitGridOffset,0):new Translation2d(Constants.Auto.noHitGridOffset,0)), 
-                                        -180);
+                                                            // .plus(Constants.isBlue()?new Translation2d(-Constants.Auto.noHitGridOffset,0):new Translation2d(Constants.Auto.noHitGridOffset,0))
+                                        -180, 1, 1,0.05);
             }
             Drivebase.updateSwerveOdometry();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            if(GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConeFarReadyHighAuto)){
+            if(GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, isAutoConeNodePosition?IO.GridArmPosition.ConeFarReadyHighAuto:IO.GridArmPosition.coneFarPrepHighAuto)){
               Claw.outputGamePiece();
               numberOfGamepiecesPlaced++;
-              newAutoState = NewAutoState.LeaveNode;
+              if (isAutoConeNodePosition?true:cubePlaceTimer.hasElapsed(0.3)){
+                newAutoState = NewAutoState.LeaveNode;
+              }
             }else{
               Claw.stopishMotor();
             }
@@ -570,8 +574,8 @@ public class Robot extends TimedRobot {
             // else{
             //   newAutoState = NewAutoState.OutCommunity;
             // }
-            if(AutoAlign.alignOdometry(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition), 
-                                      -180)){
+            if(AutoAlign.alignOdometrykP(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridSelectionPosition), 
+                                      -180, Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignYkP, 0.15)){
               //if we have placed all pieces and we want to charge, then go charge
               if(numberOfGamepiecesPlaced == numberOfGamepieces && isCharge){
                 newAutoState = NewAutoState.PrepCharge;
@@ -587,7 +591,8 @@ public class Robot extends TimedRobot {
             break;
           case PrepLeaveCommunity:
             Drivebase.updateSwerveOdometry();
-            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.CubeIntake);
+            // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.CubeIntake);
+            GamepieceManager.extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
             Claw.outputGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
@@ -610,12 +615,12 @@ public class Robot extends TimedRobot {
             break;
           case Turn:
             Drivebase.updateSwerveOdometryNoVision();
-            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.CubeIntake);
+            GamepieceManager.extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
             Claw.outputGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             Drivebase.driveFieldRelativeHeading(new Translation2d(0,0), 0);
-            if (Math.abs(Gyro.getYaw()-90)< 3  && (turnTimer.get() >1.2)){
+            if (Math.abs(Gyro.getYaw()-90)< 3  && (turnTimer.get() >1.1)){
               if (numberOfGamepiecesPlaced == 1){
                 newAutoState = NewAutoState.InFrontOfGamePiece;
               }else{
@@ -626,7 +631,7 @@ public class Robot extends TimedRobot {
             break;
           case OutCommunity:
             Drivebase.updateSwerveOdometryNoVision();
-            GamepieceManager.extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
+            GamepieceManager.extentionArmFirst(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
             Claw.outputGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
@@ -700,11 +705,16 @@ public class Robot extends TimedRobot {
             GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             IntakeV2.retractNoPid();
             Claw.stopishMotor();
-            if(AutoAlign.alignOdometrykP(autoCommunityOutTranslation2d(), -180, Constants.Auto.autoXkP, Constants.Auto.autoYkP ,0.1)){
+            if(AutoAlign.alignOdometrykP(autoCommunityOutTranslation2d(), -180, Constants.Auto.autoXkP, Constants.Auto.autoYkP ,0.15)){
               // newAutoState = NewAutoState.EnterCommunity;
               visionTimer.reset();
               visionTimer.start();
-              newAutoState = NewAutoState.EnterCommunity;
+              // newAutoState = NewAutoState.EnterCommunity; skipping cause don't need it rn
+              if (isAutoConeNodePosition){
+                newAutoState = NewAutoState.AlignPosition;
+              }else{
+                newAutoState = NewAutoState.Place;
+              }
             }
             break;
           case EnterCommunity:
@@ -720,6 +730,8 @@ public class Robot extends TimedRobot {
               if (isAutoConeNodePosition){
                 newAutoState = NewAutoState.AlignPosition;
               }else{
+                cubePlaceTimer.reset();
+                cubePlaceTimer.start();
                 newAutoState = NewAutoState.Place;
               }
             }
