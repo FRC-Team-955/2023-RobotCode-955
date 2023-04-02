@@ -1,7 +1,10 @@
 package frc.robot.Subsystems;
+import java.util.ArrayList;
+
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
@@ -71,6 +74,15 @@ public final class Arm {
         encoderLog = new DoubleLogEntry(log, "/arm/encoder");
         absoluteEncoderLog = new DoubleLogEntry(log, "/arm/absoluteEncoder");
     }
+
+    public static ArrayList<Integer> getDisconnectedMotors() {
+        ArrayList<Integer> disconnectedMotors = new ArrayList<Integer>();
+        if(motor.getFaults() != 0) { // not sure if this is the correct number for no faults
+            disconnectedMotors.add(Constants.Arm.motorID);
+        }
+        return disconnectedMotors;
+    }
+
     public static void setOffset(){
         // encoder.setPosition(-Constants.Arm.angleOffset/3895.05619213716);
         encoder.setPosition(-Constants.Arm.angleOffset/90 * 2.513758659362793);

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,6 +22,11 @@ public class Drivebase {
     public static void updateSwerveOdometry(){
         drive.updateSwerveOdometry();
     }
+
+    public static ArrayList<Integer> getDisconnectedMotors() {
+        return drive.getDisconnectedMotors();
+    }
+
     public static void updateSwerveOdometryNoVision(){
         drive.updateSwerveOdometryNoVision();
     }

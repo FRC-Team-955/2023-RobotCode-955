@@ -3,6 +3,9 @@ package frc.robot.Subsystems;
 import frc.robot.Constants;
 import frc.robot.IO;
 
+import java.util.ArrayList;
+
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -32,6 +35,20 @@ public class IntakeV2 {
         motorLeft.overrideLimitSwitchesEnable(false);
         // motorRight.set(ControlMode.Follower, Constants.IntakeV2.motorLeftID);
         relativeEncoder = handOffMotor.getEncoder(); 
+    }
+
+    public static ArrayList<Integer> getDisconnectedMotors() {
+        ArrayList<Integer> disconnectedMotors = new ArrayList<Integer>();
+        if(handOffMotor.getFaults() != 0) { // not sure if this is the correct number for no faults
+            disconnectedMotors.add(Constants.IntakeV2.handOffMotorID);
+        }
+        if(motorLeft.getFaults(null) != ErrorCode.OK) { // not sure if this is the correct number for no faults
+            disconnectedMotors.add(Constants.IntakeV2.motorLeftID);
+        }
+        if(motorRight.getFaults(null) != ErrorCode.OK) { // not sure if this is the correct number for no faults
+            disconnectedMotors.add(Constants.IntakeV2.motorRightID);
+        }
+        return disconnectedMotors;
     }
 
     public static void setOffset(){

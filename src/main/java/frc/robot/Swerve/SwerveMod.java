@@ -1,5 +1,7 @@
 package frc.robot.Swerve;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
@@ -110,6 +112,17 @@ public class SwerveMod{
         driveEncoderLog = new DoubleLogEntry(log, "/swerve/driveEncoder/"+key);
         angleMotorLog = new DoubleLogEntry(log, "/swerve/angleMotor/"+key);
         turningEncoderLog = new DoubleLogEntry(log, "/swerve/turningEncoder/"+key);
+    }
+
+    public ArrayList<Integer> getDisconnectedMotors() {
+        ArrayList<Integer> disconnectedMotors = new ArrayList<Integer>();
+        if(driveMotor.getFaults() != 0) { // not sure if this is the correct number for no faults
+            disconnectedMotors.add(driveMotor.getDeviceId());
+        }
+        if(angleMotor.getFaults() != 0) { // not sure if this is the correct number for no faults
+            disconnectedMotors.add(angleMotor.getDeviceId());
+        }
+        return disconnectedMotors;
     }
 
     public double deltaAdjustedAngle(double targetAngle, double currentAngle) {

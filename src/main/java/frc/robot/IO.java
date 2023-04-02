@@ -1,11 +1,14 @@
 package frc.robot;
 
+import java.util.ArrayList;
+
 // import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Subsystems.*;
 import frc.robot.Swerve.SwerveSettings;
 
 public final class IO {
@@ -26,6 +29,16 @@ public final class IO {
     // public static double getTestingTrigger() {
     //     return joy0.getRawAxis(3);
     // }
+
+    public static ArrayList<Integer> getDisconnectedMotors() {
+        ArrayList<Integer> disconnectedMotors = new ArrayList<Integer>();
+        disconnectedMotors.addAll(Arm.getDisconnectedMotors());
+        disconnectedMotors.addAll(Claw.getDisconnectedMotors());
+        disconnectedMotors.addAll(Elevator.getDisconnectedMotors());
+        disconnectedMotors.addAll(IntakeV2.getDisconnectedMotors());
+        disconnectedMotors.addAll(frc.robot.Drivebase.getDisconnectedMotors());
+        return disconnectedMotors;
+    }
 
     public static double elevatorFineControl(){
         return -joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);

@@ -1,6 +1,7 @@
 package frc.robot.Subsystems;
 
 import java.lang.invoke.ConstantCallSite;
+import java.util.ArrayList;
 
 // import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
@@ -58,6 +59,15 @@ public class Elevator {
         motorlog = new DoubleLogEntry(log, "/elevator/motor");
         encoderlog = new DoubleLogEntry(log, "/elevator/encoder");
     }
+
+    public static ArrayList<Integer> getDisconnectedMotors() {
+        ArrayList<Integer> disconnectedMotors = new ArrayList<Integer>();
+        if(motor.getFaults() != 0) { // not sure if this is the correct number for no faults
+            disconnectedMotors.add(Constants.Elevator.motorID);
+        }
+        return disconnectedMotors;
+    }
+
     public static void disableElevator(){
         motor.setVoltage(0);
     }

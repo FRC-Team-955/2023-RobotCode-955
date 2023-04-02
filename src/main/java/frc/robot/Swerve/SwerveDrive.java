@@ -85,6 +85,16 @@ public class SwerveDrive {
         }
         poseEstimator = new SwerveDrivePoseEstimator(SwerveSettings.SwerveConstants.swerveKinematics,Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
     }
+
+    public ArrayList<Integer> getDisconnectedMotors() {
+        ArrayList<Integer> disconnectedMotors = new ArrayList<Integer>();
+        disconnectedMotors.addAll(SwerveMods[0].getDisconnectedMotors());
+        disconnectedMotors.addAll(SwerveMods[1].getDisconnectedMotors());
+        disconnectedMotors.addAll(SwerveMods[2].getDisconnectedMotors());
+        disconnectedMotors.addAll(SwerveMods[3].getDisconnectedMotors());
+        return disconnectedMotors;
+    }
+
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
         // if(IO.Drivebase.autoHeadingEnabled()){
         // if(false){

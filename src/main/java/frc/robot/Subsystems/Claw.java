@@ -2,6 +2,9 @@ package frc.robot.Subsystems;
 
 import frc.robot.Constants;
 
+import java.util.ArrayList;
+
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -20,6 +23,14 @@ public class Claw {
         DataLog log = DataLogManager.getLog();
         motorLog = new DoubleLogEntry(log, "/claw/motor");
         motor.configContinuousCurrentLimit(40, 10);
+    }
+
+    public static ArrayList<Integer> getDisconnectedMotors() {
+        ArrayList<Integer> disconnectedMotors = new ArrayList<Integer>();
+        if(motor.getFaults(null) != ErrorCode.OK) { // not sure if this is the correct number for no faults
+            disconnectedMotors.add(Constants.Claw.motorID);
+        }
+        return disconnectedMotors;
     }
 
     public static void logData() {

@@ -635,6 +635,7 @@ public class Robot extends TimedRobot {
             IntakeV2.stopIntake();
             // if(AutoAlign.alignOdometry(autoCommunityOutTranslation2d(), -179)){
             if(AutoAlign.alignOdometry(autoCommunityOutTranslation2d(), 0)){
+// I lost the game
               Drivebase.headingSetPointSave = 0;
               // Drivebase.headingSetPointSave = -179;
               newAutoState = NewAutoState.InFrontOfGamePiece;
@@ -772,6 +773,7 @@ public class Robot extends TimedRobot {
     AutoAlign.displayInformation();
     field2d.setRobotPose(Drivebase.getPose());
     GamepieceManager.displayInformation();
+    SmartDashboard.putString("Disconnected Motors", IO.getDisconnectedMotors().toString());
     // IntakeV2.displayInformation();
     // Elevator.displayInformation();
     // Arm.displayInformation();
@@ -783,50 +785,52 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    selectTeleopState();
-    teleopAllState();
+    if(!(Math.abs(Gyro.getPitch()) > 50 && Math.abs(Gyro.getRoll()) > 50)) {
+      selectTeleopState();
+      teleopAllState();
 
-    switch(robotState){
-      case AUTO_ALIGN:
-        GamepieceManager.autoAlign();
-        IntakeV2.retractNoPid();
-        // if(IO.resetAngle()){
-        //   Gyro.set(90);
-        //   SwerveDrive.headingSetPoint = -180;
-          // AutoAlign.alignRotation = -180;
-        //   Drivebase.headingSetPointSave = 0;
-        // }
+      switch(robotState){
+        case AUTO_ALIGN:
+          GamepieceManager.autoAlign();
+          IntakeV2.retractNoPid();
+          // if(IO.resetAngle()){
+          //   Gyro.set(90);
+          //   SwerveDrive.headingSetPoint = -180;
+            // AutoAlign.alignRotation = -180;
+          //   Drivebase.headingSetPointSave = 0;
+          // }
 
-        break;
-      case AUTO_BALANCE:
-        Drivebase.autoBalance();
-        GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-        IntakeV2.retractNoPid();
-        break;
-      case POWER_SAVING:
-        Claw.intakeFineControl(0);
-        Arm.disableArm();
-        Elevator.disableElevator();
-        IntakeV2.stopIntake();
-        if(resetAngle){
-          SwerveDrive.headingSetPoint = Gyro.getAngle()-90;
-        }
-        resetAngle = false;
-        Drivebase.driveFieldRelativeRotation(new Translation2d(IO.Drivebase.getSwerveTranslation().getX()*0.25,IO.Drivebase.getSwerveTranslation().getY()*0.25), IO.Drivebase.getSwerveRotation()*0.25 ,true);
-        break;
-      default:
-        AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
-        AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
-        GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
+          break;
+        case AUTO_BALANCE:
+          Drivebase.autoBalance();
+          GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+          IntakeV2.retractNoPid();
+          break;
+        case POWER_SAVING:
+          Claw.intakeFineControl(0);
+          Arm.disableArm();
+          Elevator.disableElevator();
+          IntakeV2.stopIntake();
+          if(resetAngle){
+            SwerveDrive.headingSetPoint = Gyro.getAngle()-90;
+          }
+          resetAngle = false;
+          Drivebase.driveFieldRelativeRotation(new Translation2d(IO.Drivebase.getSwerveTranslation().getX()*0.25,IO.Drivebase.getSwerveTranslation().getY()*0.25), IO.Drivebase.getSwerveRotation()*0.25 ,true);
+          break;
+        default:
+          AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
+          AutoAlign.substationAlignState = AutoAlign.SubstationAlignState.AlignedToOdometry;
+          GamepieceManager.placeState = GamepieceManager.PlaceState.Align;
 
-        if(IO.resetAngle()){
-          Gyro.set(90);
-          SwerveDrive.headingSetPoint = -180;
-        }
-        
-        GamepieceManager.loadSequence();
-        GamepieceManager.manageExtension();
-        Drivebase.drive();
+          if(IO.resetAngle()){
+            Gyro.set(90);
+            SwerveDrive.headingSetPoint = -180;
+          }
+          
+          GamepieceManager.loadSequence();
+          GamepieceManager.manageExtension();
+          Drivebase.drive();
+      }
     }
   }
 
