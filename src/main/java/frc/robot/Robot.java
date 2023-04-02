@@ -127,6 +127,7 @@ public class Robot extends TimedRobot {
   public static boolean isAutoConeNodePosition;
 
   private static Timer turnTimer = new Timer();
+  private static Timer cubeAlignTimer = new Timer();
   private static Timer intakeTimer = new Timer();
   private static Timer visionTimer = new Timer();
 
@@ -286,24 +287,26 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    autoTypeSelection = AutoType.Old;
+    autoTypeSelection = AutoType.New;
     autoLeaveSelection = AutoLeaveSelection.Right;
     newAutoLeaveSelection = NewAutoLeaveSelection.Right;
     autoGridSelection = 6;
     autoState = AutoState.Done;
     gamePiecePositionArray = new GamePiecePosition[]{
-      new GamePiecePosition(0,IO.GridRowPosition.HighFarConeAndCube),
-      new GamePiecePosition(1,IO.GridRowPosition.HighFarConeAndCube)
+      new GamePiecePosition(8,IO.GridRowPosition.HighFarConeAuto),
+      new GamePiecePosition(7,IO.GridRowPosition.HighFarConeAndCube)
       // new GamePiecePosition(7,IO.GridRowPosition.Retract)
     };
-    newAutoState = NewAutoState.Done;
+    newAutoState = NewAutoState.Place;
     numberOfGamepieces = gamePiecePositionArray.length;
     numberOfGamepiecesPlaced = 0;
     isAutoConeNodePosition = true;
     SmartDashboard.putData("Field", field2d);
     Drivebase.resetAnglesToAbsolute();
     IntakeV2.setOffset();
-    Arm.setOffset();
+    // Arm.setOffset();
+    Arm.setUpperOffset();
+    Elevator.setOffset();
     switch(autoTypeSelection){
       case Old:
         Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(autoGridSelection),Gyro.getYawR2D()));
@@ -320,8 +323,10 @@ public class Robot extends TimedRobot {
     Drivebase.logData();
     Claw.logData();
     field2d.setRobotPose(Drivebase.getPose());
+    SmartDashboard.putBoolean("isAlignedToGamePiece()", LimelightCameraWrapper.isAlignedToGamePiece());
+    SmartDashboard.putBoolean("hasTargets", LimelightCameraWrapper.hasTargets());
     SmartDashboard.putString("Auto State New or Old", autoTypeSelection == AutoType.New?newAutoState.toString():autoState.toString());
-    // SmartDashboard.putBoolean("isAutoConeNode", isAutoConeNodePosition);
+    SmartDashboard.putBoolean("isAutoConeNode", isAutoConeNodePosition);
     AutoAlign.displayInformation();
     Drivebase.displayInformation();
     if(autoTypeSelection == AutoType.Old){
@@ -329,7 +334,7 @@ public class Robot extends TimedRobot {
     }
     Arm.displayInformation();
   }
-
+  double yAlign = autoGamePieceTranslation2d(true).getY();
   @Override
   public void autonomousPeriodic() {
     autoAllState();
@@ -476,45 +481,47 @@ public class Robot extends TimedRobot {
           //Also get the actual driver relative headings!
           //get offset for staging marks
           //slight pre-turn for prepcommunity out
-          case Setup:
-            Drivebase.updateSwerveOdometry();
-            Claw.intakeGamePiece();
-            IntakeV2.retractNoPid();
-            IntakeV2.reverseIntake();
-            // if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep)){
-            // if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep)){
-              newAutoState = NewAutoState.AlignNode;
-            // }
-            break;
-          case AlignNode:
-            Drivebase.updateSwerveOdometry();
-            Claw.intakeGamePiece();
-            IntakeV2.retractNoPid();
-            IntakeV2.reverseIntake();
-            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConeFarPrepHigh);
-            if(AutoAlign.alignOdometry(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition),
-                                      -180) && 
-              GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConeFarPrepHigh)){
-              if (isAutoConeNodePosition){
-                newAutoState = NewAutoState.AlignPosition;
-              }else{
-                newAutoState = NewAutoState.Place;
-              }
-            }
-            //also get arm into position if it is a cube node, idk if we can pre-extend for cones
-            // if (isAutoConeNodePosition){
-            //   GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
-            // }else{
-            //   GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.CubePrep);
-            // }
-            break;
+
+          // case Setup:
+          //   Drivebase.updateSwerveOdometry();
+          //   Claw.intakeGamePiece();
+          //   IntakeV2.retractNoPid();
+          //   IntakeV2.reverseIntake();
+          //   // if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep)){
+          //   // if (GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep)){
+          //     newAutoState = NewAutoState.AlignNode;
+          //   // }
+          //   break;
+          // case AlignNode:
+          //   Drivebase.updateSwerveOdometry();
+          //   Claw.intakeGamePiece();
+          //   IntakeV2.retractNoPid();
+          //   IntakeV2.reverseIntake();
+          //   GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConeFarPrepHigh);
+          //   if(AutoAlign.alignOdometry(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition),
+          //                             -180) && 
+          //     GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConeFarPrepHigh)){
+          //     if (isAutoConeNodePosition){
+          //       newAutoState = NewAutoState.AlignPosition;
+          //     }else{
+          //       newAutoState = NewAutoState.Place;
+          //     }
+          //   }
+          //   //also get arm into position if it is a cube node, idk if we can pre-extend for cones
+          //   // if (isAutoConeNodePosition){
+          //   //   GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
+          //   // }else{
+          //   //   GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.CubePrep);
+          //   // }
+          //   break;
+
           case AlignPosition:
             Drivebase.updateSwerveOdometry();
             Claw.intakeGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             //have to run it and check it
-            GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConeFarPrepHigh);
+            GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.coneFarPrepHighAuto);
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             if(AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:
@@ -522,20 +529,22 @@ public class Robot extends TimedRobot {
                                                                                 autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY()):
                                                               autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.noHitGridOffset,0):new Translation2d(Constants.Auto.noHitGridOffset,0)), 
                                       -180) &&
-              GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConeFarPrepHigh)){
+              GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.coneFarPrepHighAuto)){
               newAutoState = NewAutoState.Place;
             }
             break;
           case Place:
-            AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:
-                                                                            Constants.FieldPositions.nearGridRedX, 
-                                                                            autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY()):
-                                                          autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.noHitGridOffset,0):new Translation2d(Constants.Auto.noHitGridOffset,0)), 
-                                      -180);
+            if (numberOfGamepiecesPlaced !=0){
+              AutoAlign.alignOdometry(isAutoConeNodePosition?new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:
+                                                                              Constants.FieldPositions.nearGridRedX, 
+                                                                              autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).getY()):
+                                                            autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(Constants.isBlue()?new Translation2d(-Constants.Auto.noHitGridOffset,0):new Translation2d(Constants.Auto.noHitGridOffset,0)), 
+                                        -180);
+            }
             Drivebase.updateSwerveOdometry();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            if(GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConeFarReadyHigh)){
+            if(GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced].gridRowPosition, IO.GridArmPosition.ConeFarReadyHighAuto)){
               Claw.outputGamePiece();
               numberOfGamepiecesPlaced++;
               newAutoState = NewAutoState.LeaveNode;
@@ -546,7 +555,7 @@ public class Robot extends TimedRobot {
           case LeaveNode:
             Drivebase.updateSwerveOdometry();
             Claw.outputGamePiece();
-            GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridRowPosition, IO.GridArmPosition.ConeFarReadyHigh);
+            GamepieceManager.extention(gamePiecePositionArray[numberOfGamepiecesPlaced-1].gridRowPosition, IO.GridArmPosition.ConeFarReadyHighAuto);
             // GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConePrep);
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
@@ -621,7 +630,7 @@ public class Robot extends TimedRobot {
             Claw.outputGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            if(AutoAlign.alignOdometrykP(autoCommunityOutTranslation2d(), 0, Constants.Auto.autoXkP, Constants.Auto.autoYkP)){
+            if(AutoAlign.alignOdometrykP(autoCommunityOutTranslation2d(), 0, Constants.Auto.autoXkP, Constants.Auto.autoYkP ,0.1)){
               Drivebase.headingSetPointSave = 0;
               newAutoState = NewAutoState.InFrontOfGamePiece;
             }
@@ -639,17 +648,16 @@ public class Robot extends TimedRobot {
                                                                                                               Math.sin(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset)):
                                                           autoGamePieceTranslation2d(true).plus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
                                                                                                               Math.sin(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset)), 
-                                      autoGamePieceHeading(), Constants.Auto.autoXkP, Constants.Auto.autoYkP)){
+                                      autoGamePieceHeading(), Constants.Auto.autoXkP, Constants.Auto.autoYkP, 0.1)){
+                  cubeAlignTimer.reset();
+                  cubeAlignTimer.start();
                   newAutoState = NewAutoState.LimelightTranslation;
             }
             break;
           case LimelightTranslation:
-            if(LimelightCameraWrapper.hasTargets()?AutoAlign.alignToPiece():true){
-              Drivebase.setSwerveOdometry(new Pose2d(Constants.isBlue()?autoGamePieceTranslation2d(false).minus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
-                                                                                                                            Math.sin(Math.toRadians(autoGamePieceHeading()))*LimelightCameraWrapper.getDistanceToGamePiece())):
-                                                                        autoGamePieceTranslation2d(false).plus(new Translation2d(Math.cos(Math.toRadians(autoGamePieceHeading()))*Constants.Auto.stopBeforeGamepieceOffset,
-                                                                                                                            Math.sin(Math.toRadians(autoGamePieceHeading()))*LimelightCameraWrapper.getDistanceToGamePiece())), 
-                                                    new Rotation2d(-Gyro.getHeading() + (Constants.isBlue()?90:-90))));
+          Drivebase.updateSwerveOdometryNoVision();
+            if(LimelightCameraWrapper.hasTargets()?(AutoAlign.alignToPiece() && cubeAlignTimer.hasElapsed(0.2)):true){
+              yAlign = Drivebase.getPose().getY();
               newAutoState = NewAutoState.MoveToGamePiece;
             }
             break;
@@ -659,7 +667,10 @@ public class Robot extends TimedRobot {
             GamepieceManager.extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
             IntakeV2.retractNoPid();
             IntakeV2.slowIntake();
-            if(AutoAlign.alignOdometrykP(autoGamePieceTranslation2d(false), autoGamePieceHeading(), Constants.Auto.autoXkP, Constants.Auto.autoYkP)){
+            // if(AutoAlign.alignOdometrykP(autoGamePieceTranslation2d(true), autoGamePieceHeading(), Constants.Auto.autoXkP, Constants.Auto.autoYkP ,0.05)){
+            if(AutoAlign.alignOdometrykP(new Translation2d(autoGamePieceTranslation2d(true).getX(),yAlign), autoGamePieceHeading(), 1, 1 ,0.1)){
+            // Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
+            // if(Constants.isBlue()?Drivebase.getPose().getX()> autoGamePieceTranslation2d(true).getX():Drivebase.getPose().getX()< autoGamePieceTranslation2d(true).getX()){
               intakeTimer.reset();
               intakeTimer.start();
               newAutoState = NewAutoState.GetGamePiece;
@@ -671,12 +682,13 @@ public class Robot extends TimedRobot {
             GamepieceManager.extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
             IntakeV2.retractNoPid();
             IntakeV2.slowIntake();
-            AutoAlign.alignOdometrykP(autoGamePieceTranslation2d(false), autoGamePieceHeading(), Constants.Auto.autoXkP, Constants.Auto.autoYkP);
+            // AutoAlign.alignOdometrykP(autoGamePieceTranslation2d(true), autoGamePieceHeading(), Constants.Auto.autoXkP, Constants.Auto.autoYkP,0.05);
+            Drivebase.driveRobotRelativeRotation(new Translation2d(0,-0.2), 0);
             if (intakeTimer.hasElapsed(Constants.Auto.intakeRunTime) ){
               Drivebase.headingSetPointSave = SwerveDrive.headingSetPoint;
               // Drivebase.setSwerveOdometry(new Pose2d(autoGamePieceTranslation2d(false),Gyro.getYawR2D()));
-              newAutoState = NewAutoState.Done;
-              // newAutoState = NewAutoState.PrepEnterCommunity;
+              // newAutoState = NewAutoState.Done;
+              newAutoState = NewAutoState.PrepEnterCommunity;
 
             }
             break;
@@ -688,7 +700,7 @@ public class Robot extends TimedRobot {
             GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             IntakeV2.retractNoPid();
             Claw.stopishMotor();
-            if(AutoAlign.alignOdometrykP(autoCommunityOutTranslation2d(), -180, Constants.Auto.autoXkP, Constants.Auto.autoYkP)){
+            if(AutoAlign.alignOdometrykP(autoCommunityOutTranslation2d(), -180, Constants.Auto.autoXkP, Constants.Auto.autoYkP ,0.1)){
               // newAutoState = NewAutoState.EnterCommunity;
               visionTimer.reset();
               visionTimer.start();
@@ -705,8 +717,11 @@ public class Robot extends TimedRobot {
             Claw.stopishMotor();
             AutoAlign.alignOdometry(autoCommunityOutTranslation2d(), -180);
             if (visionTimer.hasElapsed(Constants.Auto.visionWaitTime) ){
-              // newAutoState = NewAutoState.AlignNode;
-              newAutoState = NewAutoState.AlignPosition;
+              if (isAutoConeNodePosition){
+                newAutoState = NewAutoState.AlignPosition;
+              }else{
+                newAutoState = NewAutoState.Place;
+              }
             }
             break;
           case Done:
@@ -766,7 +781,7 @@ public class Robot extends TimedRobot {
 
     GamepieceManager.displayInformation();
     // IntakeV2.displayInformation();
-    // Elevator.displayInformation();
+    Elevator.displayInformation();
     Arm.displayInformation();
     // Gyro.displayInformation();
     // Gyro.displayInformation();
@@ -778,8 +793,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     selectTeleopState();
     teleopAllState();
-    SmartDashboard.putNumber("getHorizontalOffset()", LimelightCameraWrapper.getHorizontalOffset());
-    SmartDashboard.putNumber("getVerticalOffset()", LimelightCameraWrapper.getVerticalOffset());
+    // SmartDashboard.putNumber("getHorizontalOffset()", LimelightCameraWrapper.getHorizontalOffset());
+    // SmartDashboard.putNumber("getVerticalOffset()", LimelightCameraWrapper.getVerticalOffset());
     SmartDashboard.putBoolean("isAlignedToGamePiece()", LimelightCameraWrapper.isAlignedToGamePiece());
     SmartDashboard.putBoolean("hasTargets", LimelightCameraWrapper.hasTargets());
     SmartDashboard.putNumber("offset",  LimelightCameraWrapper.getHorizontalOffset() - Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
@@ -789,8 +804,8 @@ public class Robot extends TimedRobot {
       case AUTO_ALIGN:
         // GamepieceManager.manageExtension();
 
-        // GamepieceManager.autoAlign();
-        AutoAlign.alignToPiece();
+        GamepieceManager.autoAlign();
+        // AutoAlign.alignToPiece();
 
         IntakeV2.retractNoPid();
         if(IO.resetAngle()){

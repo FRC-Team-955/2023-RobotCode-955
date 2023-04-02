@@ -19,7 +19,7 @@ public class AutoAlign {
 
     Drivebase drive = new Drivebase();
 
-    public static boolean alignOdometrykP(Translation2d goalTranslation, double heading, double XkP, double YkP){
+    public static boolean alignOdometrykP(Translation2d goalTranslation, double heading, double XkP, double YkP, double alignTolerance){
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
@@ -34,11 +34,11 @@ public class AutoAlign {
 
         Drivebase.driveFieldRelativeHeading(translation, heading);
 
-        return (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTolerance && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTolerance);
+        return (Math.abs(goalPoseX - poseX) < alignTolerance && Math.abs(goalPoseY - poseY) < alignTolerance);
      
     }
     public static boolean alignOdometry(Translation2d goalTranslation, double heading){
-        return alignOdometrykP(goalTranslation, heading, Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignYkP);
+        return alignOdometrykP(goalTranslation, heading, Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignYkP, Constants.AutoAlign.alignTolerance);
     }
     public static boolean alignTranslation(Translation2d goalTranslation){
         Pose2d pose = Drivebase.getPose();
@@ -81,7 +81,6 @@ public class AutoAlign {
         LimelightCameraWrapper.setPipeline(0);
         if(LimelightCameraWrapper.hasTargets()){
             double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
-            SmartDashboard.putNumber("PIDOutput", -movementY);
             Drivebase.driveRobotRelativeRotation(new Translation2d(-movementY,0 ), 0); //TODO: might need to change for 2nd cube\
         }
         return LimelightCameraWrapper.isAlignedToGamePiece();

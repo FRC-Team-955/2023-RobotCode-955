@@ -182,7 +182,7 @@ public final class IO {
         CubeRetract,
         ConeIntake,
         Up, 
-        NewHybrid, ConeClosePrepMid, ConeClosePrepHigh, ConeCloseReadyMid, ConeCloseReadyHigh
+        NewHybrid, ConeClosePrepMid, ConeClosePrepHigh, ConeCloseReadyMid, ConeCloseReadyHigh, coneFarPrepHighAuto, ConeFarReadyHighAuto
     }
     public static GridArmPosition gridArmPosition = GridArmPosition.Retract;
     
@@ -196,7 +196,7 @@ public final class IO {
         DoubleSubstation,
         CubeIntake, 
         CubeRetract,
-        ConeIntake, ConeCloseHigh, ConeCloseMid
+        ConeIntake, ConeCloseHigh, ConeCloseMid, HighFarConeAuto
     }
     public static enum GridNodeType{
         ConeFar,

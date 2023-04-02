@@ -46,7 +46,8 @@ public class LimelightCameraWrapper {
         if(!hasTargets()){
             return Constants.Auto.stopBeforeGamepieceOffset;
         }
-        return Constants.LimelightCamera.gamePieceVerticalToDistanceA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToDistanceB, getVerticalOffset());
+
+        return Constants.LimelightCamera.gamePieceVerticalToDistanceB + Constants.LimelightCamera.gamePieceVerticalToDistanceA * Math.log( getVerticalOffset());
     }
 
     public static void setPipeline(int pipelineIndex){

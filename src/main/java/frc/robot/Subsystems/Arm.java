@@ -66,8 +66,11 @@ public final class Arm {
     }
     public static void setOffset(){
         // encoder.setPosition(-Constants.Arm.angleOffset/3895.05619213716);
-        encoder.setPosition(-Constants.Arm.angleOffset/90 * 2.513758659362793);
+        encoder.setPosition(Constants.Arm.angleOffset/90 * 2.513758659362793);
         // encoder.setPosition(0);
+    }
+    public static void setUpperOffset(){
+        encoder.setPosition(Constants.Arm.upperAngleOffset/90 * 2.513758659362793);
     }
     public static double getOffsetPosition(){
         return encoder.getPosition() * 90 / 2.513758659362793;
@@ -144,6 +147,14 @@ public final class Arm {
                 setpoint = Constants.Arm.coneFarReadyHigh;
                 armRetract = false;
                 break;
+            case coneFarPrepHighAuto:
+                setpoint = Constants.Arm.coneFarPrepHighAuto;
+                armRetract = false;
+                break;  
+            case ConeFarReadyHighAuto:
+                setpoint = Constants.Arm.coneFarReadyHighAuto;
+                armRetract = false;
+                break;
             case CubePrep:
                 setpoint = Constants.Arm.cubePrep;
                 armRetract = false;
@@ -205,17 +216,17 @@ public final class Arm {
         return false;
     }
     public static boolean atConeFarPrepHighPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.coneFarPrepHigh) < Constants.Arm.tolerance;
+        return Math.abs(getOffsetPosition() - Constants.Arm.coneFarPrepHigh) <20;
     }
     public static boolean atConeFarPrepMidPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.coneFarPrepMid) < Constants.Arm.tolerance;
+        return Math.abs(getOffsetPosition() - Constants.Arm.coneFarPrepMid) < 20;
     }
 
     public static boolean atConeClosePrepHighPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.coneClosePrepHigh) < Constants.Arm.tolerance;
+        return Math.abs(getOffsetPosition() - Constants.Arm.coneClosePrepHigh) < 20;
     }
     public static boolean atConeClosePrepMidPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.coneClosePrepMid) < Constants.Arm.tolerance;
+        return Math.abs(getOffsetPosition() - Constants.Arm.coneClosePrepMid) < 20;
     }
 
     public static boolean atRetractedPosition(){

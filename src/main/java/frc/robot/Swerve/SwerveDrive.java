@@ -73,10 +73,10 @@ public class SwerveDrive {
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
             // The original offset for mod0: 253.775
-            new SwerveMod(0, 8, 7, 9, 253.775+2.373, "mod0"),
+            new SwerveMod(0, 8, 7, 9, 253.775+2.373 - 0.615, "mod0"),
             new SwerveMod(1, 2, 1, 11, 123.886, "mod1"),
             new SwerveMod(2, 4, 3, 10, 309.223, "mod2"),
-            new SwerveMod(3, 6, 5, 12, 250.524-24.52-17.92, "mod3"),
+            new SwerveMod(3, 6, 5, 12, 250.524-24.52-17.92 -10.54686, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];
@@ -278,7 +278,8 @@ public class SwerveDrive {
         // Json = deployDirectory.toString();
 
 
-        Gyro.set(0);
+        // Gyro.set(0); //old
+        Gyro.set(trajectory.getInitialPose().getRotation().getDegrees()+ 90);
         // ahrs.setAngleAdjustment(0);
          //                                                       The robot fields angle (in pathweaver rotation)
         // System.out.println("trajectory: " +trajectory.getInitialPose().getRotation());
@@ -290,7 +291,6 @@ public class SwerveDrive {
     }
 
     public boolean followTrajectory(double holonomicRotation){
-     
         updateSwerveOdometry();
         Trajectory.State goal = trajectory.sample(timer.get());
                     //                                                          rotation in Path Weaver

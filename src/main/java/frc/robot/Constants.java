@@ -63,11 +63,11 @@ public class Constants {
     public static class Auto{
         public static double prepLeaveOffset = 1;
         public static double communitySideOut = 2;
-        public static double intakeRunTime = .01;
-        public static double visionWaitTime = 0.25;
+        public static double intakeRunTime = 0;
+        public static double visionWaitTime = 0;
         public static double noHitGridOffset = 0.32;
         public static double notHitSideWall = 0.4;
-        public static double stopBeforeGamepieceOffset = 0.6;
+        public static double stopBeforeGamepieceOffset = 1;
 
         //are driver relative changes
         public static double blueGamePieceOffset0X =0.45;
@@ -86,8 +86,7 @@ public class Constants {
         public static double redGamePieceOffset2X =0;
         public static double redGamePieceOffset2Y =0;
         public static double redGamePieceOffset3X =0.2;
-        // public static double redGamePieceOffset3Y =1;
-        public static double redGamePieceOffset3Y =0.62;
+        public static double redGamePieceOffset3Y =0.2;
         public static double autoXkP = 2;
         public static double autoYkP = 2;
 
@@ -99,7 +98,7 @@ public class Constants {
         public static final double aprilTagAlignXkI = 0;
         public static final double aprilTagAlignXkD = 0;
         //need to test
-        public static double limelightAlignXkP = 0.1;
+        public static double limelightAlignXkP = 0.05;
         public static double limelightAlignXkI = 0;
         public static double limelightAlignXkD = 0;
 
@@ -204,8 +203,8 @@ public class Constants {
 
         public static double gamePieceVerticalToHorizontalA = 2.5677;
         public static double gamePieceVerticalToHorizontalB = 1.0672;
-        public static double gamePieceVerticalToDistanceA = 2.5677;
-        public static double gamePieceVerticalToDistanceB = 1.0672;
+        public static double gamePieceVerticalToDistanceA = -1.36;
+        public static double gamePieceVerticalToDistanceB = 5.36;
     }
     
     public static final class Arm {
@@ -214,7 +213,8 @@ public class Constants {
         //
         public static int tolerance = 4;
         // Arm Encoder Values
-        public static double angleOffset = 124.2786;
+        public static double angleOffset = -124.2786;
+        public static double upperAngleOffset = 138.803417;
         // public static double angleOffset = 0;
         public static double upperLimit = 87.5;
         public static double lowerLimit = -111.4;
@@ -235,8 +235,11 @@ public class Constants {
 
         public static final int coneClosePrepHigh = 45;
         public static final int coneCloseReadyHigh = 25;
+
         public static final int coneFarPrepHigh = 42;
         public static final int coneFarReadyHigh = 22;
+        public static int coneFarPrepHighAuto = 35;
+        public static int coneFarReadyHighAuto = 15;
         // public static int conePrepHigh = 42;
         // public static int coneReadyHigh = 22;
 
@@ -271,6 +274,7 @@ public class Constants {
     public final static class Elevator {
         // Elevator Motor Id's
         public static int motorID = 20;
+        public static double elevatorOffset = 1.04761993;
         // Elevator Encoder Values
         public static double upperLimit = 28;
         public static double lowerLimit = 5;
@@ -285,6 +289,7 @@ public class Constants {
         public static double coneFarMid =18;
         public static final double coneCloseHigh = 27;
         public static final double highFarConeAndCube = 29;
+        public static double highFarConeAuto = 26;
         // public static double high = 28;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;

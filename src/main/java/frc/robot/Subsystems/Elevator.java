@@ -56,6 +56,9 @@ public class Elevator {
         motorlog = new DoubleLogEntry(log, "/elevator/motor");
         encoderlog = new DoubleLogEntry(log, "/elevator/encoder");
     }
+    public static void setOffset(){
+        encoder.setPosition(1.08761993);
+    }
     public static void disableElevator(){
         motor.setVoltage(0);
     }
@@ -110,6 +113,10 @@ public class Elevator {
                 setpoint = Constants.Elevator.highFarConeAndCube;
                 elevatorRetract = false;
                 break;
+            case HighFarConeAuto:
+                setpoint = Constants.Elevator.highFarConeAuto;
+                elevatorRetract = false;
+                break;
             case SingleSubstation:
                 setpoint = Constants.Elevator.singleSubstation;
                 elevatorRetract = true;
@@ -144,7 +151,7 @@ public class Elevator {
         return false;
     }
     public static void displayInformation(){
-        SmartDashboard.putBoolean("Set Elevator", Math.abs(encoder.getPosition() - setpoint) < Constants.Elevator.tolerance);
+        // SmartDashboard.putBoolean("Set Elevator", Math.abs(encoder.getPosition() - setpoint) < Constants.Elevator.tolerance);
         SmartDashboard.putNumber("elevatorpostion", encoder.getPosition());
     }
 }
