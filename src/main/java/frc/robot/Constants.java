@@ -65,22 +65,23 @@ public class Constants {
         public static double communitySideOut = 2;
         public static double intakeRunTime = 0;
         public static double visionWaitTime = 0;
-        public static double noHitGridOffset = 0.32;
-        public static double notHitSideWall = 0.3;
+        // public static double noHitGridOffset = 0.32;
+        public static double noHitGridOffset = 0;
+        public static double notHitSideWall = 0.4;
         public static double stopBeforeGamepieceOffset = 1;
 
         //are driver relative changes
-        public static double blueGamePieceOffset0X =0.45;
-        public static double blueGamePieceOffset0Y =0;
+        public static double blueGamePieceOffset0X =0.4;
+        public static double blueGamePieceOffset0Y =1.4;
         public static double blueGamePieceOffset1X =0;
         public static double blueGamePieceOffset1Y =0;
         public static double blueGamePieceOffset2X =0;
         public static double blueGamePieceOffset2Y =0;
-        public static double blueGamePieceOffset3X =0;
+        public static double blueGamePieceOffset3X =0.4;
         public static double blueGamePieceOffset3Y =0;
 
-        public static double redGamePieceOffset0X =0;
-        public static double redGamePieceOffset0Y =0;
+        public static double redGamePieceOffset0X =0.6;
+        public static double redGamePieceOffset0Y =1;
         public static double redGamePieceOffset1X =0;
         public static double redGamePieceOffset1Y =0;
         public static double redGamePieceOffset2X =0;
@@ -110,11 +111,11 @@ public class Constants {
         public static final double odometryAlignYkI = 0;
         public static final double odometryAlignYkD = 0;
 
-        public static double translationAlignXkP = 2;
+        public static double translationAlignXkP = 4;
         public static double translationAlignXkI = 0;
         public static double translationAlignXkD = 0;
         
-        public static double translationAlignYkP = 2;
+        public static double translationAlignYkP = 4;
         public static double translationAlignYkI = 0;
         public static double translationAlignYkD = 0;
 

@@ -46,10 +46,10 @@ public class AutoAlign {
         double poseY = pose.getY();
         double goalPoseX = goalTranslation.getX();
         double goalPoseY = goalTranslation.getY();
-        double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
-        double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
-        // double movementX = translationAlignXPID.calculate(poseX, goalPoseX);
-        // double movementY = translationAlignYPID.calculate(poseY, goalPoseY);
+        // double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
+        // double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
+        double movementX = translationAlignXPID.calculate(poseX, goalPoseX);
+        double movementY = translationAlignYPID.calculate(poseY, goalPoseY);
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
 
