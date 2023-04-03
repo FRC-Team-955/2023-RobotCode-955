@@ -284,9 +284,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     autoTypeSelection = AutoType.Old;
-    autoLeaveSelection = AutoLeaveSelection.Left;
-    newAutoLeaveSelection = NewAutoLeaveSelection.Right;
-    autoGridSelection = 2;
+    autoLeaveSelection = AutoLeaveSelection.Charge;
+    newAutoLeaveSelection = NewAutoLeaveSelection.Left;
+    autoGridSelection = 5;
     autoState = AutoState.Setup; //AutoState.Setup for games
     gamePiecePositionArray = new GamePiecePosition[]{
       new GamePiecePosition(8,IO.GridRowPosition.High),
@@ -447,7 +447,7 @@ public class Robot extends TimedRobot {
                   autoState = AutoState.AutoBalance;
                 }else{
                   // Drivebase.driveFieldRelativeHeading(new Translation2d(0,-2), -180);
-                  Drivebase.driveRobotRelativeRotation(new Translation2d(0,2), 0);
+                  Drivebase.driveRobotRelativeRotation(new Translation2d(2,0), 0);
                 }
                 break;
               case None:
@@ -739,7 +739,7 @@ public class Robot extends TimedRobot {
               newAutoState = NewAutoState.AutoBalance;
             }else{
               // Drivebase.driveFieldRelativeHeading(new Translation2d(0,-2), -180);
-              Drivebase.driveRobotRelativeRotation(new Translation2d(0,2), 0);
+              Drivebase.driveRobotRelativeRotation(new Translation2d(2,0), 0);
             }
             break;
           case AutoBalance:

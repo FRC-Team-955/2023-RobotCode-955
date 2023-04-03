@@ -142,7 +142,6 @@ public class GamepieceManager {
         // if clawDropPiece is pressed (Page Down) and the Arm is in position of up, then drop the cone in the intake
         else if (IO.clawDropPiece() && Arm.setpoint == Constants.Arm.up){
             IntakeV2.reverseIntake();
-            Claw.outputGamePiece();
         }
         // if clawDropPiece is pressed (Page Down), then output
         else if(IO.clawDropPiece()){
