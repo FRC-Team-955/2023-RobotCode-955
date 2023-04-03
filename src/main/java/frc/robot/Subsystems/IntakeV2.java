@@ -62,7 +62,7 @@ public class IntakeV2 {
         return false;
     }
     public static boolean extendNoPidDrop(){
-        if(getPosition() < 12){
+        if(getPosition() < 14){
             motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
             motorRight.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
         }else{

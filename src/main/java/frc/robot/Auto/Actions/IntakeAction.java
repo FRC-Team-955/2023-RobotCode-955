@@ -17,7 +17,7 @@ public class IntakeAction extends AutoAction{
     public boolean Act() {
         timer.start();
         if (timer.hasElapsed(time)) {
-            GamepieceManager.runFlapsAuto(speed);
+            // GamepieceManager.runFlapsAuto(speed);
             return true;
         }
         return false;

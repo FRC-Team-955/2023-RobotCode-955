@@ -111,19 +111,19 @@ public class Constants {
         public static double gamePieceTelopAlignXkI = 0;
         public static double gamePieceTelopAlignXkD = 0;
 
-        public static final double odometryAlignXkP = 5;
+        public static final double odometryAlignXkP = 4;
         public static final double odometryAlignXkI = 0;
         public static final double odometryAlignXkD = 0;
         
-        public static final double odometryAlignYkP = 5;
+        public static final double odometryAlignYkP = 4;
         public static final double odometryAlignYkI = 0;
         public static final double odometryAlignYkD = 0;
 
-        public static double translationAlignXkP = 4;
+        public static double translationAlignXkP = 3;
         public static double translationAlignXkI = 0;
         public static double translationAlignXkD = 0;
         
-        public static double translationAlignYkP = 4;
+        public static double translationAlignYkP = 3;
         public static double translationAlignYkI = 0;
         public static double translationAlignYkD = 0;
 
@@ -176,9 +176,9 @@ public class Constants {
         public static double intakeAmpThreshhold = 30;
         public static double handOffMotorRunFullSpeed = 1;//.5
         public static double handOffMotorRun = 0.5;//.5
-        public static double handOffMotorSlow = 0.3;//.4
+        public static double handOffMotorSlow = 0.2;//.4
         // public static double handoffMotorReverse = -0.15; //-.15
-        public static double handoffMotorReverse = -0.2; //-.15
+        public static double handoffMotorReverse = -0.4; //-.15
 
         public static double ExtendPosition = 1.2;
         public static double RetractPosition = 2.1;
@@ -244,8 +244,8 @@ public class Constants {
         public static int coneFarPrepMid = 23;
         public static int coneFarReadyMid = 0;
 
-        public static final int coneClosePrepHigh = 45;
-        public static final int coneCloseReadyHigh = 25;
+        public static final int coneClosePrepHigh = 40;
+        public static final int coneCloseReadyHigh = 20;
 
         public static final int coneFarPrepHigh = 42;
         public static final int coneFarReadyHigh = 22;
@@ -298,8 +298,8 @@ public class Constants {
         // For Mid Cone
         public static double coneCloseMid = 0.5;
         public static double coneFarMid =18;
-        public static final double coneCloseHigh = 27;
-        public static final double highFarConeAndCube = 30 +2; //edit
+        public static final double coneCloseHigh = 28;
+        public static final double highFarConeAndCube = 30; //edit
         public static double highFarConeAuto = 26;
         // public static double high = 28;
         // public static double doubleSubstationPosition = 30;
@@ -362,7 +362,7 @@ public class Constants {
         public static double inBlueLoadingZoneX = fieldX - inRedLoadingZoneX;
         
         public static double inLoadingZoneY = inCommunityY;
-        public static double noHitCubeOffset =  0.1778 - 0.05;
+        public static double noHitCubeOffset = 0;
         public static double nearGridOffset =-0.07;
         // public static double atAtGridOffset = -0.115;
         public static double atAtGridOffset = -0.2;
