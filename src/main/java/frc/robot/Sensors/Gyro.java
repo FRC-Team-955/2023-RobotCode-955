@@ -3,10 +3,7 @@ package frc.robot.Sensors;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.*;
 import com.ctre.phoenix.sensors.Pigeon2;
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil; 
 
@@ -14,69 +11,54 @@ public class Gyro {
     //add gryo id to constants
     static Pigeon2 primary = new Pigeon2(30, "electrical_problem");
 
-    static AHRS backup = new AHRS(Port.kMXP);
-
     //static Pigeon2 backup = new Pigeon2(0, null);
-    public enum GyroStatus {
-        GOOD,
-        BACKUP,
-        FAILIURE
-    }
 
-    public static GyroStatus gyroStatus;
+
 
      /**
      * @return acummulated rotaton -inf - inf
      */
     public static double getAngle() {
-        if (primary.getFaults(null) == ErrorCode.OK) {
-            gyroStatus = GyroStatus.GOOD;
+        // if ((primary.getFaults(null) == ErrorCode.OK && backup.getFaults(null) == ErrorCode.OK)) {
+        //     return (-backup.getYaw() - primary.getYaw()) / 2;
+        // }
+        // else if (primary.getFaults(null) == ErrorCode.OK) {
             return -primary.getYaw();
-        }
-        else if (backup.isConnected()) {
-            gyroStatus = GyroStatus.BACKUP;
-            return (double) backup.getYaw();
-        }
-        else {
-            gyroStatus = GyroStatus.FAILIURE;
-            onFailiure();
-            return 0;
-        }
+        // }
+        // else if (primary.getFaults(null) == ErrorCode.OK) {
+        //     return -backup.getYaw();
+        // }
+        // else return 0;
+        //return -pigeon.getYaw(); 
     }; 
      /**
      * @return acummulated rotaton -179 - 180
      */
 
     public static double getPitch() {
-        if (primary.getFaults(null) == ErrorCode.OK) {
-            gyroStatus = GyroStatus.GOOD;
+        // if ((primary.getFaults(null) == ErrorCode.OK && backup.getFaults(null) == ErrorCode.OK)) {
+        //     return (-backup.getPitch() - primary.getPitch()) / 2;
+        // }
+        // else if (primary.getFaults(null) == ErrorCode.OK) {
             return -primary.getPitch();
-        }
-        else if (backup.isConnected()) {
-            gyroStatus = GyroStatus.BACKUP;
-            return (double) backup.getPitch();
-        }
-        else {
-            gyroStatus = GyroStatus.FAILIURE;
-            onFailiure();
-            return 0;
-        }
+        // }
+        // else if (primary.getFaults(null) == ErrorCode.OK) {
+        //     return -backup.getPitch();
+        // }
+        // else return 0;
     };
 
     public static double getRoll() {
-        if (primary.getFaults(null) == ErrorCode.OK) {
-            gyroStatus = GyroStatus.GOOD;
+        // if ((primary.getFaults(null) == ErrorCode.OK && backup.getFaults(null) == ErrorCode.OK)) {
+        //     return (-backup.getRoll() - primary.getRoll()) / 2;
+        // }
+        // else if (primary.getFaults(null) == ErrorCode.OK) {
             return -primary.getRoll();
-        }
-        else if (backup.isConnected()) {
-            gyroStatus = GyroStatus.BACKUP;
-            return (double) backup.getRoll();
-        }
-        else {
-            gyroStatus = GyroStatus.FAILIURE;
-            onFailiure();
-            return 0;
-        }
+        // }
+        // else if (primary.getFaults(null) == ErrorCode.OK) {
+        //     return -backup.getRoll();
+        // }
+        // else return 0;
     };
 
     public static double getYaw() {
@@ -136,9 +118,5 @@ public class Gyro {
     public static void displayInformation(){
         // SmartDashboard.putNumber("roll", getRoll());
         // SmartDashboard.putNumber("pitch", getPitch());
-    }
-
-    public static void onFailiure() {
-
     }
 };
