@@ -284,16 +284,16 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     autoTypeSelection = AutoType.Old;
-    autoLeaveSelection = AutoLeaveSelection.Charge;
-    newAutoLeaveSelection = NewAutoLeaveSelection.Left;
-    autoGridSelection = 5;
-    autoState = AutoState.Setup; //AutoState.Setup for games
+    autoLeaveSelection = AutoLeaveSelection.Right;
+    newAutoLeaveSelection = NewAutoLeaveSelection.Right;
+    autoGridSelection = 6;
+    autoState = AutoState.Done;
     gamePiecePositionArray = new GamePiecePosition[]{
-      new GamePiecePosition(8,IO.GridRowPosition.High),
-      new GamePiecePosition(7,IO.GridRowPosition.High)
+      new GamePiecePosition(0,IO.GridRowPosition.High),
+      new GamePiecePosition(1,IO.GridRowPosition.High)
       // new GamePiecePosition(7,IO.GridRowPosition.Retract)
     };
-    newAutoState = NewAutoState.Setup;
+    newAutoState = NewAutoState.Done;
     numberOfGamepieces = gamePiecePositionArray.length;
     numberOfGamepiecesPlaced = 0;
     isAutoConeNodePosition = true;
