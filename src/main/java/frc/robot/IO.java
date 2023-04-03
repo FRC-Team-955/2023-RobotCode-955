@@ -155,11 +155,11 @@ public final class IO {
             return joy0.getRawAxis(Constants.IO.Joy0.thrustAxis) > 0.2;
         }
     }
-    public static void rumble0(double strength) {
-        joy0.setRumble(RumbleType.kBothRumble, strength);
+    public static void rumbleJoy0(){
+        joy0.setRumble(RumbleType.kBothRumble, 0.5);
     }
-    public static void rumble1(double strength) {
-        joy1.setRumble(RumbleType.kBothRumble, strength);
+    public static void rumbleJoy1(){
+        joy1.setRumble(RumbleType.kBothRumble, 0.5);
     }
 
     public static Translation2d keyInputOdometryPosition = Constants.isBlue()? Constants.FieldPositions.AutoAlignPositions.blueGrid0: Constants.FieldPositions.AutoAlignPositions.redGrid0;
@@ -394,11 +394,8 @@ public final class IO {
                                                           Constants.FieldPositions.AutoAlignPositions.redSingleSubstation;
         }
     }
-    public static void displayInformation() {
+    public static void displayInformation(){
         SmartDashboard.putString("RowPosition" , IO.gridRowPosition.toString());
         SmartDashboard.putString("ArmPosition" , IO.gridArmPosition.toString());
-    }
-    public static void notifyError(String error) {
-        SmartDashboard.putString("Error", error);
     }
 }
