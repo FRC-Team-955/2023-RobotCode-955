@@ -85,7 +85,7 @@ public class SwerveDrive {
         }
         poseEstimator = new SwerveDrivePoseEstimator(SwerveSettings.SwerveConstants.swerveKinematics,Gyro.getYawR2D(), initPoses, new Pose2d(0.0,0.0,Gyro.getYawR2D()));
     }
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop, boolean useFixedHeading, double heading) {
+    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoopHeading, boolean isOpenLoopDrive, boolean useFixedHeading, double heading) {
         // if(IO.Drivebase.autoHeadingEnabled()){
         // if(false){
         //     rotation = IO.Drivebase.getSwerveRotation();
@@ -123,7 +123,7 @@ public class SwerveDrive {
                     fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
                                         translation.getX(), 
                                         translation.getY(), 
-                                        isOpenLoop?rotation * Constants.Drivebase.turnRate:controller.calculate(Gyro.getAngle()-90, headingSetPoint), 
+                                        isOpenLoopHeading?rotation * Constants.Drivebase.turnRate:controller.calculate(Gyro.getAngle()-90, headingSetPoint), 
                                         Gyro.getHeadingR2D()
                                     )
                                     : new ChassisSpeeds(
@@ -135,7 +135,7 @@ public class SwerveDrive {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveSettings.SwerveConstants.maxSpeed);
 
         for (SwerveMod mod : SwerveMods) {
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
+            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoopDrive);
         }
     }
 

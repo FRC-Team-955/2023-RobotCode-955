@@ -3,16 +3,14 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Auto.Auto;
+import frc.robot.Sensors.LimelightCameraWrapper;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
 import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.IntakeV2;
 
 public class GamepieceManager {
-
-    public static boolean runFlapsAuto(int speed) {
-        return IntakeV2.moveIntake(speed * 4);
-    }
 
     // public static boolean foldIntakeAuto(int position) {
     //     if (position == 0) {
@@ -107,12 +105,13 @@ public class GamepieceManager {
     }
     public static void loadGamepieceCube() {
         Claw.intakeGamePiece();
+        clawTimer.start();
+        clawTimer.reset();
         IntakeV2.retractNoPid();
         if (Arm.atRetractedPosition() || Arm.atCubeRetractPosition()){
             extentionArmFirst(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
         }else{
             extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
-
         }
     }
 
@@ -150,6 +149,7 @@ public class GamepieceManager {
         // if clawDropPiece is pressed (Page Down) and the Arm is in position of up, then drop the cone in the intake
         else if (IO.clawDropPiece() && Arm.setpoint == Constants.Arm.up){
             IntakeV2.reverseIntake();
+            Claw.outputGamePiece();
         }
         // if clawDropPiece is pressed (Page Down), then output
         else if(IO.clawDropPiece()){
@@ -175,7 +175,7 @@ public class GamepieceManager {
                 Claw.stopishMotor();
             }
             IntakeV2.retractNoPid();
-            IntakeV2.stopIntake();
+            IntakeV2.slowIntake();
             loadState = loadStates.Intake;
         }
     }
@@ -240,7 +240,7 @@ public class GamepieceManager {
                     switch(IO.gridNodeType){
                         //if Hybrid than Hybrid, however must do this before entering anyways(tho maybe it work now)
                         case Hybrid:
-                            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.NewHybrid);
+                            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.CubeIntake);
                             break;
                         //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
                         case Cube:
@@ -324,6 +324,33 @@ public class GamepieceManager {
         Claw.intakeGamePiece();
         clawTimer.reset();
         clawTimer.start();
+    }
+    public static enum CubeIntakeState {
+        Align,
+        Forward
+    }
+    public static CubeIntakeState cubeIntakeState = CubeIntakeState.Align;
+
+    public static void autoCubeIntake(){
+        switch (cubeIntakeState) {
+            case Align:
+                if(LimelightCameraWrapper.hasTargets()){
+                    IO.rumbleStopJoy0();
+                    if(AutoAlign.alignToPiece(false) && Arm.atCubeIntakePosition()){
+                        cubeIntakeState = CubeIntakeState.Forward;
+                    }
+                }else{
+                    IO.rumbleJoy0();
+                    Drivebase.drive();
+                }
+
+                break;
+            case Forward:
+                // Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
+                AutoAlign.forwardToPiece(false);
+                break;
+        }
+        loadGamepieceCube();
     }
 
     public static boolean clawDrop(){

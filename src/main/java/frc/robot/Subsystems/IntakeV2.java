@@ -30,6 +30,8 @@ public class IntakeV2 {
         // motorRight.overrideLimitSwitchesEnable(false);
         motorRight.overrideLimitSwitchesEnable(false);
         motorLeft.overrideLimitSwitchesEnable(false);
+        motorRight.configPeakCurrentLimit(40);
+        motorLeft.configPeakCurrentLimit(40);
         // motorRight.set(ControlMode.Follower, Constants.IntakeV2.motorLeftID);
         relativeEncoder = handOffMotor.getEncoder(); 
     }
@@ -64,8 +66,8 @@ public class IntakeV2 {
             motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
             motorRight.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorReverse);
         }else{
-            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
-            motorRight.set(TalonSRXControlMode.PercentOutput, 0.5*Constants.IntakeV2.handoffMotorSlow);
+            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorRunFullSpeed);
+            motorRight.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorRunFullSpeed);
         }
         return extendNoPid();
     }
@@ -105,31 +107,12 @@ public class IntakeV2 {
     }
     public static void stopIntake() {
         motorLeft.set(ControlMode.PercentOutput, 0);
-    }
-
-    public static boolean moveIntake(double current) {
-        if (!IO.isOverrideEnabled()) {
-            //handOffMotor.set(TalonSRXControlMode.Current, current);
-            //return handOffMotor.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold;
-        }
-        return false;
-    }
-
-    public static void runIntakeOverride(double handoffPercentOutput, double intakePercentOutput) {
-        //retractMotor.set(intakePercentOutput);
-        handOffMotor.setVoltage(0.3);
-        //handOffMotor.set(TalonSRXControlMode.PercentOutput, handoffPercentOutput);
+        motorRight.set(ControlMode.PercentOutput, 0);
     }
 
     public static void slowIntake() {
-        if(!IO.isOverrideEnabled()) {
-            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
-            motorRight.set(TalonSRXControlMode.PercentOutput, 0.5*Constants.IntakeV2.handoffMotorSlow);
-        } else {
-            motorLeft.set(TalonSRXControlMode.PercentOutput, 0);
-            motorRight.set(TalonSRXControlMode.PercentOutput, 0);
-
-        }
+        motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorSlow);
+        motorRight.set(TalonSRXControlMode.PercentOutput, 0.5*Constants.IntakeV2.handOffMotorSlow);
     }
 
     public static void reverseIntake() {
@@ -145,8 +128,8 @@ public class IntakeV2 {
 
     public static boolean intake() {
         // if (!IO.isOverrideEnabled()) {
-            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handoffMotorSlow);
-            motorRight.set(TalonSRXControlMode.PercentOutput, 0.5*Constants.IntakeV2.handoffMotorSlow);
+            motorLeft.set(TalonSRXControlMode.PercentOutput, Constants.IntakeV2.handOffMotorSlow);
+            motorRight.set(TalonSRXControlMode.PercentOutput, 0.5*Constants.IntakeV2.handOffMotorSlow);
             if (motorLeft.getStatorCurrent() >= Constants.IntakeV2.intakeAmpThreshhold) {
                 motorLeft.set(TalonSRXControlMode.PercentOutput, 0);
                 motorRight.set(TalonSRXControlMode.PercentOutput, 0);

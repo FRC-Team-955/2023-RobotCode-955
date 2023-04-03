@@ -129,7 +129,7 @@ public class SwerveMod{
         turningEncoderLog.append(turningEncoder.getPosition());
     }
 
-    public void setDesiredState(SwerveModuleState state, boolean isOpenLoop) {
+    public void setDesiredState(SwerveModuleState state, boolean isOpenLoopDrive) {
         Rotation2d curAngle = Rotation2d.fromDegrees(turningEncoder.getPosition());
         double delta = deltaAdjustedAngle(state.angle.getDegrees(), curAngle.getDegrees());
         //To figure out offset for absolute encoders
@@ -149,7 +149,7 @@ public class SwerveMod{
             adjustedAngle.getDegrees(),
             ControlType.kPosition
         );
-        if(isOpenLoop){
+        if(isOpenLoopDrive){
             double percentOutput = speedMetersPerSecond / SwerveSettings.SwerveConstants.maxSpeed;
             driveMotor.set(percentOutput);
             // drivePID.setReference(speedMetersPerSecond, ControlType.kVelocity, 0, SwerveSettings.SwerveConstants.driveKF * speedMetersPerSecond);

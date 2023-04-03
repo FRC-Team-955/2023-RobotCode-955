@@ -73,7 +73,7 @@ public class ScoreAction extends AutoAction {
                 else {
                     if (!retreated) {
                         Claw.outputGamePiece();
-                        Drivebase.drive.drive(new Translation2d(-0.3, 0), 0, false, false, false, 0);
+                        Drivebase.drive.drive(new Translation2d(-0.3, 0), 0, false, false, false, false, 0);
                         retreated = (profile.team == Team.Red) ? (Drivebase.getPose().getX() < scorePosition.getX() - 0.5) : (Drivebase.getPose().getX() > scorePosition.getX() + 0.5);
                     }
                     else
@@ -85,7 +85,7 @@ public class ScoreAction extends AutoAction {
     }
 
     public void Finish() {
-        Drivebase.drive.drive(new Translation2d(0, 0), 0, false, false, false, 0);
+        Drivebase.drive.drive(new Translation2d(0, 0), 0, false, false,false, false, 0);
         Claw.stopishMotor();
         GamepieceManager.extention(GridRowPosition.Retract, GridArmPosition.Retract);
     }

@@ -132,7 +132,7 @@ public final class IO {
             double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
             double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
 
-            Translation2d tAxes = new Translation2d(isThrustActive() ? forwardRawAxis*Constants.Drivebase.slowSpeed : forwardRawAxis, isThrustActive() ? strafeRawAxis*Constants.Drivebase.slowSpeed : strafeRawAxis);
+            Translation2d tAxes = new Translation2d(forwardRawAxis, strafeRawAxis);
 
 
             if (Math.abs(norm(tAxes)) < Constants.IO.Joy0.swerveDeadband) {
@@ -153,9 +153,12 @@ public final class IO {
         public static boolean isRobotRelativeActive(){
             return joy0.getRawButton(Constants.IO.Joy0.robotRelativeButton);
         }
-        public static boolean isThrustActive(){
+        public static boolean isCubeAlignActive(){
             return joy0.getRawAxis(Constants.IO.Joy0.thrustAxis) > 0.2;
         }
+    }
+    public static void rumbleStopJoy0(){
+        joy0.setRumble(RumbleType.kBothRumble, 0);
     }
     public static void rumbleJoy0(){
         joy0.setRumble(RumbleType.kBothRumble, 0.5);

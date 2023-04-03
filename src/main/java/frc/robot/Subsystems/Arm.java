@@ -228,12 +228,14 @@ public final class Arm {
     public static boolean atConeClosePrepMidPosition(){
         return Math.abs(getOffsetPosition() - Constants.Arm.coneClosePrepMid) < 20;
     }
-
+    public static boolean atCubeIntakePosition(){
+        return Math.abs(getOffsetPosition() - Constants.Arm.cubeIntake) < 20;
+    }
     public static boolean atRetractedPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.retracted) < Constants.Arm.tolerance;
+        return Math.abs(getOffsetPosition() - Constants.Arm.retracted) < 10;
     }
     public static boolean atCubeRetractPosition(){
-        return Math.abs(getOffsetPosition() - Constants.Arm.cubeRetract) < Constants.Arm.tolerance;
+        return Math.abs(getOffsetPosition() - Constants.Arm.cubeRetract) < 10;
     }
     public static void displayInformation(){
         SmartDashboard.putNumber("Arm getOffsetPosition", getOffsetPosition());

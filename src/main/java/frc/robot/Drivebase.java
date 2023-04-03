@@ -58,12 +58,12 @@ public class Drivebase {
         }
         else {
             headingSetPointSave = SwerveDrive.headingSetPoint;
-            Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation(), false);
+            Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation(), false , true);
         }
     }
 
-    public static void driveFieldRelativeRotation(Translation2d translation, double rotation, boolean isOpenLoop){
-        drive.drive(translation, rotation, true, isOpenLoop, false, 0);
+    public static void driveFieldRelativeRotation(Translation2d translation, double rotation, boolean isOpenLoopHeading, boolean isOpenLoopDrive){
+        drive.drive(translation, rotation, true, isOpenLoopHeading, isOpenLoopDrive, false, 0);
     }
     public static void driveFieldRelativeHeading(Translation2d translation, double heading){
 
@@ -81,11 +81,11 @@ public class Drivebase {
         double headingOffset = 0;
         heading = Drivebase.headingSetPointSave - diff + headingOffset;
 
-        drive.drive(translation, 0, true, false, true, heading);
+        drive.drive(translation, 0, true, false, false, true, heading);
     }
 
     public static void driveRobotRelativeRotation(Translation2d translation, double rotation){
-        drive.drive(new Translation2d(translation.getY(), -translation.getX()), rotation, false, false, false, 0);
+        drive.drive(new Translation2d(translation.getY(), -translation.getX()), rotation, false, false,false, false, 0);
     }
 
     public static void logData() {
@@ -102,7 +102,7 @@ public class Drivebase {
        if(isBalanced()){
         // driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
 
-        driveFieldRelativeRotation(new Translation2d(0, 0), 0, false);
+        driveFieldRelativeRotation(new Translation2d(0, 0), 0, false, false);
        }else{
             driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
        }

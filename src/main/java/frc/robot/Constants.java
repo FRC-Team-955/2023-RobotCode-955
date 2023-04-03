@@ -65,8 +65,8 @@ public class Constants {
         public static double communitySideOut = 2;
         public static double intakeRunTime = 0;
         public static double visionWaitTime = 0;
-        // public static double noHitGridOffset = 0.32;
-        public static double noHitGridOffset = 0;
+        public static double noHitGridOffset = 0.32 + 0.1778 - 0.05;
+        // public static double noHitGridOffset = 0;
         public static double notHitSideWall = 0.4;
         public static double stopBeforeGamepieceOffset = 1;
 
@@ -102,6 +102,14 @@ public class Constants {
         public static double limelightAlignXkP = 0.05;
         public static double limelightAlignXkI = 0;
         public static double limelightAlignXkD = 0;
+
+        public static final double gamePieceAutoAlignXkP = 0.05;
+        public static final double gamePieceAutoAlignXkI = 0;
+        public static final double gamePieceAutoAlignXkD = 0;
+
+        public static double gamePieceTelopAlignXkP = 0.05;
+        public static double gamePieceTelopAlignXkI = 0;
+        public static double gamePieceTelopAlignXkD = 0;
 
         public static final double odometryAlignXkP = 5;
         public static final double odometryAlignXkI = 0;
@@ -166,8 +174,9 @@ public class Constants {
         public static double Ks = 0.4;
 
         public static double intakeAmpThreshhold = 30;
+        public static double handOffMotorRunFullSpeed = 1;//.5
         public static double handOffMotorRun = 0.5;//.5
-        public static double handoffMotorSlow = 0.4;//.4
+        public static double handOffMotorSlow = 0.3;//.4
         // public static double handoffMotorReverse = -0.15; //-.15
         public static double handoffMotorReverse = -0.2; //-.15
 
@@ -290,14 +299,14 @@ public class Constants {
         public static double coneCloseMid = 0.5;
         public static double coneFarMid =18;
         public static final double coneCloseHigh = 27;
-        public static final double highFarConeAndCube = 29;
+        public static final double highFarConeAndCube = 30 +2; //edit
         public static double highFarConeAuto = 26;
         // public static double high = 28;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
         public static final double doubleSubstation = 4;
         
-        public static double cubeIntake = 1;
+        public static double cubeIntake = 0.5;
         public static double cubeRetract = 3.5;
 
         public static double coneIntake = 10.4;
@@ -353,6 +362,7 @@ public class Constants {
         public static double inBlueLoadingZoneX = fieldX - inRedLoadingZoneX;
         
         public static double inLoadingZoneY = inCommunityY;
+        public static double noHitCubeOffset =  0.1778 - 0.05;
         public static double nearGridOffset =-0.07;
         // public static double atAtGridOffset = -0.115;
         public static double atAtGridOffset = -0.2;
@@ -365,7 +375,7 @@ public class Constants {
         public static double atGridRedX = fieldX-atGridBlueX;
 
 
-        public static double atSubstationRedX = 1.17;
+        public static double atSubstationRedX = 1.17 - 0.05; //edit
         public static double atSubstationBlueX =fieldX - atSubstationRedX;
 
         public static double outSubstationShortBlue = 4;
@@ -375,6 +385,7 @@ public class Constants {
         public static double outSubstationLongRed = fieldX - outSubstationLongBlue;
 
         public static class AutoAlignPositions{
+
             public static Translation2d blueGrid0 = new Translation2d(2.16 - 0.1778 + 0.05,4.983099);
             public static Translation2d blueGrid1 = new Translation2d(2.16 - 0.1778+ 0.05,4.424426);
             public static Translation2d blueGrid2 = new Translation2d(2.16- 0.1778+ 0.05,3.865499);

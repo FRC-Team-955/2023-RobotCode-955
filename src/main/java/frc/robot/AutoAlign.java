@@ -9,7 +9,8 @@ import frc.robot.Sensors.LimelightCameraWrapper;
 public class AutoAlign {
     private static PIDController aprilTagAlignXPID = new PIDController(Constants.AutoAlign.aprilTagAlignXkP, Constants.AutoAlign.aprilTagAlignXkI, Constants.AutoAlign.aprilTagAlignXkD); 
     private static PIDController limelightAlignXPID = new PIDController(Constants.AutoAlign.limelightAlignXkP, Constants.AutoAlign.limelightAlignXkI, Constants.AutoAlign.limelightAlignXkD);
-    private static PIDController gamePieceAlignXPID = new PIDController(Constants.AutoAlign.limelightAlignXkP, Constants.AutoAlign.limelightAlignXkI, Constants.AutoAlign.limelightAlignXkD);
+    private static PIDController gamePieceAutoAlignXPID = new PIDController(Constants.AutoAlign.gamePieceAutoAlignXkP, Constants.AutoAlign.gamePieceAutoAlignXkI, Constants.AutoAlign.gamePieceAutoAlignXkD);
+    private static PIDController gamePieceTelopAlignXPID = new PIDController(Constants.AutoAlign.gamePieceTelopAlignXkP, Constants.AutoAlign.gamePieceTelopAlignXkI, Constants.AutoAlign.gamePieceTelopAlignXkD);
 
     private static PIDController odometryAlignXPID = new PIDController(Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignXkI, Constants.AutoAlign.odometryAlignXkD);
     private static PIDController odometryAlignYPID = new PIDController(Constants.AutoAlign.odometryAlignYkP, Constants.AutoAlign.odometryAlignYkI, Constants.AutoAlign.odometryAlignYkD);
@@ -53,7 +54,7 @@ public class AutoAlign {
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
 
-        Drivebase.driveFieldRelativeRotation(translation, IO.Drivebase.getSwerveRotation() *0.05, true);
+        Drivebase.driveFieldRelativeRotation(translation, IO.Drivebase.getSwerveRotation() *0.05, true, false);
 
         return (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTranslationX && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTranslationX);
     }
@@ -77,13 +78,23 @@ public class AutoAlign {
 
         return LimelightCameraWrapper.isAlignedToConeNode();
     }
-    public static boolean alignToPiece(){
+    public static boolean alignToPiece(boolean isAuto){
         LimelightCameraWrapper.setPipeline(0);
         if(LimelightCameraWrapper.hasTargets()){
-            double movementY = gamePieceAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
-            Drivebase.driveRobotRelativeRotation(new Translation2d(-movementY,0 ), 0); //TODO: might need to change for 2nd cube\
+            double movementY = isAuto?gamePieceAutoAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset())):
+                                    gamePieceTelopAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
+            Drivebase.driveRobotRelativeRotation(new Translation2d(-movementY,0 ), 0);
         }
         return LimelightCameraWrapper.isAlignedToGamePiece();
+    }
+    public static void forwardToPiece(boolean isAuto){
+        if(LimelightCameraWrapper.hasTargets()){
+            double movementY = isAuto?gamePieceAutoAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset())):
+                                    gamePieceTelopAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
+            Drivebase.driveRobotRelativeRotation(new Translation2d(-movementY,-1.5), 0);
+        }else{
+            Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
+        }
     }
     public static boolean isInCommunity(){
         if (((Constants.isBlue() && (Drivebase.getPose().getX() < Constants.FieldPositions.inBlueCommunityX)) ||
@@ -159,7 +170,7 @@ public class AutoAlign {
                             return true;
                         //If Cube, don't move from normal position
                         case Cube:
-                            alignOdometry(IO.keyInputOdometryPosition, alignRotation);
+                            alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.FieldPositions.noHitCubeOffset:-Constants.FieldPositions.noHitCubeOffset, 0)), alignRotation);
                             return true;
                         case ConeFar:
                             switch(IO.gridRow){
@@ -173,7 +184,7 @@ public class AutoAlign {
                                 //If Cone at High, move forward
                                 case High:
                                     // return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atGridBlueX:Constants.FieldPositions.atGridRedX, IO.keyInputOdometryPosition.getY()), alignRotation);
-                                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:Constants.FieldPositions.nearGridRedX, IO.keyInputOdometryPosition.getY() + alignTranslationY));
+                                    return alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:Constants.FieldPositions.nearGridRedX, IO.keyInputOdometryPosition.getY() + alignTranslationY), alignRotation);
                             }
                             break;
                         case ConeClose:
@@ -214,13 +225,13 @@ public class AutoAlign {
                     // else if(isInCorrectLoadingZone()){
                     //     substationAlignState = SubstationAlignState.InPosition;
                     // }
-                    else if(alignOdometry(IO.keyInputSubstationPosition, 0) && GamepieceManager.runExtention()) {
+                    else if(alignOdometrykP(IO.keyInputSubstationPosition, 0 ,3 , 3, 0.05) && GamepieceManager.runExtention()) {
                         substationAlignState = SubstationAlignState.InPosition;
                     }
                     break;
                 case InPosition:
-                    return alignTranslation(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
-                                            IO.keyInputSubstationPosition.getY()));
+                    return alignOdometrykP(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
+                                            IO.keyInputSubstationPosition.getY()), 0, 3, 3, 0.05);
             }
         }
         return false;
