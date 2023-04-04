@@ -95,7 +95,6 @@ public class Drivebase {
     public static void autoBalance() {
 
        double output = MathUtil.clamp(autoBalancePID.calculate(Gyro.getRoll(), 0), -0.5,0.5);
-       SmartDashboard.putNumber("Autobal output", output);
 
     //    driveFieldRelativeRotation(new Translation2d(0, -output), 0);
        
@@ -104,7 +103,7 @@ public class Drivebase {
 
         driveFieldRelativeRotation(new Translation2d(0, 0), 0, false, false);
        }else{
-            driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
+            driveRobotRelativeRotation(new Translation2d(0,-output ), 0);
        }
     }
     

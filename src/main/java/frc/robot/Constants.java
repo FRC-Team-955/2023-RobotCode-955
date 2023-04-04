@@ -437,7 +437,10 @@ public class Constants {
             public static Translation2d redOutCommunityLower = new Translation2d(12.5, 8.02-7.5);
             public static Translation2d redInCommunityLower = new Translation2d(14, 8.02-7.5);
 
-            public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
+            //4.9 For old
+            public static double mobilityBlue = 5.9;
+            public static double mobilityRed =fieldX-mobilityBlue;
+            public static Translation2d chargeStationBlue = new Translation2d(3.9, 2.747899);
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
 
             public static Translation2d redLeftDoubleSubstation = new Translation2d(1.9, 6.028182);
