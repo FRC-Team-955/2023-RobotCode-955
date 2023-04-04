@@ -197,23 +197,13 @@ public final class Arm {
         }
     }
     public static boolean setArm(){
-        if (!IO.isOverrideEnabled()) {
-            // timer.stop(); 
-            // double accelRadPerSecond = (lastVelocity - encoder.getVelocity()) / timer.get(); 
-            // timer.reset();
-            // timer.start();
-            // double feedForwardCalc = feedforward.calculate(setpoint, 
-            //                                         encoder.getVelocity(), 
-            //                                         accelRadPerSecond);
-            double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
+        double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
 
-            double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), setpoint) + feedForwardCalc, -12, 12);
-            
-            motor.setVoltage(output); 
-            return Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance;
+        double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), setpoint) + feedForwardCalc, -12, 12);
+        
+        motor.setVoltage(output); 
+        return Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance;
             // return pid.atSetpoint();
-        }
-        return false;
     }
     public static boolean atConeFarPrepHighPosition(){
         return Math.abs(getOffsetPosition() - Constants.Arm.coneFarPrepHigh) <20;

@@ -73,10 +73,10 @@ public class SwerveDrive {
         SwerveMods = new SwerveMod[] {
             //MODULE 0 AND 3 MIGHT BE SLIGHTLY OFF
             // The original offset for mod0: 253.775
-            new SwerveMod(0, 8, 7, 9, 253.775+2.373 - 0.615, "mod0"),
+            new SwerveMod(0, 8, 7, 9, 253.775+2.373 - 0.615 + 6.50396, "mod0"),
             new SwerveMod(1, 2, 1, 11, 123.886, "mod1"),
             new SwerveMod(2, 4, 3, 10, 309.223, "mod2"),
-            new SwerveMod(3, 6, 5, 12, 250.524-24.52-17.92 -10.54686, "mod3"),
+            new SwerveMod(3, 6, 5, 12, 250.524-24.52-17.92 -10.54686 + 7.91, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];

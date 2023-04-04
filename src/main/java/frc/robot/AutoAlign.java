@@ -225,7 +225,7 @@ public class AutoAlign {
                     // else if(isInCorrectLoadingZone()){
                     //     substationAlignState = SubstationAlignState.InPosition;
                     // }
-                    else if(alignOdometrykP(IO.keyInputSubstationPosition, 0 ,3 , 3, 0.05) && GamepieceManager.runExtention()) {
+                    else if(alignOdometrykP(IO.keyInputSubstationPosition, 0 ,3 , 3, 0.04) && GamepieceManager.runExtention()) {
                         substationAlignState = SubstationAlignState.InPosition;
                     }
                     break;

@@ -67,7 +67,8 @@ public class Constants {
         public static double visionWaitTime = 0;
         public static double noHitGridOffset = 0.32 + 0.1778 - 0.05;
         // public static double noHitGridOffset = 0;
-        public static double notHitSideWall = 0.4;
+        // public static double notHitSideWall = 0.2;
+        public static double notHitSideWall = 0.2;
         public static double stopBeforeGamepieceOffset = 1;
 
         //are driver relative changes
@@ -77,8 +78,8 @@ public class Constants {
         public static double blueGamePieceOffset1Y =0;
         public static double blueGamePieceOffset2X =0;
         public static double blueGamePieceOffset2Y =0;
-        public static double blueGamePieceOffset3X =0.4;
-        public static double blueGamePieceOffset3Y =0;
+        public static double blueGamePieceOffset3X =0.6;
+        public static double blueGamePieceOffset3Y =1;
 
         public static double redGamePieceOffset0X =0.6;
         public static double redGamePieceOffset0Y =1;
@@ -262,7 +263,7 @@ public class Constants {
         public static double newHybrid = -30;
 
         public static int singleSubstation = 30;
-        public static final double doubleSubstation = 50.5;
+        public static final double doubleSubstation = 50; //50.5
 
         public static int up = 120;
 
@@ -298,7 +299,7 @@ public class Constants {
         // For Mid Cone
         public static double coneCloseMid = 0.5;
         public static double coneFarMid =18;
-        public static final double coneCloseHigh = 28;
+        public static final double coneCloseHigh = 28.5;
         public static final double highFarConeAndCube = 30; //edit
         public static double highFarConeAuto = 26;
         // public static double high = 28;
@@ -307,7 +308,7 @@ public class Constants {
         public static final double doubleSubstation = 4;
         
         public static double cubeIntake = 0.5;
-        public static double cubeRetract = 3.5;
+        public static double cubeRetract = 4.5;
 
         public static double coneIntake = 10.4;
 
@@ -365,7 +366,9 @@ public class Constants {
         public static double noHitCubeOffset = 0;
         public static double nearGridOffset =-0.07;
         // public static double atAtGridOffset = -0.115;
-        public static double atAtGridOffset = -0.2;
+        public static double atAtGridOffset = -0.17;
+        // public static double atAtGridOffset = -0.2;
+        // public static double atAtGridOffset = -0.2;
         // public static double atGridOffset =-0.08;
         //offset
         public static double nearGridBlueX =1.377950 +(bumperWidth/2) + nearGridOffset;
@@ -375,7 +378,7 @@ public class Constants {
         public static double atGridRedX = fieldX-atGridBlueX;
 
 
-        public static double atSubstationRedX = 1.17 - 0.05; //edit
+        public static double atSubstationRedX = 1.17 - 0.07; //edit
         public static double atSubstationBlueX =fieldX - atSubstationRedX;
 
         public static double outSubstationShortBlue = 4;
@@ -451,7 +454,7 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return false;
+        return true;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){
