@@ -41,7 +41,7 @@ public class Drivebase {
         }else if(Constants.isRed() && pose.getX() > Constants.FieldPositions.centerLine){
             heading = 180;
         }
-        driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), heading);
+        driveFieldRelativeHeading(IO.Drivebase.getSwerveTranslation(), heading, true);
     }
     public static double headingSetPointSave = SwerveDrive.headingSetPoint;
 
@@ -65,7 +65,7 @@ public class Drivebase {
     public static void driveFieldRelativeRotation(Translation2d translation, double rotation, boolean isOpenLoopHeading, boolean isOpenLoopDrive){
         drive.drive(translation, rotation, true, isOpenLoopHeading, isOpenLoopDrive, false, 0);
     }
-    public static void driveFieldRelativeHeading(Translation2d translation, double heading){
+    public static void driveFieldRelativeHeading(Translation2d translation, double heading, boolean isOpenLoopDrive){
 
         double setpoint = Drivebase.headingSetPointSave % 360;
         if (setpoint<0){
@@ -108,38 +108,6 @@ public class Drivebase {
     }
     
     private static double lastPitch = Gyro.getPitch();
-    
-    public static void autoBalanceBangBang() {
-        double newPitch = Gyro.getPitch();
-        double heading = 0;
-        if (heading > 90)
-            heading = 0;
-        else if (heading  >= 90 && heading < 180 || heading >= 180 && heading < 270) {
-            heading = 180;
-        }
-        else {
-            heading = 0;
-        }
-        
-        if (Gyro.getPitch() > 2.5 || Gyro.getPitch() < 2.5) {
-            if (Math.abs(newPitch - lastPitch) > 0.5) {
-                driveFieldRelativeHeading(Constants.Drivebase.autoBalanceStop, heading);
-            }
-            else {
-                if (Gyro.getPitch() > 2.5) {
-                    driveFieldRelativeHeading(Constants.Drivebase.autoBalanceForward, heading);
-                }
-                else if (Gyro.getPitch() < 2.5) {
-                    driveFieldRelativeHeading(Constants.Drivebase.autoBalanceBackward, heading);
-    
-                }
-            }
-        }
-        else {
-            driveFieldRelativeHeading(Constants.Drivebase.autoBalanceStop, heading);
-        }
-        lastPitch = newPitch;
-    }
     
     public static boolean isBalanced() {
         if (7 > Gyro.getRoll() && Gyro.getRoll() > -7) {

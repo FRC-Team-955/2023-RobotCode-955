@@ -131,7 +131,7 @@ public class Constants {
         //not sure was one 0.1 before
         public static double alignTolerance = 0.025;
         public static double alignTranslationY = 0.025;
-        public static double alignTranslationX = 0.12;
+        public static double alignTranslationX = 0.17;
 
         public static double cubePreemptiveExtension = 0.7;
         public static double cubePreemptiveDrop = 0.25;
@@ -175,7 +175,7 @@ public class Constants {
         public static double Ks = 0.4;
 
         public static double intakeAmpThreshhold = 30;
-        public static double handOffMotorRunFullSpeed = 1;//.5
+        public static double handOffMotorRunFullSpeed = 0.5;//.5
         public static double handOffMotorRun = 0.5;//.5
         public static double handOffMotorSlow = 0.2;//.4
         // public static double handoffMotorReverse = -0.15; //-.15

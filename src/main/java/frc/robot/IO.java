@@ -347,15 +347,19 @@ public final class IO {
     public static void keyGridPosition(){
         switch(gridNodeType){
             case Hybrid:
-                gridArmPosition = GridArmPosition.NewHybrid;
-                gridRowPosition = GridRowPosition.Retract;
+                gridArmPosition = GridArmPosition.CubeRetract;
+                gridRowPosition = GridRowPosition.CubeIntake;
+                // gridArmPosition = GridArmPosition.NewHybrid;
+                // gridRowPosition = GridRowPosition.Retract;
                 break;
             case Cube:
                 switch(gridRow){
                     //Not possible
                     case Hybrid:
-                        gridArmPosition = GridArmPosition.NewHybrid;
-                        gridRowPosition = GridRowPosition.Retract;
+                        // gridArmPosition = GridArmPosition.NewHybrid;
+                        // gridRowPosition = GridRowPosition.Retract;
+                        gridArmPosition = GridArmPosition.CubeRetract;
+                        gridRowPosition = GridRowPosition.CubeIntake;
                         break;
                     case Mid:
                         gridArmPosition = GridArmPosition.CubePrep;
@@ -371,8 +375,10 @@ public final class IO {
                 switch(gridRow){
                     //Not possible
                     case Hybrid:
-                        gridArmPosition = GridArmPosition.NewHybrid;
-                        gridRowPosition = GridRowPosition.Retract;
+                        // gridArmPosition = GridArmPosition.NewHybrid;
+                        // gridRowPosition = GridRowPosition.Retract;
+                        gridArmPosition = GridArmPosition.CubeRetract;
+                        gridRowPosition = GridRowPosition.CubeIntake;
                         break;
                     case Mid:
                         gridArmPosition = GridArmPosition.ConeFarPrepMid;
@@ -388,8 +394,10 @@ public final class IO {
                 switch(gridRow){
                     //not possible
                     case Hybrid:
-                        gridArmPosition = GridArmPosition.NewHybrid;
-                        gridRowPosition = GridRowPosition.Retract;
+                        // gridArmPosition = GridArmPosition.NewHybrid;
+                        // gridRowPosition = GridRowPosition.Retract;
+                        gridArmPosition = GridArmPosition.CubeRetract;
+                        gridRowPosition = GridRowPosition.CubeIntake;
                         break;
                     case Mid:
                         gridArmPosition = GridArmPosition.ConeClosePrepMid;

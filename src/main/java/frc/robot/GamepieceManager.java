@@ -306,7 +306,7 @@ public class GamepieceManager {
                 if(IO.gridArmPosition == IO.GridArmPosition.ConeFarPrepHigh || IO.gridArmPosition == IO.GridArmPosition.ConeClosePrepHigh || IO.gridArmPosition == IO.GridArmPosition.ConeClosePrepMid){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition, -180);
                 }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep || IO.gridArmPosition == IO.GridArmPosition.ConeFarPrepMid){
-                    AutoAlign.alignOdometrykP(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), -180 , 2, 2, 0.05);
+                    AutoAlign.alignOdometrykP(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), -180 , 2, 2, 0.05, true);
                 }
                 break;
 

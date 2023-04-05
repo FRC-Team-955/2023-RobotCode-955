@@ -25,15 +25,16 @@ public class AutoSelector {
     static SendableChooser<AutoLeaveSelection> leave = new SendableChooser<AutoLeaveSelection>();
     static SendableChooser<NewAutoLeaveSelection> leaveNew = new SendableChooser<NewAutoLeaveSelection>();
     static SendableChooser<Integer> grid = new SendableChooser<Integer>();
-    static SendableChooser<Integer> firstGrid = new SendableChooser<Integer>();
-    static SendableChooser<Integer> secondGrid = new SendableChooser<Integer>();
+    // static SendableChooser<Integer> firstGrid = new SendableChooser<Integer>();
+    // static SendableChooser<Integer> secondGrid = new SendableChooser<Integer>();
     static SendableChooser<Boolean> enabled = new SendableChooser<Boolean>();
 
     public static void start() {
         type.setDefaultOption("Old (One piece or balance)", AutoType.Old);
         type.addOption("New (2 piece)", AutoType.New);
 
-        leave.setDefaultOption("Left", AutoLeaveSelection.Left);
+        leave.setDefaultOption("None", AutoLeaveSelection.None);
+        leave.addOption("Left", AutoLeaveSelection.Left);
         leave.addOption("Charge", AutoLeaveSelection.Charge);
         leave.addOption("Right", AutoLeaveSelection.Right);
 
@@ -41,16 +42,16 @@ public class AutoSelector {
             leaveNew.setDefaultOption("Left", NewAutoLeaveSelection.Left);
             leaveNew.addOption("Right", NewAutoLeaveSelection.Right);
             
-            firstGrid.setDefaultOption("1", 0);
-            firstGrid.addOption("3", 2);
-            firstGrid.addOption("4", 3);
-            firstGrid.addOption("6", 5);
-            firstGrid.addOption("7", 6);
-            firstGrid.addOption("9", 8);
+            // firstGrid.setDefaultOption("1", 0);
+            // firstGrid.addOption("3", 2);
+            // firstGrid.addOption("4", 3);
+            // firstGrid.addOption("6", 5);
+            // firstGrid.addOption("7", 6);
+            // firstGrid.addOption("9", 8);
             
-            secondGrid.setDefaultOption("2", 1);
-            secondGrid.addOption("5", 4);
-            secondGrid.addOption("8", 7);
+            // secondGrid.setDefaultOption("2", 1);
+            // secondGrid.addOption("5", 4);
+            // secondGrid.addOption("8", 7);
             
             grid.addOption("1", 0);
             grid.addOption("3", 2);
@@ -63,16 +64,16 @@ public class AutoSelector {
             leaveNew.setDefaultOption("Right", NewAutoLeaveSelection.Right);
             leaveNew.addOption("Left", NewAutoLeaveSelection.Left);
 
-            firstGrid.addOption("1", 0);
-            firstGrid.addOption("3", 2);
-            firstGrid.addOption("4", 3);
-            firstGrid.addOption("6", 5);
-            firstGrid.addOption("7", 6);
-            firstGrid.setDefaultOption("9", 8);
+            // firstGrid.addOption("1", 0);
+            // firstGrid.addOption("3", 2);
+            // firstGrid.addOption("4", 3);
+            // firstGrid.addOption("6", 5);
+            // firstGrid.addOption("7", 6);
+            // firstGrid.setDefaultOption("9", 8);
             
-            secondGrid.addOption("2", 1);
-            secondGrid.addOption("5", 4);
-            secondGrid.setDefaultOption("8", 7);
+            // secondGrid.addOption("2", 1);
+            // secondGrid.addOption("5", 4);
+            // secondGrid.setDefaultOption("8", 7);
 
             grid.addOption("1", 0);
             grid.setDefaultOption("3", 2);
@@ -89,8 +90,8 @@ public class AutoSelector {
         SmartDashboard.putData("Leave", leave);
         SmartDashboard.putData("2 Piece Side", leaveNew);
         SmartDashboard.putData("Grid Position", grid);
-        SmartDashboard.putData("First Node", firstGrid);
-        SmartDashboard.putData("Second Node", secondGrid);
+        // SmartDashboard.putData("First Node", firstGrid);
+        // SmartDashboard.putData("Second Node", secondGrid);
         SmartDashboard.putData("Enabled", enabled);
     }
 
@@ -99,8 +100,16 @@ public class AutoSelector {
         Robot.autoLeaveSelection = leave.getSelected();
         Robot.newAutoLeaveSelection = leaveNew.getSelected();
         Robot.autoGridSelection = grid.getSelected();
-        Robot.firstPiece = firstGrid.getSelected();
-        Robot.secondPiece = secondGrid.getSelected();
+        if(leaveNew.getSelected() == NewAutoLeaveSelection.Left){
+            Robot.firstPiece = 0;
+            Robot.secondPiece = 1;
+        }else if(leaveNew.getSelected() == NewAutoLeaveSelection.Right){
+            Robot.firstPiece = 8;
+            Robot.secondPiece = 7;
+        }else{
+            Robot.firstPiece = 0;
+            Robot.secondPiece = 1;
+        }
         if (enabled.getSelected()) {
             Robot.autoState = AutoState.Place;
             Robot.newAutoState = NewAutoState.Place;

@@ -20,7 +20,7 @@ public class AutoAlign {
 
     Drivebase drive = new Drivebase();
 
-    public static boolean alignOdometrykP(Translation2d goalTranslation, double heading, double XkP, double YkP, double alignTolerance){
+    public static boolean alignOdometrykP(Translation2d goalTranslation, double heading, double XkP, double YkP, double alignTolerance, boolean isOpenLoopDrive){
         Pose2d pose = Drivebase.getPose();
         double poseX = pose.getX();
         double poseY = pose.getY();
@@ -33,13 +33,13 @@ public class AutoAlign {
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
 
-        Drivebase.driveFieldRelativeHeading(translation, heading);
+        Drivebase.driveFieldRelativeHeading(translation, heading , isOpenLoopDrive);
 
         return (Math.abs(goalPoseX - poseX) < alignTolerance && Math.abs(goalPoseY - poseY) < alignTolerance);
      
     }
     public static boolean alignOdometry(Translation2d goalTranslation, double heading){
-        return alignOdometrykP(goalTranslation, heading, Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignYkP, Constants.AutoAlign.alignTolerance);
+        return alignOdometrykP(goalTranslation, heading, Constants.AutoAlign.odometryAlignXkP, Constants.AutoAlign.odometryAlignYkP, Constants.AutoAlign.alignTolerance, true);
     }
     public static boolean alignTranslation(Translation2d goalTranslation){
         Pose2d pose = Drivebase.getPose();
@@ -47,14 +47,12 @@ public class AutoAlign {
         double poseY = pose.getY();
         double goalPoseX = goalTranslation.getX();
         double goalPoseY = goalTranslation.getY();
-        // double movementX = odometryAlignXPID.calculate(poseX, goalPoseX);
-        // double movementY = odometryAlignYPID.calculate(poseY, goalPoseY);
         double movementX = translationAlignXPID.calculate(poseX, goalPoseX);
         double movementY = translationAlignYPID.calculate(poseY, goalPoseY);
 
         Translation2d translation = new Translation2d(Constants.isBlue()?-movementY:movementY, Constants.isBlue()?-movementX:movementX);
 
-        Drivebase.driveFieldRelativeRotation(translation, IO.Drivebase.getSwerveRotation() *0.05, true, false);
+        Drivebase.driveFieldRelativeRotation(translation, IO.Drivebase.getSwerveRotation() *0.05, true, true);
 
         return (Math.abs(goalPoseX - poseX) < Constants.AutoAlign.alignTranslationX && Math.abs(goalPoseY - poseY) < Constants.AutoAlign.alignTranslationX);
     }
@@ -62,7 +60,7 @@ public class AutoAlign {
     public static boolean alignAprilTag(){
         if(AprilTagCameraWrapper.hasTargets()){
             double movementY = aprilTagAlignXPID.calculate(AprilTagCameraWrapper.getHorizontalOffset(), 0);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), -180);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), -180,true);
         }
         gridAlignY = Drivebase.getPose().getY();
 
@@ -73,7 +71,7 @@ public class AutoAlign {
         
         if (LimelightCameraWrapper.hasTargets()){
             double movementY = limelightAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(), Constants.AutoAlign.alignedGamePiecePitch);
-            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), -180);
+            Drivebase.driveFieldRelativeHeading(new Translation2d(movementY, 0), -180,true);
         }
 
         return LimelightCameraWrapper.isAlignedToConeNode();
@@ -225,13 +223,13 @@ public class AutoAlign {
                     // else if(isInCorrectLoadingZone()){
                     //     substationAlignState = SubstationAlignState.InPosition;
                     // }
-                    else if(alignOdometrykP(IO.keyInputSubstationPosition, 0 ,3 , 3, 0.04) && GamepieceManager.runExtention()) {
+                    else if(alignOdometrykP(IO.keyInputSubstationPosition, 0 ,3 , 3, 0.04, true) && GamepieceManager.runExtention()) {
                         substationAlignState = SubstationAlignState.InPosition;
                     }
                     break;
                 case InPosition:
                     return alignOdometrykP(new Translation2d(Constants.isBlue()?Constants.FieldPositions.atSubstationBlueX:Constants.FieldPositions.atSubstationRedX, 
-                                            IO.keyInputSubstationPosition.getY()), 0, 3, 3, 0.05);
+                                            IO.keyInputSubstationPosition.getY()), 0, 3, 3, 0.05, true);
             }
         }
         return false;
