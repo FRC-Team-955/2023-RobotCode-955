@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
     public static class IO{
@@ -43,7 +44,8 @@ public class Constants {
     public static class Drivebase{
         public static double autoBalancekP = 0.6;
         public static double autoBalancekI = 0;
-        public static double autoBalancekD = 0.6;
+        // public static double autoBalancekD = 0.6;
+        public static double autoBalancekD = 0.5;
 
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
         public static Translation2d autoBalanceForward = new Translation2d(0,0.5);
@@ -438,7 +440,9 @@ public class Constants {
             public static Translation2d redInCommunityLower = new Translation2d(14, 8.02-7.5);
 
             //4.9 For old
-            public static double mobilityBlue = 5.9;
+            //7.4 def
+            // public static double mobilityBlue = 7.2;
+            public static double mobilityBlue = 4.9;
             public static double mobilityRed =fieldX-mobilityBlue;
             public static Translation2d chargeStationBlue = new Translation2d(3.9, 2.747899);
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
@@ -457,7 +461,8 @@ public class Constants {
     // public static DriverStation.Alliance color = DriverStation.getAlliance();
     public static DriverStation.Alliance color = DriverStation.Alliance.Blue;
     public static boolean isBlue(){
-        return true;
+        return DriverStation.getAlliance() == Alliance.Blue;
+        // return true;
         // return color == DriverStation.Alliance.Blue;
     }
     public static boolean isRed(){

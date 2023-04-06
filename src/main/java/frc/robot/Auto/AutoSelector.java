@@ -96,14 +96,18 @@ public class AutoSelector {
     }
 
     public static void set() {
-        Robot.autoTypeSelection = type.getSelected();
-        Robot.autoLeaveSelection = leave.getSelected();
-        Robot.newAutoLeaveSelection = leaveNew.getSelected();
-        Robot.autoGridSelection = grid.getSelected();
-        if(leaveNew.getSelected() == NewAutoLeaveSelection.Left){
+        Robot.autoTypeSelection = AutoType.New;
+        // Robot.autoTypeSelection = type.getSelected();
+        Robot.autoLeaveSelection = AutoLeaveSelection.Charge;
+        // Robot.autoLeaveSelection = leave.getSelected();
+        Robot.newAutoLeaveSelection = NewAutoLeaveSelection.Left;
+        // Robot.newAutoLeaveSelection = leaveNew.getSelected();
+        Robot.autoGridSelection = 3;
+        
+        if(Robot.newAutoLeaveSelection == NewAutoLeaveSelection.Left){
             Robot.firstPiece = 0;
             Robot.secondPiece = 1;
-        }else if(leaveNew.getSelected() == NewAutoLeaveSelection.Right){
+        }else if(Robot.newAutoLeaveSelection == NewAutoLeaveSelection.Right){
             Robot.firstPiece = 8;
             Robot.secondPiece = 7;
         }else{

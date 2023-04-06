@@ -45,7 +45,8 @@ public class Robot extends TimedRobot {
     IntakeV2.setup();
     Arm.setArm(IO.GridArmPosition.Retract);
     Elevator.setElevator(IO.GridRowPosition.Retract);
-    PortForwarder.add(5800, "photonvision.local", 5800);
+    PortForwarder.add(5800, "10.9.55.11", 5800);
+    PortForwarder.add(5800, "10.9.55.31", 5800);
     SmartDashboard.putString("Alliance Color",  DriverStation.getAlliance().toString());
     AutoSelector.start();
     // Arm.setOffset();
@@ -305,7 +306,7 @@ public class Robot extends TimedRobot {
       // new GamePiecePosition(7,IO.GridRowPosition.Retract)
       
     };
-    getGamePiece = true;
+    getGamePiece = false;
     // newAutoState = NewAutoState.Place;
     numberOfGamepieces = gamePiecePositionArray.length;
     numberOfGamepiecesPlaced = 0;
@@ -349,6 +350,7 @@ public class Robot extends TimedRobot {
         switch(autoState){
           case Place:
           Drivebase.updateSwerveOdometry();
+          autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition);
           if(GamepieceManager.extention(IO.GridRowPosition.HighFarConeAuto, isAutoConeNodePosition?IO.GridArmPosition.ConeFarReadyHighAuto:IO.GridArmPosition.coneFarPrepHighAuto)){
               Claw.outputGamePiece();
               autoState = AutoState.LeaveNode;
@@ -423,17 +425,18 @@ public class Robot extends TimedRobot {
                 }
                 break;
               case Charge:
-                GamepieceManager.extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
+                GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+                // GamepieceManager.extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
                 if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.mobilityBlue:
                   Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.mobilityRed ){
-                  // autoState = AutoState.Done;
-                  if (getGamePiece){
+                  if (false){
                     autoState = AutoState.Turn;
                     turnTimer.start();
                     turnTimer.reset();
                   }else{
                     autoState = AutoState.OnToCharge;
                   }
+                  autoState = AutoState.AutoBalance;
                 }else{
                   Drivebase.driveFieldRelativeHeading(new Translation2d(0,-2), -180, true);
                   // Drivebase.driveRobotRelativeRotation(new Translation2d(0,2), 0);
