@@ -45,7 +45,7 @@ public class Constants {
         public static double autoBalancekP = 0.6;
         public static double autoBalancekI = 0;
         // public static double autoBalancekD = 0.6;
-        public static double autoBalancekD = 0.5;
+        public static double autoBalancekD = 0.4;
 
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
         public static Translation2d autoBalanceForward = new Translation2d(0,0.5);
@@ -442,9 +442,10 @@ public class Constants {
             public static Translation2d redInCommunityLower = new Translation2d(14, 8.02-7.5);
 
             //4.9 For old
+            //7 if okay
             //7.4 def
             public static double mobilityBlue = 7;
-            public static double gamePieceBlue = 8;
+            public static double gamePieceBlue = 6.9;
             // public static double mobilityBlue = 6.6;
             // public static double mobilityBlue = 4.9;
             public static double mobilityRed =fieldX-mobilityBlue;

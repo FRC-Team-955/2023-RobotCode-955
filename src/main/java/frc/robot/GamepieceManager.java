@@ -240,7 +240,7 @@ public class GamepieceManager {
                     switch(IO.gridNodeType){
                         //if Hybrid than Hybrid, however must do this before entering anyways(tho maybe it work now)
                         case Hybrid:
-                            extention(IO.GridRowPosition.Retract, IO.GridArmPosition.CubeIntake);
+                            extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeIntake);
                             break;
                         //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
                         case Cube:
@@ -319,6 +319,7 @@ public class GamepieceManager {
             IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.redSingleSubstation){
             extention(IO.GridRowPosition.SingleSubstation, IO.GridArmPosition.SingleSubstation);
         }else{
+            System.out.println("bruh");
             extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
         }
         Claw.intakeGamePiece();
