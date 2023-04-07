@@ -443,8 +443,8 @@ public class Robot extends TimedRobot {
                 GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
                 // GamepieceManager.extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
                 if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.mobilityBlue:
-                  Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.mobilityRed){
-                  if (getGamePiece){
+                  Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.mobilityRed ){
+                  if (false){
                     autoState = AutoState.Turn;
                     turnTimer.start();
                     turnTimer.reset();
@@ -491,6 +491,7 @@ public class Robot extends TimedRobot {
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             if(LimelightCameraWrapper.hasTargets()?(AutoAlign.alignToPiece(true) && cubeAlignTimer.hasElapsed(0.2)):true){
+              yAlign = Drivebase.getPose().getY();
               newAutoState = NewAutoState.GetGamePiece;
             }
             break;
@@ -500,11 +501,10 @@ public class Robot extends TimedRobot {
             Claw.intakeGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            AutoAlign.forwardToPiece(true);
-            if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.gamePiece:
-            Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.gamePiece){
+            if(AutoAlign.alignOdometry(new Translation2d(Drivebase.getPose().getX()+(Constants.isBlue()?0.5:-0.5), yAlign), 0)){
               newAutoState = NewAutoState.OnToCharge;
             }
+            
             break;
           case OnToCharge:
             Drivebase.updateSwerveOdometryNoVision();
@@ -519,9 +519,9 @@ public class Robot extends TimedRobot {
             }else{
               // Drivebase.driveRobotRelativeRotation(new Translation2d(0,-2), 0);
               if(mobilityTimer.hasElapsed(1)){
-                Drivebase.driveFieldRelativeHeading(new Translation2d(0,2), getGamePiece?0:-180, true);
+                Drivebase.driveFieldRelativeHeading(new Translation2d(0,2), -180, true);
               }else{
-                Drivebase.driveFieldRelativeHeading(new Translation2d(0,0), getGamePiece?0:-180, true);
+                Drivebase.driveFieldRelativeHeading(new Translation2d(0,0), -180, true);
               }
             }
             break;
