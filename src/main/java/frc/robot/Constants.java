@@ -71,6 +71,7 @@ public class Constants {
         // public static double noHitGridOffset = 0;
         // public static double notHitSideWall = 0.2;
         public static double notHitSideWall = 0.3;
+        public static double notHitSideWallRedLeft = 0.21;
         public static double stopBeforeGamepieceOffset = 1;
 
         //are driver relative changes
@@ -84,7 +85,7 @@ public class Constants {
         public static double blueGamePieceOffset3Y =1;
 
         public static double redGamePieceOffset0X =0.6;
-        public static double redGamePieceOffset0Y =1;
+        public static double redGamePieceOffset0Y =0.6;
         // sorry this needs to be dec by 0.1
         public static double redGamePieceOffset1X =0;
         public static double redGamePieceOffset1Y =0;
@@ -443,10 +444,11 @@ public class Constants {
             //4.9 For old
             //7.4 def
             public static double mobilityBlue = 7;
-            public static double gamePiece = 8;
+            public static double gamePieceBlue = 8;
             // public static double mobilityBlue = 6.6;
             // public static double mobilityBlue = 4.9;
             public static double mobilityRed =fieldX-mobilityBlue;
+            public static double gamePieceRed = fieldX-gamePieceBlue;
             public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
 

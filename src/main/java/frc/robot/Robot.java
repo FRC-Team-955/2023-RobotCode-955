@@ -253,7 +253,7 @@ public class Robot extends TimedRobot {
     switch(newAutoLeaveSelection){
       case Left:
         return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blueGrid0.getX() + Constants.Auto.prepLeaveOffset ,Constants.FieldPositions.AutoAlignPositions.blueGrid0.getY() - Constants.Auto.notHitSideWall):
-                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.redGrid0.getX() - Constants.Auto.prepLeaveOffset ,Constants.FieldPositions.AutoAlignPositions.redGrid0.getY() + Constants.Auto.notHitSideWall);
+                                  new Translation2d(Constants.FieldPositions.AutoAlignPositions.redGrid0.getX() - Constants.Auto.prepLeaveOffset ,Constants.FieldPositions.AutoAlignPositions.redGrid0.getY() + Constants.Auto.notHitSideWallRedLeft);
                                                                                                                                                                                                               //We hit the charge station on the red left side, meaning that this number should be decreased
       case Right:
         return Constants.isBlue()?new Translation2d(Constants.FieldPositions.AutoAlignPositions.blueGrid8.getX()  + Constants.Auto.prepLeaveOffset,Constants.FieldPositions.AutoAlignPositions.blueGrid8.getY() + Constants.Auto.notHitSideWall):
@@ -442,8 +442,8 @@ public class Robot extends TimedRobot {
               case Charge:
                 GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
                 // GamepieceManager.extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
-                if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.mobilityBlue:
-                  Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.mobilityRed){
+                if(Constants.isBlue()?Drivebase.getPose().getX()>(getGamePiece?Constants.FieldPositions.AutoAlignPositions.gamePieceBlue:Constants.FieldPositions.AutoAlignPositions.mobilityBlue):
+                                      Drivebase.getPose().getX()<(getGamePiece?Constants.FieldPositions.AutoAlignPositions.gamePieceRed:Constants.FieldPositions.AutoAlignPositions.mobilityRed)){
                   if (getGamePiece){
                     autoState = AutoState.Turn;
                     turnTimer.start();
@@ -491,6 +491,7 @@ public class Robot extends TimedRobot {
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             if(LimelightCameraWrapper.hasTargets()?(AutoAlign.alignToPiece(true) && cubeAlignTimer.hasElapsed(0.2)):true){
+              yAlign = Drivebase.getPose().getY();
               newAutoState = NewAutoState.GetGamePiece;
             }
             break;
@@ -501,8 +502,7 @@ public class Robot extends TimedRobot {
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             AutoAlign.forwardToPiece(true);
-            if(Constants.isBlue()?Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.gamePiece:
-            Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.gamePiece){
+            if(AutoAlign.alignOdometrykP(new Translation2d(Drivebase.getPose().getX() + (Constants.isBlue()?0.5:-0.5),yAlign), 0, 1, 1 ,0.1, false)){
               newAutoState = NewAutoState.OnToCharge;
             }
             break;
@@ -744,7 +744,7 @@ public class Robot extends TimedRobot {
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             Claw.stopishMotor();
-            if(AutoAlign.alignOdometrykP(autoCommunityOutTranslation2d().plus(new Translation2d(0, Constants.isBlue()?((newAutoLeaveSelection == NewAutoLeaveSelection.Left)?-0.6:0):(newAutoLeaveSelection == NewAutoLeaveSelection.Left)?0.5:0.1)), -180, Constants.Auto.autoXkP, Constants.Auto.autoYkP ,0.15, false)){
+            if(AutoAlign.alignOdometrykP(autoCommunityOutTranslation2d().plus(new Translation2d(0, Constants.isBlue()?((newAutoLeaveSelection == NewAutoLeaveSelection.Left)?-0.6:0):(newAutoLeaveSelection == NewAutoLeaveSelection.Left)?0.4:0.1)), -180, Constants.Auto.autoXkP, Constants.Auto.autoYkP ,0.15, false)){
               // newAutoState = NewAutoState.EnterCommunity;
               visionTimer.reset();
               visionTimer.start();

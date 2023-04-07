@@ -96,11 +96,11 @@ public class AutoSelector {
     }
 
     public static void set() {
-        Robot.autoTypeSelection = AutoType.New;
+        Robot.autoTypeSelection = AutoType.Old;
         // Robot.autoTypeSelection = type.getSelected();
         Robot.autoLeaveSelection = AutoLeaveSelection.Charge;
         // Robot.autoLeaveSelection = leave.getSelected();
-        Robot.newAutoLeaveSelection = NewAutoLeaveSelection.Right;
+        Robot.newAutoLeaveSelection = NewAutoLeaveSelection.Left;
         // Robot.newAutoLeaveSelection = leaveNew.getSelected();
         // Robot.autoGridSelection = grid.getSelected();
         Robot.autoGridSelection = 3;
