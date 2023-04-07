@@ -124,7 +124,6 @@ public class Drivebase {
         return drive.getEstimatedVisionPose();
     }
     public static void displayInformation(){
-        SmartDashboard.putBoolean("Is balanced", Drivebase.isBalanced());
         SmartDashboard.putBoolean("Adding data",drive.displayInformation());
     }
 }

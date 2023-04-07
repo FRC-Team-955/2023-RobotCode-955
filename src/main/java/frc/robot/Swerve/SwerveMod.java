@@ -151,6 +151,7 @@ public class SwerveMod{
         );
         if(isOpenLoopDrive){
             double percentOutput = speedMetersPerSecond / SwerveSettings.SwerveConstants.maxSpeed;
+            // double percentOutput = speedMetersPerSecond / 4.2;
             driveMotor.set(percentOutput);
             // drivePID.setReference(speedMetersPerSecond, ControlType.kVelocity, 0, SwerveSettings.SwerveConstants.driveKF * speedMetersPerSecond);
         }else{

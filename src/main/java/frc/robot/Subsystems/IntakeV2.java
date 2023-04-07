@@ -51,11 +51,11 @@ public class IntakeV2 {
 
     public static boolean extendNoPid(){
         if (!IO.isOverrideEnabled()) {
-            if(getPosition() < 12){
-                handOffMotor.setVoltage(-10);
+            if(getPosition() < 14){
+                handOffMotor.setVoltage(-8);
                 return false;
             }else{
-                handOffMotor.setVoltage(0.03);
+                handOffMotor.setVoltage(-0.1);
                 return true;
             }
         }
@@ -74,11 +74,11 @@ public class IntakeV2 {
 
     public static boolean retractNoPid(){
         if (!IO.isOverrideEnabled()) {
-            if(getPosition() > 10){
-                handOffMotor.setVoltage(11);
+            if(getPosition() > 4){
+                handOffMotor.setVoltage(6);
                 return false;
             }else{
-                handOffMotor.setVoltage(-0.03);
+                handOffMotor.setVoltage(0.1);
                 return true;
             }
         }
@@ -96,7 +96,7 @@ public class IntakeV2 {
             handOffMotor.setVoltage(10);
             return false;
         }else{
-            handOffMotor.setVoltage(0);
+            handOffMotor.setVoltage(0.1);
             return true;
         }
  
@@ -143,10 +143,8 @@ public class IntakeV2 {
     }
 
     public static void displayInformation() {
-        SmartDashboard.putNumber("relativeEncoder", relativeEncoder.getPosition());
-        SmartDashboard.putNumber("ams?", motorLeft.getStatorCurrent());
         SmartDashboard.putNumber("handoffPositioin", getPosition());
-
+        // SmartDashboard.putNumber("ams?", motorLeft.getStatorCurrent());
         // SmartDashboard.putNumber("Left Motor Amps", motorLeft.getStatorCurrent());
         // SmartDashboard.putNumber("Right Motor Amps", motorRight.getStatorCurrent());
         // SmartDashboard.putNumber("Encoder Postion", relativeEncoder.getPosition());

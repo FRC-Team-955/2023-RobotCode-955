@@ -70,7 +70,7 @@ public class Constants {
         public static double noHitGridOffset = 0.32 + 0.1778 - 0.05;
         // public static double noHitGridOffset = 0;
         // public static double notHitSideWall = 0.2;
-        public static double notHitSideWall = 0.2;
+        public static double notHitSideWall = 0.3;
         public static double stopBeforeGamepieceOffset = 1;
 
         //are driver relative changes
@@ -85,6 +85,7 @@ public class Constants {
 
         public static double redGamePieceOffset0X =0.6;
         public static double redGamePieceOffset0Y =1;
+        // sorry this needs to be dec by 0.1
         public static double redGamePieceOffset1X =0;
         public static double redGamePieceOffset1Y =0;
         public static double redGamePieceOffset2X =0;
@@ -136,7 +137,7 @@ public class Constants {
         public static double alignTranslationX = 0.17;
 
         public static double cubePreemptiveExtension = 0.7;
-        public static double cubePreemptiveDrop = 0.25;
+        public static double cubePreemptiveDrop = 0.1;
         public static double conePreemptiveExtension = 0.4;
 
         public static double alignedGamePiecePitch = 6.32; //fake value need to make a xy plane
@@ -299,7 +300,7 @@ public class Constants {
         public static double retracted = 4;
         public static double low = 10.4;
         // For Mid Cone
-        public static double coneCloseMid = 0.5;
+        public static double coneCloseMid = 0.4;
         public static double coneFarMid =18;
         public static final double coneCloseHigh = 28.5;
         public static final double highFarConeAndCube = 30; //edit
@@ -441,10 +442,12 @@ public class Constants {
 
             //4.9 For old
             //7.4 def
-            // public static double mobilityBlue = 7.2;
-            public static double mobilityBlue = 4.9;
+            public static double mobilityBlue = 7;
+            public static double gamePiece = 8;
+            // public static double mobilityBlue = 6.6;
+            // public static double mobilityBlue = 4.9;
             public static double mobilityRed =fieldX-mobilityBlue;
-            public static Translation2d chargeStationBlue = new Translation2d(3.9, 2.747899);
+            public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
 
             public static Translation2d redLeftDoubleSubstation = new Translation2d(1.9, 6.028182);

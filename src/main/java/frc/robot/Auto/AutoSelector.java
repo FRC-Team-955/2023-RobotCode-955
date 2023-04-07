@@ -100,8 +100,9 @@ public class AutoSelector {
         // Robot.autoTypeSelection = type.getSelected();
         Robot.autoLeaveSelection = AutoLeaveSelection.Charge;
         // Robot.autoLeaveSelection = leave.getSelected();
-        Robot.newAutoLeaveSelection = NewAutoLeaveSelection.Left;
+        Robot.newAutoLeaveSelection = NewAutoLeaveSelection.Right;
         // Robot.newAutoLeaveSelection = leaveNew.getSelected();
+        // Robot.autoGridSelection = grid.getSelected();
         Robot.autoGridSelection = 3;
         
         if(Robot.newAutoLeaveSelection == NewAutoLeaveSelection.Left){
