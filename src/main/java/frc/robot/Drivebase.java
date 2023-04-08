@@ -100,6 +100,7 @@ public class Drivebase {
        
        if(isBalanced()){
         // driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
+        Claw.outputGamePieceFast();
 
         driveFieldRelativeRotation(new Translation2d(0, 0), 0, false, false);
        }else{
