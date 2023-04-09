@@ -52,10 +52,10 @@ public class IntakeV2 {
     public static boolean extendNoPid(){
         if (!IO.isOverrideEnabled()) {
             if(getPosition() < 14){
-                handOffMotor.setVoltage(-8);
+                handOffMotor.setVoltage(-5);
                 return false;
             }else{
-                handOffMotor.setVoltage(-0.1);
+                handOffMotor.setVoltage(-0.2);
                 return true;
             }
         }
@@ -75,7 +75,7 @@ public class IntakeV2 {
     public static boolean retractNoPid(){
         if (!IO.isOverrideEnabled()) {
             if(getPosition() > 4){
-                handOffMotor.setVoltage(6);
+                handOffMotor.setVoltage(5);
                 return false;
             }else{
                 handOffMotor.setVoltage(0.1);

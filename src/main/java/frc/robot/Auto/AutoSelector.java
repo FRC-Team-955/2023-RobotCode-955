@@ -2,6 +2,8 @@ package frc.robot.Auto;
 
 import java.math.BigInteger;
 
+import com.kauailabs.navx.frc.Tracer;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -100,12 +102,12 @@ public class AutoSelector {
         // Robot.autoTypeSelection = type.getSelected();
         Robot.autoLeaveSelection = AutoLeaveSelection.Charge;
         // Robot.autoLeaveSelection = leave.getSelected();
-        Robot.newAutoLeaveSelection = NewAutoLeaveSelection.Right;
+        Robot.newAutoLeaveSelection = NewAutoLeaveSelection.Left;
         // Robot.newAutoLeaveSelection = leaveNew.getSelected();
         // Robot.autoGridSelection = grid.getSelected();
-        Robot.autoGridSelection = 3;
+        Robot.autoGridSelection = 5;
 
-        Robot.getGamePieceInBalance =true;
+        Robot.getGamePieceInBalance = true;
         
         if(Robot.newAutoLeaveSelection == NewAutoLeaveSelection.Left){
             Robot.firstPiece = 0;

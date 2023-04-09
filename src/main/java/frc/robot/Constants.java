@@ -38,6 +38,8 @@ public class Constants {
             public static int isPowerSavingButton = 10;
             public static int intakeSequenceCubeButton = 11;
             public static int doubleSubstationExtension = 12;
+            public static int shiftLeft = 13;
+            public static int shiftRight = 14;
 
         }
     }
@@ -196,7 +198,7 @@ public class Constants {
         public static double run = -1;
         public static double stopish = -0.3;
         public static double drop = 0.7;
-        public static double dropFast = 1;
+        public static double dropFast = 1.1;
     }
 
     public static class AprilTagCamera{
@@ -444,15 +446,18 @@ public class Constants {
             //4.9 For old
             //7 if okay
             //7.4 def
-            public static double mobilityBlue = 7;
-            public static double gamePieceBlue = 6.9;
+            public static double mobilityBlue = 6.8;
+            public static double gamePieceBlue = 6.8;
             // public static double mobilityBlue = 6.6;
             // public static double mobilityBlue = 4.9;
             public static double mobilityRed =fieldX-mobilityBlue;
             public static double gamePieceRed = fieldX-gamePieceBlue;
             // public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
-            public static Translation2d chargeStationBlue = new Translation2d(4.8, 2.747899);
+            public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
+            public static double chargeStationBlueGamePiece = 4.4;
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
+            public static double chargeStationRedGamePiece = fieldX-chargeStationBlueGamePiece;
+
 
             public static Translation2d redLeftDoubleSubstation = new Translation2d(1.9, 6.028182);
             public static Translation2d redRightDoubleSubstation = new Translation2d(1.9, 7.471220);
