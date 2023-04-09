@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.fasterxml.jackson.databind.deser.std.ContainerDeserializerBase;
+
 // import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -94,6 +96,12 @@ public final class IO {
 
         public static boolean isPowerSaving(){
             return key2.getRawButton(Constants.IO.Key2.isPowerSavingButton);
+        }
+        public static boolean shiftRight(){
+            return key2.getRawButton(Constants.IO.Key2.shiftRight);
+        }
+        public static boolean shiftLeft(){
+            return key2.getRawButton(Constants.IO.Key2.shiftLeft);
         }
         public static boolean robotForwardMove(){
             return joy0.getRawButton(Constants.IO.Joy0.robotForwardMoveButton);

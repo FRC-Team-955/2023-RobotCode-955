@@ -58,7 +58,7 @@ public class Drivebase {
         }
         else {
             headingSetPointSave = SwerveDrive.headingSetPoint;
-            Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation(), false , true);
+            Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation().plus(new Translation2d(IO.Drivebase.shiftRight()?-0.2:(IO.Drivebase.shiftLeft()?0.2:0), 0)), IO.Drivebase.getSwerveRotation(), false , true);
         }
     }
 
@@ -99,8 +99,8 @@ public class Drivebase {
     //    driveFieldRelativeRotation(new Translation2d(0, -output), 0);
        
        if(isBalanced()){
-        // driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
         Claw.outputGamePieceFast();
+        // driveRobotRelativeRotation(new Translation2d(output,0 ), 0);
 
         driveFieldRelativeRotation(new Translation2d(0, 0), 0, false, false);
        }else{
