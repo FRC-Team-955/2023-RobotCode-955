@@ -385,7 +385,7 @@ public class Constants {
         public static double atGridRedX = fieldX-atGridBlueX;
 
 
-        public static double atSubstationRedX = 1.17 - 0.07; //edit
+        public static double atSubstationRedX = 1.17 - 0.09; //edit
         public static double atSubstationBlueX =fieldX - atSubstationRedX;
 
         public static double outSubstationShortBlue = 4;
