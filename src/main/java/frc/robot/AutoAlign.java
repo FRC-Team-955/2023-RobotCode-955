@@ -177,7 +177,7 @@ public class AutoAlign {
                                     break;
                                 //If Cone at Mid, don't move from normal position
                                 case Mid:
-                                    alignOdometry(IO.keyInputOdometryPosition, alignRotation);
+                                    alignOdometry(new Translation2d(Constants.isBlue()?Constants.FieldPositions.nearGridBlueX:Constants.FieldPositions.nearGridRedX, IO.keyInputOdometryPosition.getY() + alignTranslationY), alignRotation);
                                     return true;
                                 //If Cone at High, move forward
                                 case High:

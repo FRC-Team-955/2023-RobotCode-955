@@ -69,7 +69,7 @@ public class Constants {
         public static double communitySideOut = 2;
         public static double intakeRunTime = 0;
         public static double visionWaitTime = 0;
-        public static double noHitGridOffset = 0.32 + 0.1778 - 0.05;
+        public static double noHitGridOffset = 0.32;
         // public static double noHitGridOffset = 0;
         // public static double notHitSideWall = 0.2;
         public static double notHitSideWall = 0.3;
@@ -118,19 +118,19 @@ public class Constants {
         public static double gamePieceTelopAlignXkI = 0;
         public static double gamePieceTelopAlignXkD = 0;
 
-        public static final double odometryAlignXkP = 4;
+        public static final double odometryAlignXkP = 4.5;
         public static final double odometryAlignXkI = 0;
         public static final double odometryAlignXkD = 0;
         
-        public static final double odometryAlignYkP = 4;
+        public static final double odometryAlignYkP = 4.5;
         public static final double odometryAlignYkI = 0;
         public static final double odometryAlignYkD = 0;
 
-        public static double translationAlignXkP = 3;
+        public static double translationAlignXkP = 3.5;
         public static double translationAlignXkI = 0;
         public static double translationAlignXkD = 0;
         
-        public static double translationAlignYkP = 3;
+        public static double translationAlignYkP = 3.5;
         public static double translationAlignYkI = 0;
         public static double translationAlignYkD = 0;
 
@@ -246,16 +246,16 @@ public class Constants {
 
         public static int level = 0;
         
-        public static int coneClosePrepMid = 50;
-        public static int coneCloseReadyMid = 25;
-        public static int coneFarPrepMid = 23;
-        public static int coneFarReadyMid = 0;
+        public static final int coneClosePrepMid = 50;
+        public static final int coneCloseReadyMid = 25;
+        public static int coneFarPrepMid = 52;
+        public static int coneFarReadyMid = 27;
 
         public static final int coneClosePrepHigh = 40;
         public static final int coneCloseReadyHigh = 20;
-
         public static final int coneFarPrepHigh = 42;
         public static final int coneFarReadyHigh = 22;
+
         public static int coneFarPrepHighAuto = 35;
         public static int coneFarReadyHighAuto = 15;
         // public static int conePrepHigh = 42;
@@ -303,8 +303,8 @@ public class Constants {
         public static double retracted = 4;
         public static double low = 10.4;
         // For Mid Cone
-        public static double coneCloseMid = 0.4;
-        public static double coneFarMid =18;
+        public static double coneCloseMid = 16.5;
+        public static final double coneFarMid =18;
         public static final double coneCloseHigh = 28.5;
         public static final double highFarConeAndCube = 30; //edit
         public static double highFarConeAuto = 26;
@@ -354,7 +354,8 @@ public class Constants {
     public static final double bumperLength = 0.81;
 
     public static class FieldPositions{;
-        public static final double fieldX = 16.537877 - 0.065 + 0.1778 + 0.05 - 0.17;
+        // public static final double fieldX = 16.537877 - 0.065 + 0.1778 + 0.05 - 0.17;
+        public static final double fieldX = 16.537877 -0.0072;
         public static final double fieldY = 8.016177;
         // public static double fieldY = 8.02;
 
@@ -395,15 +396,15 @@ public class Constants {
 
         public static class AutoAlignPositions{
 
-            public static Translation2d blueGrid0 = new Translation2d(2.16 - 0.1778 + 0.05,4.983099);
-            public static Translation2d blueGrid1 = new Translation2d(2.16 - 0.1778+ 0.05,4.424426);
-            public static Translation2d blueGrid2 = new Translation2d(2.16- 0.1778+ 0.05,3.865499);
-            public static Translation2d blueGrid3 = new Translation2d(2.16- 0.1778+ 0.05,3.306699);
-            public static Translation2d blueGrid4 = new Translation2d(2.16- 0.1778+ 0.05,2.747899);
-            public static Translation2d blueGrid5 = new Translation2d(2.16- 0.1778+ 0.05,2.189099);
-            public static Translation2d blueGrid6 = new Translation2d(2.16- 0.1778+ 0.05,1.630299);
-            public static Translation2d blueGrid7 = new Translation2d(2.16- 0.1778+ 0.05,1.071499);
-            public static Translation2d blueGrid8 = new Translation2d(2.16- 0.1778+ 0.05,0.512699);
+            public static Translation2d blueGrid0 = new Translation2d(2.16,4.983099);
+            public static Translation2d blueGrid1 = new Translation2d(2.16,4.424426);
+            public static Translation2d blueGrid2 = new Translation2d(2.16,3.865499);
+            public static Translation2d blueGrid3 = new Translation2d(2.16,3.306699);
+            public static Translation2d blueGrid4 = new Translation2d(2.16,2.747899);
+            public static Translation2d blueGrid5 = new Translation2d(2.16,2.189099);
+            public static Translation2d blueGrid6 = new Translation2d(2.16,1.630299);
+            public static Translation2d blueGrid7 = new Translation2d(2.16,1.071499);
+            public static Translation2d blueGrid8 = new Translation2d(2.16,0.512699);
             public static Translation2d blueAvoidChargerUppper = new Translation2d(5.5,8.02-3);
             public static Translation2d blueOutCommunityUppper = new Translation2d(4.0, 8.02-3);
             public static Translation2d blueInCommunityUppper = new Translation2d(2.0, 8.02-3);

@@ -303,9 +303,9 @@ public class GamepieceManager {
             case Leave:
                 Claw.outputGamePiece();
                 runExtention();
-                if(IO.gridArmPosition == IO.GridArmPosition.ConeFarPrepHigh || IO.gridArmPosition == IO.GridArmPosition.ConeClosePrepHigh || IO.gridArmPosition == IO.GridArmPosition.ConeClosePrepMid){
+                if(IO.gridArmPosition == IO.GridArmPosition.ConeFarPrepHigh || IO.gridArmPosition == IO.GridArmPosition.ConeClosePrepHigh || IO.gridArmPosition == IO.GridArmPosition.ConeClosePrepMid || IO.gridArmPosition == IO.GridArmPosition.ConeFarPrepMid){
                     AutoAlign.alignOdometry(IO.keyInputOdometryPosition, -180);
-                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep || IO.gridArmPosition == IO.GridArmPosition.ConeFarPrepMid){
+                }else if(IO.gridArmPosition == IO.GridArmPosition.CubePrep){
                     AutoAlign.alignOdometrykP(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), -180 , 2, 2, 0.05, true);
                 }
                 break;
