@@ -373,7 +373,7 @@ public class Robot extends TimedRobot {
                 break;
               default:
                 Drivebase.updateSwerveOdometry();
-                if(cubeExtendTimer.hasElapsed(0.7)){
+                if(cubeExtendTimer.hasElapsed(1)){
                   GamepieceManager.extention(getGamePieceInBalance?IO.GridRowPosition.CubeIntake:IO.GridRowPosition.Retract, getGamePieceInBalance?IO.GridArmPosition.CubeIntake:IO.GridArmPosition.Up);
                 }else{
                   GamepieceManager.extention(IO.GridRowPosition.HighFarConeAuto, isAutoConeNodePosition?IO.GridArmPosition.ConeFarReadyHighAuto:IO.GridArmPosition.coneFarPrepHighAuto);
