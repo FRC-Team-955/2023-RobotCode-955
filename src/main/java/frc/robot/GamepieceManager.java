@@ -330,7 +330,6 @@ public class GamepieceManager {
             IO.keyInputSubstationPosition == Constants.FieldPositions.AutoAlignPositions.redSingleSubstation){
             extention(IO.GridRowPosition.SingleSubstation, IO.GridArmPosition.SingleSubstation);
         }else{
-            System.out.println("bruh");
             extention(IO.GridRowPosition.DoubleSubstation, IO.GridArmPosition.DoubleSubstation);
         }
         Claw.intakeGamePiece();
@@ -387,15 +386,14 @@ public class GamepieceManager {
                     return true;
                 }
             }
-            
             else if(extention(IO.gridRowPosition, IO.gridArmPosition)){
                 Claw.outputGamePiece();
                 return true;
             }
             else{
                 extention(IO.gridRowPosition, IO.gridArmPosition);
-                // Claw.stopishMotor();
                 Claw.outputGamePiece();
+                // Claw.stopishMotor();
 
             }
         }else{

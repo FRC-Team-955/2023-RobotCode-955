@@ -126,7 +126,7 @@ public class Constants {
         public static final double odometryAlignYkI = 0;
         public static final double odometryAlignYkD = 0;
 
-        public static double translationAlignXkP = 3.5;
+        public static double translationAlignXkP = 3;
         public static double translationAlignXkI = 0;
         public static double translationAlignXkD = 0;
         
@@ -262,8 +262,8 @@ public class Constants {
         // public static int coneReadyHigh = 22;
 
 
-        public static final int cubePrep = 25;
-        public static final int cubeReady = 25;
+        public static final int cubePrep = 20;
+        public static final int cubeReady = 20;
 
         public static int hybrid = -85;
         public static double newHybrid = -30;
