@@ -303,11 +303,7 @@ public class Robot extends TimedRobot {
     // autoState = AutoState.Place;
     gamePiecePositionArray = new GamePiecePosition[]{
       new GamePiecePosition(firstPiece,IO.GridRowPosition.HighFarConeAuto),
-      new GamePiecePosition(secondPiece,IO.GridRowPosition.HighFarConeAndCube)
-      // new GamePiecePosition(8,IO.GridRowPosition.HighFarConeAuto),
-      // new GamePiecePosition(7,IO.GridRowPosition.HighFarConeAndCube)
-      // new GamePiecePosition(7,IO.GridRowPosition.Retract)
-      
+      new GamePiecePosition(secondPiece,IO.GridRowPosition.HighCube)
     };
     // newAutoState = NewAutoState.Place;
     numberOfGamepieces = gamePiecePositionArray.length;
@@ -321,10 +317,11 @@ public class Robot extends TimedRobot {
     Elevator.setOffset();
     switch(autoTypeSelection){
       case Old:
+        //0.3 to set where grid is (roughly)
         Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(autoGridSelection).plus(new Translation2d(Constants.isBlue()?-0.3:0.3, 0)),Gyro.getYawR2D()));
         break;
       case New:
-        Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition),Gyro.getYawR2D()));
+        Drivebase.setSwerveOdometry(new Pose2d(autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition).plus(new Translation2d(Constants.isBlue()?-0.4278:0.4278, 0)),Gyro.getYawR2D()));
         break;
     }
     SmartDashboard.putString("Alliance Color",  DriverStation.getAlliance().toString());
@@ -354,6 +351,7 @@ public class Robot extends TimedRobot {
         switch(autoState){
           case Place:
           Drivebase.updateSwerveOdometry();
+          //update isAutoConeNodePosition
           autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition);
           if(GamepieceManager.extention(IO.GridRowPosition.HighFarConeAuto, isAutoConeNodePosition?IO.GridArmPosition.ConeFarReadyHighAuto:IO.GridArmPosition.coneFarPrepHighAuto)){
               Claw.outputGamePiece();
@@ -523,17 +521,9 @@ public class Robot extends TimedRobot {
                 autoState = AutoState.AutoBalance;
 
             }else{
-              // Drivebase.driveRobotRelativeRotation(new Translation2d(0,-2), 0);
               if(mobilityTimer.hasElapsed(1.5) || getGamePieceInBalance){
-                // Drivebase.driveFieldRelativeHeading(new Translation2d(0.5,2.5), -180, true);
-                // Drivebase.driveFieldRelativeHeading(new Translation2d(Drivebase.getPose().getY()-Constants.FieldPositions.AutoAlignPositions.blueGrid4.getX()*0.8,2.5), -180, true);
                 if(getGamePieceInBalance){
-                // Drivebase.driveFieldRelativeHeading(new Translation2d(Drivebase.getPose().getY()-Constants.FieldPositions.AutoAlignPositions.blueGrid4.getX()*0.8,2.5), -180, true);
                 Drivebase.driveFieldRelativeHeading(new Translation2d((autoGridSelection>4)?-0.2:0.2,2.5), -180, true);
-                // Drivebase.driveFieldRelativeHeading(new Translation2d(0,2.5), -180, true);
-
-                  // Drivebase.driveFieldRelativeHeading(new Translation2d(Drivebase.getPose().getY()-autoGridSelectionTranslation2d(autoGridSelection).getX()*0.5,2.5), -180, true);
-                  // Drivebase.driveFieldRelativeHeading(new Translation2d(Drivebase.getPose().getY()-Constants.FieldPositions.AutoAlignPositions.blueGrid4.getX()*0.8,2.5), -180, true);
                 }else{
                   Drivebase.driveFieldRelativeHeading(new Translation2d(0,2.5), -180, true);
                 }

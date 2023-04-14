@@ -201,8 +201,10 @@ public final class IO {
         UpRetract,
         Retract,
         Low,
-        ConeFarMid,
-        HighFarConeAndCube,
+        MidConeFar,
+        HighFarCone,
+        MidCube,
+        HighCube,
         SingleSubstation,
         DoubleSubstation,
         CubeIntake, 
@@ -371,11 +373,11 @@ public final class IO {
                         break;
                     case Mid:
                         gridArmPosition = GridArmPosition.CubePrep;
-                        gridRowPosition = GridRowPosition.Retract;
+                        gridRowPosition = GridRowPosition.MidCube;
                         break;
                     case High:
                         gridArmPosition = GridArmPosition.CubePrep;
-                        gridRowPosition = GridRowPosition.HighFarConeAndCube;
+                        gridRowPosition = GridRowPosition.HighCube;
                         break;
                 }
                 break;
@@ -390,11 +392,11 @@ public final class IO {
                         break;
                     case Mid:
                         gridArmPosition = GridArmPosition.ConeFarPrepMid;
-                        gridRowPosition = GridRowPosition.ConeFarMid;
+                        gridRowPosition = GridRowPosition.MidConeFar;
                         break;
                     case High:
                         gridArmPosition = GridArmPosition.ConeFarPrepHigh;
-                        gridRowPosition = GridRowPosition.HighFarConeAndCube;
+                        gridRowPosition = GridRowPosition.HighFarCone;
                         break;
                 }
                 break;

@@ -139,7 +139,7 @@ public class Constants {
         public static double alignTranslationY = 0.025;
         public static double alignTranslationX = 0.17;
 
-        public static double cubePreemptiveExtension = 0.7;
+        public static double cubePreemptiveExtension = 0.5;
         public static double cubePreemptiveDrop = 0.1;
         public static double conePreemptiveExtension = 0.4;
 
@@ -197,7 +197,7 @@ public class Constants {
         public static int motorID = 21;
         public static double run = -1;
         public static double stopish = -0.3;
-        public static double drop = 0.7;
+        public static double drop = 0.9;
         public static double dropFast = 1.1;
     }
 
@@ -305,9 +305,14 @@ public class Constants {
         // For Mid Cone
         public static double coneCloseMid = 16.5;
         public static final double coneFarMid =18;
+        //For High Cone
         public static final double coneCloseHigh = 28.5;
-        public static final double highFarConeAndCube = 30; //edit
+        public static final double highFarCone = 30; //edit
         public static double highFarConeAuto = 26;
+        //For Mid Cube
+        public static final double midCube = 5;
+        //For High Cube
+        public static final double highCube = 31; //edit
         // public static double high = 28;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;

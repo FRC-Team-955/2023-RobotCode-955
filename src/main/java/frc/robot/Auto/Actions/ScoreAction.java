@@ -64,10 +64,10 @@ public class ScoreAction extends AutoAction {
         }
         else {
             if (!extended)
-                extended = GamepieceManager.extention((level == 0) ? GridRowPosition.Low : (level == 1) ? GridRowPosition.ConeFarMid : GridRowPosition.HighFarConeAndCube, (position == 1 || position == 4 || position == 7) ? GridArmPosition.CubePrep : GridArmPosition.ConeFarPrepHigh);
+                extended = GamepieceManager.extention((level == 0) ? GridRowPosition.Low : (level == 1) ? GridRowPosition.MidConeFar : GridRowPosition.HighFarCone, (position == 1 || position == 4 || position == 7) ? GridArmPosition.CubePrep : GridArmPosition.ConeFarPrepHigh);
             else {
                 if (!placed) {
-                    placed = GamepieceManager.extention((level == 0) ? GridRowPosition.Low : (level == 1) ? GridRowPosition.ConeFarMid : GridRowPosition.HighFarConeAndCube, (position == 1 || position == 4 || position == 7) ? GridArmPosition.CubeReady : GridArmPosition.ConeFarReadyHigh);
+                    placed = GamepieceManager.extention((level == 0) ? GridRowPosition.Low : (level == 1) ? GridRowPosition.MidConeFar : GridRowPosition.HighFarCone, (position == 1 || position == 4 || position == 7) ? GridArmPosition.CubeReady : GridArmPosition.ConeFarReadyHigh);
                     scorePosition = Drivebase.getPose();
                 }
                 else {

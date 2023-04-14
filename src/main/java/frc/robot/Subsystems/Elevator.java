@@ -101,7 +101,7 @@ public class Elevator {
                 setpoint = Constants.Elevator.coneCloseMid;
                 elevatorRetract = false;
                 break;
-            case ConeFarMid:
+            case MidConeFar:
                 setpoint = Constants.Elevator.coneFarMid;
                 elevatorRetract = false;
                 break;
@@ -109,12 +109,20 @@ public class Elevator {
                 setpoint = Constants.Elevator.coneCloseHigh;
                 elevatorRetract = false;
                 break;
-            case HighFarConeAndCube:
-                setpoint = Constants.Elevator.highFarConeAndCube;
+            case HighFarCone:
+                setpoint = Constants.Elevator.highFarCone;
                 elevatorRetract = false;
                 break;
             case HighFarConeAuto:
                 setpoint = Constants.Elevator.highFarConeAuto;
+                elevatorRetract = false;
+                break;
+            case MidCube:
+                setpoint = Constants.Elevator.midCube;
+                elevatorRetract = false;
+                break;
+            case HighCube:
+                setpoint = Constants.Elevator.highCube;
                 elevatorRetract = false;
                 break;
             case SingleSubstation:
