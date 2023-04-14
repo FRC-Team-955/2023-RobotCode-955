@@ -312,7 +312,7 @@ public class Constants {
         //For Mid Cube
         public static final double midCube = 5;
         //For High Cube
-        public static final double highCube = 31; //edit
+        public static final double highCube = 30; //edit
         // public static double high = 28;
         // public static double doubleSubstationPosition = 30;
         public static double singleSubstation = 1;
