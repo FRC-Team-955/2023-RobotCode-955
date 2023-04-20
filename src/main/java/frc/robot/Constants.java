@@ -69,7 +69,7 @@ public class Constants {
         public static double communitySideOut = 2;
         public static double intakeRunTime = 0;
         public static double visionWaitTime = 0;
-        public static double noHitGridOffset = 0.32;
+        public static double noHitGridOffset = 0.22;
         // public static double noHitGridOffset = 0;
         // public static double notHitSideWall = 0.2;
         public static double notHitSideWall = 0.3;
@@ -217,7 +217,7 @@ public class Constants {
     }
     public static class LimelightCamera {
         public static double coneAlignTolerance= 1; // Faris: random number idk actual value
-        public static double gamePieceTolerance = 2.5;
+        public static double gamePieceTolerance = 1.25;
 
         public static double gamePieceVerticalToHorizontalA = 2.5677;
         public static double gamePieceVerticalToHorizontalB = 1.0672;
@@ -392,7 +392,7 @@ public class Constants {
         public static double atGridRedX = fieldX-atGridBlueX;
 
 
-        public static double atSubstationRedX = 1.17 - 0.09; //edit
+        public static double atSubstationRedX = 1.17 - 0.1; //edit
         public static double atSubstationBlueX =fieldX - atSubstationRedX;
 
         public static double outSubstationShortBlue = 4;

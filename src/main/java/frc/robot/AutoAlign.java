@@ -143,18 +143,8 @@ public class AutoAlign {
         if(isInCommunity()){
             switch(gridAlignState) {
                 case AlignedToOdometry:
-                    //if hybrid node then noHitGridOffset
-                    if(IO.gridNodeType == IO.GridNodeType.Hybrid){
-                        if(alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), -180)){
-                            gridAlignState = GridAlignState.InPosition;
-                        }
-                    }
-                    //cone and cube nodes should go to normal offset
-                    else{
-                        if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
-                            gridAlignState = GridAlignState.InPosition;
-
-                        }
+                    if(alignOdometry(IO.keyInputOdometryPosition, -180)) {
+                        gridAlignState = GridAlignState.InPosition;
                     }
                     //Set rotation to -180 here so that you can adjust it manunally later if needed
                     alignRotation = -180;
@@ -164,9 +154,9 @@ public class AutoAlign {
                     alignRotation = alignRotation + IO.Drivebase.getSwerveRotation() *0.05;
                     alignTranslationY = alignTranslationY + IO.Drivebase.getSwerveTranslation().getX() * (Constants.isBlue()?-0.003:0.003);
                     switch(IO.gridNodeType){
-                        //If Hybrid, don't move from noHit position
+                        //If Hybrid, don't moveS
                         case Hybrid:
-                            alignOdometry(IO.keyInputOdometryPosition.plus(new Translation2d(Constants.isBlue()?Constants.Auto.noHitGridOffset:-Constants.Auto.noHitGridOffset,0)), alignRotation);
+                            alignOdometry(IO.keyInputOdometryPosition, alignRotation);
                             return true;
                         //If Cube, don't move from normal position
                         case Cube:
