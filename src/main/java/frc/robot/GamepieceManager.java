@@ -343,14 +343,23 @@ public class GamepieceManager {
     public static CubeIntakeState cubeIntakeState = CubeIntakeState.Align;
 
     public static void autoCubeIntake(){
-        if(LimelightCameraWrapper.hasTargets()){
-            IO.rumbleStopJoy0();
-            if(Arm.atCubeIntakePosition()){
+        switch (cubeIntakeState) {
+            case Align:
+                if(LimelightCameraWrapper.hasTargets()){
+                    IO.rumbleStopJoy0();
+                    if(AutoAlign.alignToPiece(false) && Arm.atCubeIntakePosition()){
+                        cubeIntakeState = CubeIntakeState.Forward;
+                    }
+                }else{
+                    IO.rumbleJoy0();
+                    Drivebase.drive();
+                }
+
+                break;
+            case Forward:
+                // Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
                 AutoAlign.forwardToPiece(false);
-            }
-        }else{
-            IO.rumbleJoy0();
-            Drivebase.drive();
+                break;
         }
         loadGamepieceCube();
     }
