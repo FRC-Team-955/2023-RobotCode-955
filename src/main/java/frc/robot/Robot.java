@@ -533,12 +533,18 @@ public class Robot extends TimedRobot {
             }
             break;
           case AutoBalance:
-            GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
             Drivebase.updateSwerveOdometryNoVision();
             Drivebase.autoBalance();
-            // if(DriverStation.getMatchTime()<1.5){
-            //   Claw.outputGamePieceFast();
-            // }
+            if(DriverStation.getMatchTime()<1.5){
+              GamepieceManager.extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
+              Claw.outputGamePieceFast();
+            }else if(DriverStation.getMatchTime()<1.8){
+              GamepieceManager.extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
+              Claw.stopishMotor();
+            }else{
+              GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
+              Claw.stopishMotor();
+            }
             break;
         }
       break;

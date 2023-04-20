@@ -45,7 +45,7 @@ public class Drivebase {
     }
 
     public static Translation2d drivingAdjustment(){
-        return new Translation2d(IO.Drivebase.shiftRight()?0.2:(IO.Drivebase.shiftLeft()?-0.2:0), GamepieceManager.moveBack?-0.2:0);
+        return new Translation2d(IO.Drivebase.shiftRight()?0.4:(IO.Drivebase.shiftLeft()?-0.4:0), GamepieceManager.moveBack?-0.6:0);
     }
     public static double headingSetPointSave = SwerveDrive.headingSetPoint;
 

@@ -7,12 +7,11 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 public class SwerveSettings {
     public static final class SwerveConstants {
         /* Angle Motor PID Values */
-        // public static final double angleKP = 0.025;
-        // public static final double angleKP = 0.01;
-        public static final double angleKP = 1.0;
+        public static final double angleKP = 0.025;
+        // public static final double angleKP = 0.05;
         public static final double angleKI = 0.0;
-        // public static final double angleKD = 0.005;
-        public static final double angleKD = 0.1;
+        public static final double angleKD = 0.005;
+        // public static final double angleKD = 0.007;
         public static final double angleKF = 0.0;
 
         /* Drive Motor PID Values */

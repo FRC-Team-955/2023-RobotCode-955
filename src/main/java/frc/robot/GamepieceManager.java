@@ -179,7 +179,6 @@ public class GamepieceManager {
         else{
             if (clawTimer.get() < Constants.GamepieceManager.clawExtraRunTime){
                 Claw.intakeGamePiece();
-                // Claw.stopishMotor();
                 
             }else{
                 Claw.stopishMotor();
@@ -251,7 +250,8 @@ public class GamepieceManager {
                     switch(IO.gridNodeType){
                         //if Hybrid than Hybrid, however must do this before entering anyways(tho maybe it work now)
                         case Hybrid:
-                            extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeIntake);
+                            runExtention();
+                            // extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeIntake);
                             break;
                         //if your a cube position and your left right is almost correct, then move elevator and arm into position and allow 
                         case Cube:

@@ -303,8 +303,10 @@ public class Constants {
         public static double retracted = 4;
         public static double low = 10.4;
         // For Mid Cone
-        public static double coneCloseMid = 16.5;
-        public static final double coneFarMid =18;
+        // public static double coneCloseMid = 16.5;
+        // public static final double coneFarMid =18;
+        public static double coneCloseMid = 0.4;
+        public static final double coneFarMid =1.9;
         //For High Cone
         public static final double coneCloseHigh = 28.5;
         public static final double highFarCone = 30; //edit

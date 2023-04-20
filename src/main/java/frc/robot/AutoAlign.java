@@ -90,8 +90,10 @@ public class AutoAlign {
             double movementY = isAuto?gamePieceAutoAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset())):
                                     gamePieceTelopAlignXPID.calculate(LimelightCameraWrapper.getHorizontalOffset(),Constants.LimelightCamera.gamePieceVerticalToHorizontalA * Math.pow(Constants.LimelightCamera.gamePieceVerticalToHorizontalB, LimelightCameraWrapper.getVerticalOffset()));
             Drivebase.driveRobotRelativeRotation(new Translation2d(-movementY,-1.5), 0);
+            // Drivebase.driveRobotRelativeRotation(new Translation2d(-movementY,0), 0);
         }else{
             Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
+            // Drivebase.driveRobotRelativeRotation(new Translation2d(0,0), 0);
         }
     }
     public static boolean isInCommunity(){
