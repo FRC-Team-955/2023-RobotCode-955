@@ -274,7 +274,7 @@ public class Constants {
         public static int up = 120;
 
         public static int cubeIntake = -95;
-        public static double cubeRetract = -130;
+        public static double cubeRetract = -129;
 
         public static double coneIntake = -120;
 
@@ -455,14 +455,14 @@ public class Constants {
             //7 if okay
             //7.4 def
             public static double mobilityBlue = 6.8;
-            public static double gamePieceBlue = 6.8;
+            public static double gamePieceBlue = 6.6;
             // public static double mobilityBlue = 6.6;
             // public static double mobilityBlue = 4.9;
             public static double mobilityRed =fieldX-mobilityBlue;
             public static double gamePieceRed = fieldX-gamePieceBlue;
             // public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
             public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
-            public static double chargeStationBlueGamePiece = 4.4;
+            public static double chargeStationBlueGamePiece = 3.6;
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
             public static double chargeStationRedGamePiece = fieldX-chargeStationBlueGamePiece;
 

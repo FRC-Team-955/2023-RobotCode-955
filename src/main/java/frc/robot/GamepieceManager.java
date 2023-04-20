@@ -354,7 +354,6 @@ public class GamepieceManager {
                     IO.rumbleJoy0();
                     Drivebase.drive();
                 }
-
                 break;
             case Forward:
                 // Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
