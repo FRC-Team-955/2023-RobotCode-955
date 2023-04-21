@@ -293,6 +293,7 @@ public class Robot extends TimedRobot {
   public static int firstPiece;
   public static int secondPiece;
   public static boolean getGamePieceInBalance = false;
+  public static boolean isBalancedEarly = false;
 
   @Override
   public void autonomousInit() {
@@ -502,8 +503,8 @@ public class Robot extends TimedRobot {
             // if(AutoAlign.alignOdometrykP(new Translation2d(xAlign + (Constants.isBlue()?1.6:-1.6),yAlign), 0, 0.8, 0.8 ,0.15, false)){
             // if(Constants.isBlue()?Drivebase.getPose().getX()> xAlign+ xAlignOffset+0.2:
             //                     Drivebase.getPose().getX()<  xAlign- xAlignOffset-0.2){
-            if(Constants.isBlue()?Drivebase.getPose().getX()> Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX() - xAlignOffset+0.7:
-                                  Drivebase.getPose().getX()< Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX() - xAlignOffset-0.7){
+            if(Constants.isBlue()?Drivebase.getPose().getX()> Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX() + xAlignOffset-0.1:
+                                  Drivebase.getPose().getX()< Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX() - xAlignOffset+0.1){
             // if(Constants.isBlue()?Drivebase.getPose().getX()> Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX() - xAlignOffset+0.2:
             //                     Drivebase.getPose().getX()<  xAlign  xAlignOffset-0.2){
               turnTimer.start();
@@ -528,18 +529,21 @@ public class Robot extends TimedRobot {
             Claw.intakeGamePiece();
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
+            //(13 < Gyro.getRoll() && Gyro.getRoll() < -13)?true:
             if(getGamePieceInBalance?(Constants.isBlue()?Drivebase.getPose().getX()-xAlignOffset<Constants.FieldPositions.AutoAlignPositions.chargeStationBlueGamePiece:
                                                         Drivebase.getPose().getX()-xAlignOffset>Constants.FieldPositions.AutoAlignPositions.chargeStationRedGamePiece):
                                     (Constants.isBlue()?Drivebase.getPose().getX()<Constants.FieldPositions.AutoAlignPositions.chargeStationBlue.getX():
                                                       Drivebase.getPose().getX()>Constants.FieldPositions.AutoAlignPositions.chargeStationRed.getX())){
+                isBalancedEarly = false;
+
                 autoState = AutoState.AutoBalance;
 
             }else{
               if(mobilityTimer.hasElapsed(2) || getGamePieceInBalance){
                 if(getGamePieceInBalance){
-                Drivebase.driveFieldRelativeHeading(new Translation2d((autoGridSelection==4)?0:(autoGridSelection>4)?-0.2:0.2,2), -180, true);
+                Drivebase.driveFieldRelativeHeading(new Translation2d((autoGridSelection==4)?0:(autoGridSelection>4)?-0.2:0.2,3), -180, true);
                 }else{
-                  Drivebase.driveFieldRelativeHeading(new Translation2d(0,2), -180, true);
+                  Drivebase.driveFieldRelativeHeading(new Translation2d(0,3), -180, true);
                 }
               }else{
                 Drivebase.driveFieldRelativeHeading(new Translation2d(0,0), -180, true);
@@ -552,12 +556,36 @@ public class Robot extends TimedRobot {
             if(DriverStation.getMatchTime()<1.2){
               GamepieceManager.extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
               Claw.outputGamePieceFast();
-            }else if(DriverStation.getMatchTime()<1.3){
+              if(Drivebase.isBalanced()){
+                isBalancedEarly = true;
+                Drivebase.driveFieldRelativeRotation(new Translation2d(0, 0), 0.0, false, false);
+              }else{
+                if(isBalancedEarly){
+                  Drivebase.driveFieldRelativeRotation(new Translation2d(0, 0), 0.0, false, false);
+                }else{
+                  Drivebase.autoBalance();
+                }
+              }
+            }else if(DriverStation.getMatchTime()<2){
+              if(Drivebase.isBalanced()){
+                isBalancedEarly = true;
+                Drivebase.driveFieldRelativeRotation(new Translation2d(0, 0), 0.0, false, false);
+              }else{
+                if(isBalancedEarly){
+                  Drivebase.driveFieldRelativeRotation(new Translation2d(0, 0), 0.0, false, false);
+                }else{
+
+                  Drivebase.autoBalance();
+                }
+              }
               GamepieceManager.extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
-              Claw.stopishMotor();
+              Claw.intakeGamePiece();
+              Drivebase.autoBalance();
+
             }else{
               GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
-              Claw.stopishMotor();
+              Claw.intakeGamePiece();
+              Drivebase.autoBalance();
             }
             break;
         }

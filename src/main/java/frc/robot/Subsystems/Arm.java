@@ -34,6 +34,9 @@ public final class Arm {
         motor = new CANSparkMax(Constants.Arm.motorID, MotorType.kBrushless);
         motor.setIdleMode(IdleMode.kCoast);
         motor.setSmartCurrentLimit(30);
+        motor.setClosedLoopRampRate(0);
+        motor.setOpenLoopRampRate(0);
+        motor.burnFlash();
     
         pid = new PIDController(Constants.Arm.kP, 
                                 Constants.Arm.kI,

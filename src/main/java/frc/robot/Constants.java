@@ -47,7 +47,7 @@ public class Constants {
         public static double autoBalancekP = 0.6;
         public static double autoBalancekI = 0;
         // public static double autoBalancekD = 0.6;
-        public static double autoBalancekD = 0.4;
+        public static double autoBalancekD = 0.6;
 
         public static Translation2d autoBalanceStop = new Translation2d(0,0);
         public static Translation2d autoBalanceForward = new Translation2d(0,0.5);
@@ -246,12 +246,12 @@ public class Constants {
 
         public static int level = 0;
         
-        public static final int coneClosePrepMid = 50;
+        public static final int coneClosePrepMid = 53;
         public static final int coneCloseReadyMid = 25;
-        public static int coneFarPrepMid = 52;
+        public static int coneFarPrepMid = 53;
         public static int coneFarReadyMid = 27;
 
-        public static final int coneClosePrepHigh = 41;
+        public static final int coneClosePrepHigh = 43;
         public static final int coneCloseReadyHigh = 20;
         public static final int coneFarPrepHigh = 43;
         public static final int coneFarReadyHigh = 22;
@@ -274,7 +274,7 @@ public class Constants {
         public static int up = 120;
 
         public static int cubeIntake = -95;
-        public static double cubeRetract = -129;
+        public static double cubeRetract = -125;
 
         public static double coneIntake = -120;
 
@@ -305,8 +305,8 @@ public class Constants {
         // For Mid Cone
         // public static double coneCloseMid = 16.5;
         // public static final double coneFarMid =18;
-        public static double coneCloseMid = 0.4;
-        public static final double coneFarMid =1.9;
+        public static double coneCloseMid = 1.4;
+        public static final double coneFarMid =2.1;
         //For High Cone
         public static final double coneCloseHigh = 28.5;
         public static final double highFarCone = 30; //edit
@@ -462,7 +462,7 @@ public class Constants {
             public static double gamePieceRed = fieldX-gamePieceBlue;
             // public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
             public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
-            public static double chargeStationBlueGamePiece = 4.2;
+            public static double chargeStationBlueGamePiece = 5;
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
             public static double chargeStationRedGamePiece = fieldX-chargeStationBlueGamePiece;
 

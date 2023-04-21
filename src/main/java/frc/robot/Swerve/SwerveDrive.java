@@ -76,7 +76,7 @@ public class SwerveDrive {
             new SwerveMod(0, 8, 7, 9, 253.775+2.373 - 0.615 + 6.50396 -4.75 + 0.615, "mod0"),
             new SwerveMod(1, 2, 1, 11, 123.886 + 3.604 -2.373, "mod1"),
             new SwerveMod(2, 4, 3, 10, 309.223 +0.28, "mod2"),
-            new SwerveMod(3, 6, 5, 12, 250.524-24.52-17.92 -10.54686 + 7.91 -1.0545 -0.966775, "mod3"),
+            new SwerveMod(3, 6, 5, 12, 250.524-24.52-17.92 -10.54686 + 7.91 -1.0545 -0.966775 +10.106, "mod3"),
         };
 
         SwerveModulePosition[] initPoses = new SwerveModulePosition[4];
@@ -108,7 +108,7 @@ public class SwerveDrive {
         // System.out.println("Gryo.getAngle(): "+ Gyro.getAngle());
         
         SwerveModuleState[] swerveModuleStates = null;
-        if (true) {
+        if (false) {
             swerveModuleStates = new SwerveModuleState[]{
                 new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
                 new SwerveModuleState(0.0, Rotation2d.fromDegrees(0)),
