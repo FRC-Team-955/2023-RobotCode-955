@@ -128,6 +128,7 @@ public class Robot extends TimedRobot {
 
   private static Timer turnTimer = new Timer();
   private static Timer cubeAlignTimer = new Timer();
+  private static Timer forceMoveTimer = new Timer();
   private static Timer intakeTimer = new Timer();
   private static Timer visionTimer = new Timer();
   private static Timer cubeExtendTimer = new Timer();
@@ -329,8 +330,8 @@ public class Robot extends TimedRobot {
   }
 
   public void autoAllState(){
-    Drivebase.logData();
-    Claw.logData();
+    // Drivebase.logData();
+    // Claw.logData();
     field2d.setRobotPose(Drivebase.getPose());
     SmartDashboard.putBoolean("isAlignedToGamePiece()", LimelightCameraWrapper.isAlignedToGamePiece());
     SmartDashboard.putBoolean("hasTargets", LimelightCameraWrapper.hasTargets());
@@ -469,9 +470,11 @@ public class Robot extends TimedRobot {
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             Drivebase.driveFieldRelativeHeading(new Translation2d(0,0), 0, true);
-            if (Math.abs(Gyro.getYaw()-90)< 3  && (turnTimer.get() >1.1)){
+            if (Math.abs(Gyro.getYaw()-90)< 3  && (turnTimer.get()>1.1)){
               cubeAlignTimer.reset();
               cubeAlignTimer.start();
+              forceMoveTimer.reset();
+              forceMoveTimer.start();
               autoState = AutoState.LimelightTranslation;
             }
             break;
@@ -481,7 +484,7 @@ public class Robot extends TimedRobot {
             GamepieceManager.extention(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            if(LimelightCameraWrapper.hasTargets()?(AutoAlign.alignToPiece(true) && cubeAlignTimer.hasElapsed(0.2)):true){
+            if(forceMoveTimer.hasElapsed(2)?true:(LimelightCameraWrapper.hasTargets()?(AutoAlign.alignToPiece(true) && cubeAlignTimer.hasElapsed(0.2)):true)){
               yAlign = Drivebase.getPose().getY();
               xAlign = Drivebase.getPose().getX();
               xAlignOffset = LimelightCameraWrapper.hasTargets()?(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX():Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX()+(Constants.isBlue()?-LimelightCameraWrapper.getDistanceToGamePiece():LimelightCameraWrapper.getDistanceToGamePiece()))-xAlign
@@ -705,9 +708,9 @@ public class Robot extends TimedRobot {
             if(LimelightCameraWrapper.hasTargets()?(AutoAlign.alignToPiece(true) && cubeAlignTimer.hasElapsed(0.2)):true){
               // yAlign = Drivebase.getPose().getY();
               yAlign = Drivebase.getPose().getY();
-              xAlign = Drivebase.getPose().getX();
-              xAlignOffset = LimelightCameraWrapper.hasTargets()?(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX():Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX()+(Constants.isBlue()?-LimelightCameraWrapper.getDistanceToGamePiece():LimelightCameraWrapper.getDistanceToGamePiece()))-xAlign
-                                                                :0.5;
+              // xAlign = Drivebase.getPose().getX();
+              // xAlignOffset = LimelightCameraWrapper.hasTargets()?(Constants.isBlue()?Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX():Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX()+(Constants.isBlue()?-LimelightCameraWrapper.getDistanceToGamePiece():LimelightCameraWrapper.getDistanceToGamePiece()))-xAlign
+              //                                                   :0.5;
               newAutoState = NewAutoState.MoveToGamePiece;
             }
             break;
@@ -717,17 +720,17 @@ public class Robot extends TimedRobot {
             GamepieceManager.extentionArmFirst(IO.GridRowPosition.CubeIntake, IO.GridArmPosition.CubeIntake);
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
-            AutoAlign.forwardToPiece(true);
-            if(Constants.isBlue()?Drivebase.getPose().getX()> Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX() - xAlignOffset+1.4:
-                                Drivebase.getPose().getX()< Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX() - xAlignOffset-1.4){
-            // if(AutoAlign.alignOdometrykP(new Translation2d(autoGamePieceTranslation2d(true).getX(),yAlign), autoGamePieceHeading(), 1, 1 ,0.1, false)){
+            // AutoAlign.forwardToPiece(true);
+            // if(Constants.isBlue()?Drivebase.getPose().getX()> Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX() - xAlignOffset+1.4:
+            //                     Drivebase.getPose().getX()< Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX() - xAlignOffset-1.4){
+            if(AutoAlign.alignOdometrykP(new Translation2d(autoGamePieceTranslation2d(true).getX(),yAlign), autoGamePieceHeading(), 1, 1 ,0.1, false)){
               intakeTimer.reset();
               intakeTimer.start();
-              // newAutoState = NewAutoState.GetGamePiece;
-              Drivebase.headingSetPointSave = SwerveDrive.headingSetPoint;
-              cubeExtendTimer.reset();
-              cubeExtendTimer.start();
-              newAutoState = NewAutoState.PrepEnterCommunity;
+              newAutoState = NewAutoState.GetGamePiece;
+              // Drivebase.headingSetPointSave = SwerveDrive.headingSetPoint;
+              // cubeExtendTimer.reset();
+              // cubeExtendTimer.start();
+              // newAutoState = NewAutoState.PrepEnterCommunity;
 
             }
             break;
@@ -741,7 +744,6 @@ public class Robot extends TimedRobot {
             if (intakeTimer.hasElapsed(Constants.Auto.intakeRunTime) ){
               Drivebase.headingSetPointSave = SwerveDrive.headingSetPoint;
               // Drivebase.setSwerveOdometry(new Pose2d(autoGamePieceTranslation2d(false),Gyro.getYawR2D()));
-              // newAutoState = NewAutoState.Done;
               cubeExtendTimer.reset();
               cubeExtendTimer.start();
               newAutoState = NewAutoState.PrepEnterCommunity;
@@ -844,8 +846,8 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopAllState(){
-    Drivebase.logData();
-    Claw.logData();
+    // Drivebase.logData();
+    // Claw.logData();
     IO.keyInputOdometryMapping();
     IO.keyInputRowPosition();
     IO.keyInputSubstationPosition();

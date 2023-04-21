@@ -77,7 +77,7 @@ public class Constants {
         public static double stopBeforeGamepieceOffset = 1;
 
         //are driver relative changes
-        public static double blueGamePieceOffset0X =0.4;
+        public static double blueGamePieceOffset0X =0.45; //edit from 0.4
         public static double blueGamePieceOffset0Y =1.4;
         public static double blueGamePieceOffset1X =0;
         public static double blueGamePieceOffset1Y =0;
@@ -110,7 +110,7 @@ public class Constants {
         public static double limelightAlignXkI = 0;
         public static double limelightAlignXkD = 0;
 
-        public static final double gamePieceAutoAlignXkP = 0.05;
+        public static final double gamePieceAutoAlignXkP = 0.04;
         public static final double gamePieceAutoAlignXkI = 0;
         public static final double gamePieceAutoAlignXkD = 0;
 
@@ -212,12 +212,12 @@ public class Constants {
         public static class Filter{
             public static double pitch = 5;
             public static double roll = 5;
-            public static double distance = 2;
+            public static double distance = 8;
         }
     }
     public static class LimelightCamera {
         public static double coneAlignTolerance= 1; // Faris: random number idk actual value
-        public static double gamePieceTolerance = 1.25;
+        public static double gamePieceTolerance = 2.5;
 
         public static double gamePieceVerticalToHorizontalA = 2.5677;
         public static double gamePieceVerticalToHorizontalB = 1.0672;
@@ -251,9 +251,9 @@ public class Constants {
         public static int coneFarPrepMid = 52;
         public static int coneFarReadyMid = 27;
 
-        public static final int coneClosePrepHigh = 40;
+        public static final int coneClosePrepHigh = 41;
         public static final int coneCloseReadyHigh = 20;
-        public static final int coneFarPrepHigh = 42;
+        public static final int coneFarPrepHigh = 43;
         public static final int coneFarReadyHigh = 22;
 
         public static int coneFarPrepHighAuto = 35;
@@ -462,7 +462,7 @@ public class Constants {
             public static double gamePieceRed = fieldX-gamePieceBlue;
             // public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
             public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
-            public static double chargeStationBlueGamePiece = 4.;
+            public static double chargeStationBlueGamePiece = 4.2;
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
             public static double chargeStationRedGamePiece = fieldX-chargeStationBlueGamePiece;
 
