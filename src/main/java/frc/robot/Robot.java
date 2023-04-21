@@ -718,8 +718,8 @@ public class Robot extends TimedRobot {
             IntakeV2.retractNoPid();
             IntakeV2.stopIntake();
             AutoAlign.forwardToPiece(true);
-            if(Constants.isBlue()?Drivebase.getPose().getX()> Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX() - xAlignOffset+0.7:
-                                Drivebase.getPose().getX()< Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX() - xAlignOffset-0.7){
+            if(Constants.isBlue()?Drivebase.getPose().getX()> Constants.FieldPositions.AutoAlignPositions.blueGamePiece0.getX() - xAlignOffset+1.4:
+                                Drivebase.getPose().getX()< Constants.FieldPositions.AutoAlignPositions.redGamePiece0.getX() - xAlignOffset-1.4){
             // if(AutoAlign.alignOdometrykP(new Translation2d(autoGamePieceTranslation2d(true).getX(),yAlign), autoGamePieceHeading(), 1, 1 ,0.1, false)){
               intakeTimer.reset();
               intakeTimer.start();

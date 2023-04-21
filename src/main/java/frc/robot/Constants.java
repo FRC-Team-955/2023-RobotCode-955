@@ -462,7 +462,7 @@ public class Constants {
             public static double gamePieceRed = fieldX-gamePieceBlue;
             // public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
             public static Translation2d chargeStationBlue = new Translation2d(4.9, 2.747899);
-            public static double chargeStationBlueGamePiece = 3.6;
+            public static double chargeStationBlueGamePiece = 4.;
             public static Translation2d chargeStationRed = new Translation2d(fieldX-chargeStationBlue.getX(), 2.747899);
             public static double chargeStationRedGamePiece = fieldX-chargeStationBlueGamePiece;
 
