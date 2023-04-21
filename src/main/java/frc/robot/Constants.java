@@ -377,7 +377,7 @@ public class Constants {
         public static double inBlueLoadingZoneX = fieldX - inRedLoadingZoneX;
         
         public static double inLoadingZoneY = inCommunityY;
-        public static double noHitCubeOffset = 0;
+        public static double noHitCubeOffset = -0.1;
         public static double nearGridOffset =-0.07;
         // public static double atAtGridOffset = -0.115;
         public static double atAtGridOffset = -0.17;
@@ -455,7 +455,7 @@ public class Constants {
             //7 if okay
             //7.4 def
             public static double mobilityBlue = 6.8;
-            public static double gamePieceBlue = 6.6;
+            public static double gamePieceBlue = 6.4;
             // public static double mobilityBlue = 6.6;
             // public static double mobilityBlue = 4.9;
             public static double mobilityRed =fieldX-mobilityBlue;

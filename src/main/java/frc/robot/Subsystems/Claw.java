@@ -30,6 +30,10 @@ public class Claw {
     public static void intakeGamePiece(){
         motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.run);
     }
+    public static void intakeGamePiece(double speed){
+        motor.set(TalonSRXControlMode.PercentOutput, -Math.abs(speed));
+
+    }
     public static void intakeFineControl(double joyInput){
         motor.set(TalonSRXControlMode.PercentOutput, joyInput);
     }
