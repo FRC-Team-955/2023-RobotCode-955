@@ -105,7 +105,7 @@ public class AutoSelector {
         Robot.newAutoLeaveSelection = NewAutoLeaveSelection.Left;
         // Robot.newAutoLeaveSelection = leaveNew.getSelected();
         // Robot.autoGridSelection = grid.getSelected();
-        Robot.autoGridSelection = 5;
+        Robot.autoGridSelection = 3;
 
         Robot.getGamePieceInBalance = true;
         
