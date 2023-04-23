@@ -553,7 +553,7 @@ public class Robot extends TimedRobot {
           case AutoBalance:
             Drivebase.updateSwerveOdometryNoVision();
             Drivebase.autoBalance();
-            if(DriverStation.getMatchTime()<1.2){
+            if(DriverStation.getMatchTime()<1.9){
               GamepieceManager.extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
               Claw.outputGamePieceFast();
               if(Drivebase.isBalanced()){
