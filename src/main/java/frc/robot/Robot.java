@@ -553,7 +553,7 @@ public class Robot extends TimedRobot {
           case AutoBalance:
             Drivebase.updateSwerveOdometryNoVision();
             Drivebase.autoBalance();
-            if(DriverStation.getMatchTime()<1.9){
+            if(DriverStation.getMatchTime()<1.95){
               GamepieceManager.extention(IO.GridRowPosition.CubeRetract, IO.GridArmPosition.CubeRetract);
               Claw.outputGamePieceFast();
               if(Drivebase.isBalanced()){
@@ -965,10 +965,10 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {}
 
   public void selectTeleopState(){
-    if (IO.Drivebase.isAutoAlignActive() && (AutoAlign.isInLoadingZone()|| AutoAlign.isInCommunity())) {
-      robotState = RobotState.AUTO_ALIGN;
-    }
-    else if (IO.Drivebase.isCubeAlignActive()){
+    // if (IO.Drivebase.isAutoAlignActive() && (AutoAlign.isInLoadingZone()|| AutoAlign.isInCommunity())) {
+    //   robotState = RobotState.AUTO_ALIGN;
+    // }
+    if (IO.Drivebase.isCubeAlignActive()){
       robotState = RobotState.CUBE_ALIGN;
     } 
     else if (IO.Drivebase.isPowerSaving()){

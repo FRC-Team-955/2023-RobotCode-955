@@ -71,7 +71,9 @@ public final class IO {
     public static double elevatorOverride(){
         return joy1.getRawAxis(Constants.IO.Joy1.elevatorOverrideAxis);
     }
-
+    public static boolean intakeSequenceConeJoystick(){
+        return joy0.getRawButton(Constants.IO.Joy0.intakeSequenceConeButton);
+    }
     public static boolean intakeSequenceCone(){
         return key2.getRawButton(Constants.IO.Key2.intakeSequenceConeButton);
         // return joy1.getRawAxis(Constants.IO.Joy1.deployRunIntakeAxis) < 0.2 || key2.getRawButtonPressed(4);
@@ -108,15 +110,9 @@ public final class IO {
         }
 
         public static double getSwerveRotation(){
-            //What is axis number reffering too?
-            double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis);
-
-            // rotAxis = isThrustActive() ? rotAxis : rotAxis*Constants.Drivebase.speed;
+            double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis)*0.3;
 
             if (Math.abs(rotAxis) < Math.abs(Constants.IO.Joy0.swerveDeadband)) return 0.0;
-            
-            // return deadband * Math.signum(rotAxis) + ((rotAxis - deadband) / (1.0 - deadband));
-
             if (Math.abs(rotAxis) < Constants.IO.Joy0.swerveDeadband) {
                 return 0.0;
             } else {
@@ -137,8 +133,8 @@ public final class IO {
         }
         public static Translation2d getSwerveTranslation(){
 
-            double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
-            double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
+            double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis)*0.3;
+            double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis)*0.3;
 
             Translation2d tAxes = new Translation2d(forwardRawAxis, strafeRawAxis);
 

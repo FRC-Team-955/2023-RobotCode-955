@@ -56,10 +56,11 @@ public class Drivebase {
             Gyro.set(90);
             SwerveDrive.headingSetPoint = -180;
             Drivebase.driveRobotRelativeRotation(IO.Drivebase.getSwerveTranslation(), IO.Drivebase.getSwerveRotation());
-        }else if (IO.Drivebase.robotForwardMove()){
-            Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
-            Claw.intakeGamePiece();
         }
+        // else if (IO.Drivebase.robotForwardMove()){
+        //     Drivebase.driveRobotRelativeRotation(new Translation2d(0,-1.5), 0);
+        //     Claw.intakeGamePiece();
+        // }
         else {
             headingSetPointSave = SwerveDrive.headingSetPoint;
             Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation().plus(drivingAdjustment()), IO.Drivebase.getSwerveRotation(), false , true);

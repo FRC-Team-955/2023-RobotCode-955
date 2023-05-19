@@ -19,6 +19,7 @@ public class Constants {
             public static int autoBalanceButton = 4;
             public static int resetAngleButton =6;
             public static int robotForwardMoveButton = 2;
+            public static int intakeSequenceConeButton = 4;
         }
         public static class Joy1{
             public static final int joy1Id = 1;
@@ -232,7 +233,8 @@ public class Constants {
         public static int tolerance = 5;
         // Arm Encoder Values
         public static double angleOffset = -124.2786;
-        public static double upperAngleOffset = 138.803417;
+        // public static double upperAngleOffset = 138.803417;
+        public static double upperAngleOffset = 136.803417;
         // public static double angleOffset = 0;
         public static double upperLimit = 87.5;
         public static double lowerLimit = -111.4;
@@ -269,7 +271,8 @@ public class Constants {
         public static double newHybrid = -30;
 
         public static int singleSubstation = 30;
-        public static final double doubleSubstation = 50; //50.5
+        // public static final double doubleSubstation = 50; //50.5
+        public static final double doubleSubstation = 27; //50.5
 
         public static int up = 120;
 

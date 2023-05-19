@@ -120,7 +120,8 @@ public class AutoSelector {
             Robot.secondPiece = 1;
         }
         if (enabled.getSelected()) {
-            Robot.autoState = AutoState.Place;
+            // Robot.autoState = AutoState.Place;
+            Robot.autoState = AutoState.Done;
             Robot.newAutoState = NewAutoState.Place;
         }
         else {

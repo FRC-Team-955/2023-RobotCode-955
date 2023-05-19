@@ -98,7 +98,7 @@ public class GamepieceManager {
     //     }
     // }
     public static void loadCone(){
-        if(Arm.setpoint == Constants.Arm.cubeIntake){
+        if(Arm.setpoint == Constants.Arm.cubeIntake || Arm.setpoint == Constants.Arm.cubeRetract){
         }else{
             IntakeV2.extendNoPidDrop();
         }
@@ -163,7 +163,7 @@ public class GamepieceManager {
             Claw.outputGamePiece();
             moveBack = false;
         }
-        else if(IO.intakeSequenceCone()){
+        else if(IO.intakeSequenceCone() || IO.intakeSequenceConeJoystick()){
             // loadGamepieceCone();
             loadCone();
             moveBack = false;
