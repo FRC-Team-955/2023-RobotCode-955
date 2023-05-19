@@ -4,10 +4,16 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Auto.Auto;
 import frc.robot.Auto.AutoSelector;
@@ -33,6 +39,8 @@ public class Robot extends TimedRobot {
   
   static RobotState robotState = RobotState.DRIVING;
   
+  Spark rgb;
+  
   @Override
   public void robotInit() {
     Arm.setup();
@@ -49,6 +57,7 @@ public class Robot extends TimedRobot {
     PortForwarder.add(5800, "10.9.55.31", 5800);
     SmartDashboard.putString("Alliance Color",  DriverStation.getAlliance().toString());
     AutoSelector.start();
+    rgb = new Spark(0);
     // Arm.setOffset();
   }
 
@@ -894,6 +903,8 @@ public class Robot extends TimedRobot {
   }
 
   private static boolean resetAngle = true;
+  ShuffleboardTab tab = Shuffleboard.getTab("RGB");
+  GenericEntry rgbE = tab.add("RGB Value", 1).getEntry();
 
   @Override
   public void teleopPeriodic() {
@@ -915,6 +926,7 @@ public class Robot extends TimedRobot {
         break;
       case CUBE_ALIGN:
         GamepieceManager.autoCubeIntake();
+        rgb.set(0.91);
         break;
       case POWER_SAVING:
         Claw.intakeFineControl(0);
@@ -926,6 +938,7 @@ public class Robot extends TimedRobot {
         }
         resetAngle = false;
         Drivebase.driveFieldRelativeRotation(new Translation2d(IO.Drivebase.getSwerveTranslation().getX()*0.25,IO.Drivebase.getSwerveTranslation().getY()*0.25), IO.Drivebase.getSwerveRotation()*0.25 ,true, true);
+        rgb.set(0.99);
         break;
       default:
         AutoAlign.gridAlignState = AutoAlign.GridAlignState.AlignedToOdometry;
@@ -937,8 +950,19 @@ public class Robot extends TimedRobot {
         if(IO.resetAngle()){
           Gyro.set(90);
           SwerveDrive.headingSetPoint = -180;
+          rgb.set(0.93);
+
         }
         IO.rumbleStopJoy0();
+        if(IO.intakeSequenceCone() || IO.intakeSequenceConeJoystick()){
+          rgb.set(0.69);
+        }else{
+          // rgb.set(-0.99);
+          // double rgbvalue = rgbE.getDouble(0.35);
+          // String value = SmartDashboard.getString("rgb value", "0.35");
+          //-0.45 
+          rgb.set(-0.45);
+        }
         
         GamepieceManager.loadSequence();
         GamepieceManager.manageExtension();
