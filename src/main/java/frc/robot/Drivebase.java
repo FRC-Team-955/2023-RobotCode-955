@@ -63,7 +63,8 @@ public class Drivebase {
         // }
         else {
             headingSetPointSave = SwerveDrive.headingSetPoint;
-            Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation().plus(drivingAdjustment()), IO.Drivebase.getSwerveRotation(), false , true);
+            // Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation().plus(drivingAdjustment()), IO.Drivebase.getSwerveRotation(), false , true);
+            Drivebase.driveFieldRelativeRotation(IO.Drivebase.getSwerveTranslation().plus(drivingAdjustment()), IO.Drivebase.getSwerveRotation(), true , true);
         }
     }
 

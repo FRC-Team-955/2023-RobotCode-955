@@ -202,7 +202,7 @@ public final class Arm {
     public static boolean setArm(){
         double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
 
-        double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), setpoint) + feedForwardCalc, -12, 12);
+        double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), setpoint) + feedForwardCalc, -12 * Constants.extensionSpeedCap, 12 * Constants.extensionSpeedCap);
         
         motor.setVoltage(output); 
         return Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance;

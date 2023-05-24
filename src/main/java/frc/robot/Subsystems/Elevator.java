@@ -149,7 +149,7 @@ public class Elevator {
     public static boolean setElevator(){
         if(!IO.isOverrideEnabled()) {
             double amount = MathUtil.clamp(pid.calculate(encoder.getPosition(), setpoint) +
-                                            Constants.Elevator.kG, -12, 12);
+                                            Constants.Elevator.kG, -12 * Constants.extensionSpeedCap, 12 * Constants.extensionSpeedCap);
             
             motor.setVoltage(amount);
             return Math.abs(encoder.getPosition() - setpoint) < Constants.Elevator.tolerance;

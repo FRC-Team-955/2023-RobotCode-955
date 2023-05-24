@@ -110,7 +110,7 @@ public final class IO {
         }
 
         public static double getSwerveRotation(){
-            double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis);
+            double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis) * Constants.drivebasesSeedCap;
             // double rotAxis = joy0.getRawAxis(Constants.IO.Joy0.rotAxis)*0.3;
 
             if (Math.abs(rotAxis) < Math.abs(Constants.IO.Joy0.swerveDeadband)) return 0.0;
@@ -134,8 +134,8 @@ public final class IO {
         }
         public static Translation2d getSwerveTranslation(){
 
-            double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis);
-            double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis);
+            double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis) * Constants.drivebasesSeedCap;
+            double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis) * Constants.drivebasesSeedCap;
             // double forwardRawAxis = joy0.getRawAxis(Constants.IO.Joy0.forwardRawAxis)*0.3;
             // double strafeRawAxis = joy0.getRawAxis(Constants.IO.Joy0.strafeRawAxis)*0.3;
 
