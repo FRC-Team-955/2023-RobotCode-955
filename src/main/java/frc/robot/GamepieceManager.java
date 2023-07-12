@@ -127,21 +127,21 @@ public class GamepieceManager {
         // if clawDropPiece is pressed (Page Down) and the Arm is in position of ConePrep, then drop down the arm into ready and output
         else if(IO.clawDropPiece() && Arm.atConeFarPrepHighPosition() && IO.gridArmPosition == IO.GridArmPosition.ConeFarPrepHigh){
           if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeFarReadyHigh)){
-                moveBack = true;
+                moveBack = false;
                 Claw.outputGamePiece();
           }
         }
         // if clawDropPiece is pressed (Page Down) and the Arm is in position of ConePrepMid, then drop down the arm into ready and output
         else if(IO.clawDropPiece() && Arm.atConeFarPrepMidPosition() && IO.gridArmPosition == IO.GridArmPosition.ConeFarPrepMid){
             if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeFarReadyMid)){
-                moveBack = true;
+                moveBack = false;
                 Claw.outputGamePiece();
             }
         }
         // if clawDropPiece is pressed (Page Down) and the Arm is in position of ConePrep, then drop down the arm into ready and output
         else if(IO.clawDropPiece() && Arm.atConeClosePrepHighPosition() && IO.gridArmPosition == IO.GridArmPosition.ConeClosePrepHigh){
             if (GamepieceManager.extention(IO.gridRowPosition, IO.GridArmPosition.ConeCloseReadyHigh)){
-                moveBack = true;
+                moveBack = false;
                 Claw.outputGamePiece();
             }
         }

@@ -60,7 +60,7 @@ public class Constants {
         //Alex
         // public static double turnRate = 1;
 
-        public static double turnRate = 0.5;
+        public static double turnRate = 0.75;
 
         public static double slowSpeed = 0.7;
     }
