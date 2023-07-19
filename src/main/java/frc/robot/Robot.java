@@ -950,6 +950,7 @@ public class Robot extends TimedRobot {
         if(IO.resetAngle()){
           Gyro.set(90);
           SwerveDrive.headingSetPoint = -180;
+          //SwerveDrive.headingSetPoint = 0;
           rgb.set(0.93);
 
         }

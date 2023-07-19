@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Constants {
-    public static double drivebasesSeedCap = 0.3;
+    public static double drivebasesSeedCap = 0.5;
     public static double extensionSpeedCap = 0.8;
     public static class IO{
         public static class Joy0{
