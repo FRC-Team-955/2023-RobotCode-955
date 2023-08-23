@@ -274,7 +274,7 @@ public class Constants {
 
         public static int singleSubstation = 30;
         // public static final double doubleSubstation = 50; //50.5
-        public static final double doubleSubstation = 27; //50.5
+        public static final double doubleSubstation = 24; //50.5
 
         public static int up = 120;
 
