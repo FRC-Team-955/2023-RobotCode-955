@@ -325,7 +325,8 @@ public class Constants {
         public static double singleSubstation = 1;
         public static final double doubleSubstation = 4;
         
-        public static double cubeIntake = 0.5;
+        //cubeIntake has changed from competition code - probably need to reset it in real code too
+        public static double cubeIntake = 3.5;
         public static double cubeRetract = 4.5;
 
         public static double coneIntake = 10.4;
