@@ -69,14 +69,16 @@ public final class Arm {
     }
     public static void setOffset(){
         // encoder.setPosition(-Constants.Arm.angleOffset/3895.05619213716);
-        encoder.setPosition(Constants.Arm.angleOffset/90 * 2.513758659362793);
+        encoder.setPosition(Constants.Arm.angleOffset/360/90 *6800*2.513758659362793);
         // encoder.setPosition(0);
     }
+    
     public static void setUpperOffset(){
-        encoder.setPosition(Constants.Arm.upperAngleOffset/90 * 2.513758659362793);
+        encoder.setPosition(Constants.Arm.upperAngleOffset/360/90 *6800* 2.513758659362793);
     }
     public static double getOffsetPosition(){
-        return encoder.getPosition() * 90 / 2.513758659362793;
+        //return encoder.getPosition() * 90 / 2.513758659362793;
+        return encoder.getPosition() * 360 * 90 / 6800 / 2.513758659362793;
         // return encoder.getPosition();
         // / 200 *360
         // - Constants.Arm.angleOffset
@@ -204,6 +206,9 @@ public final class Arm {
 
         double output = MathUtil.clamp(pid.calculate(getOffsetPosition(), setpoint) + feedForwardCalc, -12, 12);
         
+        System.out.println(setpoint);
+        System.out.println(getOffsetPosition());
+        System.out.println(encoder.getPosition()/4096);
         motor.setVoltage(output); 
         return Math.abs(getOffsetPosition() - setpoint) < Constants.Arm.tolerance;
             // return pid.atSetpoint();
