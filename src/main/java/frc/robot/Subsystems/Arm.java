@@ -67,11 +67,6 @@ public final class Arm {
         motorLog = new DoubleLogEntry(log, "/arm/motor");
         encoderLog = new DoubleLogEntry(log, "/arm/encoder");
     }
-    public static void setOffset(){
-        // encoder.setPosition(-Constants.Arm.angleOffset/3895.05619213716);
-        encoder.setPosition(Constants.Arm.angleOffset/360/90 *6800*2.513758659362793);
-        // encoder.setPosition(0);
-    }
     
     public static void setUpperOffset(){
         encoder.setPosition(Constants.Arm.upperAngleOffset/360/90 *6800* 2.513758659362793);
@@ -83,35 +78,11 @@ public final class Arm {
         // / 200 *360
         // - Constants.Arm.angleOffset
     }
-    public static void logData() {
-        motorLog.append(motor.get());
-        
-        encoderLog.append(getOffsetPosition());
-    }
+
     public static void disableArm(){
         motor.setVoltage(0);
     }
 
-    public static void moveArm(double joyPos) {
-        // System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
-        if (!IO.isOverrideEnabled()) { 
-            if ((getOffsetPosition() >= Constants.Arm.upperLimit && joyPos > 0)|| 
-                (getOffsetPosition() <= Constants.Arm.lowerLimit && joyPos < 0)) { // If arm reach top AND trying to go up
-                motor.stopMotor(); 
-            }
-            else {
-                double feedForwardCalc = Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition()));
-                feedForwardCalc = 0;
-                motor.setVoltage(joyPos*12+ feedForwardCalc);
-            }
-        }
-    }
-
-    public static void moveArmOverride(double joyPos) {
-        // System.out.println("Arm Absolute Encoder Position: "+ getOffsetPosition());
-        motor.setVoltage(-joyPos*0.8 *12+ Constants.Arm.kG * Math.cos(Math.toRadians(getOffsetPosition())));
-    }
-    //0.5600
     public static double setpoint = 0;
     public static boolean armRetract = true;
     public static void setArm(IO.GridArmPosition level) {

@@ -21,9 +21,11 @@ public class Drivebase {
     public static void updateSwerveOdometry(){
         drive.updateSwerveOdometry();
     }
+    
     public static void updateSwerveOdometryNoVision(){
         drive.updateSwerveOdometryNoVision();
     }
+
     public static void setSwerveOdometry(Pose2d pose){
         drive.resetOdometry(pose);
     }
@@ -69,6 +71,7 @@ public class Drivebase {
     public static void driveFieldRelativeRotation(Translation2d translation, double rotation, boolean isOpenLoopHeading, boolean isOpenLoopDrive){
         drive.drive(translation, rotation, true, isOpenLoopHeading, isOpenLoopDrive, false, 0);
     }
+
     public static void driveFieldRelativeHeading(Translation2d translation, double heading, boolean isOpenLoopDrive){
 
         double setpoint = Drivebase.headingSetPointSave % 360;
@@ -90,10 +93,6 @@ public class Drivebase {
 
     public static void driveRobotRelativeRotation(Translation2d translation, double rotation){
         drive.drive(new Translation2d(translation.getY(), -translation.getX()), rotation, false, false,false, false, 0);
-    }
-
-    public static void logData() {
-        drive.logSwerve();
     }
 
     public static void autoBalance() {

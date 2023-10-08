@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Auto.Auto;
-import frc.robot.Auto.AutoSelector;
+import frc.robot.IO.GridArmPosition;
+import frc.robot.IO.GridRowPosition;
 import frc.robot.Sensors.AprilTagCameraWrapper;
 import frc.robot.Sensors.Gyro;
 import frc.robot.Sensors.LimelightCameraWrapper;
@@ -22,7 +22,6 @@ import frc.robot.Subsystems.IntakeV2;
 import frc.robot.Swerve.SwerveDrive;
 
 public class Robot extends TimedRobot {
-  Auto auto;
   // Robot States
   public enum RobotState {
     DRIVING,
@@ -54,6 +53,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {}
+
+  public static boolean autoEnabled = false;
+
+  public static enum AutoSide {
+    Left,
+    Right,
+    Charge
+  }
+
+  public static AutoSide autoSide = AutoSide.Left;
+
+  public static int firstGamepiece = 0;
+  public static int secondGamepiece = 1;
 
   public static enum AutoType{
     Old,
@@ -290,24 +302,26 @@ public class Robot extends TimedRobot {
   Field2d field2d = new Field2d();
   Field2d field2dVision = new Field2d();
 
-  public static int firstPiece;
-  public static int secondPiece;
   public static boolean getGamePieceInBalance = false;
   public static boolean isBalancedEarly = false;
 
   @Override
   public void autonomousInit() {
-    // AutoSelector.set();
-    autoTypeSelection = AutoType.Old;
-    autoLeaveSelection = AutoLeaveSelection.Right;
-    newAutoLeaveSelection = NewAutoLeaveSelection.Right;
-    autoGridSelection = 6;
-    autoState = AutoState.Done;
+    secondGamepiece = (firstGamepiece == 0 || firstGamepiece == 2) ? 1 : (firstGamepiece == 3 || firstGamepiece == 5) ? 4 : 7;
+
+    autoTypeSelection = (autoSide == AutoSide.Charge) ? AutoType.Old : AutoType.New;
+
+    autoLeaveSelection = AutoLeaveSelection.Charge;
+    newAutoLeaveSelection = (autoSide == AutoSide.Left) ? NewAutoLeaveSelection.Left : NewAutoLeaveSelection.Right;
+
+    autoGridSelection = firstGamepiece;
+
+    autoState = autoEnabled ? AutoState.Place : AutoState.Done;
     gamePiecePositionArray = new GamePiecePosition[]{
-      new GamePiecePosition(firstPiece,IO.GridRowPosition.HighFarConeAuto),
-      new GamePiecePosition(secondPiece,IO.GridRowPosition.HighCube)
+      new GamePiecePosition(firstGamepiece,IO.GridRowPosition.HighFarConeAuto),
+      new GamePiecePosition(secondGamepiece,IO.GridRowPosition.HighCube)
     };
-    newAutoState = NewAutoState.Done;
+    newAutoState = autoEnabled ? NewAutoState.AlignPosition : NewAutoState.Done;
     numberOfGamepieces = gamePiecePositionArray.length;
     numberOfGamepiecesPlaced = 0;
     isAutoConeNodePosition = true;
@@ -345,6 +359,7 @@ public class Robot extends TimedRobot {
   double yAlign = autoGamePieceTranslation2d(true).getY();
   double xAlign;
   double xAlignOffset;
+
   @Override
   public void autonomousPeriodic() {
     autoAllState();
@@ -774,7 +789,7 @@ public class Robot extends TimedRobot {
               // Drivebase.setSwerveOdometry(new Pose2d(autoGamePieceTranslation2d(false),Gyro.getYawR2D()));
               cubeExtendTimer.reset();
               cubeExtendTimer.start();
-              newAutoState = NewAutoState.PrepEnterCommunity;
+              newAutoState = NewAutoState.Done;
             }
             break;
           case PrepEnterCommunity:
@@ -802,23 +817,6 @@ public class Robot extends TimedRobot {
               }
             }
             break;
-          // case EnterCommunity:
-          //   Drivebase.updateSwerveOdometry();
-          //   //to update the isAutoConeNodePosition
-          //   autoGridSelectionTranslation2d(gamePiecePositionArray[numberOfGamepiecesPlaced].gridSelectionPosition);
-          //   // GamepieceManager.extention(IO.GridRowPosition.Retract, isAutoConeNodePosition?IO.GridArmPosition.ConePrep:IO.GridArmPosition.CubePrep);
-          //   GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.ConeFarPrepHigh);
-          //   IntakeV2.retractNoPid();
-          //   Claw.stopishMotor();
-          //   AutoAlign.alignOdometry(autoCommunityOutTranslation2d(), -180);
-          //   if (visionTimer.hasElapsed(Constants.Auto.visionWaitTime) ){
-          //     if (isAutoConeNodePosition){
-          //       newAutoState = NewAutoState.AlignPosition;
-          //     }else{
-          //       newAutoState = NewAutoState.AlignPosition;
-          //     }
-          //   }
-          //   break;
           case Done:
             Drivebase.updateSwerveOdometry();
             GamepieceManager.extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);

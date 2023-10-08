@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Auto.Auto;
 import frc.robot.Sensors.LimelightCameraWrapper;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Claw;
@@ -11,27 +10,6 @@ import frc.robot.Subsystems.Elevator;
 import frc.robot.Subsystems.IntakeV2;
 
 public class GamepieceManager {
-
-    // public static boolean foldIntakeAuto(int position) {
-    //     if (position == 0) {
-    //         return IntakeV2.handOff();
-    //     } else if (position == 1) {
-    //         return IntakeV2.extend();
-    //     } else if (position == -1) {
-    //         return IntakeV2.retract();
-    //     }
-    //     return false;
-    // }
-    
-    public static void moveClawAuto(int speed) {
-        if (speed == -1) {
-            Claw.outputGamePiece();
-        } else if (speed == 1) {
-            Claw.intakeGamePiece();
-        } else {
-            Claw.stopishMotor();
-        }
-    }
 
     private static enum loadStates{
         Intake,
@@ -43,60 +21,8 @@ public class GamepieceManager {
 
     private static loadStates loadState = loadStates.Intake;
 
-    public static void loadResetOverride(boolean reset) {
-        loadState = loadStates.Intake;
-    }
     public static Timer clawTimer = new Timer();
 
-    // public static void loadGamepieceCone() {
-    //     Arm.setArm();
-    //     Elevator.setElevator();
-    //     switch(loadState) {
-    //         case Intake:
-    //             Arm.setArm(IO.GridArmPosition.ConeIntake);
-    //             Elevator.setElevator(IO.GridRowPosition.ConeIntake);
-    //             IntakeV2.slowIntake();
-    //             SmartDashboard.putBoolean("intake extended", IntakeV2.extendNoPid());
-    //             if(IntakeV2.extendNoPid()) {
-    //                 if(IntakeV2.intake()) {
-    //                     loadState = loadStates.LoadPrep;
-    //                 }
-    //             }
-    //             break;
-    //         case LoadPrep:
-    //             IntakeV2.extendNoPid();
-    //             IntakeV2.slowIntake();
-    //             // if(runExtention()) {
-    //                 loadState = loadStates.Load;
-    //             // }
-    //             break;
-    //         case Load:
-    //             Claw.intakeGamePiece();
-    //             if(IntakeV2.handOffNoPid()) {
-    //                 loadState = loadStates.Loaded;
-    //                 clawTimer.reset();
-    //                 clawTimer.start();
-    //             }
-    //             break;
-    //         case Loaded:
-    //             IntakeV2.handOffNoPid();
-    //             if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
-    //                 Claw.intakeGamePiece();
-    //             }else{
-    //                 Claw.stopishMotor();
-    //             }
-    //             loadState = loadStates.Finish;
-    //             break;
-    //         case Finish:
-    //             IntakeV2.handOffNoPid();
-    //             if (!clawTimer.hasElapsed(Constants.GamepieceManager.clawExtraRunTime) ){
-    //                 Claw.intakeGamePiece();
-    //             }else{
-    //                 Claw.stopishMotor();
-    //             }
-    //             break;
-    //     }
-    // }
     public static void loadCone(){
         if(Arm.setpoint == Constants.Arm.cubeIntake){
         }else{
@@ -189,30 +115,22 @@ public class GamepieceManager {
             moveBack = false;
         }
     }
+
     private static boolean elevatorInPosition = false;
     private static boolean armInPosition = false;
-    public static void setExtention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
-        Elevator.setElevator(gridRowPosition);
-        Arm.setArm(armRowPosition);
-    }
+
     public static boolean runExtention(){
         elevatorInPosition = Elevator.setElevator();
         armInPosition = Arm.setArm();
         return elevatorInPosition && armInPosition;
     }
+
     public static boolean extention(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
         Arm.setArm(armRowPosition);
         Elevator.setElevator(gridRowPosition);
         return runExtention();
     }
-    public static boolean extentionElevatorFirst(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
-        Elevator.setElevator(gridRowPosition);
-        elevatorInPosition = Elevator.setElevator();
-        if (elevatorInPosition){
-            Arm.setArm(armRowPosition);
-        }
-        return runExtention();
-    }
+
     public static boolean extentionArmFirst(IO.GridRowPosition gridRowPosition, IO.GridArmPosition armRowPosition){
         Arm.setArm(armRowPosition);
         armInPosition = Arm.setArm();
@@ -221,6 +139,7 @@ public class GamepieceManager {
         }
         return runExtention();
     }
+
     public static void autoAlign(){
         if (AutoAlign.isInCommunity()){
             autoPlace();
@@ -228,6 +147,7 @@ public class GamepieceManager {
             autoGrab();
         }
     }
+    
     public static boolean clawDropped = false;
 
     public static enum PlaceState {
@@ -235,6 +155,7 @@ public class GamepieceManager {
         Place,
         Leave
     }
+
     public static PlaceState placeState = PlaceState.Align;
     
     public static void autoPlace(){
@@ -336,6 +257,7 @@ public class GamepieceManager {
         clawTimer.reset();
         clawTimer.start();
     }
+
     public static enum CubeIntakeState {
         Align,
         Forward
@@ -410,7 +332,9 @@ public class GamepieceManager {
         }
         return false;
     }
+
     public static boolean wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
+
     public static void manageExtension(){
         // if(wasInCommunityOrLoadingZone && (!AutoAlign.isInCommunity() || !AutoAlign.isInLoadingZone())){
         //     extention(IO.GridRowPosition.Retract, IO.GridArmPosition.Up);
@@ -433,6 +357,7 @@ public class GamepieceManager {
         runExtention();
         // wasInCommunityOrLoadingZone = AutoAlign.isInCommunity() || AutoAlign.isInLoadingZone();
     }
+
     public static void displayInformation(){
         SmartDashboard.putString("PlaceState", placeState.toString());
         SmartDashboard.putString("loadState", loadState.toString());

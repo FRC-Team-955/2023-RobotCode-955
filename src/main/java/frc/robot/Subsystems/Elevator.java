@@ -56,32 +56,15 @@ public class Elevator {
         motorlog = new DoubleLogEntry(log, "/elevator/motor");
         encoderlog = new DoubleLogEntry(log, "/elevator/encoder");
     }
+    
     public static void setOffset(){
         encoder.setPosition(1.08761993);
     }
+
     public static void disableElevator(){
         motor.setVoltage(0);
     }
-    public static void logData() {
-        motorlog.append(motor.getOutputCurrent());
-        encoderlog.append(encoder.getPosition());
-    }
 
-    public static void moveElevator(double joyPos) {
-        //!IO.isOverrideEnabled() && 
-        if(((encoder.getPosition() >= Constants.Elevator.upperLimit && joyPos > 0)
-            || (encoder.getPosition() <= Constants.Elevator.lowerLimit && joyPos < 0))) { // if elevator hit the top or bottom
-            motor.setVoltage(Constants.Elevator.kG);
-
-        }else{
-            motor.setVoltage(joyPos*12 + Constants.Elevator.kG);
-
-        }
-    }
-    
-    public static void moveElevatorOverride(double joyPos) {
-        motor.setVoltage(joyPos*12);
-    }
     public static boolean elevatorRetract = true; 
     public static void setElevator(IO.GridRowPosition level) { // level = desired elevator level
         switch(level) {

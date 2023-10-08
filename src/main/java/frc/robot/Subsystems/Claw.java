@@ -22,18 +22,11 @@ public class Claw {
         motor.configContinuousCurrentLimit(40, 10);
     }
 
-    public static void logData() {
-        motorLog.append(motor.getStatorCurrent());
-    }
-
     //sucks in the game piece and stops
     public static void intakeGamePiece(){
         motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.run);
     }
-    public static void intakeGamePiece(double speed){
-        motor.set(TalonSRXControlMode.PercentOutput, -Math.abs(speed));
 
-    }
     public static void intakeFineControl(double joyInput){
         motor.set(TalonSRXControlMode.PercentOutput, joyInput);
     }
@@ -42,14 +35,12 @@ public class Claw {
     public static void outputGamePiece(){
         motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.drop);
     }
+    
     public static void outputGamePieceFast(){
         motor.set(TalonSRXControlMode.PercentOutput, Constants.Claw.dropFast);
     }
 
     public static void stopishMotor() {
         motor.set(ControlMode.PercentOutput, Constants.Claw.stopish);
-    }
-    public static void stopMotor(){
-        motor.set(ControlMode.PercentOutput, 0);
     }
 }
